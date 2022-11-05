@@ -10,6 +10,7 @@ Hashmap* createHashmap() {
     return hashmap;
 }
 
+//Quando se fechar o programa, paralisa e destroi (vai libertar o data)
 void destroyHashmap(Hashmap* hashmap) {
 
     if (hashmap != NULL) {

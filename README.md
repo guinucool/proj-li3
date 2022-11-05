@@ -1,2 +1,0 @@
-# li3
-Temporário
