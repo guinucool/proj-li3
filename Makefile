@@ -1,4 +1,4 @@
-all: ./bin/testDriver ./bin/testHashmap ./bin/testDrivers
+all: ./bin/testDriver ./bin/testHashmap ./bin/testDrivers ./bin/testGHashmap
 
 ./bin/testDrivers : ./src/testDrivers.c ./object/drivers.o
 	gcc -g -o ./bin/testDrivers ./src/testDrivers.c ./object/hashmap.o ./object/driver.o ./object/drivers.o
@@ -16,7 +16,13 @@ all: ./bin/testDriver ./bin/testHashmap ./bin/testDrivers
 	gcc -g -o ./bin/testDriver ./src/testDriver.c ./object/driver.o
 
 ./object/driver.o : ./src/driver.c ./include/driver.h
-		gcc -g -c -o ./object/driver.o ./src/driver.c
+	gcc -g -c -o ./object/driver.o ./src/driver.c
+
+./bin/testGHashmap : ./src/testGHashmap.c ./object/ghashmap.o
+	gcc -g -o ./bin/testGHashmap ./src/testGHashmap.c `pkg-config --cflags --libs glib-2.0`
+
+./object/ghashmap.o : ./src/testGHashmap.c
+	gcc -g -c -o ./object/ghashmap.o ./src/testGHashmap.c `pkg-config --cflags --libs glib-2.0`
 
 clean:
 	rm ./bin/* ./object/*
