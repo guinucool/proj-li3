@@ -1,8 +1,8 @@
 #ifndef _DRIVERS_H_
 #define _DRIVERS_H_
 
-#include "../include/driver.h"
-#include "../include/hashmap.h"
+#include "../../inc/drivers/driver.h"
+#include "../../inc/utils/hashmap.h"
 
 typedef Hashmap Drivers;
 

@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "../include/drivers.h"
-#include "../include/driver.h"
+#include "../inc/drivers/drivers.h"
+#include "../inc/drivers/driver.h"
 
 int equal(void* key1, void* key2) {
     return *((int*) key1) == *((int*) key2);

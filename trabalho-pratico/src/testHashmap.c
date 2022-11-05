@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "../include/hashmap.h"
+#include "../inc/utils/hashmap.h"
 
 int equal(void* key1, void* key2) {
     return *((int*) key1) == *((int*) key2);

@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "../include/Drivers.h";
-#include "../include/Driver.h";
+#include "../inc/drivers/drivers.h";
+#include "../inc/drivers/driver.h";
 
 
 

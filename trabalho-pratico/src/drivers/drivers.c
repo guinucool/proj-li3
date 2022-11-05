@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include "../include/drivers.h"
-#include "../include/hashmap.h"
+#include "../../inc/drivers/drivers.h"
+#include "../../inc/utils/hashmap.h"
 
 
 Drivers * createDrivers() {

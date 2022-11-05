@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "../include/hashmap.h"
+#include "../../inc/utils/hashmap.h"
 
 //Devolver o endereço de HashMap
 Hashmap* createHashmap() {
