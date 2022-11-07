@@ -15,6 +15,7 @@ typedef struct USER
     char account_status; // 'a' para active 'i' para inactive
 }User;
 
-
+User* userCreate(char** data_str);
+short int* str_to_int(char* str);
 
 #endif
