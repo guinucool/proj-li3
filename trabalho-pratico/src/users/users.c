@@ -18,7 +18,7 @@ void putUser(Users* users, User* user) {
 
 }
 
-User* getUser(Users *users, int key,  int (*equal)(void*, void*)) {
+User* getUser(Users *users, char* key,  int (*equal)(void*, void*)) {
 	return (User*) get((Hashmap*)users, (void*) &key, equal);
 }
 
