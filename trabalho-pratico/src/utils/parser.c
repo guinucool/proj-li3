@@ -1,19 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../../inc/utils/parser.h"
 #include "../../inc/utils/hashmap.h"
-#define MAX_LINE 200
-
-void createAll(char * path)
-{
-    createCatalogue(path, 0);
-    createCatalogue(path, 1);
-    createCatalogue(path, 2);
-}
 
 Hashmap * createCatalogue(char * path, char ctl)
 {
-    Hashmap * catalogue = createHashmap();
+    Hashmap * table = createHashmap();
 
     char * true_path = malloc(sizeof(char) * 22);
 
@@ -64,4 +57,13 @@ Hashmap * createCatalogue(char * path, char ctl)
             }
         }
     }
+
+    return table;
+}
+
+void createAll(char * path)
+{
+    createCatalogue(path, 0);
+    createCatalogue(path, 1);
+    createCatalogue(path, 2);
 }
