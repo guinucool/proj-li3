@@ -1,9 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define _MAX_LINE_ 150
+#define MAX_LINE 150
 
-void readCatalogue(char * path, char ctl)
+void readAll(char * path)
+{
+    read(path, 0);
+    read(path, 1);
+    read(path, 2);
+}
+
+void read(char * path, char ctl)
 {
     char * true_path = malloc(sizeof(char) * 22);
 
@@ -25,18 +32,18 @@ void readCatalogue(char * path, char ctl)
     }
 
     FILE * catalogue = fopen(true_path, "r");
-    char * line = malloc(sizeof(char) * _MAX_LINE_);
+    char * line = malloc(sizeof(char) * MAX_LINE);
     int size = 0;
 
-    fgets(line, _MAX_LINE_, catalogue);
+    fgets(line, MAX_LINE, catalogue);
 
     for (int i = 0; line[i] != '\n'; i++)
         if(line[i] == ';' || line[i+1] == '\n') size++;
 
     char * holder = malloc(sizeof(char));
-    char out[size][_MAX_LINE_];
+    char out[size][MAX_LINE];
 
-    while (fgets(line, _MAX_LINE_, catalogue) != NULL)
+    while (fgets(line, MAX_LINE, catalogue) != NULL)
     {
         int f = 0, j = 0;
 
@@ -54,27 +61,4 @@ void readCatalogue(char * path, char ctl)
             }
         }
     }
-}
-
-int main()
-{
-    readCatalogue("../../db", 0);
-
-    /*FILE* data = fopen("../../db/users.csv", "r");
-    int loop = 1;
-    char *line = malloc(sizeof(char**) * _MAX_LINE_);
-
-    fgets(line, _MAX_LINE_, data);
-
-    while(loop)
-    {   
-        line[0] = '\0';
-
-        fgets(line, _MAX_LINE_, data);
-        printf("%s", line);
-
-        if (line[0] == '\0') loop = 0;
-    }
-
-    return(0); */
 }
