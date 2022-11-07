@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX_LINE 150
+#include ""
+#define MAX_LINE 200
 
 void readAll(char * path)
 {
