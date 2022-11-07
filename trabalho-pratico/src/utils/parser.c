@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include ""
+#include "../../inc/utils/hashmap.h"
 #define MAX_LINE 200
 
-void readAll(char * path)
+void createAll(char * path)
 {
-    read(path, 0);
-    read(path, 1);
-    read(path, 2);
+    createCatalogue(path, 0);
+    createCatalogue(path, 1);
+    createCatalogue(path, 2);
 }
 
-void read(char * path, char ctl)
+Hashmap * createCatalogue(char * path, char ctl)
 {
+    Hashmap * catalogue = createHashmap();
+
     char * true_path = malloc(sizeof(char) * 22);
 
     strcpy(true_path, path);

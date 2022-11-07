@@ -1,7 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../../inc/utils/utilities.h"
 #include "../../inc/rides/ride.h"
+
+Ride * convertRide(char info[10][200])
+{
+    short date[3];
+    stringToDate(date, info[1]);
+
+    return createRide(atoi(info[0]), date, atoi(info[2]), info[3], info[4], (short)atoi(info[5]), (short)atoi(info[6]), (short)atoi(info[7]), atof(info[8]), info[9]);
+}
 
 Ride * createRide(int id, short dte[3], int drv, char * usr, char * cty, short dst, short scu, short scd, float tip, char * cmt)
 {
@@ -26,13 +35,4 @@ Ride * createRide(int id, short dte[3], int drv, char * usr, char * cty, short d
 void destroyRide(Ride * ride)
 {
     free(ride);
-}
-
-int main()
-{
-    short date[3] = {22, 11, 2022};
-
-    Ride * ride = createRide(1, date, 1, "MiTeixeira3", "Braga", 5, 5, 5, 2.0, "");
-
-    printf("%s\n", ride->user);
 }

@@ -1,7 +1,7 @@
 #ifndef _HASHMAP_H_
 #define _HASHMAP_H_
 
-#define HASHMAP_MAX 100
+#define HASHMAP_MAX 100000
 
 typedef struct _HASHMAP_NODE_ {
 	void* key;
