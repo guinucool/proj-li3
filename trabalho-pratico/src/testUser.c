@@ -2,11 +2,12 @@
 
 int main(){
 
-    char* test[7] = {
+    char* test[] = {
         "MiTeixeira",
         "Miguel Teixeira",
         "M",
-        "03/09/1958","05/11/2017",
+        "03/09/1958",
+        "05/11/2017",
         "cash",
         "active"
     };
