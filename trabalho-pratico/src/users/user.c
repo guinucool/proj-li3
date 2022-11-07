@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "../../inc/users/user.h"
 
@@ -28,4 +29,13 @@ short int* str_to_int(char* str){
     date[2] = 1000*(str[6]-48)+100*(str[7]-48)+10*(str[8]-48)+(str[9]-48);
 
     return date;
+}
+
+void destroyUser(User* user){
+    free(user);
+}
+
+void printUser(User* user){
+    printf("%s,\n%s,\n%c,\n%d/%d/%d,\n%d/%d/%d,\n%s,\n%c",
+    user->username,user->name,user->gender,user->birth_date[0],user->birth_date[1],user->birth_date[2],user->account_creation[0],user->account_creation[1],user->account_creation[2],user->pay_method,user->account_status);
 }

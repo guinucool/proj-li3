@@ -17,5 +17,7 @@ typedef struct USER
 
 User* userCreate(char** data_str);
 short int* str_to_int(char* str);
+void destroyUser(User* user);
+void printUser(User* user);
 
 #endif
