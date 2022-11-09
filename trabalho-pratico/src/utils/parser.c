@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../inc/utils/parser.h"
-#include "../../inc/utils/hashmap.h"
+#include "../../inc/rides/rides.h"
 
-Hashmap * createCatalogue(char * path, char ctl)
+Hashmap * createCatalogue(char * path, char ctl, void (*handler)(Hashmap*,char(*)[200]))
 {
     Hashmap * table = createHashmap();
 
@@ -56,6 +56,8 @@ Hashmap * createCatalogue(char * path, char ctl)
                 j = i+1;
             }
         }
+
+        handler(table, out);
     }
 
     return table;
@@ -63,7 +65,7 @@ Hashmap * createCatalogue(char * path, char ctl)
 
 void createAll(char * path)
 {
-    createCatalogue(path, 0);
+    /*createCatalogue(path, 0);
     createCatalogue(path, 1);
-    createCatalogue(path, 2);
+    createCatalogue(path, 2);*/
 }

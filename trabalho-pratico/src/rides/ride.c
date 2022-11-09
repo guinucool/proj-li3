@@ -27,7 +27,7 @@ Ride * createRide(int id, short dte[3], int drv, char * usr, char * cty, short d
 Ride * convertRide(char info[10][200])
 {
     short date[3];
-    stringToDate(date, info[1]);
+    stringToDate(info[1], date);
 
     return createRide(atoi(info[0]), date, atoi(info[2]), info[3], info[4], (short)atoi(info[5]), (short)atoi(info[6]), (short)atoi(info[7]), atof(info[8]), info[9]);
 }
