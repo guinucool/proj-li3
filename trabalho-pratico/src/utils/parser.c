@@ -63,9 +63,13 @@ Hashmap * createCatalogue(char * path, char ctl, void (*handler)(Hashmap*,char(*
     return table;
 }
 
-void createAll(char * path)
+Data * createAll(char * path)
 {
+    Data * base = (Data *) malloc(sizeof(Data));
+
     /*createCatalogue(path, 0);
-    createCatalogue(path, 1);
-    createCatalogue(path, 2);*/
+    createCatalogue(path, 1);*/
+    base->rides = createCatalogue(path, 2, handleRide);
+
+    return base;
 }

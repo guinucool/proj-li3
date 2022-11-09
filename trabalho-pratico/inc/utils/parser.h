@@ -5,7 +5,10 @@
 
 #define MAX_LINE 200
 
-Hashmap * createCatalogue(char * path, char ctl, void (*)(Hashmap*,char(*)[200]));
-void createAll(char * path);
+typedef struct _DATA_BASE_ {
+    Hashmap * users, * drivers, * rides;
+}Data;
+
+Data * createAll(char * path);
 
 #endif
