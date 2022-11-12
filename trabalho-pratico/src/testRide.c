@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     Data * base = createAll(argv[1]);
 
-    Ride * ride = getRide(base->rides, 1000000);
+    Ride * ride = getRide(base->rides, 1293);
 
     printf("%d %d %s\n", ride->id, ride->driver, ride->user);
 
