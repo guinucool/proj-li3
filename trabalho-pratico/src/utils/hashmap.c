@@ -4,51 +4,69 @@
 #include "../../inc/utils/hashmap.h"
 
 //Devolver o endereço de HashMap
-Hashmap* createHashmap() {
+Hashmap* createHashmap()
+{
     Hashmap *hashmap = (Hashmap*) malloc(sizeof(Hashmap));
-    hashmap->size = 0;
-
     return hashmap;
 }
 
 //Quando se fechar o programa, paralisa e destroi (vai libertar o data)
-void destroyHashmap(Hashmap* hashmap) {
-
-    if (hashmap != NULL) {
-
-        for (int i = 0; i < hashmap->size && HASHMAP_MAX; i++) {
-            free (hashmap->array[i]);
-        }
+void destroyHashmap(Hashmap* hashmap)
+{
+    if (hashmap != NULL)
+    {
+        for (int i = 0; i < HASHMAP_MAX; i++)
+            free(hashmap->array[i]);
 
         free(hashmap);
     }
 }
 
-void put(Hashmap *hashmap, void *key, void *data) {
+HashmapNode * createNode(void *key, void *data)
+{
+    HashmapNode * node = (HashmapNode*) malloc(sizeof(HashmapNode));
 
-    if (hashmap != NULL && hashmap->size + 1 < HASHMAP_MAX ) {
+    node->key = key;
+    node->data = data;
+    node->next = NULL;
 
-        hashmap->array[hashmap->size] = (HashmapNode*) malloc(sizeof(HashmapNode)); 
-    
-        hashmap->array[hashmap->size]->key = key;
-        hashmap->array[hashmap->size]->data = data;
-        hashmap->size++;
+    return(node);
+}
+
+int hashKey_Int(void *key)
+{
+    int *true_Key = ((int*) key);
+
+    return(*true_Key % HASHMAP_MAX);
+}
+
+void put(Hashmap *hashmap, void *key, void *data, int (*hashFunc)(void*))
+{
+    if (hashmap != NULL)
+    {
+        int pos = hashFunc(key);
+
+        if (hashmap->array[pos] == NULL)
+            hashmap->array[pos] = createNode(key, data);
+        else
+            hashmap->array[pos]->next = createNode(key, data); 
     }
 }
 
-User* getUser(Hashmap *users, char* key)
-{
-    
-}
+void *get(Hashmap *hashmap, void *key, int (*equal)(void*, void*), int (*hashFunc)(void*)) {
 
-void *get(Hashmap *hashmap, void *key, int (*equal)(void*, void*)) {
+    if (hashmap != NULL)
+    {
+        int pos = hashFunc(key);
 
-    if (hashmap != NULL) {
+        HashmapNode * node = hashmap->array[pos];
 
-        for (int i = 0; i < hashmap->size && HASHMAP_MAX; i++) {
-            if (equal(hashmap->array[i]->key, key)) {
-                return hashmap->array[i]->data;
-            }
+        while (node != NULL)
+        {
+            if(equal(node->key, key))
+                return(node->data);
+            
+            node = node->next;
         }
     }
 

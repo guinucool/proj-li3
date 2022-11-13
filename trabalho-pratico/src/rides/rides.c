@@ -7,7 +7,7 @@
 void pushRide(Hashmap * rides, Ride * ride)
 {
     if (rides != NULL)
-        put(rides, (void*)&ride->id, (void*)ride);
+        put(rides, (void*)&ride->id, (void*)ride, hashKey_Int);
 }
 
 void handleRide(Hashmap * rides, char info[10][200])
@@ -18,7 +18,7 @@ void handleRide(Hashmap * rides, char info[10][200])
 
 Ride * getRide(Hashmap * rides, int key)
 {
-    return (Ride*) get(rides, (void*)&key, equal);
+    return (Ride*) get(rides, (void*)&key, equal, hashKey_Int);
 }
 
 void destroyRides(Hashmap * rides)
