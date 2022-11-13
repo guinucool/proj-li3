@@ -6,11 +6,11 @@
 
 typedef Hashmap Drivers;
 
-
 Drivers * createDrivers();
 void destroyDrivers(Drivers*);
 void putDriver(Drivers*, Driver*);
-Driver* getDriver(Drivers *, int,  int (*)(void*, void*));
+Driver* getDriver(Drivers *, int);
 Drivers *loadFromFile(char*);
+int compareKeys(void*, void*);
 
 #endif

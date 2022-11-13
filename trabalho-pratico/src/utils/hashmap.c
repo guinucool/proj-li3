@@ -1,5 +1,8 @@
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#include "../../inc/users/users.h"
 #include "../../inc/utils/hashmap.h"
 
 //Devolver o endereço de HashMap
@@ -37,6 +40,21 @@ int hashKey_Int(void *key)
     int *true_Key = ((int*) key);
 
     return(*true_Key % HASHMAP_MAX);
+}
+
+int hashstr_get(const char* s,const int n){
+
+    const int p = 29791, m = 100003;
+    int hash = 0;
+    long p_pow = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        hash = (hash + (s[i] - 'a' + 1) * p_pow) % m;
+        p_pow = (p_pow * p) % m;
+    }
+
+    return hash;
 }
 
 void put(Hashmap *hashmap, void *key, void *data, int (*hashFunc)(void*))

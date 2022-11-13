@@ -17,6 +17,7 @@ typedef struct _HASHMAP_ {
 Hashmap* createHashmap();
 void destroyHashmap(Hashmap*);
 int hashKey_Int(void *key);
+int hashstr_get(const char* s,const int n);
 void put(Hashmap *hashmap, void *key, void *data, int(*)(void*));
 void *get(Hashmap *hashmap, void *key,  int (*)(void*, void*), int(*)(void*));
 
