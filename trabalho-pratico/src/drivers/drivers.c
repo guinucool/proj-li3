@@ -1,8 +1,8 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "../../inc/drivers/drivers.h"
 #include "../../inc/utils/hashmap.h"
-
 
 Drivers * createDrivers() {
 	return createHashmap();
@@ -11,15 +11,16 @@ Drivers * createDrivers() {
 void putDriver(Drivers* drivers, Driver* driver) {
 
 	if (drivers != NULL) {
-
 		put((Hashmap*)drivers, (void*)&driver->id, (void*)driver);
-
 	} 
-
 }
 
-Driver* getDriver(Drivers *drivers, int key,  int (*equal)(void*, void*)) {
-	return (Driver*) get((Hashmap*)drivers, (void*) &key, equal);
+int compareKeys(void * keyA, void * keyB) {
+	return *((int*) keyA) == *((int*) keyB);
+}
+
+Driver* getDriver(Drivers *drivers, int key) {
+	return (Driver*) get((Hashmap*)drivers, (void*) &key, compareKeys);
 }
 
 void destroyDrivers(Drivers* drivers) {
@@ -28,7 +29,21 @@ void destroyDrivers(Drivers* drivers) {
 
 Drivers *loadFromFile(char* filename) {
 
-	// TODO:
+	FILE *file;
+	Drivers *drivers = createDrivers();
+	char buffer[1024];
 
-	return NULL;
+	if ((file = fopen(filename, "r")) == NULL) {
+		return NULL;
+	}
+
+	// Discard first line (with columns headers).
+	fgets(buffer, 1024, file);
+
+	while( fgets(buffer, 1024, file) != NULL ) {
+		Driver *driver = parseDriver(buffer);
+		putDriver(drivers, driver);
+	}
+
+	return drivers;
 }
