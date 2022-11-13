@@ -10,6 +10,7 @@
 #define PREMIUM 2
 
 extern char car_class_str[][8];
+extern int car_class_size;
 
 #define MALE 'M'
 #define FEMALE 'F'
@@ -18,6 +19,7 @@ extern char car_class_str[][8];
 #define ACTIVE 1
 
 extern char account_status_str[][9];
+extern int account_status_size;
 
 typedef struct _DRIVER_ {
 	int id;                                      // INTEGER
@@ -34,5 +36,7 @@ typedef struct _DRIVER_ {
 Driver *createDriver(int, char *, short[], char, char, char[], char[], short[], char);
 void destroyDriver(Driver*);
 void printDriver(Driver*);
+Driver *parseDriver(char*);
+int parseDate(char*, short[]);
 
 #endif

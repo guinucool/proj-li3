@@ -9,7 +9,7 @@ int equal(void* key1, void* key2) {
 
 int main() {
 
-    char nameA[] = "Fernando Fonseca", nameB[] = "Joana Monteiro";
+ /*   char nameA[] = "Fernando Fonseca", nameB[] = "Joana Monteiro";
 	Driver *dA = createDriver(1001, nameA);
     Driver *dB = createDriver(1002, nameB);
     Driver *d = NULL;
@@ -32,7 +32,21 @@ int main() {
 
     destroyDrivers(drivers);
     destroyDriver(dA);
-    destroyDriver(dB);
+    destroyDriver(dB); */
+
+    Drivers *drivers = loadFromFile("./db/drivers.csv");
+    Driver *driver = getDriver(drivers, 10000);
+
+    if (driver == NULL) {
+        printf("No Driver to print.\n");
+    } else {
+        printDriver(driver);
+    }
+
+   /* for (int i = 1; i < 100; i++) {
+        Driver *driver = getDriver(drivers, i);
+        printDriver(driver);
+    } */
 
     return 0;
 }
