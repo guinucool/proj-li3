@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "../../inc/users/users.h"
 #include "../../inc/utils/hashmap.h"
 
 //Devolver o endereço de HashMap
@@ -33,6 +34,11 @@ void put(Hashmap *hashmap, void *key, void *data) {
         hashmap->array[hashmap->size]->data = data;
         hashmap->size++;
     }
+}
+
+User* getUser(Hashmap *users, char* key)
+{
+    
 }
 
 void *get(Hashmap *hashmap, void *key, int (*equal)(void*, void*)) {

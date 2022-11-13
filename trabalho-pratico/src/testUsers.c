@@ -1,8 +1,12 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "../inc/users/users.h"
 #include "../inc/users/user.h"
-#include "../inc/utils/utilities.h"
+
+int equal(void* key1, void* key2){
+    return !(strcmp(key1, key2));
+}
 
 int main() {
 
@@ -29,8 +33,7 @@ int main() {
     Users* users = createUsers();
     User* user1 = userCreate(test1);
     User* user2 = userCreate(test2);
-    User* u = NULL;
-    
+        
     printf("Foram criados os users: ");
     printUser(user1);
     printUser(user2);
@@ -41,7 +44,7 @@ int main() {
 
     printf("Tamanho dos users = %d\n", users->size);
 
-    u = getUser(users, "JorBranco31", equal);
+    User* u = getUser(users, "JorBranco31", equal);
 
     printUser(u);
 
