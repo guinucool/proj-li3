@@ -48,7 +48,7 @@ void put(Hashmap *hashmap, void *key, void *data, int (*hashFunc)(void*))
         if (hashmap->array[pos] == NULL)
             hashmap->array[pos] = createNode(key, data);
         else
-            hashmap->array[pos]->next = createNode(key, data); 
+            hashmap->array[pos]->next = createNode(key, data);
     }
 }
 
