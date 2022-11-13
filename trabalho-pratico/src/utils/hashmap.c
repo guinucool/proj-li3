@@ -1,4 +1,6 @@
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../../inc/users/users.h"
 #include "../../inc/utils/hashmap.h"
@@ -41,7 +43,7 @@ int hashKey_Int(void *key)
 }
 
 int hashstr_get(const char* s,const int n){
-    
+
     const int p = 29791, m = 100003;
     int hash = 0;
     long p_pow = 1;
