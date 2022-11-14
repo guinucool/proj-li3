@@ -29,6 +29,10 @@ void str_to_int(char* str,short int* date){
 
 }
 
+int compStr(void* s1,void* s2){
+    return !(strcmp(s1,s2));
+}
+
 void destroyUser(User* user){
     free(user);
 }

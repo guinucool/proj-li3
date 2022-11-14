@@ -39,12 +39,10 @@ int main() {
     printUser(user2);
 
 
-    putUser(users, user1);
-    putUser(users, user2);
+    put(users,user1->username,user1,hashstr_get);
+    put(users,user2->username,user2,hashstr_get);
 
-    printf("Tamanho dos users = %d\n", users->size);
-
-    User* u = getUser(users, "JorBranco31", equal);
+    User* u = get(users, "JorBranco31", compStr, hashstr_get);
 
     printUser(u);
 

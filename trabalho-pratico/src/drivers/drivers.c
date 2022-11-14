@@ -11,7 +11,7 @@ Drivers * createDrivers() {
 void putDriver(Drivers* drivers, Driver* driver) {
 
 	if (drivers != NULL) {
-		put((Hashmap*)drivers, (void*)&driver->id, (void*)driver);
+		put((Hashmap*)drivers, (void*)&driver->id, (void*)driver,hashKey_Int);
 	} 
 }
 
@@ -20,7 +20,7 @@ int compareKeys(void * keyA, void * keyB) {
 }
 
 Driver* getDriver(Drivers *drivers, int key) {
-	return (Driver*) get((Hashmap*)drivers, (void*) &key, compareKeys);
+	return (Driver*) get((Hashmap*)drivers, (void*) &key, compareKeys,hashKey_Int);
 }
 
 void destroyDrivers(Drivers* drivers) {

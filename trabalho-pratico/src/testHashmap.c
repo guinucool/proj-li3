@@ -14,9 +14,9 @@ int main() {
 
     Hashmap* hashmap = createHashmap();
 
-    put(hashmap, (void*) &key, (void*) data);
+    put(hashmap, (void*) &key, (void*) data,hashKey_Int);
 
-    result = (char*) get(hashmap, (void*) &key, equal);
+    result = (char*) get(hashmap, (void*) &key, equal,hashKey_Int);
 
     printf("Valor devolvido 'e %s\n", result);
 
