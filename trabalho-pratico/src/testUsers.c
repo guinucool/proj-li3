@@ -4,10 +4,6 @@
 #include "../inc/users/users.h"
 #include "../inc/users/user.h"
 
-int equal(void* key1, void* key2){
-    return !(strcmp(key1, key2));
-}
-
 int main() {
 
     char* test1[] = {
