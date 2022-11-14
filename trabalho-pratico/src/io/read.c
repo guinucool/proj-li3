@@ -14,6 +14,22 @@ void interDriver(char args[][MAX_LINE], Global * glob)
 
 }
 
+/// @brief A função interRide interpreta e insere informação relativa às rides
+///        na estrutura de dados global.
+/**
+ * A função interRide interpreta a informação que recebe (da leitura do ficheiro)
+ * e insere a mesma nas respetivas estruturas de dados (Hashmaps).
+ * 
+ * Para isso, primeiro converte a informação toda em Ride e depois converte partes da mesma
+ * em outros tipos de variáveis úteis para a execução do programa também.
+ * 
+ * No final insere toda a informação tratada na estrutura global nos respetivos
+ * contentores.
+ * 
+ * @param args Informação recebida da leitura de uma linha do ficheiro.
+ * 
+ * @param glob Estrutura de dados global a ser atualizada.
+ */ 
 void interRide(char args[][MAX_LINE], Global * glob)
 {
     short date[3];

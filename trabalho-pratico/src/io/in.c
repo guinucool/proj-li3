@@ -6,7 +6,7 @@
 #include "../../inc/structs/ride.h"
 #include "../../inc/utils.h"
 
-/// A função readFile lê e importa a informação de um ficheiro.
+/// @brief A função readFile lê e importa a informação de um ficheiro.
 /**
  * A função readFile, através do path recebido, abre o ficheiro desejado e,
  * linha a linha, irá dando output da sua informação para um array de strings.
