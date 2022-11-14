@@ -7,6 +7,7 @@ void readFile(char * path, char mode, Global * glob)
 {
     FILE * file = fopen(path, "r");
     char line[MAX_LINE];
+    char cut = ' ';
     int size = 3;
 
     if (mode != 0)
@@ -15,10 +16,12 @@ void readFile(char * path, char mode, Global * glob)
 
         for (int i = 0; line[i] != '\n'; i++)
             if(line[i] == ';' || line[i+1] == '\n') size++;
+
+        cut = ';';
     }
 
     char * holder = (char *) malloc(sizeof(char));
-    char out[size][MAX_LINE];
+    char args[size][MAX_LINE];
 
     while (fgets(line, MAX_LINE, file) != NULL)
     {
@@ -28,14 +31,16 @@ void readFile(char * path, char mode, Global * glob)
         {
             holder[i-j] = line[i];
 
-            if (line[i+1] == ';' || line[i+1] == '\n')
+            if (line[i+1] == cut || line[i+1] == '\n')
             {
                 holder[i-j+1] = '\0';
-                strcpy(out[f], holder);
+                strcpy(args[f], holder);
                 f++;
                 if (line[i+1] != '\n') i++;
                 j = i+1;
             }
         }
+
+        printf("%s", line);
     }
 }
