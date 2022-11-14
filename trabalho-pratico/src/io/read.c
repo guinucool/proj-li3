@@ -27,7 +27,7 @@ void interRide(char args[][MAX_LINE], Global * glob)
 
     Ride * ride = createRide(atoi(args[0]), date, atoi(args[2]), args[3], args[4], (short)atoi(args[5]), (short)atoi(args[6]), (short)atoi(args[7]), atof(args[8]), args[9]);
 
-    printf("%s\n", ride->user);
+    put(glob->rides, (void *)&ride->id, (void *)ride, hashKey_Int);
 }
 
 void interCmd(char args[][MAX_LINE], Global * glob)

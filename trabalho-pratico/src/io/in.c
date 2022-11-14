@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../../inc/io/in.h"
 #include "../../inc/io/read.h"
+#include "../../inc/structs/ride.h"
 
 void readFile(char * path, char mode, Global * glob)
 {
@@ -63,9 +64,22 @@ void readFile(char * path, char mode, Global * glob)
     }
 }
 
+int equal(void* key1, void* key2)
+{
+    return *((int*) key1) == *((int*) key2);
+}
+
 int main()
 {
     Global * glob = (Global *) malloc(sizeof(Global));
 
+    glob->rides = createHashmap();
+
     readFile("../../db/rides.csv", 3, glob);
+
+    int key = 1000;
+
+    Ride * ride = (Ride *) get(glob->rides, (void *) &key, equal, hashKey_Int);
+
+    printf("%s\n", ride->user);
 }
