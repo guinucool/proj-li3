@@ -1,7 +1,7 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
-#include "../../inc/structs/global.h"
+#include "../structs/global.h"
 
 #define MAX_LINE 200
 

@@ -1,7 +1,7 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
-#include "../../inc/structs/hashmap.h"
+#include "hashmap.h"
 
 typedef struct _GLOBAL_
 {
@@ -10,5 +10,7 @@ typedef struct _GLOBAL_
     Hashmap * rides;
 }Global;
 
+Global *  createGlobal();
+void destroyGlobal(Global * glob);
 
 #endif

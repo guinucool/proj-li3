@@ -4,7 +4,26 @@
 #include "../../inc/io/in.h"
 #include "../../inc/io/read.h"
 #include "../../inc/structs/ride.h"
+#include "../../inc/utils.h"
 
+/// A função readFile lê e importa a informação de um ficheiro.
+/**
+ * A função readFile, através do path recebido, abre o ficheiro desejado e,
+ * linha a linha, irá dando output da sua informação para um array de strings.
+ * 
+ * Assim sendo, esta terá de saber qual o tipo de informação contida no ficheiro
+ * para escolher o melhor separador de informação (; no caso de ficheiros csv,
+ * ou espaço no caso de comandos).
+ * 
+ * Uma vez convertida a informação, esta é enviada para a respetiva função de interpretação.
+ * 
+ * @param path O caminho para a localização ficheiro a ser lido.
+ * 
+ * @param mode O tipo de informação que irá ser lido no ficheiro escolhido.
+ * 
+ * @param glob A variável global que segura, ou vai segurar,
+ *             a informação relevante à execução do programa.
+ */
 void readFile(char * path, char mode, Global * glob)
 {
     FILE * file = fopen(path, "r");
@@ -64,16 +83,9 @@ void readFile(char * path, char mode, Global * glob)
     }
 }
 
-int equal(void* key1, void* key2)
-{
-    return *((int*) key1) == *((int*) key2);
-}
-
 int main()
 {
-    Global * glob = (Global *) malloc(sizeof(Global));
-
-    glob->rides = createHashmap();
+    Global * glob = createGlobal();
 
     readFile("../../db/rides.csv", 3, glob);
 
