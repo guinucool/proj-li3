@@ -1,5 +1,5 @@
 # Gustavo:
-    - Inserir info user hashmap;
+    - Inserir info user hashmap; --DONE--
     - Inserir info user estruturas auxiliares; 
     - Interpretação da leitura;
     - Q5;      
