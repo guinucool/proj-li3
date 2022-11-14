@@ -1,10 +1,16 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
+#include "hashmap.h"
+
 typedef struct _GLOBAL_
 {
-    int x;
+    Hashmap * users;
+    Hashmap * drivers;
+    Hashmap * rides;
 }Global;
 
+Global *  createGlobal();
+void destroyGlobal(Global * glob);
 
 #endif
