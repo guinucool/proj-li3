@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../inc/io/in.h"
+#include "../../inc/io/read.h"
 
 void readFile(char * path, char mode, Global * glob)
 {
@@ -41,6 +42,30 @@ void readFile(char * path, char mode, Global * glob)
             }
         }
 
-        printf("%s", line);
+        switch (mode)
+        {
+            case 0:
+                interCmd(args, glob);
+                break;
+
+            case 1:
+                interUser(args, glob);
+                break;
+
+            case 2:
+                interDriver(args, glob);
+                break;
+
+            case 3:
+                interRide(args, glob);
+                break;
+        }
     }
+}
+
+int main()
+{
+    Global * glob = (Global *) malloc(sizeof(Global));
+
+    readFile("../../db/rides.csv", 3, glob);
 }
