@@ -8,6 +8,7 @@ typedef struct _GLOBAL_
     Hashmap * users;
     Hashmap * drivers;
     Hashmap * rides;
+    Hashmap * cities;
 }Global;
 
 Global *  createGlobal();

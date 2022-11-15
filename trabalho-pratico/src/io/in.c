@@ -4,6 +4,7 @@
 #include "../../inc/io/in.h"
 #include "../../inc/io/read.h"
 #include "../../inc/structs/ride.h"
+#include "../../inc/structs/city.h"
 #include "../../inc/utils.h"
 
 /// @brief A função readFile lê e importa a informação de um ficheiro.
@@ -83,15 +84,34 @@ void readFile(char * path, char mode, Global * glob)
     }
 }
 
+int equalStr(void * o1, void * o2)
+{
+    char * str1 = (char *) o1;
+    char * str2 = (char *) o2;
+
+    if (strcmp(str1, str2) == 0) return(1);
+    else return(0);
+}
+
 int main()
 {
     Global * glob = createGlobal();
 
     readFile("../../db/rides.csv", 3, glob);
 
-    int key = 1000;
+    int key = 200000;
 
-    Ride * ride = (Ride *) get(glob->rides, (void *) &key, equal, hashKey_Int);
+    char * str = "Porto";
+
+    Ride * ride = (Ride *) get(glob->rides, (void *) &key, equal, hashKey_Int, 1);
+    HashmapNode * city = (HashmapNode*) get(glob->cities, (void *) str, equalStr, hashKey_Str, 0);
+    HashmapNode * temp = city;
 
     printf("%s\n", ride->user);
+    /*while (temp != NULL)
+    {
+        City * tmpCity = (City *) temp->data;
+        printf("%s %d %c\n", tmpCity->city, tmpCity->key, tmpCity->type);
+        temp = temp->next;
+    }*/
 }

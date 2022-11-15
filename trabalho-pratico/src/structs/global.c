@@ -8,6 +8,7 @@ Global * createGlobal()
     glob->users = createHashmap();
     glob->drivers = createHashmap();
     glob->rides = createHashmap();
+    glob->cities = createHashmap();
 
     return(glob);
 }

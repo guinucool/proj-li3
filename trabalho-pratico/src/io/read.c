@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../../inc/io/read.h"
 #include "../../inc/structs/ride.h"
+#include "../../inc/structs/city.h"
 #include "../../inc/utils.h"
 
 void interUser(char args[][MAX_LINE], Global * glob)
@@ -36,8 +37,10 @@ void interRide(char args[][MAX_LINE], Global * glob)
     stringToDate(args[1], date);
 
     Ride * ride = createRide(atoi(args[0]), date, atoi(args[2]), args[3], args[4], (short)atoi(args[5]), (short)atoi(args[6]), (short)atoi(args[7]), atof(args[8]), args[9]);
+    City * city = createCity(args[4], ride->id, 'r');
 
     put(glob->rides, (void *)&ride->id, (void *)ride, hashKey_Int);
+    put(glob->cities, (void *)city->city, (void *)city, hashKey_Str);
 }
 
 void interCmd(char args[][MAX_LINE], Global * glob)

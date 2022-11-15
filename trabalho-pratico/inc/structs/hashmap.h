@@ -19,6 +19,6 @@ void destroyHashmap(Hashmap*);
 int hashKey_Int(void *key);
 int hashKey_Str(void* str);
 void put(Hashmap *hashmap, void *key, void *data, int(*)(void*));
-void *get(Hashmap *hashmap, void *key,  int (*)(void*, void*), int(*)(void*));
+void *get(Hashmap *hashmap, void *key,  int (*)(void*, void*), int(*)(void*), char mode);
 
 #endif

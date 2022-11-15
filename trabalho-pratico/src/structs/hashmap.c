@@ -22,13 +22,13 @@ void destroyHashmap(Hashmap* hashmap)
     }
 }
 
-HashmapNode * createNode(void *key, void *data)
+HashmapNode * createNode(void *key, void *data, HashmapNode * next)
 {
     HashmapNode * node = (HashmapNode*) malloc(sizeof(HashmapNode));
 
     node->key = key;
     node->data = data;
-    node->next = NULL;
+    node->next = next;
 
     return(node);
 }
@@ -76,14 +76,14 @@ void put(Hashmap *hashmap, void *key, void *data, int (*hashFunc)(void*))
         int pos = hashFunc(key);
 
         if (hashmap->array[pos] == NULL)
-            hashmap->array[pos] = createNode(key, data);
+            hashmap->array[pos] = createNode(key, data, NULL);
         else
-            hashmap->array[pos]->next = createNode(key, data);
+            hashmap->array[pos] = createNode(key, data, hashmap->array[pos]);
     }
 }
 
-void * get(Hashmap *hashmap, void *key, int (*equal)(void*, void*), int (*hashFunc)(void*)) {
-
+void * get(Hashmap *hashmap, void *key, int (*equal)(void*, void*), int (*hashFunc)(void*), char mode)
+{
     if (hashmap != NULL)
     {
         int pos = hashFunc(key);
@@ -93,7 +93,12 @@ void * get(Hashmap *hashmap, void *key, int (*equal)(void*, void*), int (*hashFu
         while (node != NULL)
         {
             if(equal(node->key, key))
-                return(node->data);
+            {
+                if(mode)
+                    return(node->data);
+                else
+                    return((void*)node);
+            }
             
             node = node->next;
         }
