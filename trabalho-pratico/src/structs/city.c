@@ -38,5 +38,6 @@ City * createCity(char * cty, int key, char type)
  */
 void destroyCity(City * city)
 {
-    free(city);
+    if (city != NULL)
+        free(city);
 }

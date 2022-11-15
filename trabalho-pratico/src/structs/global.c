@@ -32,9 +32,12 @@ Global * createGlobal()
  */
 void destroyGlobal(Global * glob)
 {
-    destroyHashmap(glob->users);
-    destroyHashmap(glob->drivers);
-    destroyHashmap(glob->rides);
+    if (glob != NULL)
+    {
+        destroyHashmap(glob->users);
+        destroyHashmap(glob->drivers);
+        destroyHashmap(glob->rides);
 
-    free(glob);
+        free(glob);
+    }
 }

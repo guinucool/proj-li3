@@ -2,25 +2,22 @@
 #include <string.h>
 #include "../../inc/structs/hashmap.h"
 
-//Devolver o endereço de HashMap
-Hashmap* createHashmap()
-{
-    Hashmap *hashmap = (Hashmap*) malloc(sizeof(Hashmap));
-    return hashmap;
-}
-
-//Quando se fechar o programa, paralisa e destroi (vai libertar o data)
-void destroyHashmap(Hashmap* hashmap)
-{
-    if (hashmap != NULL)
-    {
-        for (int i = 0; i < HASHMAP_MAX; i++)
-            free(hashmap->array[i]);
-
-        free(hashmap);
-    }
-}
-
+/// @brief A função createNode cria um node (elemento) do Hashmap.
+/**
+ * A função createNode cria um node (elemento) do Hashmap, alocando
+ * a memória necessária a sua criação.
+ * 
+ * Uma vez alocada a memória, associa os inputs da função às
+ * propriedades da node criada.
+ * 
+ * @param key O void pointer da chave de procura da node.
+ * 
+ * @param data O void pointer da informação que será guardada na node.
+ * 
+ * @param next A próxima node a ser inserida na lista ligada (para o caso de colisões).
+ * 
+ * @return A node criada e alocada.
+ */ 
 HashmapNode * createNode(void *key, void *data, HashmapNode * next)
 {
     HashmapNode * node = (HashmapNode*) malloc(sizeof(HashmapNode));
@@ -32,6 +29,10 @@ HashmapNode * createNode(void *key, void *data, HashmapNode * next)
     return(node);
 }
 
+/// @brief A função destroyNode destroí um node (elemento) do Hashmap.
+/**
+ * 
+ */ 
 void destroyNode(HashmapNode * node)
 {
     HashmapNode * hold = node;
@@ -41,6 +42,38 @@ void destroyNode(HashmapNode * node)
         HashmapNode * temp = hold->next;
         free(hold);
         hold = temp;
+    }
+}
+
+/// @brief A função createHashmap cria um Hashmap.
+/**
+ * A função createHashmap cria um Hashmap, alocando
+ * a memória necessária paara este tipo de variável.
+ * 
+ * @return O Hashmap criado e alocado.
+ */
+Hashmap* createHashmap()
+{
+    Hashmap *hashmap = (Hashmap*) malloc(sizeof(Hashmap));
+    return hashmap;
+}
+
+/// @brief A função destroyHashmap destroí um Hashmap.
+/**
+ * A função destroyHashmap destroí um Hashmap, libertando
+ * o espaço reservado por esta variável, assim como
+ * o espaço reservado por cada elemento da mesma.
+ * 
+ * @param hashmap O Hashmap a ser destruído.
+ */ 
+void destroyHashmap(Hashmap* hashmap)
+{
+    if (hashmap != NULL)
+    {
+        for (int i = 0; i < HASHMAP_MAX; i++)
+            destroyNode(hashmap->array[i]);
+
+        free(hashmap);
     }
 }
 

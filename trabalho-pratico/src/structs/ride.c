@@ -62,5 +62,6 @@ Ride * createRide(int id, short dte[3], int drv, char * usr, char * cty, short d
  */
 void destroyRide(Ride * ride)
 {
-    free(ride);
+    if (ride != NULL)
+        free(ride);
 }
