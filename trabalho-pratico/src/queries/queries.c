@@ -1,24 +1,49 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "../inc/structs/driverId.h"
-#include "../inc/structs/ride.h"
-#include "../inc/drivers/driver.h"
-#include "../inc/utils.h"
-#include "../inc/structs/hashmap.h"
 #include "../inc/queries/queries.h"
-#include "../../inc/structs/date.h"
 
 void query_one(int id) {
     // TODO: create query one.
 }
 
-void query_five(Date* dateA , Date* dateB){
-
+int query_five(Date* dateA , Date* dateB, Global* glob){
+    HashmapNode * listRides = betweenDates(dateA, dateB, glob->dates, 'c');
+    return preço_medio(listRides,glob->drivers,glob->rides);
 }
 
-int preço_medio(){
-    
+int preço_medio(HashmapNode * listRides, Hashmap * drivers, Hashmap* riders){
+    HashmapNode * tracker = listRides;
+    Ride* ride;
+    Driver* driver;
+    int preçoRide, preçoSum = 0,n = 0;
+    while(tracker->next != NULL){
+        ride = tracker->data;
+        driver = get(drivers,ride->driver,equal,hashKey_Int,1);
+
+        switch (driver->car_class)
+        {
+        case 0:
+            preçoRide = 3,25 + 0,62 * ride->distance;
+            break;
+        
+        case 1:
+            preçoRide = 4 + 0,79 * ride->distance;
+            break;
+
+        case 2:
+            preçoRide = 5,2 + 0,94 * ride->distance;
+            break;
+
+        default:
+            break;
+        }
+
+        preçoSum += preçoRide;
+        n++;
+        tracker = tracker->next;
+    }
+    return preçoSum/n;
 }
 
 /*float preçoPorDriver(HashmapNode* driverIdList, Hashmap * drivers, Hashmap* riders){
