@@ -4,7 +4,7 @@
 #include "../../inc/structs/ride.h"
 #include "../../inc/structs/city.h"
 #include "../../inc/utils.h"
-#include "../../inc/users/user.h"
+#include "../../inc/structs/user.h"
 #include "../../inc/structs/date.h"
 
 void interUser(char args[][MAX_LINE], Global * glob)

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../inc/users/users.h"
-#include "../inc/users/user.h"
+#include "../inc/utils/hashmap.h"
+#include "../inc/structs/user.h"
 
 int main() {
 
@@ -26,7 +26,7 @@ int main() {
         "active"
     };
 
-    Users* users = createUsers();
+    Hashmap* users = createHashmap();
     User* user1 = userCreate(test1);
     User* user2 = userCreate(test2);
         
@@ -43,7 +43,7 @@ int main() {
     printUser(u);
 
 
-    destroyUsers(users);
+    destroyHashmap(users);
     destroyUser(user1);
     destroyUser(user2);
 
