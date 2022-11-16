@@ -1,7 +1,3 @@
-#ifndef _CITY_H_
-#define _CITY_H_
-
-#include <stdio.h>
 #include <math.h>
 
 int media(int preço[], int n)
@@ -16,4 +12,6 @@ int media(int preço[], int n)
     return med;
 }
 
-#endif
+int preço(){
+    
+}

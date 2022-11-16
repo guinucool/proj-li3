@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../inc/users/users.h"
 #include "../../inc/utils/hashmap.h"
 
 //Devolver o endereço de HashMap
