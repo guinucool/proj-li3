@@ -1,12 +1,6 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../../inc/io/read.h"
-#include "../../inc/structs/user.h"
-#include "../../inc/structs/ride.h"
-#include "../../inc/structs/city.h"
-#include "../../inc/structs/date.h"
-#include "../../inc/utils.h"
 
 void interUser(char args[][MAX_LINE], Global * glob)
 {

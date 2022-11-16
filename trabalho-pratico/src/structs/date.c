@@ -2,7 +2,8 @@
 
 #include "../../inc/structs/date.h"
 
-Date * createDate(short* date, void* key, char type){
+Date * createDate(short * date, void * key, char type)
+{
     Date* d = (Date*) malloc(sizeof(Date));
 
     d->date[0] = date[0];
@@ -14,3 +15,7 @@ Date * createDate(short* date, void* key, char type){
     return d;
 }
 
+void destroyDate(Date * date)
+{
+    free(date);
+}

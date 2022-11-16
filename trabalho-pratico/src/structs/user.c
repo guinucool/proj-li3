@@ -3,13 +3,10 @@
 #include <stdlib.h>
 
 #include "../../inc/structs/user.h"
-#include "../../inc/utils.h"
-
-
 
 User* userCreate(char data[][200])
 {
-    User* user = (User*) malloc(sizeof(User));
+    User * user = (User*) malloc(sizeof(User));
 
     strncpy(user->username, data[0], MAX_USER_STR);
     strncpy(user->name, data[1], MAX_USER_STR);
@@ -22,15 +19,13 @@ User* userCreate(char data[][200])
     return user;
 }
 
-int compStr(void* s1,void* s2){
-    return !(strcmp(s1,s2));
-}
-
-void destroyUser(User* user){
+void destroyUser(User * user)
+{
     free(user);
 }
 
-void printUser(User* user){
+void printUser(User * user)
+{
     printf("%s,\n%s,\n%c,\n%d/%d/%d,\n%d/%d/%d,\n%s,\n%c\n",
     user->username,user->name,user->gender,user->birth_date[0],user->birth_date[1],user->birth_date[2],user->account_creation[0],user->account_creation[1],user->account_creation[2],user->pay_method,user->account_status);
 }

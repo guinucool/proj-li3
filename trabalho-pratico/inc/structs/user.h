@@ -1,8 +1,9 @@
 #ifndef _USER_H_ 
 #define _USER_H_
 
-#define MAX_USER_STR 50
+#include "../utils.h"
 
+#define MAX_USER_STR 50
 
 typedef struct USER
 {
@@ -16,9 +17,7 @@ typedef struct USER
 }User;
 
 User* userCreate(char data[][200]);
-void str_to_int(char* str,short int* date);
-int compStr(void* s1,void* s2);
-void destroyUser(User* user);
-void printUser(User* user);
+void destroyUser(User * user);
+void printUser(User * user);
 
 #endif

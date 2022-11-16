@@ -1,3 +1,4 @@
+#include <string.h>
 #include "../inc/utils.h"
 
 void stringToDate(char* str,short int* date)
@@ -26,6 +27,11 @@ int datecmp(short * dateA, short * dateB)
 int equal_date(void* key1, void* key2)
 {
     return !datecmp((short*) key1, (short*) key2);
+}
+
+int equal_str(void* s1,void* s2)
+{
+    return !(strcmp(s1,s2));
 }
 
 void nextDay(short date[3])
