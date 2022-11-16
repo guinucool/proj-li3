@@ -36,3 +36,18 @@ void destroyRide(Ride * ride)
 {
     free(ride);
 }
+
+void printRide(Ride* ride) {
+    printf("Ride {id: %d, date: %02d/%02d/%04d, driver: %d,user: %s, city: %s, distance: %d,score_user: %d,score_driver: %d,tip: %f, comment: %s",
+        ride->id,
+        ride->date[0], ride->date[1], ride->date[2],
+        ride->driver,
+        ride->user,
+        ride->city,
+        ride->distance,
+        ride->score_user,
+        ride->score_driver,
+        ride->tip,
+        ride->comment
+    );
+}

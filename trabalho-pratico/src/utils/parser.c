@@ -3,6 +3,8 @@
 #include <string.h>
 #include "../../inc/utils/parser.h"
 #include "../../inc/rides/rides.h"
+#include "../../inc/drivers/drivers.h"
+#include "../../inc/utils/hashmap.h"
 
 Hashmap * createCatalogue(char * path, char ctl, void (*handler)(Hashmap*,char(*)[200]))
 {
@@ -20,7 +22,8 @@ Hashmap * createCatalogue(char * path, char ctl, void (*handler)(Hashmap*,char(*
 
         case 1:
             strcat(true_path, "/drivers.csv");
-            break;
+            Drivers *drivers = loadDriversFromFile(true_path);
+            return drivers;
 
         case 2:
             strcat(true_path, "/rides.csv");
@@ -67,8 +70,9 @@ Data * createAll(char * path)
 {
     Data * base = (Data *) malloc(sizeof(Data));
 
-    /*createCatalogue(path, 0);
-    createCatalogue(path, 1);*/
+    /* createCatalogue(path, 0);
+    createCatalogue(path, 1); */
+    base->drivers = createCatalogue(path, 1, NULL);
     base->rides = createCatalogue(path, 2, handleRide);
 
     return base;
