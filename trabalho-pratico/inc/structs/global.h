@@ -9,6 +9,7 @@ typedef struct _GLOBAL_
     Hashmap * drivers;
     Hashmap * rides;
     Hashmap * cities;
+    Hashmap * driverId;
 }Global;
 
 Global *  createGlobal();

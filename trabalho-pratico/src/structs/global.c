@@ -19,6 +19,7 @@ Global * createGlobal()
     glob->drivers = createHashmap();
     glob->rides = createHashmap();
     glob->cities = createHashmap();
+    glob->driverId = createHashmap();
 
     return(glob);
 }
