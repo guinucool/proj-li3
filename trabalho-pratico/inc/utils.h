@@ -3,5 +3,6 @@
 
 void stringToDate(char* str,short int* date);
 int equal(void* key1, void* key2);
+int equal_date(void* key1, void* key2);
 
 #endif

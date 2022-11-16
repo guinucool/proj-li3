@@ -8,5 +8,7 @@ typedef struct _DRIVERID_
     int key;
 }DriverId;
 
+DriverId * createCity(int driverid, int key);
+void destroyDriverId(DriverId * driverId);
 
 #endif

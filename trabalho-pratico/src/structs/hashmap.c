@@ -101,6 +101,23 @@ int hashKey_Str(void* str)
     return hash;
 }
 
+int hashKey_date(short date[3])
+{
+    const short* d = date;
+    const n = 3;
+    const int p = 111111, m = 99991;
+    int hash = 0;
+    long p_pow = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        hash = (hash + d[i] * p_pow) % m;
+        p_pow = (p_pow * p) % m;
+    }
+
+    return hash;
+}
+
 void put(Hashmap *hashmap, void *key, void *data, int (*hashFunc)(void*))
 {
     if (hashmap != NULL)

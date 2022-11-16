@@ -18,6 +18,7 @@ Hashmap* createHashmap();
 void destroyHashmap(Hashmap*);
 int hashKey_Int(void *key);
 int hashKey_Str(void* str);
+int hashKey_date(short date[3]);
 void put(Hashmap *hashmap, void *key, void *data, int(*)(void*));
 void *get(Hashmap *hashmap, void *key,  int (*)(void*, void*), int(*)(void*), char mode);
 
