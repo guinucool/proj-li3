@@ -50,9 +50,8 @@ float preçoPorDriver(HashmapNode* driverIdList, Hashmap * drivers, Hashmap* rid
 }
 
 HashmapNode* betweenDates(Date* dateA, Date* dateB, Hashmap* dates, char type){
-    HashmapNode* result;
-    Date* inf_lim = dateA;
-    Date* upp_lim = dateB;
+    short* inf_lim = dateA->date;
+    short* upp_lim = dateB->date;
     HashmapNode* list = get(dates,inf_lim,equal_date,hashKey_date,0);
     Date* date = list->data;
     
@@ -60,19 +59,23 @@ HashmapNode* betweenDates(Date* dateA, Date* dateB, Hashmap* dates, char type){
         date = list->data;
         list = list->next;
         if(list == NULL){
-            nextDay();
-            list = get
+            nextDay(inf_lim);
+            list = get(dates,inf_lim,equal_date,hashKey_date,0);
         }
     }
+    HashmapNode* result = createNode(list->key,list->data,NULL);
+    HashmapNode* beggin = result;
+    HashmapNode* tracker = list;
 
     while(inf_lim <= upp_lim){
-
-        while (list->next != NULL)
+        while (list != NULL)
         {
             date = list->data; 
-            if(date->type == type) result
+            if(date->type == type)result->next = createNode(list->key,list->data,NULL);
+            list = list->next; 
         }
-        
-        HashmapNode* list = get(dates,,equal_date,);
+        nextDay(inf_lim);
+        HashmapNode* list = get(dates,inf_lim,equal_date,hashKey_date,0);
     }
+    return beggin;
 }
