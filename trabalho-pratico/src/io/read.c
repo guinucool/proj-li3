@@ -11,7 +11,7 @@ void interUser(char args[][MAX_LINE], Global * glob)
 {
     User* user = userCreate(args);
 
-    put(glob->users, (void *)&user->username, (void *)user, hashKey_Int);
+    put(glob->users, (void *) user->username, (void *)user, hashKey_Str);
 }
 
 void interDriver(char args[][MAX_LINE], Global * glob)
