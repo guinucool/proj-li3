@@ -17,7 +17,11 @@ void query_five(Date* dateA , Date* dateB){
 
 }
 
-float preçoPorDriver(HashmapNode* driverIdList, Hashmap * drivers, Hashmap* riders){
+int preço_medio(){
+    
+}
+
+/*float preçoPorDriver(HashmapNode* driverIdList, Hashmap * drivers, Hashmap* riders){
     float preçoSum = 0;
 
     while(driverIdList->next != NULL){
@@ -47,7 +51,7 @@ float preçoPorDriver(HashmapNode* driverIdList, Hashmap * drivers, Hashmap* rid
     }
 
     return preçoSum;
-}
+}*/
 
 HashmapNode* betweenDates(Date* dateA, Date* dateB, Hashmap* dates, char type){
     short* inf_lim = dateA->date;
