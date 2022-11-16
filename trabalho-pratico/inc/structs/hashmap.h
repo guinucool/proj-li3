@@ -13,12 +13,12 @@ typedef struct _HASHMAP_ {
 	HashmapNode * array[HASHMAP_MAX];
 } Hashmap;
 
-
+HashmapNode * createNode(void *key, void *data, HashmapNode * next);
 Hashmap* createHashmap();
 void destroyHashmap(Hashmap*);
 int hashKey_Int(void *key);
 int hashKey_Str(void* str);
-int hashKey_date(short date[3]);
+int hashKey_date(void* date);
 void put(Hashmap *hashmap, void *key, void *data, int(*)(void*));
 void *get(Hashmap *hashmap, void *key,  int (*)(void*, void*), int(*)(void*), char mode);
 

@@ -2,7 +2,7 @@
 
 #include "../../inc/structs/driverId.h"
 
-DriverId * createCity(int driverid, int key)
+DriverId * createDriverId(int driverid, int key)
 {
     DriverId * driverId = (DriverId *)malloc(sizeof(DriverId));
 
