@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "../../inc/users/user.h"
-#include "../../inc/utils/utilities.h"
+#include "../../inc/utils.h"
 
 
 
