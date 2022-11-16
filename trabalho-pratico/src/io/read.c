@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../../inc/io/read.h"
 #include "../../inc/structs/ride.h"
 #include "../../inc/structs/city.h"
@@ -11,7 +12,13 @@ void interUser(char args[][MAX_LINE], Global * glob)
 {
     User* user = userCreate(args);
 
-    put(glob->users, (void *) user->username, (void *)user, hashKey_Str);
+    char * key = malloc(sizeof(char) * MAX_STR_NAME);
+    strncpy(key, user->username, MAX_USER_STR);
+
+    User * data = malloc(sizeof(User));
+    *data = *user;
+
+    put(glob->users, (void *)key, data, hashKey_Str);
 }
 
 void interDriver(char args[][MAX_LINE], Global * glob)
@@ -43,7 +50,13 @@ void interRide(char args[][MAX_LINE], Global * glob)
     Ride * ride = createRide(atoi(args[0]), date, atoi(args[2]), args[3], args[4], (short)atoi(args[5]), (short)atoi(args[6]), (short)atoi(args[7]), atof(args[8]), args[9]);
     City * city = createCity(args[4], ride->id, 'r');
 
-    put(glob->rides, (void *)&ride->id, (void *)ride, hashKey_Int);
+    int * key = malloc(sizeof(int));
+    *key = ride->id;
+
+    Ride * data = malloc(sizeof(Ride));
+    *data = *ride;
+
+    put(glob->rides, key, data, hashKey_Int);
     put(glob->cities, (void *)city->city, (void *)city, hashKey_Str);
 }
 

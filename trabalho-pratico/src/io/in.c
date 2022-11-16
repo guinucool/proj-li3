@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../../inc/io/in.h"
 #include "../../inc/io/read.h"
+#include "../../inc/structs/user.h"
 #include "../../inc/structs/ride.h"
 #include "../../inc/structs/city.h"
 #include "../../inc/utils.h"
@@ -97,21 +98,21 @@ int main()
 {
     Global * glob = createGlobal();
 
+    readFile("../../db/users.csv", 1, glob);
     readFile("../../db/rides.csv", 3, glob);
 
     int key = 200000;
 
-    char * str = "Porto";
+    //char * str = "MiTeixeira";
 
-    Ride * ride = (Ride *) get(glob->rides, (void *) &key, equal, hashKey_Int, 1);
-    HashmapNode * city = (HashmapNode*) get(glob->cities, (void *) str, equalStr, hashKey_Str, 0);
-    HashmapNode * temp = city;
+    //User * user = (User*) get(glob->users, (void *) str, equalStr, hashKey_Str, 1);
+    //HashmapNode * temp = userT;
 
-    printf("%s\n", ride->user);
+    //printf("%s\n", user->username);
     /*while (temp != NULL)
     {
-        City * tmpCity = (City *) temp->data;
-        printf("%s %d %c\n", tmpCity->city, tmpCity->key, tmpCity->type);
+        char * tmpCity = (char *) temp->key;
+        printf("%s\n", tmpCity);
         temp = temp->next;
     }*/
 }

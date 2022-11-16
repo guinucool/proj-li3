@@ -7,16 +7,16 @@
 
 
 
-User* userCreate(char** data){
-    char* username = data[0];
-    char* name = data[1];
+User* userCreate(char data[][200])
+{
     User* user = (User*) malloc(sizeof(User));
-    strncpy(user->username, username, MAX_USER_STR);
-    strncpy(user->name, name, MAX_USER_STR);
+
+    strncpy(user->username, data[0], MAX_USER_STR);
+    strncpy(user->name, data[1], MAX_USER_STR);
     user->gender = data[2][0];
     stringToDate(data[3],user->birth_date);
     stringToDate(data[4],user->account_creation);
-    user->pay_method = data[5];
+    strncpy(user->pay_method, data[5], MAX_USER_STR);
     user->account_status = data[6][0];
 
     return user;
