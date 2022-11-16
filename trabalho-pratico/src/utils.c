@@ -12,11 +12,20 @@ int equal(void* key1, void* key2)
     return *((int*) key1) == *((int*) key2);
 }
 
+int datecmp(short * dateA, short * dateB)
+{
+    for (int i = 2; i >= 0; i--)
+    {
+        if (dateA[i] < dateB[i]) return -1;
+        if (dateA[i] > dateB[i]) return 1;
+    }
+
+    return 0;
+}
+
 int equal_date(void* key1, void* key2)
 {
-    return *((short*)key1) == *((short*)key2) 
-        && *((short*)key1 + 1) == *((short*)key2 + 1)
-        && *((short*)key1 + 2) == *((short*)key2 + 2); 
+    return !datecmp((short*) key1, (short*) key2);
 }
 
 void nextDay(short date[3])

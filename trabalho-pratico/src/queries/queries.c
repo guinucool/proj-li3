@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "../inc/queries/queries.h"
+#include "../../inc/queries/queries.h"
 
 void query_one(int id) {
     // TODO: create query one.
 }
 
-int query_five(Date* dateA , Date* dateB, Global* glob){
+/*int query_five(Date* dateA , Date* dateB, Global* glob){
     HashmapNode * listRides = betweenDates(dateA, dateB, glob->dates, 'c');
     return preço_medio(listRides,glob->drivers,glob->rides);
 }
@@ -78,33 +78,21 @@ int preço_medio(HashmapNode * listRides, Hashmap * drivers, Hashmap* riders){
     return preçoSum;
 }*/
 
-HashmapNode* betweenDates(Date* dateA, Date* dateB, Hashmap* dates, char type){
-    short* inf_lim = dateA->date;
-    short* upp_lim = dateB->date;
-    HashmapNode* list = get(dates,inf_lim,equal_date,hashKey_date,0);
-    Date* date = list->data;
-    
-    while(date->type != type){
-        date = list->data;
-        list = list->next;
-        if(list == NULL){
-            nextDay(inf_lim);
-            list = get(dates,inf_lim,equal_date,hashKey_date,0);
-        }
-    }
-    HashmapNode* result = createNode(list->key,list->data,NULL);
-    HashmapNode* beggin = result;
-    HashmapNode* tracker = list;
+HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
+{
+    HashmapNode * result = NULL;
 
-    while(inf_lim <= upp_lim){
+    while(datecmp(inf, up) <= 0)
+    {
+        HashmapNode * list = get(glob->dates, inf, equal_date, hashKey_date, 0);
         while (list != NULL)
         {
-            date = list->data; 
-            if(date->type == type)result->next = createNode(list->key,list->data,NULL);
+            Date * date = (Date*) list->data;
+            if (date->type == type) result = createNode(list->key, list->data, result);
             list = list->next; 
         }
-        nextDay(inf_lim);
-        HashmapNode* list = get(dates,inf_lim,equal_date,hashKey_date,0);
+        nextDay(inf);
     }
-    return beggin;
+
+    return result;
 }

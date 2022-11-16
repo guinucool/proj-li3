@@ -109,9 +109,7 @@ int main()
     //char * str = "MiTeixeira";
 
     Date * data = (Date*) get(glob->dates, (void *) date, equal_date, hashKey_date, 1);
-    Date * data1 = createDate(date, NULL, 'r');
-    Date * data2 = createDate(date1, NULL, 'r');
-    HashmapNode * dates = betweenDates(data1, data2, glob->dates, 'r');
+    HashmapNode * dates = betweenDates(date, date1, 'r', glob);
     HashmapNode * temp = dates;
 
     printf("%d/%d/%d %p %c\n", (int)data->date[0], (int)data->date[1], (int)data->date[2], data->keyRef, data->type);
@@ -122,7 +120,7 @@ int main()
     while (temp != NULL)
     {
         Date * tmpCity = (Date *) temp->data;
-        printf("%d/%d/%d\n", tmpCity->date[0], tmpCity->date[1], tmpCity->date[2]);
+        printf("%d/%d/%d %p\n", tmpCity->date[0], tmpCity->date[1], tmpCity->date[2], tmpCity->keyRef);
         temp = temp->next;
     }
 }
