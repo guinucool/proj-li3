@@ -7,6 +7,32 @@ void query_one(int id) {
     // TODO: create query one.
 }
 
+double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
+{
+    HashmapNode * cityList = (HashmapNode *) get(glob->cities, cty, equal_str, hashKey_Str, 0);
+
+    double med = 0.f;
+    double sum = 0.f;
+    int i = 0;
+
+    while (cityList != NULL)
+    {
+        City * city = (City *) cityList->data;
+        Ride * ride = (Ride *) get(glob->rides, (void *)&city->key, equal, hashKey_Int, 1);
+        if (datecmp(dateInf, ride->date) <= 0 && datecmp(ride->date, dateUp) <= 0)
+        {
+            i++;
+            sum += (double)ride->distance;
+        }
+        cityList = cityList->next;
+    }
+    
+    if (i != 0)
+        med = sum/i;
+
+    return(med);
+}
+
 /*int query_five(Date* dateA , Date* dateB, Global* glob){
     HashmapNode * listRides = betweenDates(dateA, dateB, glob->dates, 'c');
     return preço_medio(listRides,glob->drivers,glob->rides);

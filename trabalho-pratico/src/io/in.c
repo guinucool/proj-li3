@@ -87,15 +87,6 @@ void readFile(char * path, char mode, Global * glob)
     }
 }
 
-int equalStr(void * o1, void * o2)
-{
-    char * str1 = (char *) o1;
-    char * str2 = (char *) o2;
-
-    if (strcmp(str1, str2) == 0) return(1);
-    else return(0);
-}
-
 int main()
 {
     Global * glob = createGlobal();
@@ -104,23 +95,25 @@ int main()
     readFile("../../db/rides.csv", 3, glob);
 
     short date[]= {30, 4, 2016};
-    short date1[]= {30, 4, 2017};
+    short date1[]= {1, 5, 2016};
 
     //char * str = "MiTeixeira";
 
     Date * data = (Date*) get(glob->dates, (void *) date, equal_date, hashKey_date, 1);
-    HashmapNode * dates = betweenDates(date, date1, 'r', glob);
-    HashmapNode * temp = dates;
+    //HashmapNode * dates = betweenDates(date, date1, 'r', glob);
+    //HashmapNode * temp = dates;
 
     printf("%d/%d/%d %p %c\n", (int)data->date[0], (int)data->date[1], (int)data->date[2], data->keyRef, data->type);
 
-    nextDay(date);
+    //nextDay(date);
 
     printf("%d/%d/%d\n", (int)date[0], (int)date[1], (int)date[2]);
-    while (temp != NULL)
+    /*while (temp != NULL)
     {
         Date * tmpCity = (Date *) temp->data;
         printf("%d/%d/%d %p\n", tmpCity->date[0], tmpCity->date[1], tmpCity->date[2], tmpCity->keyRef);
         temp = temp->next;
-    }
+    }*/
+
+    printf("%.3f", (float)query6("Braga", date, date1, glob));
 }
