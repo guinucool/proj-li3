@@ -6,6 +6,7 @@
 #include "../../inc/structs/user.h"
 #include "../../inc/structs/ride.h"
 #include "../../inc/structs/city.h"
+#include "../../inc/structs/date.h"
 #include "../../inc/utils.h"
 
 /// @brief A função readFile lê e importa a informação de um ficheiro.
@@ -101,14 +102,14 @@ int main()
     readFile("../../db/users.csv", 1, glob);
     readFile("../../db/rides.csv", 3, glob);
 
-    int key = 200000;
+    short date[]= {29, 11, 2017};
 
     //char * str = "MiTeixeira";
 
-    //User * user = (User*) get(glob->users, (void *) str, equalStr, hashKey_Str, 1);
+    Date * data = (Date*) get(glob->dates, (void *) date, equal_date, hashKey_date, 1);
     //HashmapNode * temp = userT;
 
-    //printf("%s\n", user->username);
+    printf("%d/%d/%d %p %c\n", (int)data->date[0], (int)data->date[1], (int)data->date[2], data->keyRef, data->type);
     /*while (temp != NULL)
     {
         char * tmpCity = (char *) temp->key;

@@ -101,10 +101,10 @@ int hashKey_Str(void* str)
     return hash;
 }
 
-int hashKey_date(short date[3])
+int hashKey_date(void* date)
 {
-    const short* d = date;
-    const n = 3;
+    const short* d = (short*)date;
+    const int n = 3;
     const int p = 111111, m = 99991;
     int hash = 0;
     long p_pow = 1;
