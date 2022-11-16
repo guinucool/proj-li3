@@ -19,18 +19,28 @@ int equal_date(void* key1, void* key2)
         && *((short*)key1 + 2) == *((short*)key2 + 2); 
 }
 
-void nextDay(short date[3]){
+void nextDay(short date[3])
+{    
+    short day = 31;
+    if ((date[1] < 8 && date[1] % 2 == 0) || (date[1] >= 8 && date[1] % 2 == 1)) day = 30;
+    if (date[1] == 2)
+    {
+        if (date[2] % 4 == 0) day = 29;
+        else day = 28;
+    }
+    short month = 12;
+
+    date[0]++;
     
-    if(date[0] == 31){
-        date[0] == 1;
-        if (date[1] == 12)
-        {
-            date[1] = 1;
-            date[2] += 1;
-        }else{
-            date[1] += 1;
-        }      
-    }else{
-        date[0] += 1;
+    if (date[0] > day)
+    {
+        date[0] = 1;
+        date[1]++;
+    }
+    
+    if (date[1] > month)
+    {
+        date[1] = 1;
+        date[2]++;
     }
 }

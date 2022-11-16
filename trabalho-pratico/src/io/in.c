@@ -8,6 +8,7 @@
 #include "../../inc/structs/city.h"
 #include "../../inc/structs/date.h"
 #include "../../inc/utils.h"
+#include "../../inc/queries/queries.h"
 
 /// @brief A função readFile lê e importa a informação de um ficheiro.
 /**
@@ -102,18 +103,26 @@ int main()
     readFile("../../db/users.csv", 1, glob);
     readFile("../../db/rides.csv", 3, glob);
 
-    short date[]= {29, 11, 2017};
+    short date[]= {30, 4, 2016};
+    short date1[]= {30, 4, 2017};
 
     //char * str = "MiTeixeira";
 
     Date * data = (Date*) get(glob->dates, (void *) date, equal_date, hashKey_date, 1);
-    //HashmapNode * temp = userT;
+    Date * data1 = createDate(date, NULL, 'r');
+    Date * data2 = createDate(date1, NULL, 'r');
+    HashmapNode * dates = betweenDates(data1, data2, glob->dates, 'r');
+    HashmapNode * temp = dates;
 
     printf("%d/%d/%d %p %c\n", (int)data->date[0], (int)data->date[1], (int)data->date[2], data->keyRef, data->type);
-    /*while (temp != NULL)
+
+    nextDay(date);
+
+    printf("%d/%d/%d\n", (int)date[0], (int)date[1], (int)date[2]);
+    while (temp != NULL)
     {
-        char * tmpCity = (char *) temp->key;
-        printf("%s\n", tmpCity);
+        Date * tmpCity = (Date *) temp->data;
+        printf("%d/%d/%d\n", tmpCity->date[0], tmpCity->date[1], tmpCity->date[2]);
         temp = temp->next;
-    }*/
+    }
 }
