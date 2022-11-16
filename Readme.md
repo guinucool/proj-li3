@@ -9,10 +9,10 @@
     - Q1;
     - Output das queries;
 # Gui:
-    - Leitura de ficheiros(por linha -> chama funções);
-    - Inserir info rides hashmap;
-    - Inserir info rides estruturas auxiliares;
-    - Q4;
+    - Leitura de ficheiros(por linha -> chama funções); (Done - Falta intrepertação dos comandos)
+    - Inserir info rides hashmap; (Done)
+    - Inserir info rides estruturas auxiliares; (Done)
+    - Q6; (Done)
 
 # Tarefas por concluir:
 
