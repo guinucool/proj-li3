@@ -1,18 +1,18 @@
 # Gustavo:
-    - Inserir info user hashmap;
-    - Inserir info user estruturas auxiliares; 
-    - Interpretação da leitura;
-    - Q5;      
+    - Inserir info user hashmap; --DONE--
+    - Inserir info user estruturas auxiliares; --DONE--
+    - Interpretação da leitura; --DONE--
+    - Q5; --DONE--
 # Alexandra:
     - Inserir info drivers hashmap; 
     - Inserir info drivers estruturas auxiliares;
     - Q4;
     - Output das queries;
 # Gui:
-    - Leitura de ficheiros(por linha -> chama funções);
-    - Inserir info rides hashmap;
-    - Inserir info rides estruturas auxiliares;
-    - Q6;
+    - Leitura de ficheiros(por linha -> chama funções); (Done)
+    - Inserir info rides hashmap; (Done)
+    - Inserir info rides estruturas auxiliares; (Done)
+    - Q6; (Done)
 
 # Tarefas por concluir:
 
@@ -20,9 +20,9 @@
     Q1: not done. 
     Q2: not done
     Q3: not done
-    Q4: working... 
-    Q5: working... 
-    Q6: done
+    Q4: not done 
+    Q5: DONE(not tested)
+    Q6: DONE(not tested)
     Q7: not done
     Q8: not done
     Q9: not done

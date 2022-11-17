@@ -24,8 +24,11 @@ all: ../bin/testDriver ../bin/testHashmap ../bin/testDrivers ../bin/testUser ../
 ./out/driver.o : ./src/drivers/driver.c ./inc/drivers/driver.h
 	gcc -g -c -o ./out/driver.o ./src/drivers/driver.c
 
-../bin/testUser : ./src/testUser.c ./out/user.o
-	gcc -g -o ../bin/testUser ./src/testUser.c ./out/user.o
+../bin/testUser : ./src/testUser.c ./out/user.o  ./out/utils.o
+	gcc -g -o ../bin/testUser ./src/testUser.c ./out/user.o ./out/utils.o
+
+./out/utils.o : ./src/utils.c ./inc/utils.h
+	gcc -g -c -o ./out/utils.o ./src/utils.c
 
 ./out/user.o : ./src/users/user.c ./inc/users/user.h
 	gcc -g -c -o ./out/user.o ./src/users/user.c

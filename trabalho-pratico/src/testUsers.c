@@ -1,12 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../inc/users/users.h"
-#include "../inc/users/user.h"
-
-int equal(void* key1, void* key2){
-    return !(strcmp(key1, key2));
-}
+#include "../inc/utils/hashmap.h"
+#include "../inc/structs/user.h"
 
 int main() {
 
@@ -30,7 +26,7 @@ int main() {
         "active"
     };
 
-    Users* users = createUsers();
+    Hashmap* users = createHashmap();
     User* user1 = userCreate(test1);
     User* user2 = userCreate(test2);
         
@@ -39,17 +35,15 @@ int main() {
     printUser(user2);
 
 
-    putUser(users, user1);
-    putUser(users, user2);
+    put(users,user1->username,user1,hashstr_get);
+    put(users,user2->username,user2,hashstr_get);
 
-    printf("Tamanho dos users = %d\n", users->size);
-
-    User* u = getUser(users, "JorBranco31", equal);
+    User* u = get(users, "JorBranco31", compStr, hashstr_get);
 
     printUser(u);
 
 
-    destroyUsers(users);
+    destroyHashmap(users);
     destroyUser(user1);
     destroyUser(user2);
 
