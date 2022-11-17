@@ -13,6 +13,16 @@
 //int query_five(Date* dateA , Date* dateB, Global* glob);
 //int preço_medio(HashmapNode * listRides, Hashmap * drivers, Hashmap* riders);
 HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob);
+void query1(char*id, Global * glob);
+void query2(int N, Global * glob);
+void query3(int N, Global * glob);
+void query4(char* city, Global * glob);
+int query5(short* dateA , short* dateB, Global * glob);
 double query6(char * cty, short * dateInf, short * dateUp, Global * glob);
+void query7(int N,char* city, Global * glob);
+void query8(char* gender,int X, Global * glob);
+void query9(short* dateA,short* dateB, Global * glob);
+
+
 
 #endif
