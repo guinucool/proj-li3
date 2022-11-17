@@ -6,13 +6,13 @@
 # Alexandra:
     - Inserir info drivers hashmap; 
     - Inserir info drivers estruturas auxiliares;
-    - Q1;
+    - Q4;
     - Output das queries;
 # Gui:
     - Leitura de ficheiros(por linha -> chama funções);
     - Inserir info rides hashmap;
     - Inserir info rides estruturas auxiliares;
-    - Q4;
+    - Q6;
 
 # Tarefas por concluir:
 
