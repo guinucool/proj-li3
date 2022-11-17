@@ -33,7 +33,7 @@ void readFile(char * path, char mode, Global * glob)
     FILE * file = fopen(path, "r");
     char line[MAX_LINE];
     char cut = ' ';
-    int size = 3;
+    int size = 4;
 
     if (mode != 0)
     {
