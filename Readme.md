@@ -4,9 +4,9 @@
     - Interpretação da leitura; --DONE--
     - Q5; --DONE--
 # Alexandra:
-    - Inserir info drivers hashmap;
+    - Inserir info drivers hashmap; 
     - Inserir info drivers estruturas auxiliares;
-    - Q1;
+    - Q4;
     - Output das queries;
 # Gui:
     - Leitura de ficheiros(por linha -> chama funções); (Done)
@@ -17,7 +17,7 @@
 # Tarefas por concluir:
 
 # Queries:
-    Q1: working... 
+    Q1: not done. 
     Q2: not done
     Q3: not done
     Q4: not done 
