@@ -3,6 +3,7 @@
 
 #include "../../inc/drivers/drivers.h"
 #include "../../inc/utils/hashmap.h"
+#include "../../inc/utils/parser.h"
 
 Drivers * createDrivers() {
 	return createHashmap();
@@ -11,7 +12,7 @@ Drivers * createDrivers() {
 void putDriver(Drivers* drivers, Driver* driver) {
 
 	if (drivers != NULL) {
-		put((Hashmap*)drivers, (void*)&driver->id, (void*)driver);
+		put((Hashmap*)drivers, (void*)&driver->id, (void*)driver,hashKey_Int);
 	} 
 }
 
@@ -20,14 +21,14 @@ int compareKeys(void * keyA, void * keyB) {
 }
 
 Driver* getDriver(Drivers *drivers, int key) {
-	return (Driver*) get((Hashmap*)drivers, (void*) &key, compareKeys);
+	return (Driver*) get((Hashmap*)drivers, (void*) &key, compareKeys,hashKey_Int);
 }
 
 void destroyDrivers(Drivers* drivers) {
 	destroyHashmap(drivers);
 }  
 
-Drivers *loadFromFile(char* filename) {
+Drivers *loadDriversFromFile(char* filename) {
 
 	FILE *file;
 	Drivers *drivers = createDrivers();
