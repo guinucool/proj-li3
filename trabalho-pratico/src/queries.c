@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "../../inc/queries/queries.h"
+#include "../../inc/queries.h" 
 
 void query_one(int id) {
     // TODO: create query one.
@@ -33,7 +33,7 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
     return(med);
 }
 
-/*int query_five(Date* dateA , Date* dateB, Global* glob){
+int query_five(Date* dateA , Date* dateB, Global* glob){
     HashmapNode * listRides = betweenDates(dateA, dateB, glob->dates, 'c');
     return preço_medio(listRides,glob->drivers,glob->rides);
 }

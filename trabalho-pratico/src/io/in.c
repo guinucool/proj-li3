@@ -8,7 +8,7 @@
 #include "../../inc/structs/city.h"
 #include "../../inc/structs/date.h"
 #include "../../inc/utils.h"
-#include "../../inc/queries/queries.h"
+#include "../../inc/queries.h"
 
 /// @brief A função readFile lê e importa a informação de um ficheiro.
 /**
