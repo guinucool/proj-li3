@@ -4,7 +4,7 @@
     - Interpretação da leitura;
     - Q5;      
 # Alexandra:
-    - Inserir info drivers hashmap;
+    - Inserir info drivers hashmap; 
     - Inserir info drivers estruturas auxiliares;
     - Q1;
     - Output das queries;
@@ -17,12 +17,12 @@
 # Tarefas por concluir:
 
 # Queries:
-    Q1: working... 
+    Q1: not done. 
     Q2: not done
     Q3: not done
     Q4: working... 
     Q5: working... 
-    Q6: not done
+    Q6: done
     Q7: not done
     Q8: not done
     Q9: not done
