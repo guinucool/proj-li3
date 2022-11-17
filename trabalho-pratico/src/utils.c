@@ -1,4 +1,5 @@
 #include <string.h>
+#include <math.h>
 #include "../inc/utils.h"
 
 void stringToDate(char* str,short int* date)
@@ -58,4 +59,23 @@ void nextDay(short date[3])
         date[1] = 1;
         date[2]++;
     }
+}
+
+int isId(char s[200]){
+    int res = 1;
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if(s[i]<48 || s[i]>57){
+            res = 0;
+        }
+    }
+    return res;
+}
+
+int stringToInt(char* s){
+    int i,res;
+    for (i = 0; s[i] != '\0'; i++){
+        res += (s[i]-49) * pow(10,i);
+    }
+    return res;
 }

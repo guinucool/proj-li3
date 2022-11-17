@@ -3,8 +3,25 @@
 
 #include "../../inc/queries.h" 
 
-void query_one(int id) {
+void query1(char*id, Global* glob) {
     // TODO: create query one.
+}
+
+void query2(int N, Global* glob){
+
+}
+
+void query3(int N, Global* glob){
+    
+}
+
+void query4(char* city, Global* glob){
+    
+}
+
+int query5(short* dateA , short* dateB, Global* glob){
+    HashmapNode * listRides = betweenDates(dateA, dateB, glob->dates, 'c');
+    return preço_medio(listRides,glob->drivers,glob->rides);
 }
 
 double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
@@ -33,9 +50,16 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
     return(med);
 }
 
-int query_five(Date* dateA , Date* dateB, Global* glob){
-    HashmapNode * listRides = betweenDates(dateA, dateB, glob->dates, 'c');
-    return preço_medio(listRides,glob->drivers,glob->rides);
+void query7(int N,char* city, Global * glob){
+
+}
+
+void query8(char* gender,int X, Global * glob){
+    
+}
+
+void query9(short* dateA,short* dateB, Global * glob){
+    
 }
 
 int preço_medio(HashmapNode * listRides, Hashmap * drivers, Hashmap* riders){

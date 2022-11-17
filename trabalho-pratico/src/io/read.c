@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../inc/io/read.h"
+#include "../../inc/queries.h"
 
 void interUser(char args[][MAX_LINE], Global * glob)
 {
@@ -59,5 +60,54 @@ void interRide(char args[][MAX_LINE], Global * glob)
 
 void interCmd(char args[][MAX_LINE], Global * glob)
 {
+    switch (args[0][200])
+    {
+    case 1:
+        query1(args[1][200],glob);
+        break;
+    case 2:
+        query2(stringToInt(args[1][200]),glob);
+        break;
+    case 3:
+        query3(stringToInt(args[1][200]),glob);
+        break;
+    case 4:
+        query4(args[1][200],glob);
+        break;
+    case 5:
+        short dateA[3];
+        short dateB[3];
 
+        stringToDate(args[1][200],dateA);
+        stringToDate(args[2][200],dateB);
+
+        query5(dateA,dateB,glob);
+        break;
+    case 6:
+        short dateA[3];
+        short dateB[3];
+
+        stringToDate(args[1][200],dateA);
+        stringToDate(args[2][200],dateB);
+
+        query6(args[1][200],dateA,dateB,glob);
+        break;
+    case 7:
+        query7(stringToInt(args[1][200]),args[2][200],glob);
+        break;
+    case 8:
+        query8(args[1][200],stringToInt(args[2][200]),glob);
+        break;
+    case 9:
+        short dateA[3];
+        short dateB[3];
+
+        stringToDate(args[1][200],dateA);
+        stringToDate(args[2][200],dateB);
+
+        query9(dateA,dateB,glob);
+        break;
+    default:
+        break;
+    }
 }
