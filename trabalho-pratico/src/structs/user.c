@@ -4,6 +4,18 @@
 
 #include "../../inc/structs/user.h"
 
+/// @brief A função userCreate cria uma variável do tipo User.
+/**
+ * A função userCreate cria uma variável do tipo User, alocando
+ * o espaço necessário na memória para a mesma.
+ * 
+ * Assim sendo, irá depois, também, associar os respetivos valores de input
+ * da função às repetivas propriedades da variável.
+ * 
+ * @param data A lista de strings que contem os parametros para a criação do user.
+ * 
+ * @return A User criada com as respetivas propriedades.
+ */
 User* userCreate(char data[][200])
 {
     User * user = (User*) malloc(sizeof(User));
@@ -19,6 +31,13 @@ User* userCreate(char data[][200])
     return user;
 }
 
+/// @brief A função destroyUser destroí uma variável do tipo User.
+/**
+ * A função destroyUser destroí uma variável do tipo user, libertando
+ * o espaço ocupado pela variável e pelas suas propriedades.
+ * 
+ * @param user A variável do tipo User que vai ser destruída.
+ */
 void destroyUser(User * user)
 {
     free(user);

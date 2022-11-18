@@ -19,7 +19,6 @@ Global * createGlobal()
     glob->drivers = createHashmap();
     glob->rides = createHashmap();
     glob->cities = createHashmap();
-    glob->driverId = createHashmap();
     glob->dates = createHashmap();
 
     return(glob);
@@ -39,9 +38,7 @@ void destroyGlobal(Global * glob)
         destroyHashmap(glob->users);
         destroyHashmap(glob->drivers);
         destroyHashmap(glob->rides);
-        destroyHashmap(glob->driverId);
         destroyHashmap(glob->dates);
-
         free(glob);
     }
 }

@@ -10,7 +10,6 @@ typedef struct _GLOBAL_
     Hashmap * drivers;  //!< Hashmap que armazena os drivers
     Hashmap * rides;    //!< Hashmap que armazena as rides
     Hashmap * cities;   //!< Hashmap que armazena as cidades
-    Hashmap * driverId;
     Hashmap * dates;    //!< Hashmap que armazena as datas
 }Global;
 
