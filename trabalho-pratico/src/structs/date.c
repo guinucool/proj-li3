@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "../../inc/structs/date.h"
+#include "../../includes/structs/date.h"
 
 /// @brief A função createDate cria uma variável do tipo Date.
 /**

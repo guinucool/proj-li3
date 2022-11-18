@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "../../inc/structs/ride.h"
+#include "../../includes/structs/ride.h"
 
 /// @brief A função createRide cria uma variável do tipo ride.
 /**

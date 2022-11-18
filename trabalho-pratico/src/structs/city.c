@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "../../inc/structs/city.h"
+#include "../../includes/structs/city.h"
 
 /// @brief A função createCity cria uma variável do tipo city.
 /**
