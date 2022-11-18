@@ -105,8 +105,7 @@ int hashKey_Int(void *key)
  * na string. O resultado deste somatorio será a posição do elemento na hashmap.
  * 
  * @param str O void pointer da chave do elemento pretendido.
- */  
-///
+ */
 int hashKey_Str(void* str)
 {
     const char * s = str;
@@ -131,8 +130,7 @@ int hashKey_Str(void* str)
  * no array. O resultado deste somatorio será a posição do elemento na hashmap.
  * 
  * @param date O void pointer da chave do elemento pretendido.
- */  
-///
+ */
 int hashKey_date(void* date)
 {
     const short* d = (short*)date;
