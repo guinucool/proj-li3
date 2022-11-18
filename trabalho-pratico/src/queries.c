@@ -3,8 +3,42 @@
 
 #include "../../inc/queries.h" 
 
-void query1(char*id, Global* glob) {
-    // TODO: create query one.
+void query1(char *id, Global *glob)
+{
+    /*// TODO: criar query one.
+
+    printf("QUERY one:");
+
+    // TODO: Testar id (string - utilizador ou integer - driver)
+
+    int number = atoi(id);
+
+
+    if (number != 0) {
+
+        Driver *driver = getDriver(store->drivers, number);
+
+        if (driver == NULL) {
+            printf("No Driver to print.\n");
+        } else {
+            printDriver(driver);
+        }
+    } else {
+        /*
+        (User *) get(glob->users, (void *) key, equalStr, hashKey_Str, 1);
+
+
+        if (user == NULL) {
+            printf("No Driver to print. \n");
+        } else {
+            printUser(user);
+        }
+        // TODO: como extrair um utilizador (void *get)
+
+        // TODO: Como extrair um utilizador?
+
+        // User *user = getU
+    }*/
 }
 
 void query2(int N, Global* glob){
