@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
 
 #include "../inc/queries.h" 
@@ -129,7 +128,7 @@ void query3(int N, Global* glob){
  *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
 void query4(char* city, Global* glob){
-    HashmapNode * cityList = (HashmapNode *) get(glob->cities, cty, equal_str, hashKey_Str, 0);
+    HashmapNode * cityList = (HashmapNode *) get(glob->cities, city, equal_str, hashKey_Str, 0);
     return preco_medio(cityList,glob,'c');
 
 }
