@@ -1,7 +1,11 @@
 #include <stdlib.h>
 #include <math.h>
-
-#include "../inc/queries.h" 
+#include "../inc/queries.h"
+#include "../inc/structs/driver.h"
+#include "../inc/structs/ride.h"
+#include "../inc/structs/city.h"
+#include "../inc/structs/date.h"
+#include "../inc/utils.h"
 
 double preco_medio(HashmapNode * list, Global * glob, char mode)
 {

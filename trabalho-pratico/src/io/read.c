@@ -1,6 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../inc/io/read.h"
+#include "../../inc/structs/user.h"
+#include "../../inc/structs/driver.h"
+#include "../../inc/structs/ride.h"
+#include "../../inc/structs/city.h"
+#include "../../inc/structs/date.h"
+#include "../../inc/utils.h"
+#include "../../inc/queries.h"
 
 /// @brief A função interUser interpreta e insere informação relativa aos users
 ///        na estrutura de dados global.

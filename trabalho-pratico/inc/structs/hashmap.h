@@ -16,6 +16,7 @@ typedef struct _HASHMAP_ {
 } Hashmap;
 
 HashmapNode * createNode(void *key, void *data, HashmapNode * next);
+void destroyNode(HashmapNode * node);
 Hashmap* createHashmap();
 void destroyHashmap(Hashmap*);
 int hashKey_Int(void *key);

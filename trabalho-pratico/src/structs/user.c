@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
 #include "../../inc/structs/user.h"
+#include "../../inc/utils.h"
 
 /// @brief A função userCreate cria uma variável do tipo User.
 /**

@@ -1,12 +1,6 @@
 #ifndef _QUERIES_H_
 #define _QUERIES_H_
 
-#include "./structs/ride.h"
-#include "./structs/driver.h"
-#include "./utils.h"
-#include "./structs/hashmap.h"
-#include "./structs/city.h"
-#include "./structs/date.h"
 #include "./structs/global.h"
 
 void query1(char*id, Global * glob);
