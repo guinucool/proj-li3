@@ -3,13 +3,15 @@
 
 #include "../inc/queries.h" 
 
-int preço_medio(HashmapNode * listRides, Hashmap * drivers, Hashmap* riders){
-    HashmapNode * tracker = listRides;
+int preço_medio(HashmapNode * listDates, Hashmap * drivers, Hashmap* riders){
+    HashmapNode * tracker = listDates;
     Ride* ride;
     Driver* driver;
+    Date * date;
     int preçoRide, preçoSum = 0,n = 0;
     while(tracker->next != NULL){
-        ride = tracker->data;
+        date = tracker->data;
+        ride = date->keyRef;
         driver = get(drivers,(void*)&ride->driver,equal,hashKey_Int,1);
 
         switch (driver->car_class)
