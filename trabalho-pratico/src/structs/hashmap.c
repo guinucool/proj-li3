@@ -104,7 +104,7 @@ int hashKey_Int(void *key)
  * o somatorio do modulo do resultado da multiplicação dos caracteres com as respetivas posições 
  * na string. O resultado deste somatorio será a posição do elemento na hashmap.
  * 
- * @param str
+ * @param str O void pointer da chave do elemento pretendido.
  */  
 ///
 int hashKey_Str(void* str)
@@ -130,7 +130,7 @@ int hashKey_Str(void* str)
  * o somatorio do modulo do resultado da multiplicação de cada short com as respetivas posições 
  * no array. O resultado deste somatorio será a posição do elemento na hashmap.
  * 
- * @param date
+ * @param date O void pointer da chave do elemento pretendido.
  */  
 ///
 int hashKey_date(void* date)
