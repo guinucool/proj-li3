@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "../../inc/structs/global.h"
+#include "../../includes/structs/global.h"
 
 /// @brief A função createGlobal cria uma variável do tipo global.
 /**
