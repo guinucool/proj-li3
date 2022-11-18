@@ -1,7 +1,6 @@
 #ifndef _QUERIES_H_
 #define _QUERIES_H_
 
-#include "./structs/driverId.h"
 #include "./structs/ride.h"
 #include "./drivers/driver.h"
 #include "./utils.h"
