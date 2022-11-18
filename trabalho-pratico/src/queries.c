@@ -85,7 +85,23 @@ void query1(char *id, Global *glob)
         // User *user = getU
     }*/
 }
-
+/// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
+///        Dates de um certo tipo dentro de um intervalo de tempo.
+/** 
+ *  A função betweenDates fornece uma lista ligada de HashmapNode de Dates de um certo tipo
+ *  dentro de um intervalo de tempo, percorrendo todas as Dates do hashmap de Dates
+ *  dentro desse intervalo de tempo.
+ * 
+ *  Quando a função encontrar alguma Date do tipo pretendido adiciona-a à lista ligada
+ *  de HashmapNode de resultado.
+ * 
+ *  @param inf  Data em que começa o intervalo de tempo.
+ *  @param up   Data em que termina o intervalo de tempo.
+ *  @param type Tipo de data pretendido.
+ *  @param glob Estrutura de dados global a ser atualizada.
+ *  
+ *  @return Retorna a lista ligada de HashmapNode de Dates no intervalo de tempo pretendido.
+ */
 HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
 {
     HashmapNode * result = NULL;
@@ -117,6 +133,18 @@ void query4(char* city, Global* glob){
     
 }
 
+/// @brief A função query5 calcula o preço médio das viagens realizadas entre duas datas.
+/**
+ *  A função chama a função betweenDates() para asquirir a lista ligada de HashmapNode 
+ *  de Date do intervalo de tempo entre as duas datas pretendidas e depois usa a função
+ *  preco_medio() para calcular o preço médio entre essas duas datas.
+ * 
+ *  @param dateA Data em que começa o intervalo de tempo.
+ *  @param dateB Data em que termina o intervalo de tempo.
+ *  @param glob  Estrutura de dados global a ser atualizada.
+ * 
+ *  @return Retorna o preço médio das viagens realizadas entre essas duas datas.
+ */ 
 int query5(short* dateA , short* dateB, Global* glob){
     HashmapNode * listRides = betweenDates(dateA, dateB, 'c', glob);
     return preco_medio(listRides,glob,'d');
