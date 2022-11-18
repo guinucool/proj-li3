@@ -3,14 +3,16 @@
 
 #define HASHMAP_MAX 100000
 
+/// \struct Estrutura que define uma node do hashmap.
 typedef struct _HASHMAP_NODE_ {
-	void * key;
-	void * data;
-	struct _HASHMAP_NODE_ * next;
+	void * key;							//!< Key do elemento da node
+	void * data;						//!< Elemento da node
+	struct _HASHMAP_NODE_ * next;		//!< Próxima node ligada à mesma posição do hashmap
 } HashmapNode;
 
+/// \struct Estrutura que define o hashmap.
 typedef struct _HASHMAP_ {
-	HashmapNode * array[HASHMAP_MAX];
+	HashmapNode * array[HASHMAP_MAX];	//!< Array de nodes que definem o hashmap
 } Hashmap;
 
 HashmapNode * createNode(void *key, void *data, HashmapNode * next);
