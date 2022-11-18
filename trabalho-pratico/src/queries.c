@@ -103,7 +103,9 @@ void query3(int N, Global* glob){
 }
 
 void query4(char* city, Global* glob){
-    
+    HashmapNode * cityList = (HashmapNode *) get(glob->cities, cty, equal_str, hashKey_Str, 0);
+    return preco_medio(cityList,glob,'c');
+
 }
 
 int query5(short* dateA , short* dateB, Global* glob){

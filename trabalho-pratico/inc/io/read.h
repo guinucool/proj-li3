@@ -6,6 +6,7 @@
 #include "../structs/ride.h"
 #include "../structs/city.h"
 #include "../structs/date.h"
+#include "../structs/driver.h"
 #include "../utils.h"
 
 #define MAX_LINE 200

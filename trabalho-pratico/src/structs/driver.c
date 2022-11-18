@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "../../inc/drivers/driver.h"
+#include "../../inc/structs/driver.h"
 
 char car_class_str[][8] = {"BASIC", "GREEN", "PREMIUM"};
 int car_class_size = 3;
@@ -74,6 +74,8 @@ void destroyDriver(Driver *driver) {
 	free(driver);
 }
 
+
+
 void printDriver(Driver* driver) {
 	printf("Driver {id: %d, name: %s, birth_date: %02d/%02d/%04d, gender: %c, car_class: %s, license_plate: %s, city: %s, account_creation: %02d/%02d/%04d, account_status: %s}", 
 		driver->id, 
@@ -90,10 +92,8 @@ void printDriver(Driver* driver) {
 
 
 
-Driver *parseDriver(char* str) {
+Driver *parseDriver(char tokens[9][200]) {
 		
-	char tokens[9][1024];
-
 	int i = 0, id; 
 	char name[NAME_STR_SIZE];
 	short birth_day[3];
@@ -104,6 +104,8 @@ Driver *parseDriver(char* str) {
 	short account_creation[3];
 	char account_status;
 	char limit[] = {';', '\0'};
+
+/*
 	char *token;
 
 	// Get all parts (tokens) of the input string.
@@ -120,6 +122,8 @@ Driver *parseDriver(char* str) {
 
 	// Remove trailing cariage return ('\n').
 	tokens[8][strlen(tokens[8])-2] = '\0';
+
+	*/
 
 	// Parse ID.
 	if ((id = atoi(tokens[0])) == 0) {
