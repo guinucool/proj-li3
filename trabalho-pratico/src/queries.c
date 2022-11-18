@@ -101,7 +101,6 @@ void query1(char *id, Global *glob)
             printDriver(driver);
         }
     } else {
-        /*
         (User *) get(glob->users, (void *) key, equalStr, hashKey_Str, 1);
         if (user == NULL) {
             printf("No Driver to print. \n");

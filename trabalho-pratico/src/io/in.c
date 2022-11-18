@@ -112,7 +112,7 @@ void readFile(char * path, char mode, Global * glob)
     //nextDay(date);
 
     printf("%d/%d/%d\n", (int)date[0], (int)date[1], (int)date[2]);
-    /*while (temp != NULL)
+    while (temp != NULL)
     {
         Date * tmpCity = (Date *) temp->data;
         printf("%d/%d/%d %p\n", tmpCity->date[0], tmpCity->date[1], tmpCity->date[2], tmpCity->keyRef);
