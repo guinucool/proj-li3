@@ -48,32 +48,6 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
     return (precoSum/n);
 }
 
-void query1(char *id, Global *glob)
-{
-    /*// TODO: criar query one.
-    printf("QUERY one:");
-    // TODO: Testar id (string - utilizador ou integer - driver)
-    int number = atoi(id);
-    if (number != 0) {
-        Driver *driver = getDriver(store->drivers, number);
-        if (driver == NULL) {
-            printf("No Driver to print.\n");
-        } else {
-            printDriver(driver);
-        }
-    } else {
-        /*
-        (User *) get(glob->users, (void *) key, equalStr, hashKey_Str, 1);
-        if (user == NULL) {
-            printf("No Driver to print. \n");
-        } else {
-            printUser(user);
-        }
-        // TODO: como extrair um utilizador (void *get)
-        // TODO: Como extrair um utilizador?
-        // User *user = getU
-    }*/
-}
 /// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
 ///        Dates de um certo tipo dentro de um intervalo de tempo.
 /** 
@@ -110,6 +84,33 @@ HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
     return result;
 }
 
+void query1(char *id, Global *glob)
+{
+    /*// TODO: criar query one.
+    printf("QUERY one:");
+    // TODO: Testar id (string - utilizador ou integer - driver)
+    int number = atoi(id);
+    if (number != 0) {
+        Driver *driver = getDriver(store->drivers, number);
+        if (driver == NULL) {
+            printf("No Driver to print.\n");
+        } else {
+            printDriver(driver);
+        }
+    } else {
+        /*
+        (User *) get(glob->users, (void *) key, equalStr, hashKey_Str, 1);
+        if (user == NULL) {
+            printf("No Driver to print. \n");
+        } else {
+            printUser(user);
+        }
+        // TODO: como extrair um utilizador (void *get)
+        // TODO: Como extrair um utilizador?
+        // User *user = getU
+    }*/
+}
+
 void query2(int N, Global* glob){
 
 }
@@ -118,6 +119,15 @@ void query3(int N, Global* glob){
     
 }
 
+/// @brief A funcao query4 calcula o preco medio das viagens realizadas numa determinada cidade.
+/**
+ *  
+ *  @param city 
+ *
+ *  @param glob  Estrutura de dados global a ser atualizada.
+ * 
+ *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
+ */ 
 void query4(char* city, Global* glob){
     HashmapNode * cityList = (HashmapNode *) get(glob->cities, cty, equal_str, hashKey_Str, 0);
     return preco_medio(cityList,glob,'c');
