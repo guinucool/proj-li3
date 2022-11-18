@@ -199,19 +199,6 @@ Driver *parseDriver(char tokens[9][200]) {
 		return NULL;
 	}
 
-	// TODO: Remove before submission. Let this for testing purpose.
-	printf("ID: %d, NAME: %s, BIRTH DAY: %02d/%02d/%04d, GENDER: %c, CAR CLASS: %s, LICENSE PLATE: %s, CITY: %s, ACCOUNT CREATION: %02d/%02d/%04d, ACCOUNT STATUS: %s\n", 
-		id, 
-		name, 
-		birth_day[0], birth_day[1], birth_day[2],
-		gender,
-		car_class_str[car_class],
-		license_plate,
-		city,
-		account_creation[0], account_creation[1], account_creation[2],
-		account_status_str[account_status]
-	);
-
 	return createDriver(id, name, birth_day, gender, car_class, license_plate, city, account_creation, account_status);
 }
 
