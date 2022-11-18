@@ -2,7 +2,7 @@
 #define _QUERIES_H_
 
 #include "./structs/ride.h"
-#include "./drivers/driver.h"
+#include "./structs/driver.h"
 #include "./utils.h"
 #include "./structs/hashmap.h"
 #include "./structs/city.h"
