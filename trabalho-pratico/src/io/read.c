@@ -60,50 +60,43 @@ void interRide(char args[][MAX_LINE], Global * glob)
 
 void interCmd(char args[][MAX_LINE], Global * glob)
 {
-    switch (args[0][200])
+    short dateA[3];
+    short dateB[3];
+    switch (atoi(args[0]))
     {
     case 1:
-        query1(args[1][200],glob);
+        query1(args[1],glob);
         break;
     case 2:
-        query2(stringToInt(args[1][200]),glob);
+        query2(atoi(args[1]),glob);
         break;
     case 3:
-        query3(stringToInt(args[1][200]),glob);
+        query3(atoi(args[1]),glob);
         break;
     case 4:
-        query4(args[1][200],glob);
+        query4(args[1],glob);
         break;
     case 5:
-        short dateA[3];
-        short dateB[3];
-
-        stringToDate(args[1][200],dateA);
-        stringToDate(args[2][200],dateB);
+        stringToDate(args[1],dateA);
+        stringToDate(args[2],dateB);
 
         query5(dateA,dateB,glob);
         break;
     case 6:
-        short dateA[3];
-        short dateB[3];
+        stringToDate(args[1],dateA);
+        stringToDate(args[2],dateB);
 
-        stringToDate(args[1][200],dateA);
-        stringToDate(args[2][200],dateB);
-
-        query6(args[1][200],dateA,dateB,glob);
+        query6(args[1],dateA,dateB,glob);
         break;
     case 7:
-        query7(stringToInt(args[1][200]),args[2][200],glob);
+        query7(atoi(args[1]),args[2],glob);
         break;
     case 8:
-        query8(args[1][200],stringToInt(args[2][200]),glob);
+        query8(args[1],atoi(args[2]),glob);
         break;
     case 9:
-        short dateA[3];
-        short dateB[3];
-
-        stringToDate(args[1][200],dateA);
-        stringToDate(args[2][200],dateB);
+        stringToDate(args[1],dateA);
+        stringToDate(args[2],dateB);
 
         query9(dateA,dateB,glob);
         break;

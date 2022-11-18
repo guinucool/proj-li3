@@ -71,11 +71,3 @@ int isId(char s[200]){
     }
     return res;
 }
-
-int stringToInt(char* s){
-    int i,res;
-    for (i = 0; s[i] != '\0'; i++){
-        res += (s[i]-49) * pow(10,i);
-    }
-    return res;
-}
