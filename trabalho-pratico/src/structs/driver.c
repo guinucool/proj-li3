@@ -9,10 +9,13 @@ int car_class_size = 3;
 char account_status_str[][9] = {"INACTIVE", "ACTIVE"};
 int account_status_size = 2;
 
-/// @brief A funcao createRide cria uma variavel do tipo drive.
+/// @brief A funcao createDriver cria uma variavel do tipo drive.
 /**
  * A funcao createDriver cria uma variavel do tipo drive, alocando 
- * 
+ * o espaco necesaario na memoria para a mesma.
+ *
+ * Assim sendo, ira depois, tambem, associar os respetivos valores de input
+ * da funcao as repetivas propriedades da variavel.
  *
  * @param id O id do driver.
  * 
@@ -26,7 +29,7 @@ int account_status_size = 2;
  * 
  * @param license_plate A matricula do carro do driver.
  *
- * @param city A cidade da ride.
+ * @param city A cidade do driver.
  *
  * @param account_creation A data de criacao da conta do driver.
  *
@@ -39,8 +42,6 @@ int account_status_size = 2;
 Driver *createDriver(int id, char *name, short birth_day[], char gender, char car_class, char license_plate[], char city[], short account_creation[], char account_status) {
 	
 	Driver *driver = (Driver*) malloc(sizeof(Driver));
-
-	// TODO: Needs validating input data.
 
 	driver->id = id;
 	strncpy(driver->name, name, NAME_STR_SIZE);
@@ -62,12 +63,12 @@ Driver *createDriver(int id, char *name, short birth_day[], char gender, char ca
 }
 
 
-/// @brief A funcao destroyDriver destroi uma variavel do tipo ride.
+/// @brief A funcao destroyDriver destroi uma variavel do tipo Driver.
 /**
- * A funcao destroyDriver destroi uma variavel do tipo ride, libertando
+ * A funcao destroyDriver destroi uma variavel do tipo driver, libertando
  * o espaco ocupado pela variavel e pelas suas propriedades.
  * 
- * @param driver A variável do tipo driver que vai ser destruída.
+ * @param driver A variavel do tipo driver que vai ser destruida.
  */
 
 void destroyDriver(Driver *driver) {
@@ -91,6 +92,13 @@ void printDriver(Driver* driver) {
 }
 
 
+/// @brief A funcao parseDriver
+/**
+ * 
+ * 
+ *
+ * @return 
+*/
 
 Driver *parseDriver(char tokens[9][200]) {
 		
@@ -123,7 +131,7 @@ Driver *parseDriver(char tokens[9][200]) {
 	// Remove trailing cariage return ('\n').
 	tokens[8][strlen(tokens[8])-2] = '\0';
 
-	*/
+*/
 
 	// Parse ID.
 	if ((id = atoi(tokens[0])) == 0) {
@@ -192,7 +200,7 @@ Driver *parseDriver(char tokens[9][200]) {
 	}
 
 	// TODO: Remove before submission. Let this for testing purpose.
-	/*printf("ID: %d, NAME: %s, BIRTH DAY: %02d/%02d/%04d, GENDER: %c, CAR CLASS: %s, LICENSE PLATE: %s, CITY: %s, ACCOUNT CREATION: %02d/%02d/%04d, ACCOUNT STATUS: %s\n", 
+	printf("ID: %d, NAME: %s, BIRTH DAY: %02d/%02d/%04d, GENDER: %c, CAR CLASS: %s, LICENSE PLATE: %s, CITY: %s, ACCOUNT CREATION: %02d/%02d/%04d, ACCOUNT STATUS: %s\n", 
 		id, 
 		name, 
 		birth_day[0], birth_day[1], birth_day[2],
@@ -202,10 +210,19 @@ Driver *parseDriver(char tokens[9][200]) {
 		city,
 		account_creation[0], account_creation[1], account_creation[2],
 		account_status_str[account_status]
-	);*/
+	);
 
 	return createDriver(id, name, birth_day, gender, car_class, license_plate, city, account_creation, account_status);
 }
+
+
+/// @brief A funcao parseDate 
+/**
+ * A funcao createDriver cria uma variavel do tipo drive, alocando 
+ * 
+ *
+ * @return 
+*/
 
 int parseDate(char *str, short date[]) {
 
