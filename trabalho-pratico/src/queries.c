@@ -131,10 +131,10 @@ void query3(int N, Global* glob){
  * 
  *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
-void query4(char* city, Global* glob){
+double query4(char* city, Global* glob)
+{
     HashmapNode * cityList = (HashmapNode *) get(glob->cities, city, equal_str, hashKey_Str, 0);
     return preco_medio(cityList,glob,'c');
-
 }
 
 /// @brief A função query5 calcula o preço médio das viagens realizadas entre duas datas.
@@ -149,7 +149,8 @@ void query4(char* city, Global* glob){
  * 
  *  @return Retorna o preço médio das viagens realizadas entre essas duas datas.
  */ 
-int query5(short* dateA , short* dateB, Global* glob){
+double query5(short* dateA , short* dateB, Global* glob)
+{
     HashmapNode * listRides = betweenDates(dateA, dateB, 'c', glob);
     return preco_medio(listRides,glob,'d');
 }
