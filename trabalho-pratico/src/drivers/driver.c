@@ -2,13 +2,39 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
 #include "../../inc/drivers/driver.h"
 
 char car_class_str[][8] = {"BASIC", "GREEN", "PREMIUM"};
 int car_class_size = 3;
 char account_status_str[][9] = {"INACTIVE", "ACTIVE"};
 int account_status_size = 2;
+
+/// @brief A funcao createRide cria uma variavel do tipo drive.
+/**
+ * A funcao createDriver cria uma variavel do tipo drive, alocando 
+ * 
+ *
+ * @param id O id do driver.
+ * 
+ * @param name O nome do driver
+ * 
+ * @param birth_day A data de nascimento do driver.
+ * 
+ * @param gender O genero do driver.
+ * 
+ * @param car_class A classe do veiculo do driver.
+ * 
+ * @param license_plate A matricula do carro do driver.
+ *
+ * @param city A cidade da ride.
+ *
+ * @param account_creation A data de criacao da conta do driver.
+ *
+ * @param account_status O estado da conta do driver.
+ *
+ * @return O driver criado com as respetivas propriedades.
+ 
+ */
 
 Driver *createDriver(int id, char *name, short birth_day[], char gender, char car_class, char license_plate[], char city[], short account_creation[], char account_status) {
 	
@@ -35,6 +61,15 @@ Driver *createDriver(int id, char *name, short birth_day[], char gender, char ca
 	return driver;
 }
 
+
+/// @brief A funcao destroyDriver destroi uma variavel do tipo ride.
+/**
+ * A funcao destroyDriver destroi uma variavel do tipo ride, libertando
+ * o espaco ocupado pela variavel e pelas suas propriedades.
+ * 
+ * @param driver A variável do tipo driver que vai ser destruída.
+ */
+
 void destroyDriver(Driver *driver) {
 	free(driver);
 }
@@ -52,6 +87,8 @@ void printDriver(Driver* driver) {
 		account_status_str[driver->account_status]
 	);
 }
+
+
 
 Driver *parseDriver(char* str) {
 		
