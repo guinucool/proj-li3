@@ -92,6 +92,7 @@ int main()
     Global * glob = createGlobal();
 
     readFile("../../db/users.csv", 1, glob);
+    readFile("../../db/users.csv", 2, glob);
     readFile("../../db/rides.csv", 3, glob);
 
     short date[]= {30, 4, 2016};

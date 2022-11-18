@@ -36,7 +36,7 @@ typedef struct _DRIVER_ {
 Driver *createDriver(int, char *, short[], char, char, char[], char[], short[], char);
 void destroyDriver(Driver*);
 void printDriver(Driver*);
-Driver *parseDriver(char*);
+Driver *parseDriver(char[9][200]);
 int parseDate(char*, short[]);
 
 #endif
