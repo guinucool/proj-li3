@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../inc/io/read.h"
-#include "../../inc/queries.h"
 
 /// @brief A função interUser interpreta e insere informação relativa aos users
 ///        na estrutura de dados global.
@@ -94,47 +93,45 @@ void interRide(char args[][MAX_LINE], Global * glob)
  */ 
 void interCmd(char args[][MAX_LINE], Global * glob)
 {
-    short dateA[3];
-    short dateB[3];
+    short dateA[3], dateB[3];
+
     switch (atoi(args[0]))
     {
-    case 1:
-        query1(args[1],glob);
-        break;
-    case 2:
-        query2(atoi(args[1]),glob);
-        break;
-    case 3:
-        query3(atoi(args[1]),glob);
-        break;
-    case 4:
-        query4(args[1],glob);
-        break;
-    case 5:
-        stringToDate(args[1],dateA);
-        stringToDate(args[2],dateB);
+        case 1:
+            query1(args[1],glob);
+            break;
+        case 2:
+            query2(atoi(args[1]),glob);
+            break;
+        case 3:
+            query3(atoi(args[1]),glob);
+            break;
+        case 4:
+            query4(args[1],glob);
+            break;
+        case 5:
+            stringToDate(args[1],dateA);
+            stringToDate(args[2],dateB);
 
-        query5(dateA,dateB,glob);
-        break;
-    case 6:
-        stringToDate(args[1],dateA);
-        stringToDate(args[2],dateB);
+            query5(dateA,dateB,glob);
+            break;
+        case 6:
+            stringToDate(args[2],dateA);
+            stringToDate(args[3],dateB);
 
-        query6(args[1],dateA,dateB,glob);
-        break;
-    case 7:
-        query7(atoi(args[1]),args[2],glob);
-        break;
-    case 8:
-        query8(args[1],atoi(args[2]),glob);
-        break;
-    case 9:
-        stringToDate(args[1],dateA);
-        stringToDate(args[2],dateB);
+            query6(args[1],dateA,dateB,glob);
+            break;
+        case 7:
+            query7(atoi(args[1]),args[2],glob);
+            break;
+        case 8:
+            query8(args[1],atoi(args[2]),glob);
+            break;
+        case 9:
+            stringToDate(args[1],dateA);
+            stringToDate(args[2],dateB);
 
-        query9(dateA,dateB,glob);
-        break;
-    default:
-        break;
+            query9(dateA,dateB,glob);
+            break;
     }
 }

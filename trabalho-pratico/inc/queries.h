@@ -9,8 +9,6 @@
 #include "./structs/date.h"
 #include "./structs/global.h"
 
-double preco_medio(HashmapNode * list, Global * glob, char mode);
-//HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob);
 void query1(char*id, Global * glob);
 void query2(int N, Global * glob);
 void query3(int N, Global * glob);

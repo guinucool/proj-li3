@@ -3,11 +3,12 @@
 
 #include "../structs/global.h"
 #include "../structs/user.h"
+#include "../structs/driver.h"
 #include "../structs/ride.h"
 #include "../structs/city.h"
 #include "../structs/date.h"
-#include "../structs/driver.h"
 #include "../utils.h"
+#include "../queries.h"
 
 #define MAX_LINE 200
 
