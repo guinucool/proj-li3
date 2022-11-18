@@ -1,6 +1,6 @@
 #include <string.h>
 #include <math.h>
-#include "../inc/utils.h"
+#include "../includes/utils.h"
 
 /// @brief A função string to date insere num array de 3 shorts o número referente ao dia, mês e ano de uma data.
 /** 

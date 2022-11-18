@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "../inc/io/in.h"
+#include "../includes/io/in.h"
 
 int main(int argc, char * args[])
 {	

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../inc/io/in.h"
-#include "../../inc/io/read.h"
+#include "../../includes/io/in.h"
+#include "../../includes/io/read.h"
 /*#include "../../inc/structs/user.h"
 #include "../../inc/structs/ride.h"
 #include "../../inc/structs/city.h"
