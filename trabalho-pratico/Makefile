@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Iinc
+CFLAGS=-Wall -Iincludes
 
 all: directory programa-principal
 
