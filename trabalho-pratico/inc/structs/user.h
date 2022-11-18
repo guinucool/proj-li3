@@ -1,8 +1,6 @@
 #ifndef _USER_H_ 
 #define _USER_H_
 
-#include "../utils.h"
-
 #define MAX_USER_STR 50
 
 /// \struct Estrutura que define as variáveis do tipo User.
