@@ -24,8 +24,14 @@ void destroyUser(User * user)
     free(user);
 }
 
-void printUser(User * user)
-{
-    printf("%s,\n%s,\n%c,\n%d/%d/%d,\n%d/%d/%d,\n%s,\n%c\n",
-    user->username,user->name,user->gender,user->birth_date[0],user->birth_date[1],user->birth_date[2],user->account_creation[0],user->account_creation[1],user->account_creation[2],user->pay_method,user->account_status);
+void printUser(User* user){
+    printf("User {username: %s, name: \n%s, gender: \n%c, birth_date: \n%d/%d/%d, account_creation: \n%d/%d/%d, pay_method: \n%s, account_status:\n%c\n",
+    user->username,
+    user->name,
+    user->gender,
+    user->birth_date[0],user->birth_date[1],user->birth_date[2],
+    user->account_creation[0],user->account_creation[1],user->account_creation[2],
+    user->pay_method,
+    user->account_status
+    );
 }
