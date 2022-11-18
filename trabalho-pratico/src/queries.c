@@ -1,42 +1,51 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 
 #include "../inc/queries.h" 
 
-int preço_medio(HashmapNode * listDates, Hashmap * drivers, Hashmap* riders){
-    HashmapNode * tracker = listDates;
-    Ride* ride;
-    Driver* driver;
-    Date * date;
-    int preçoRide, preçoSum = 0,n = 0;
-    while(tracker->next != NULL){
-        date = tracker->data;
-        ride = date->keyRef;
-        driver = get(drivers,(void*)&ride->driver,equal,hashKey_Int,1);
+double preco_medio(HashmapNode * list, Global * glob, char mode)
+{
+    HashmapNode * tracker = list;
+    int n = 0;
+    double precoRide = 0, precoSum = 0;
+    while(tracker->next != NULL)
+    {
+        void * key;
+        if (mode == 'd')
+        {
+            Date * date = (Date*) tracker->data;
+            key = date->keyRef;
+        }
+        else
+        {
+            City * city = (City*) tracker->data;
+            key = (void*) &city->key;
+        }
+        Ride * ride = (Ride*) get(glob->rides, key, equal, hashKey_Int, 1);
+        Driver * driver = (Driver*) get(glob->drivers, (void*)&ride->driver, equal, hashKey_Int, 1);
 
         switch (driver->car_class)
         {
-        case 0:
-            preçoRide = 3,25 + 0,62 * ride->distance;
-            break;
+            case 0:
+                precoRide = 3.25 + 0.62 * ride->distance;
+                break;
         
-        case 1:
-            preçoRide = 4 + 0,79 * ride->distance;
-            break;
+            case 1:
+                precoRide = 4 + 0.79 * ride->distance;
+                break;
 
-        case 2:
-            preçoRide = 5,2 + 0,94 * ride->distance;
-            break;
-
-        default:
-            break;
+            case 2:
+                precoRide = 5.2 + 0.94 * ride->distance;
+                break;
         }
 
-        preçoSum += preçoRide;
+        precoSum += precoRide;
         n++;
         tracker = tracker->next;
     }
-    return preçoSum/n;
+    
+    return (precoSum/n);
 }
 
 void query1(char *id, Global *glob)
@@ -110,7 +119,7 @@ void query4(char* city, Global* glob){
 
 int query5(short* dateA , short* dateB, Global* glob){
     HashmapNode * listRides = betweenDates(dateA, dateB, 'c', glob);
-    return preço_medio(listRides,glob->drivers,glob->rides);
+    return preco_medio(listRides,glob,'d');
 }
 
 double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
@@ -150,37 +159,3 @@ void query8(char* gender,int X, Global * glob){
 void query9(short* dateA,short* dateB, Global * glob){
     
 }
-
-
-
-/*float preçoPorDriver(HashmapNode* driverIdList, Hashmap * drivers, Hashmap* riders){
-    float preçoSum = 0;
-
-    while(driverIdList->next != NULL){
-        float preço;
-        DriverId* driverId = driverIdList->data;
-        Ride* ride = get(riders,driverId->key,equal,hashKey_Int,1);
-        Driver * driver = get(drivers,driverId->id,equal,hashKey_Int,1);
-        switch (driver->car_class)
-        {
-        case 0:
-            preço = 3,25 + 0,62 * ride->distance;
-            break;
-        
-        case 1:
-            preço = 4 + 0,79 * ride->distance;
-            break;
-
-        case 2:
-            preço = 5,2 + 0,94 * ride->distance;
-            break;
-
-        default:
-            break;
-        }
-
-        preçoSum += preço;
-    }
-
-    return preçoSum;
-}*/
