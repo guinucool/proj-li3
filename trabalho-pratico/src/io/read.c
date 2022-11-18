@@ -98,7 +98,7 @@ void interRide(char args[][MAX_LINE], Global * glob)
  * 
  * @param glob Estrutura de dados global a ser atualizada.
  */ 
-void interCmd(char args[][MAX_LINE], Global * glob)
+void interCmd(char args[][MAX_LINE], Global * glob, int cmd)
 {
     short dateA[3], dateB[3];
 

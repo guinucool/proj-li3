@@ -47,6 +47,7 @@ void readFile(char * path, char mode, Global * glob)
 
     char * holder = (char *) malloc(sizeof(char));
     char args[size][MAX_LINE];
+    int cmd = 1;
 
     while (fgets(line, MAX_LINE, file) != NULL)
     {
@@ -69,7 +70,7 @@ void readFile(char * path, char mode, Global * glob)
         switch (mode)
         {
             case 0:
-                interCmd(args, glob);
+                interCmd(args, glob, cmd);
                 break;
 
             case 1:
@@ -84,6 +85,8 @@ void readFile(char * path, char mode, Global * glob)
                 interRide(args, glob);
                 break;
         }
+
+        cmd++;
     }
 }
 
