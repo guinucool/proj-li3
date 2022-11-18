@@ -98,6 +98,15 @@ int hashKey_Int(void *key)
     return(*true_Key % HASHMAP_MAX);
 }
 
+/// @brief A função hashKey_Str cria uma hash de procura, cuja chave é uma String.
+/**
+ * A função hashKey_Str cria uma hash de procura, cuja chave é uma String, usando 
+ * o somatorio do modulo do resultado da multiplicação dos caracteres com as respetivas posições 
+ * na string. O resultado deste somatorio será a posição do elemento na hashmap.
+ * 
+ * @param str
+ */  
+///
 int hashKey_Str(void* str)
 {
     const char * s = str;
@@ -115,6 +124,15 @@ int hashKey_Str(void* str)
     return hash;
 }
 
+/// @brief A função hashKey_date cria uma hash de procura, cuja chave é um array de shorts.
+/**
+ * A função hashKey_date cria uma hash de procura, cuja chave é um array de shorts, usando 
+ * o somatorio do modulo do resultado da multiplicação de cada short com as respetivas posições 
+ * no array. O resultado deste somatorio será a posição do elemento na hashmap.
+ * 
+ * @param date
+ */  
+///
 int hashKey_date(void* date)
 {
     const short* d = (short*)date;
