@@ -3,6 +3,22 @@
 #include "../../inc/io/read.h"
 #include "../../inc/queries.h"
 
+/// @brief A função interUser interpreta e insere informação relativa aos users
+///        na estrutura de dados global.
+/**
+ * A função interUser interpreta a informação que recebe (da leitura do ficheiro)
+ * e insere a mesma nas respetivas estruturas de dados (Hashmaps).
+ * 
+ * Para isso, primeiro converte a informação toda em User e depois converte partes da mesma
+ * em outros tipos de variáveis úteis para a execução do programa também.
+ * 
+ * No final insere toda a informação tratada na estrutura global nos respetivos
+ * contentores.
+ * 
+ * @param args Informação recebida da leitura de uma linha do ficheiro.
+ * 
+ * @param glob Estrutura de dados global a ser atualizada.
+ */ 
 void interUser(char args[][MAX_LINE], Global * glob)
 {
     User* user = userCreate(args);
@@ -58,6 +74,22 @@ void interRide(char args[][MAX_LINE], Global * glob)
     put(glob->dates, (void *)dte->date, (void *)dte, hashKey_date);
 }
 
+/// @brief A função interCmd interpreta a informação relativa aos comandos acessa
+///        qual query deve ser executada. 
+/**
+ * A função interCmd interpreta a informação que recebe (da leitura do ficheiro)
+ * e acessa qual query deve ser executada.
+ * 
+ * Para isso, primeiro converte o primeiro elemento da lista de strings em Int 
+ * e identifica a que query o comando diz respeito.
+ * 
+ * No final a informação do resto da lista de Strings é convertida nos tipos 
+ * que as querys exigem e executa a query em questão com a informação do comando.
+ * 
+ * @param args Informação recebida da leitura de uma linha do ficheiro.
+ * 
+ * @param glob Estrutura de dados global a ser atualizada.
+ */ 
 void interCmd(char args[][MAX_LINE], Global * glob)
 {
     short dateA[3];
