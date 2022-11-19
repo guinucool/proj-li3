@@ -217,7 +217,7 @@ int parseDate(char *str, short date[]) {
 		date[i++] = n;
 
 		// Continua a extrair as strings para o mes e o ano.
-	} while(token == strtok(NULL, limit));
+	} while((token = strtok(NULL, limit)));
 
 	// Verifica se foram armazenados 3 inteiros (dia/mes/ano).
 	return i==3;

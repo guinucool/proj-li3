@@ -45,7 +45,7 @@ void readFile(char * path, char mode, Global * glob)
         cut = ';';
     }
 
-    char * holder = (char *) malloc(sizeof(char));
+    char * holder = (char *) malloc(sizeof(char) * MAX_LINE);
     char args[size][MAX_LINE];
     int cmd = 1;
 
@@ -88,6 +88,9 @@ void readFile(char * path, char mode, Global * glob)
 
         cmd++;
     }
+
+    free(holder);
+    fclose(file);
 }
 
 /*int main()

@@ -17,5 +17,6 @@ typedef struct _RIDE_ {
 
 Ride * createRide(int id, short dte[3], int drv, char * usr, char * cty, short dst, short scu, short scd, float tip, char * cmt);
 void destroyRide(Ride * ride);
+void printRide(Ride * ride);
 
 #endif

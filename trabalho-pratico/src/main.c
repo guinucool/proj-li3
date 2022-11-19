@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../includes/io/in.h"
@@ -20,6 +21,8 @@ int main(int argc, char * args[])
 		strcpy(truePath, args[1]);
 		strcat(truePath, "/rides.csv");
 		readFile(truePath, 3, glob);
+
+		//printGlobal(glob);
 
 		readFile(args[2], 0, glob);
 	}

@@ -44,7 +44,7 @@ void destroyUser(User * user)
 }
 
 void printUser(User* user){
-    printf("User {username: %s, name: \n%s, gender: \n%c, birth_date: \n%d/%d/%d, account_creation: \n%d/%d/%d, pay_method: \n%s, account_status:\n%c\n",
+    printf("[User] -> {username: %s, name: %s, gender: %c, birth_date: %d/%d/%d, account_creation: %d/%d/%d, pay_method: %s, account_status:%c}",
     user->username,
     user->name,
     user->gender,

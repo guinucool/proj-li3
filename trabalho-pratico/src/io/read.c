@@ -116,42 +116,51 @@ void interRide(char args[][MAX_LINE], Global * glob)
 void interCmd(char args[][MAX_LINE], Global * glob, int cmd)
 {
     short dateA[3], dateB[3];
-    char* filename = malloc(100);
-    sprintf(filename,"../../Resultados/command%d_output.txt", cmd);
-    FILE* fp = fopen(filename, "w");
+    char * filename = (char*) malloc(sizeof(char) * 100);
+
+    sprintf(filename, "Resultados/command%d_output.txt", cmd);
+    FILE * fp = fopen(filename, "w");
 
     switch (atoi(args[0]))
     {
         case 1:
             query1(args[1],glob);
             break;
+
         case 2:
             query2(atoi(args[1]),glob);
             break;
+
         case 3:
             query3(atoi(args[1]),glob);
             break;
+
         case 4:
             fprintf(fp, "%.3f", query4(args[1],glob));
             break;
+
         case 5:
             stringToDate(args[1],dateA);
             stringToDate(args[2],dateB);
 
             fprintf(fp, "%.3f", query5(dateA,dateB,glob));
             break;
+
         case 6:
             stringToDate(args[2],dateA);
             stringToDate(args[3],dateB);
             
             fprintf(fp, "%.3f", query6(args[1],dateA,dateB,glob));
             break;
+
         case 7:
             query7(atoi(args[1]),args[2],glob);
             break;
+
         case 8:
             query8(args[1],atoi(args[2]),glob);
             break;
+
         case 9:
             stringToDate(args[1],dateA);
             stringToDate(args[2],dateB);
