@@ -25,6 +25,8 @@ int main(int argc, char * args[])
 		//printGlobal(glob);
 
 		readFile(args[2], 0, glob);
+
+		destroyGlobal(glob);
 	}
 
 	return(0);
