@@ -38,15 +38,17 @@ HashmapNode * createNode(void *key, void *data, HashmapNode * next)
  * posteriormente, ligadas a esta.
  * 
  * @param node A node a ser destruída.
+ * 
+ * @param mode Modo que decide se a função também liberta a o espaço ocupado pela data do elemento.
  */ 
-void destroyNode(HashmapNode * node)
+void destroyNode(HashmapNode * node, char mode)
 {
     HashmapNode * hold = node;
 
     while (hold != NULL)
     {
         HashmapNode * temp = hold->next;    //!< Encontra o próximo elemento na ligação
-        free(hold->data);                   //!< Liberta a data do elemento
+        if (mode == 1) free(hold->data);    //!< Liberta a data do elemento
         free(hold);                         //!< Liberta o atual
         hold = temp;                        //!< Passa o processo para o próximo elemento
     }
@@ -78,7 +80,7 @@ void destroyHashmap(Hashmap* hashmap)
     if (hashmap != NULL)
     {
         for (int i = 0; i < HASHMAP_MAX; i++)
-            destroyNode(hashmap->array[i]);
+            destroyNode(hashmap->array[i], 1);
 
         free(hashmap);
     }

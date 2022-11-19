@@ -12,7 +12,7 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
     HashmapNode * tracker = list;
     int n = 0;
     double precoRide = 0, precoSum = 0;
-    while(tracker->next != NULL)
+    while(tracker != NULL)
     {
         void * key;
         if (mode == 'd')
@@ -48,7 +48,10 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
         tracker = tracker->next;
     }
     
-    return (precoSum/n);
+    if (n != 0)
+        return (precoSum/n);
+    else
+        return (0);
 }
 
 /// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
@@ -151,9 +154,9 @@ double query4(char* city, Global* glob)
  */ 
 double query5(short* dateA , short* dateB, Global* glob)
 {
-    HashmapNode * listRides = betweenDates(dateA, dateB, 'c', glob);
+    HashmapNode * listRides = betweenDates(dateA, dateB, 'r', glob);
     double result = preco_medio(listRides,glob,'d');
-    destroyNode(listRides);
+    destroyNode(listRides, 0);
     return result;
 }
 
