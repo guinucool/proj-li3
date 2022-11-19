@@ -38,6 +38,19 @@ void interUser(char args[][MAX_LINE], Global * glob)
     put(glob->users, (void *)key, data, hashKey_Str);
 }
 
+/// @brief A funcao interDriver interpreta e insere informacao relativa aos drivers
+///        na estrutura de dados global.
+/**
+ * A funcao interDriver interpreta a informacao que recebe (da leitura do ficheiro)
+ * e insere a mesma nas respetivas estruturas de dados (Hashmaps).
+ * 
+ * No final insere toda a informacao tratada na estrutura global nos respetivos
+ * contentores.
+ * 
+ * @param args Informacao recebida da leitura de uma linha do ficheiro.
+ * 
+ * @param glob Estrutura de dados global a ser atualizada.
+ */ 
 void interDriver(char args[][MAX_LINE], Global * glob)
 {   
     Driver* driver = parseDriver(args);

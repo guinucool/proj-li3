@@ -94,12 +94,13 @@ void printDriver(Driver* driver) {
 
 /// @brief A funcao parseDriver
 /**
- * 
+ * Extrai os campos id, name, birth_day, gender, car_class, license_plate, city, account_creation, account_status do array tokens passado
+ * como parametro. E devolve um Driver com esses mesmos parametros.
+ * Caso aconteca um erro na extracao de um parametro do array tokens, a funcao devolve o valor NULL.
  * 
  *
- * @return 
+ * @return Driver | NULL
 */
-
 Driver *parseDriver(char tokens[9][200]) {
 		
 	int i = 0, id; 
@@ -112,26 +113,6 @@ Driver *parseDriver(char tokens[9][200]) {
 	short account_creation[3];
 	char account_status;
 	char limit[] = {';', '\0'};
-
-/*
-	char *token;
-
-	// Get all parts (tokens) of the input string.
-	token = strtok(str, limit);
-
-	do {
-		strncpy (tokens[i++], token, 1024);
-
-	} while(token = strtok(NULL, limit));
-
-	if (i != 9) {
-		return NULL;
-	}
-
-	// Remove trailing cariage return ('\n').
-	tokens[8][strlen(tokens[8])-2] = '\0';
-
-*/
 
 	// Parse ID.
 	if ((id = atoi(tokens[0])) == 0) {
@@ -154,11 +135,12 @@ Driver *parseDriver(char tokens[9][200]) {
 	}
 
 	// Parse CAR CLASS.
-
+	// Converte o token para maiusculas.
 	for(int i = 0; tokens[4][i]; i++) {
 		tokens[4][i] = toupper(tokens[4][i]);
 	}
 
+	// Verificar se o token existe no array car_class_str (onde estao todos os car classe possiveis).
 	car_class = -1;
 	for (int i = 0; i < car_class_size; i++) {
 		if (strcmp(tokens[4], car_class_str[i]) == 0) {
@@ -167,6 +149,7 @@ Driver *parseDriver(char tokens[9][200]) {
 		}
 	}
 
+	// Interrompe a funcao se car class nao e valido (-1).
 	if (car_class == -1) {
 		return NULL;
 	}
@@ -183,10 +166,12 @@ Driver *parseDriver(char tokens[9][200]) {
 	}
 
 	// Parse ACCOUNT STATUS.
+	// Converte para maiusculas o token.
 	for(int i = 0; tokens[8][i]; i++) {
 		tokens[8][i] = toupper(tokens[8][i]);
 	}
 
+	// Veririca se o estado em token é valido (isto e se existe no array account_status_str).
 	account_status = 9;
 	for (int i = 0; i < account_status_size; i++) {
 		if (strcmp(tokens[8], account_status_str[i]) == 0) {
@@ -195,20 +180,26 @@ Driver *parseDriver(char tokens[9][200]) {
 		}
 	}
 
+	// Interrompe a funcao se status nao é valido (9).
 	if (account_status == 9) {
 		return NULL;
 	}
 
+	// Cria e devolve um novo driver com os parametros extraidos do array tokens.
 	return createDriver(id, name, birth_day, gender, car_class, license_plate, city, account_creation, account_status);
 }
 
 
-/// @brief A funcao parseDate 
+/// @brief A funcao parseDate vai receber uma string e devolve um array com as datas
 /**
- * A funcao createDriver cria uma variavel do tipo drive, alocando 
+ * A funcao parseDate vai estriar a string antes do primeiro '/' (dia)
  * 
+ * De seguida, converte a string (token) num inteiro e vai armazenar o inetiro na posicao 
+ * correta (0 - dia/1 - mes/2 - ano). Continua a extrair as strings para o mes e o ano.
  *
- * @return 
+ * Por fim, vai verifica se foram armazenados 3 inteiros (dia/mes/ano).
+ *
+ * @return Devolve 3 inteiros armazenados
 */
 
 int parseDate(char *str, short date[]) {
@@ -217,16 +208,22 @@ int parseDate(char *str, short date[]) {
 	char limit[] = {'/', '\0'};
 	int n, i = 0;
 
+	// Extrair a string antes do primeiro '/' (dia)
 	token = strtok(str, limit);
 
 	do {
+
+		// Converte a string (token) num inteiro.
 		if ((n = atoi(token)) == 0) {
 			return 0;
 		}
 
+		// Armazena o inteiro na posição correta (0 - dia/1 - mes/2 - ano)
 		date[i++] = n;
 
+		// Continua a extrair as strings para o mes e o ano.
 	} while(token = strtok(NULL, limit));
 
+	// Verifica se foram armazenados 3 inteiros (dia/mes/ano).
 	return i==3;
 }
