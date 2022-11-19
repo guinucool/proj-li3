@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "../../inc/structs/driver.h"
+#include "../../includes/structs/driver.h"
 
 char car_class_str[][8] = {"BASIC", "GREEN", "PREMIUM"};
 int car_class_size = 3;

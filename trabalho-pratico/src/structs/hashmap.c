@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "../../inc/structs/hashmap.h"
+#include "../../includes/structs/hashmap.h"
 
 /// @brief A função createNode cria uma node do Hashmap.
 /**

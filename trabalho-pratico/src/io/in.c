@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../inc/io/in.h"
-#include "../../inc/io/read.h"
-#include "../../inc/structs/user.h"
+#include "../../includes/io/in.h"
+#include "../../includes/io/read.h"
+/*#include "../../inc/structs/user.h"
 #include "../../inc/structs/ride.h"
 #include "../../inc/structs/city.h"
 #include "../../inc/structs/date.h"
 #include "../../inc/utils.h"
-#include "../../inc/queries.h"
+#include "../../inc/queries.h"*/
 
 /// @brief A função readFile lê e importa a informação de um ficheiro.
 /**
@@ -90,7 +90,7 @@ void readFile(char * path, char mode, Global * glob)
     }
 }
 
-int main()
+/*int main()
 {
     Global * glob = createGlobal();
 
@@ -112,12 +112,12 @@ int main()
     //nextDay(date);
 
     printf("%d/%d/%d\n", (int)date[0], (int)date[1], (int)date[2]);
-    /*while (temp != NULL)
+    while (temp != NULL)
     {
         Date * tmpCity = (Date *) temp->data;
         printf("%d/%d/%d %p\n", tmpCity->date[0], tmpCity->date[1], tmpCity->date[2], tmpCity->keyRef);
         temp = temp->next;
-    }*/
+    }
 
     printf("%.3f", (float)query6("Braga", date, date1, glob));
-}
+}*/

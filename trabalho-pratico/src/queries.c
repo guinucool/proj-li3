@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <math.h>
-#include "../inc/queries.h"
-#include "../inc/structs/driver.h"
-#include "../inc/structs/ride.h"
-#include "../inc/structs/city.h"
-#include "../inc/structs/date.h"
-#include "../inc/utils.h"
+#include "../includes/queries.h"
+#include "../includes/structs/driver.h"
+#include "../includes/structs/ride.h"
+#include "../includes/structs/city.h"
+#include "../includes/structs/date.h"
+#include "../includes/utils.h"
 
 double preco_medio(HashmapNode * list, Global * glob, char mode)
 {
@@ -101,7 +101,6 @@ void query1(char *id, Global *glob)
             printDriver(driver);
         }
     } else {
-        /*
         (User *) get(glob->users, (void *) key, equalStr, hashKey_Str, 1);
         if (user == NULL) {
             printf("No Driver to print. \n");
@@ -131,10 +130,10 @@ void query3(int N, Global* glob){
  * 
  *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
-void query4(char* city, Global* glob){
+double query4(char* city, Global* glob)
+{
     HashmapNode * cityList = (HashmapNode *) get(glob->cities, city, equal_str, hashKey_Str, 0);
     return preco_medio(cityList,glob,'c');
-
 }
 
 /// @brief A função query5 calcula o preço médio das viagens realizadas entre duas datas.
@@ -149,7 +148,8 @@ void query4(char* city, Global* glob){
  * 
  *  @return Retorna o preço médio das viagens realizadas entre essas duas datas.
  */ 
-int query5(short* dateA , short* dateB, Global* glob){
+double query5(short* dateA , short* dateB, Global* glob)
+{
     HashmapNode * listRides = betweenDates(dateA, dateB, 'c', glob);
     return preco_medio(listRides,glob,'d');
 }
