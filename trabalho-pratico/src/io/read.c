@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "../../includes/io/read.h"
 #include "../../includes/structs/user.h"
 #include "../../includes/structs/driver.h"
@@ -8,6 +9,7 @@
 #include "../../includes/structs/date.h"
 #include "../../includes/utils.h"
 #include "../../includes/queries.h"
+
 
 /// @brief A função interUser interpreta e insere informação relativa aos users
 ///        na estrutura de dados global.
@@ -114,6 +116,9 @@ void interRide(char args[][MAX_LINE], Global * glob)
 void interCmd(char args[][MAX_LINE], Global * glob, int cmd)
 {
     short dateA[3], dateB[3];
+    char* filename = malloc(100);
+    sprintf(filename,"../../Resultados/command%d_output.txt", cmd);
+    FILE* fp = fopen(filename, "w");
 
     switch (atoi(args[0]))
     {
@@ -127,19 +132,19 @@ void interCmd(char args[][MAX_LINE], Global * glob, int cmd)
             query3(atoi(args[1]),glob);
             break;
         case 4:
-            query4(args[1],glob);
+            fprintf(fp, "%.3f", query4(args[1],glob));
             break;
         case 5:
             stringToDate(args[1],dateA);
             stringToDate(args[2],dateB);
 
-            query5(dateA,dateB,glob);
+            fprintf(fp, "%.3f", query5(dateA,dateB,glob));
             break;
         case 6:
             stringToDate(args[2],dateA);
             stringToDate(args[3],dateB);
-
-            query6(args[1],dateA,dateB,glob);
+            
+            fprintf(fp, "%.3f", query6(args[1],dateA,dateB,glob));
             break;
         case 7:
             query7(atoi(args[1]),args[2],glob);
@@ -154,4 +159,8 @@ void interCmd(char args[][MAX_LINE], Global * glob, int cmd)
             query9(dateA,dateB,glob);
             break;
     }
+
+    fclose(fp);
 }
+
+

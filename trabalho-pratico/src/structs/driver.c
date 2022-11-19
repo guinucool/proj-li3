@@ -83,11 +83,11 @@ void printDriver(Driver* driver) {
 		driver->name,
 		driver->birth_day[0], driver->birth_day[1], driver->birth_day[2],
 		driver->gender,
-		car_class_str[driver->car_class],
+		car_class_str[(int) driver->car_class],
 		driver->license_plate,
 		driver->city,
 		driver->account_creation[0], driver->account_creation[1], driver->account_creation[2],
-		account_status_str[driver->account_status]
+		account_status_str[(int) driver->account_status]
 	);
 }
 
@@ -103,7 +103,8 @@ void printDriver(Driver* driver) {
 */
 Driver *parseDriver(char tokens[9][200]) {
 		
-	int i = 0, id; 
+	//int i = 0, id; 
+	int id;
 	char name[NAME_STR_SIZE];
 	short birth_day[3];
 	char gender;
@@ -112,7 +113,7 @@ Driver *parseDriver(char tokens[9][200]) {
 	char city[CITY_STR_SIZE];
 	short account_creation[3];
 	char account_status;
-	char limit[] = {';', '\0'};
+	//char limit[] = {';', '\0'};
 
 	// Parse ID.
 	if ((id = atoi(tokens[0])) == 0) {
@@ -192,12 +193,6 @@ Driver *parseDriver(char tokens[9][200]) {
 
 /// @brief A funcao parseDate vai receber uma string e devolve um array com as datas
 /**
- * A funcao parseDate vai estriar a string antes do primeiro '/' (dia)
- * 
- * De seguida, converte a string (token) num inteiro e vai armazenar o inetiro na posicao 
- * correta (0 - dia/1 - mes/2 - ano). Continua a extrair as strings para o mes e o ano.
- *
- * Por fim, vai verifica se foram armazenados 3 inteiros (dia/mes/ano).
  *
  * @return Devolve 3 inteiros armazenados
 */
@@ -218,11 +213,11 @@ int parseDate(char *str, short date[]) {
 			return 0;
 		}
 
-		// Armazena o inteiro na posição correta (0 - dia/1 - mes/2 - ano)
+		// Armazena o inteiro na posicao correta (0 - dia/1 - mes/2 - ano)
 		date[i++] = n;
 
 		// Continua a extrair as strings para o mes e o ano.
-	} while(token = strtok(NULL, limit));
+	} while(token == strtok(NULL, limit));
 
 	// Verifica se foram armazenados 3 inteiros (dia/mes/ano).
 	return i==3;
