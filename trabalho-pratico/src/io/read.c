@@ -136,21 +136,21 @@ void interCmd(char args[][MAX_LINE], Global * glob, int cmd)
             break;
 
         case 4:
-            fprintf(fp, "%.3f", query4(args[1],glob));
+            fprintf(fp, "%.3f\n", query4(args[1],glob));
             break;
 
         case 5:
             stringToDate(args[1],dateA);
             stringToDate(args[2],dateB);
 
-            fprintf(fp, "%.3f", query5(dateA,dateB,glob));
+            fprintf(fp, "%.3f\n", query5(dateA,dateB,glob));
             break;
 
         case 6:
             stringToDate(args[2],dateA);
             stringToDate(args[3],dateB);
             
-            fprintf(fp, "%.3f", query6(args[1],dateA,dateB,glob));
+            fprintf(fp, "%.3f\n", query6(args[1],dateA,dateB,glob));
             break;
 
         case 7:
