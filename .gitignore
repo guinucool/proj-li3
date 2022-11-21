@@ -1,6 +1,7 @@
 trabalho-pratico/db/*
 trabalho-pratico/out/*
 trabalho-pratico/cmd/*
+trabalho-pratico/Resultados/*.txt
 trabalho-pratico/programa-principal
 .bin/*
 .vscode/*

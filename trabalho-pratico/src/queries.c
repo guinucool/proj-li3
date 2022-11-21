@@ -18,28 +18,30 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
         if (mode == 'd')
         {
             Date * date = (Date*) tracker->data;
-            key = date->keyRef;
+            key = date_Key(date);
         }
         else
         {
             City * city = (City*) tracker->data;
-            key = (void*) &city->key;
+            int id = city_Key(city);
+            key = (void*) &id;
         }
         Ride * ride = (Ride*) get(glob->rides, key, equal, hashKey_Int, 1);
-        Driver * driver = (Driver*) get(glob->drivers, (void*)&ride->driver, equal, hashKey_Int, 1);
+        int did = ride_Int(ride, 'd');
+        Driver * driver = (Driver*) get(glob->drivers, (void*)&did, equal, hashKey_Int, 1);
 
         switch (driver->car_class)
         {
             case 0:
-                precoRide = 3.25 + 0.62 * ride->distance;
+                precoRide = 3.25 + 0.62 * ride_Short(ride, 'p');
                 break;
         
             case 1:
-                precoRide = 4 + 0.79 * ride->distance;
+                precoRide = 4 + 0.79 * ride_Short(ride, 'p');
                 break;
 
             case 2:
-                precoRide = 5.2 + 0.94 * ride->distance;
+                precoRide = 5.2 + 0.94 * ride_Short(ride, 'p');
                 break;
         }
 
@@ -81,7 +83,7 @@ HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
         while (list != NULL)
         {
             Date * date = (Date*) list->data;
-            if (date->type == type) result = createNode(list->key, list->data, result);
+            if (date_Type(date) == type) result = createNode(list->key, list->data, result);
             list = list->next; 
         }
         nextDay(inf);
@@ -171,11 +173,14 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
     while (cityList != NULL)
     {
         City * city = (City *) cityList->data;
-        Ride * ride = (Ride *) get(glob->rides, (void *)&city->key, equal, hashKey_Int, 1);
-        if (datecmp(dateInf, ride->date) <= 0 && datecmp(ride->date, dateUp) <= 0)
+        int key = city_Key(city);
+        Ride * ride = (Ride *) get(glob->rides, (void *)&key, equal, hashKey_Int, 1);
+        short date[3];
+        ride_Date(date, ride);
+        if (datecmp(dateInf, date) <= 0 && datecmp(date, dateUp) <= 0)
         {
             i++;
-            sum += (double)ride->distance;
+            sum += (double)ride_Short(ride, 'p');
         }
         cityList = cityList->next;
     }

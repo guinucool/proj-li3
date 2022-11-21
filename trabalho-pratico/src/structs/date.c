@@ -2,6 +2,13 @@
 
 #include "../../includes/structs/date.h"
 
+/// \struct Estrutura que define as variáveis do tipo cidade.
+typedef struct _DATE_{
+    short date[3];      //!< Data a ser considerada
+    void* keyRef;       //!< Chave associada à data {username(user) ou id(riders && drivers)}
+    char type;          //!< Tipo de data {a - birth_date(driver) ou b - account_creation(driver) ou c - date(rides) ou d - birth_date(users) ou e - account_creation(users)}
+}Date;
+
 /// @brief A função createDate cria uma variável do tipo Date.
 /**
  * A função createDate cria uma variável do tipo Date, alocando
@@ -41,4 +48,21 @@ Date * createDate(short * date, void * key, char type)
 void destroyDate(Date * date)
 {
     free(date);
+}
+
+void date_Date(short * dest, Date * date)
+{
+    dest[0] = date->date[0];
+    dest[1] = date->date[1];
+    dest[2] = date->date[2];
+}
+
+void * date_Key(Date * date)
+{
+    return(date->keyRef);
+}
+
+char date_Type(Date * date)
+{
+    return(date->type);
 }

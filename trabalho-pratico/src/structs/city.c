@@ -2,6 +2,14 @@
 #include <string.h>
 #include "../../includes/structs/city.h"
 
+/// \struct Estrutura que define as variáveis do tipo cidade.
+typedef struct _CITY_
+{
+    char city[MAX_STR_NAME];    //!< Nome (string) da cidade
+    int key;                    //!< Id do elemento (ride/driver) que contém esta cidade
+    char type;                  //!< Tipo da key (ride/driver)
+}City;
+
 /// @brief A função createCity cria uma variável do tipo city.
 /**
  * A função createCity cria uma variável do tipo city, alocando
@@ -40,4 +48,19 @@ void destroyCity(City * city)
 {
     if (city != NULL)
         free(city);
+}
+
+void city_City(char * dest, City * city)
+{
+    strcpy(dest, city->city);
+}
+
+int city_Key(City * city)
+{
+    return(city->key);
+}
+
+char city_Type(City * city)
+{
+    return(city->type);
 }

@@ -3,6 +3,17 @@
 #include <stdio.h>
 #include "../../includes/structs/ride.h"
 
+/// \struct Estrutura que define as variáveis do tipo ride.
+typedef struct _RIDE_ {
+    int id;                                         //!< Id da ride
+    short date[3];                                  //!< Data da ride
+    int driver;                                     //!< Driver da ride
+    char user[MAX_STR_NAME], city[MAX_STR_NAME];    //!< User e cidade da ride
+    short distance, score_user, score_driver;       //!< Distância, pontuação do user e do driver
+    float tip;                                      //!< Gorjeta da ride
+    char comment[MAX_STR_COMM];                     //!< Comentário da ride
+} Ride;
+
 /// @brief A função createRide cria uma variável do tipo ride.
 /**
  * A função createRide cria uma variável do tipo ride, alocando
@@ -80,4 +91,61 @@ void printRide(Ride * ride)
         ride->tip,
         ride->comment
     );
+}
+
+int ride_Int(Ride * ride, char mode)
+{
+    if (mode == 'i')
+        return(ride->id);
+    else
+        return(ride->driver);
+}
+
+void ride_Date(short * dest, Ride * ride)
+{
+    dest[0] = ride->date[0];
+    dest[1] = ride->date[1];
+    dest[2] = ride->date[2];
+}
+
+void ride_Str(char * dest, Ride * ride, char mode)
+{
+    switch (mode)
+    {
+        case 'u':
+            strcpy(dest, ride->user);
+            break;
+
+        case 'c':
+            strcpy(dest, ride->city);
+            break;
+
+        case 'o':
+            strcpy(dest, ride->comment);
+            break;
+    }
+}
+
+short ride_Short(Ride * ride, char mode)
+{
+    switch (mode)
+    {
+        case 'p':
+            return(ride->distance);
+            break;
+
+        case 'u':
+            return(ride->score_user);
+            break;
+
+        case 'd':
+            return(ride->score_driver);
+            break;
+    }
+    return(0);
+}
+
+double ride_Tip(Ride * ride)
+{
+    return(ride->tip);
 }

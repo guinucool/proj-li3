@@ -84,17 +84,23 @@ void interRide(char args[][MAX_LINE], Global * glob)
     Ride * ride = createRide(atoi(args[0]), date, atoi(args[2]), args[3], args[4], (short)atoi(args[5]), (short)atoi(args[6]), (short)atoi(args[7]), atof(args[8]), args[9]);
 
     int * key = malloc(sizeof(int));
-    *key = ride->id;
+    *key = ride_Int(ride, 'i');
 
-    Ride * data = malloc(sizeof(Ride));
-    *data = *ride;
+    /*Ride * data = malloc(sizeof(Ride));
+    *data = *ride;*/
     
-    City * city = createCity(args[4], ride->id, 'r');
+    City * city = createCity(args[4], *key, 'r');
     Date * dte = createDate(date, key, 'r');
 
-    put(glob->rides, key, data, hashKey_Int);
-    put(glob->cities, (void *)city->city, (void *)city, hashKey_Str);
-    put(glob->dates, (void *)dte->date, (void *)dte, hashKey_date);
+    char * dest = malloc(sizeof(char) * MAX_STR_NAME);
+    city_City(dest, city);
+
+    short * destDte = malloc(sizeof(short) * 3);
+    date_Date(destDte, dte);
+
+    put(glob->rides, key, ride, hashKey_Int);
+    put(glob->cities, (void *)dest, (void *)city, hashKey_Str);
+    put(glob->dates, (void *)destDte, (void *)dte, hashKey_date);
 }
 
 /// @brief A função interCmd interpreta a informação relativa aos comandos acessa
