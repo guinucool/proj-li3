@@ -26,9 +26,9 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
             int id = city_Key(city);
             key = (void*) &id;
         }
-        Ride * ride = (Ride*) get(glob->rides, key, equal, hashKey_Int, 1);
+        Ride * ride = (Ride*) get(global_Hashmap(glob, 'r'), key, equal, hashKey_Int, 1);
         int did = ride_Int(ride, 'd');
-        Driver * driver = (Driver*) get(glob->drivers, (void*)&did, equal, hashKey_Int, 1);
+        Driver * driver = (Driver*) get(global_Hashmap(glob, 'e'), (void*)&did, equal, hashKey_Int, 1);
 
         switch (driver->car_class)
         {
@@ -79,7 +79,7 @@ HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
 
     while(datecmp(inf, up) <= 0)
     {
-        HashmapNode * list = get(glob->dates, inf, equal_date, hashKey_date, 0);
+        HashmapNode * list = get(global_Hashmap(glob, 'd'), inf, equal_date, hashKey_date, 0);
         while (list != NULL)
         {
             Date * date = (Date*) list->data;
@@ -137,7 +137,7 @@ void query3(int N, Global* glob){
  */ 
 double query4(char* city, Global* glob)
 {
-    HashmapNode * cityList = (HashmapNode *) get(glob->cities, city, equal_str, hashKey_Str, 0);
+    HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
     double result = preco_medio(cityList,glob,'c');
     return result;
 }
@@ -164,7 +164,7 @@ double query5(short* dateA , short* dateB, Global* glob)
 
 double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
 {
-    HashmapNode * cityList = (HashmapNode *) get(glob->cities, cty, equal_str, hashKey_Str, 0);
+    HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), cty, equal_str, hashKey_Str, 0);
 
     double med = 0.f;
     double sum = 0.f;
@@ -174,7 +174,7 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
     {
         City * city = (City *) cityList->data;
         int key = city_Key(city);
-        Ride * ride = (Ride *) get(glob->rides, (void *)&key, equal, hashKey_Int, 1);
+        Ride * ride = (Ride *) get(global_Hashmap(glob, 'r'), (void *)&key, equal, hashKey_Int, 1);
         short date[3];
         ride_Date(date, ride);
         if (datecmp(dateInf, date) <= 0 && datecmp(date, dateUp) <= 0)

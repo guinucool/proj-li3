@@ -31,13 +31,13 @@ void interUser(char args[][MAX_LINE], Global * glob)
 {
     User* user = userCreate(args);
 
-    char * key = malloc(sizeof(char) * MAX_STR_NAME);
-    strncpy(key, user->username, MAX_USER_STR);
+    char * key = malloc(sizeof(char) * MAX_USER_STR);
+    user_Str(key, user, 'u');
 
-    User * data = malloc(sizeof(User));
-    *data = *user;
+    /*User * data = malloc(sizeof(User));
+    *data = *user;*/
 
-    put(glob->users, (void *)key, data, hashKey_Str);
+    put(global_Hashmap(glob, 'u'), (void *)key, user, hashKey_Str);
 }
 
 /// @brief A funcao interDriver interpreta e insere informacao relativa aos drivers
@@ -57,7 +57,7 @@ void interDriver(char args[][MAX_LINE], Global * glob)
 {   
     Driver* driver = parseDriver(args);
     
-    put(glob->drivers, (void*)&driver->id, (void*)driver,hashKey_Int);
+    put(global_Hashmap(glob, 'e'), (void*)&driver->id, (void*)driver,hashKey_Int);
 }
 
 /// @brief A função interRide interpreta e insere informação relativa às rides
@@ -98,9 +98,9 @@ void interRide(char args[][MAX_LINE], Global * glob)
     short * destDte = malloc(sizeof(short) * 3);
     date_Date(destDte, dte);
 
-    put(glob->rides, key, ride, hashKey_Int);
-    put(glob->cities, (void *)dest, (void *)city, hashKey_Str);
-    put(glob->dates, (void *)destDte, (void *)dte, hashKey_date);
+    put(global_Hashmap(glob, 'r'), key, ride, hashKey_Int);
+    put(global_Hashmap(glob, 'c'), (void *)dest, (void *)city, hashKey_Str);
+    put(global_Hashmap(glob, 'd'), (void *)destDte, (void *)dte, hashKey_date);
 }
 
 /// @brief A função interCmd interpreta a informação relativa aos comandos acessa

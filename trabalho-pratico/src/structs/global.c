@@ -1,6 +1,16 @@
 #include <stdlib.h>
 #include "../../includes/structs/global.h"
 
+/// \struct Estrutura global que segura toda a informação necessária à execução do programa.
+typedef struct _GLOBAL_
+{
+    Hashmap * users;    //!< Hashmap que armazena os users
+    Hashmap * drivers;  //!< Hashmap que armazena os drivers
+    Hashmap * rides;    //!< Hashmap que armazena as rides
+    Hashmap * cities;   //!< Hashmap que armazena as cidades
+    Hashmap * dates;    //!< Hashmap que armazena as datas
+}Global;
+
 /// @brief A função createGlobal cria uma variável do tipo global.
 /**
  * A função createGlobal cria uma variável do tipo global, alocando
@@ -41,4 +51,31 @@ void destroyGlobal(Global * glob)
         destroyHashmap(glob->dates);
         free(glob);
     }
+}
+
+Hashmap * global_Hashmap(Global * glob, char mode)
+{
+    switch (mode)
+    {
+        case 'u':
+            return(glob->users);
+            break;
+
+        case 'e':
+            return(glob->drivers);
+            break;
+        
+        case 'r':
+            return(glob->rides);
+            break;
+
+        case 'c':
+            return(glob->cities);
+            break;
+
+        case 'd':
+            return(glob->dates);
+            break;
+    }
+    return(NULL);
 }

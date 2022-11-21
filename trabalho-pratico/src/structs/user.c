@@ -4,6 +4,18 @@
 #include "../../includes/structs/user.h"
 #include "../../includes/utils.h"
 
+/// \struct Estrutura que define as variáveis do tipo User.
+typedef struct _USER_
+{
+    char username[MAX_USER_STR];    //!< Username do user
+    char name[MAX_USER_STR];        //!< Nome do user
+    char gender;                    //!< Genero do user
+    short int birth_date[3];        //!< Data de nascimento do user no formato {dia,mês,ano}
+    short int account_creation[3];  //!< Data de criação de conta do user no formato {dia,mês,ano}
+    char pay_method[MAX_USER_STR];  //!< Metodo de pagamento que o user usa
+    char account_status;            //!< Status da conta ('a' para active 'i' para inactive)
+}User;
+
 /// @brief A função userCreate cria uma variável do tipo User.
 /**
  * A função userCreate cria uma variável do tipo User, alocando
@@ -53,4 +65,55 @@ void printUser(User* user){
     user->pay_method,
     user->account_status
     );
+}
+
+void user_Str(char * dest, User * user, char mode)
+{
+    switch (mode)
+    {
+        case 'u':
+            strcpy(dest, user->username);
+            break;
+
+        case 'n':
+            strcpy(dest, user->name);
+            break;
+
+        case 'p':
+            strcpy(dest, user->pay_method);
+            break;
+    }
+}
+
+char user_Char(User * user, char mode)
+{
+    switch (mode)
+    {
+        case 'g':
+            return(user->gender);
+            break;
+
+        case 's':
+            return(user->account_status);
+            break;
+    }
+    return(' ');
+}
+
+void user_Date(short * dest, User * user, char mode)
+{
+    switch (mode)
+    {
+        case 'b':
+            dest[0] = user->birth_date[0];
+            dest[1] = user->birth_date[1];
+            dest[2] = user->birth_date[2];
+            break;
+
+        case 'a':
+            dest[0] = user->account_creation[0];
+            dest[1] = user->account_creation[1];
+            dest[2] = user->account_creation[2];
+            break;
+    }
 }
