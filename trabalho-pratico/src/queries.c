@@ -127,9 +127,9 @@ void query3(int N, Global* glob){
 /// @brief A funcao query4 calcula o preco medio das viagens realizadas numa determinada cidade.
 /**
  *  
- *  @param city 
+ *  @param city Lista das cidades
  *
- *  @param glob  Estrutura de dados global a ser atualizada.
+ *  @param glob Estrutura de dados global a ser atualizada.
  * 
  *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
