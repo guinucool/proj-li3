@@ -59,7 +59,8 @@ void destroyNode(HashmapNode * node, char mode)
 
     while (hold != NULL)
     {
-        HashmapNode * temp = hold->next;    //!< Encontra o próximo elemento na ligação
+        HashmapNode * temp = hold->next;    //!< Encontra o próximo elemento na 
+        if (mode == 1) free(hold->key);     //!< Liberta a chave do elemento
         if (mode == 1) free(hold->data);    //!< Liberta a data do elemento
         free(hold);                         //!< Liberta o atual
         hold = temp;                        //!< Passa o processo para o próximo elemento

@@ -10,7 +10,7 @@ typedef struct _RIDE_ {
     int driver;                                     //!< Driver da ride
     char user[MAX_STR_NAME], city[MAX_STR_NAME];    //!< User e cidade da ride
     short distance, score_user, score_driver;       //!< Distância, pontuação do user e do driver
-    float tip;                                      //!< Gorjeta da ride
+    double tip;                                      //!< Gorjeta da ride
     char comment[MAX_STR_COMM];                     //!< Comentário da ride
 } Ride;
 

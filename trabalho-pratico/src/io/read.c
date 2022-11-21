@@ -58,8 +58,11 @@ void interUser(char args[][MAX_LINE], Global * glob)
 void interDriver(char args[][MAX_LINE], Global * glob)
 {   
     Driver* driver = parseDriver(args);
+
+    int * key = malloc(sizeof(int));
+    *key = driver_Id(driver);
     
-    put(global_Hashmap(glob, 'e'), (void*)&driver->id, (void*)driver,hashKey_Int);
+    put(global_Hashmap(glob, 'e'), key, (void*)driver,hashKey_Int);
 }
 
 /// @brief A função interRide interpreta e insere informação relativa às rides

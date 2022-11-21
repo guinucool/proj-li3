@@ -9,6 +9,18 @@ int car_class_size = 3;
 char account_status_str[][9] = {"INACTIVE", "ACTIVE"};
 int account_status_size = 2;
 
+typedef struct _DRIVER_ {
+	int id;                                      // INTEGER
+	char name[NAME_STR_SIZE];                     // STRING
+	short birth_day[3];                          // {day, month, year}
+	char gender;                                 //  {'M' - MALE, 'F' - FEMALE}
+	char car_class;                              // {0 - BASIC, 1 - GREEN, 2 - PREMIUM}
+	char license_plate[LICENSE_PLATE_STR_SIZE];  // STRING
+	char city[CITY_STR_SIZE];                    // STRING
+	short account_creation[3];                   // {day, month, year}
+	char account_status;                         // {0 - INACTIVE, 1 - ACTIVE}
+} Driver;
+
 /// @brief A funcao createDriver cria uma variavel do tipo drive.
 /**
  * A funcao createDriver cria uma variavel do tipo drive, alocando 
@@ -221,4 +233,62 @@ int parseDate(char *str, short date[]) {
 
 	// Verifica se foram armazenados 3 inteiros (dia/mes/ano).
 	return i==3;
+}
+
+int driver_Id(Driver * driver)
+{
+	return(driver->id);
+}
+
+void driver_Str(char * dest, Driver * driver, char mode)
+{
+	switch (mode)
+	{
+		case 'n':
+			strcpy(dest, driver->name);
+			break;
+
+		case 'l':
+			strcpy(dest, driver->license_plate);
+			break;
+
+		case 'c':
+			strcpy(dest, driver->city);
+			break;
+	}
+}
+
+void driver_Date(short * dest, Driver * driver, char mode)
+{
+	if (mode == 'b')
+	{
+		dest[0] = driver->account_creation[0];
+		dest[1] = driver->account_creation[1];
+		dest[2] = driver->account_creation[2];
+	}
+	else
+	{
+		dest[0] = driver->birth_day[0];
+		dest[1] = driver->birth_day[1];
+		dest[2] = driver->birth_day[2];
+	}
+}
+
+char driver_Char(Driver * driver, char mode)
+{
+	switch (mode)
+	{
+		case 'g':
+			return(driver->gender);
+			break;
+
+		case 'c':
+			return(driver->car_class);
+			break;
+
+		case 's':
+			return(driver->account_status);
+			break;
+	}
+	return(' ');
 }

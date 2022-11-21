@@ -21,22 +21,16 @@ extern int car_class_size;
 extern char account_status_str[][9];
 extern int account_status_size;
 
-typedef struct _DRIVER_ {
-	int id;                                      // INTEGER
-	char name[NAME_STR_SIZE];                     // STRING
-	short birth_day[3];                          // {day, month, year}
-	char gender;                                 //  {'M' - MALE, 'F' - FEMALE}
-	char car_class;                              // {0 - BASIC, 1 - GREEN, 2 - PREMIUM}
-	char license_plate[LICENSE_PLATE_STR_SIZE];  // STRING
-	char city[CITY_STR_SIZE];                    // STRING
-	short account_creation[3];                   // {day, month, year}
-	char account_status;                         // {0 - INACTIVE, 1 - ACTIVE}
-} Driver;
+typedef struct _DRIVER_ Driver;
 
 Driver *createDriver(int, char *, short[], char, char, char[], char[], short[], char);
 void destroyDriver(Driver*);
 void printDriver(Driver*);
 Driver *parseDriver(char[9][200]);
 int parseDate(char*, short[]);
+int driver_Id(Driver * driver);
+void driver_Str(char * dest, Driver * driver, char mode);
+void driver_Date(short * dest, Driver * driver, char mode);
+char driver_Char(Driver * driver, char mode);
 
 #endif

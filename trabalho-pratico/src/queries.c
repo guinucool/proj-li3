@@ -32,7 +32,7 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
         int did = ride_Int(ride, 'd');
         Driver * driver = (Driver*) get(global_Hashmap(glob, 'e'), (void*)&did, equal, hashKey_Int, 1);
 
-        switch (driver->car_class)
+        switch (driver_Char(driver, 'c'))
         {
             case 0:
                 precoRide = 3.25 + 0.62 * ride_Short(ride, 'p');
