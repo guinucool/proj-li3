@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../includes/io/in.h"
+#include "../includes/structs/global.h"
 
 int main(int argc, char * args[])
 {	

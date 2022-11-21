@@ -1,7 +1,7 @@
 #ifndef _QUERIES_H_
 #define _QUERIES_H_
 
-#include "./structs/global.h"
+typedef struct _GLOBAL_ Global;
 
 void query1(char*id, Global * glob);
 void query2(int N, Global * glob);

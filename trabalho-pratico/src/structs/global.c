@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
 
 /// \struct Estrutura global que segura toda a informação necessária à execução do programa.

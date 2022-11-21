@@ -2,6 +2,18 @@
 #include <string.h>
 #include "../../includes/structs/hashmap.h"
 
+/// \struct Estrutura que define uma node do hashmap.
+typedef struct _HASHMAP_NODE_ {
+	void * key;							//!< Key do elemento da node
+	void * data;						//!< Elemento da node
+	struct _HASHMAP_NODE_ * next;		//!< Próxima node ligada à mesma posição do hashmap
+} HashmapNode;
+
+/// \struct Estrutura que define o hashmap.
+typedef struct _HASHMAP_ {
+	HashmapNode * array[HASHMAP_MAX];	//!< Array de nodes que definem o hashmap
+} Hashmap;
+
 /// @brief A função createNode cria uma node do Hashmap.
 /**
  * A função createNode cria uma node do Hashmap, alocando
@@ -229,4 +241,17 @@ void * get(Hashmap *hashmap, void *key, int (*equal)(void*, void*), int (*hashFu
     }
 
     return NULL;
+}
+
+void * node_Void(HashmapNode * node, char mode)
+{
+    if (mode == 'k')
+        return(node->key);
+    else
+        return(node->data);
+}
+
+HashmapNode * node_Node(HashmapNode * node)
+{
+    return(node->next);
 }

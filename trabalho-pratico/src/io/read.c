@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "../../includes/structs/global.h"
+#include "../../includes/structs/hashmap.h"
 #include "../../includes/io/read.h"
 #include "../../includes/structs/user.h"
 #include "../../includes/structs/driver.h"

@@ -1,8 +1,7 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
-#include "hashmap.h"
-
+typedef struct _HASHMAP_ Hashmap;
 typedef struct _GLOBAL_ Global;
 
 Global *  createGlobal();

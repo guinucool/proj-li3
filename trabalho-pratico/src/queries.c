@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
+#include "../includes/structs/hashmap.h"
+#include "../includes/structs/global.h"
 #include "../includes/queries.h"
 #include "../includes/structs/driver.h"
 #include "../includes/structs/ride.h"
@@ -17,12 +19,12 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
         void * key;
         if (mode == 'd')
         {
-            Date * date = (Date*) tracker->data;
+            Date * date = (Date*) node_Void(tracker, 'd');
             key = date_Key(date);
         }
         else
         {
-            City * city = (City*) tracker->data;
+            City * city = (City*) node_Void(tracker, 'd');
             int id = city_Key(city);
             key = (void*) &id;
         }
@@ -47,7 +49,7 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
 
         precoSum += precoRide;
         n++;
-        tracker = tracker->next;
+        tracker = node_Node(tracker);
     }
     
     if (n != 0)
@@ -82,9 +84,9 @@ HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
         HashmapNode * list = get(global_Hashmap(glob, 'd'), inf, equal_date, hashKey_date, 0);
         while (list != NULL)
         {
-            Date * date = (Date*) list->data;
-            if (date_Type(date) == type) result = createNode(list->key, list->data, result);
-            list = list->next; 
+            Date * date = (Date*) node_Void(list, 'd');;
+            if (date_Type(date) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
+            list = node_Node(list); 
         }
         nextDay(inf);
     }
@@ -172,7 +174,7 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
 
     while (cityList != NULL)
     {
-        City * city = (City *) cityList->data;
+        City * city = (City *) node_Void(cityList, 'd');
         int key = city_Key(city);
         Ride * ride = (Ride *) get(global_Hashmap(glob, 'r'), (void *)&key, equal, hashKey_Int, 1);
         short date[3];
@@ -182,7 +184,7 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
             i++;
             sum += (double)ride_Short(ride, 'p');
         }
-        cityList = cityList->next;
+        cityList = node_Node(cityList);
     }
     
     if (i != 0)
