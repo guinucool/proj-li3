@@ -1,13 +1,19 @@
 CC=gcc
 CFLAGS=-Wall -Iincludes
 
-all: directory programa-principal
+all: directory programa-principal programa-testes
 
 directory:
 	mkdir out
 
+programa-testes: out/test.o out/in.o out/read.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/city.o out/utils.o out/queries.o
+	$(CC) $(CFLAGS) $^ -o $@
+
 programa-principal: out/main.o out/in.o out/read.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/city.o out/utils.o out/queries.o
 	$(CC) $(CFLAGS) $^ -o $@
+
+out/test.o: src/test.c
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 out/main.o: src/main.c
 	$(CC) $(CFLAGS) -c $^ -o $@
@@ -48,7 +54,7 @@ out/utils.o: src/utils.c
 clean: files dirs
 
 files:
-	rm programa-principal out/*
+	rm programa-testes programa-principal out/*
 
 dirs:
 	rmdir out
