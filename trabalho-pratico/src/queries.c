@@ -147,11 +147,12 @@ void query3(int N, Global* glob){
 
 /// @brief A funcao query4 calcula o preco medio das viagens realizadas numa determinada cidade.
 /**
+ *  A função vai usar a lista da cidade para calcular a média, após ter a lista ligada, vai passá-la 
+ *  à função preco_medio, que vai percorrer a lista elemento por elemento. Após ter os valores, 
+ *  a função vai calcular o preço, fazendo a média de todos os preços calculados. 
  *  
- *  @param city Lista das cidades
- *
+ *  @param city Cidade
  *  @param glob Estrutura de dados global a ser atualizada.
- * 
  *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
 double query4(char* city, Global* glob)
