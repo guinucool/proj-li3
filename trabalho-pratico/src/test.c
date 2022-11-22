@@ -9,9 +9,9 @@
 
 /// @brief A função test_query4 executa testes à query 4.
 /** 
- * @param glob A global que contém a informação da base de dados
+ * @param glob A global que contém a informação da base de dados.
  * 
- * @return O número de queries bem executadas
+ * @return O número de queries bem executadas.
  */
 int test_query4(Global * glob)
 {
@@ -35,9 +35,9 @@ int test_query4(Global * glob)
 
 /// @brief A função test_query5 executa testes à query 5.
 /** 
- * @param glob A global que contém a informação da base de dados
+ * @param glob A global que contém a informação da base de dados.
  * 
- * @return O número de queries bem executadas
+ * @return O número de queries bem executadas.
  */
 int test_query5(Global * glob)
 {
@@ -65,9 +65,9 @@ int test_query5(Global * glob)
 
 /// @brief A função test_query6 executa testes à query 6.
 /** 
- * @param glob A global que contém a informação da base de dados
+ * @param glob A global que contém a informação da base de dados.
  * 
- * @return O número de queries bem executadas
+ * @return O número de queries bem executadas.
  */
 int test_query6(Global * glob)
 {
@@ -105,11 +105,11 @@ int test_query6(Global * glob)
  * Por fim, irá imprimir as estatísticas dos resultas obtidos nas medições
  * anteriores.
  * 
- * @param argc Número de argumentos fornecidos ao programa
+ * @param argc Número de argumentos fornecidos ao programa.
  * 
- * @param args Argumentos fornecidos ao programa
+ * @param args Argumentos fornecidos ao programa.
  * 
- * @return Devolve 0 em caso de sucesso
+ * @return Devolve 0 em caso de sucesso.
  */ 
 int main(int argc, char * args[])
 {	

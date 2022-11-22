@@ -9,6 +9,23 @@
 #include "../includes/structs/date.h"
 #include "../includes/utils.h"
 
+/// @brief A função preco_medio calcula o preco_medio de um certo filtro de viagens.
+/**
+ * A função preco_medio calcula o preco_medio de um certo filtro de viagens, percorrendo
+ * todas as suas ocorrências no Hashmap de rides e no Hashmap de drivers, obtendo
+ * assim as tarifas e a distancia percorrida de cada viagem.
+ * 
+ * Acaba por ir somando os vários preços calculados de cada viagem, e no final 
+ * divide esta soma pelo número de viagens existentes no certo filtro.
+ * 
+ * @param list Lista de viagens no filtro.
+ * 
+ * @param glob A global que contém a informação recolhida na base de dados.
+ * 
+ * @param mode O tipo de filtro fornecido (d - datas, c - cidades).
+ * 
+ * @return O preço médio das viagens neste filtro.
+ */
 double preco_medio(HashmapNode * list, Global * glob, char mode)
 {
     HashmapNode * tracker = list;
