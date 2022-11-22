@@ -7,7 +7,7 @@
     - Inserir info drivers hashmap; - Done 
     - Inserir info drivers estruturas auxiliares; - Done 
     - Q4; - Done 
-    - Output das queries;
+    - Output das queries; - Done
 # Gui:
     - Leitura de ficheiros(por linha -> chama funções); (Done)
     - Inserir info rides hashmap; (Done)
@@ -20,9 +20,9 @@
     Q1: not done. 
     Q2: not done
     Q3: not done
-    Q4: DONE(not tested) 
-    Q5: DONE(not tested)
-    Q6: DONE(not tested)
+    Q4: DONE
+    Q5: DONE
+    Q6: DONE
     Q7: not done
     Q8: not done
     Q9: not done
