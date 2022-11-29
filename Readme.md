@@ -15,6 +15,15 @@
     - Q6; (Done)
 
 # Tarefas por concluir:
+    - preço medio por cidade feito no load de dataset
+    - preço por car class uma função na utils
+    - nome de funções e variaveis
+    - mostrar raciocinio no relatorio
+    - nos tstes de desempenho referir o numero de execuções e as especificações da maquina
+    - between dates em vez de receber glob receber hashmapNodes (reutilização de codigo)
+    - todas as funções de datas meter no modulo datas
+    em vez de usar  array de short fazer um tipo DATE com array de short
+    - hashmap com tamanho dinamico
 
 # Queries:
     Q1: not done. 
