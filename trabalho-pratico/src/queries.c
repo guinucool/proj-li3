@@ -1,13 +1,49 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "../includes/structs/hashmap.h"
 #include "../includes/structs/global.h"
 #include "../includes/queries.h"
 #include "../includes/structs/driver.h"
+#include "../includes/structs/user.h"
 #include "../includes/structs/ride.h"
 #include "../includes/structs/city.h"
 #include "../includes/structs/date.h"
 #include "../includes/utils.h"
+
+
+int isUser(char *id) {
+    return id[0] != '\0' && ((id[0] >= 'a' && id[0] <= 'z') || (id[0] >= 'A' && id[0] <= 'Z'));
+}
+
+int isDriver(char *id) {
+    return id[0] != '\0' && id[0] >= '0' && id[0] <= '9';
+}
+
+double calculate_ride_cost(Ride *ride, Global *glob) {
+
+    int driver_key = ride_Int(ride, 'd');
+    double total = 0;
+
+    Driver *driver = (Driver*) get(global_Hashmap(glob, 'e'), (void*) &driver_key, equal, hashKey_Int, 1);
+
+    switch(driver_Char(driver, 'c')) {
+        case 0: // BASIC
+            total = 3.25 + ride_Short(ride, 'p') * 0.62 + ride_Tip(ride); 
+            break;
+        case 1: // GREEN
+            total = 3.25 + ride_Short(ride, 'p') * 0.79 + ride_Tip(ride); 
+            break;
+        case 2: // PREMIUM
+            total = 5.20 + ride_Short(ride, 'p') * 0.94 + ride_Tip(ride); 
+            break;
+        default:
+            total = 0;
+            break; 
+    }
+
+    return total;
+}
 
 /// @brief A função preco_medio calcula o preco_medio de um certo filtro de viagens.
 /**
@@ -111,30 +147,88 @@ HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
     return result;
 }
 
-void query1(char *id, Global *glob)
-{
-    /*// TODO: criar query one.
-    printf("QUERY one:");
-    // TODO: Testar id (string - utilizador ou integer - driver)
-    int number = atoi(id);
-    if (number != 0) {
-        Driver *driver = getDriver(store->drivers, number);
-        if (driver == NULL) {
-            printf("No Driver to print.\n");
-        } else {
-            printDriver(driver);
+void query1(char *id, Global *glob) {
+    printf("QUERY one:\n");
+
+    Hashmap *rides = NULL;
+    Driver *driver = NULL;
+    User *user = NULL;
+
+    char name[MAX_USER_STR], gender;
+    short birthdate[3], age;
+    float average;
+    int total = 0, count = 0;
+
+    if (isUser(id)) {
+        // Get the user from the correpondent hashmap (if it exists).
+        user = (User*) get(global_Hashmap(glob, 'u'), (void*)id, equal_str, hashKey_Str, 1);
+
+        rides = global_Hashmap(glob, 'r');
+
+        total = 0; count = 0;
+        double expenses = 0.0;
+
+        for (int i = 0; i < HASHMAP_MAX; i++) {
+            HashmapNode* node = get_entry(rides, i);
+
+            for (HashmapNode *aux = node; aux != NULL; aux = node_Node(aux)) {
+                    count++;  
+                    Ride *ride = (Ride*) node_Void(aux, 'd');
+                    total += get_user_score(ride);
+                    expenses += calculate_ride_cost(ride, glob);
+            }
         }
+
+        average = 0.0;
+        if (count > 0) {
+            average = (float)total / count;
+        }
+
+        user_Str(name, user, 'n');
+        gender = user_Char(user, 'g');
+        user_Date(birthdate, user, 'b');
+        age = calculateAge(birthdate);
+
+        printf("%s;%c;%d;%0.3f;%d;%0.3f", name, gender, age, average, count, expenses);
     } else {
-        (User *) get(glob->users, (void *) key, equalStr, hashKey_Str, 1);
-        if (user == NULL) {
-            printf("No Driver to print. \n");
+        if (isDriver(id)) {
+
+            int number = atoi(id);
+
+            // Get the driver from the correpondent hashmap (if it exists).
+            driver = (Driver*) get(global_Hashmap(glob, 'e'), (void*)&number, equal, hashKey_Int, 1);
+
+            rides = global_Hashmap(glob, 'r');
+
+            total = 0; count = 0;
+            double gains = 0.0;
+
+            for (int i = 0; i < HASHMAP_MAX; i++) {
+                HashmapNode* node = get_entry(rides, i);
+
+                for (HashmapNode *aux = node; aux != NULL; aux = node_Node(aux)) {
+                        count++;  
+                        Ride *ride = (Ride*) node_Void(aux, 'd');
+                        total += get_driver_score(ride);
+                        gains += calculate_ride_cost(ride, glob);
+                }
+            }
+
+            average = 0.0;
+            if (count > 0) {
+                average = (float)total / count;
+            }
+            
+            driver_Str(name, driver, 'n');
+            gender = driver_Char(driver, 'g');
+            driver_Date(birthdate, driver, 'b');
+            age = calculateAge(birthdate);
+   
+            printf("%s;%c;%d;%0.3f;%d;%0.3f", name, gender, age, average, count, gains);
         } else {
-            printUser(user);
+            printf("No user or driver found.\n");
         }
-        // TODO: como extrair um utilizador (void *get)
-        // TODO: Como extrair um utilizador?
-        // User *user = getU
-    }*/
+    }
 }
 
 void query2(int N, Global* glob){

@@ -14,5 +14,7 @@ void ride_Date(short * dest, Ride * ride);
 void ride_Str(char * dest, Ride * ride, char mode);
 short ride_Short(Ride * ride, char mode);
 double ride_Tip(Ride * ride);
+short get_user_score(Ride*);
+short get_driver_score(Ride*);
 
 #endif

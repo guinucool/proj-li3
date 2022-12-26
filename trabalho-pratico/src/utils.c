@@ -2,6 +2,21 @@
 #include <math.h>
 #include "../includes/utils.h"
 
+
+short calculateAge(short birthday[]) {
+    short age, now[3];
+    
+    stringToDate(REF_DATE, now);
+
+    if (now[1] > birthday[1] || (now[1] == birthday[1] && now[0] >= birthday[0])) {
+        age = now[2] - birthday[2];
+    } else {
+        age = now[2] - birthday[2] - 1;
+    }
+
+    return age;
+}
+
 /// @brief A função string to date insere num array de 3 shorts o número referente ao dia, mês e ano de uma data.
 /** 
  *  A função recebe uma String que contem uma data no formato "DD/MM/AAAA" e converte-a em 3 elementos
@@ -110,3 +125,4 @@ int isId(char s[200]){
     }
     return res;
 }
+
