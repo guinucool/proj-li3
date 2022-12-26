@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "../../includes/structs/ride.h"
 
+typedef struct _RIDE_ Ride;
 /// \struct Estrutura que define as variáveis do tipo ride.
 typedef struct _RIDE_ {
     int id;                                         //!< Id da ride
@@ -148,4 +149,12 @@ short ride_Short(Ride * ride, char mode)
 double ride_Tip(Ride * ride)
 {
     return(ride->tip);
+}
+
+short get_user_score(Ride *ride) {
+    return ride->score_user;
+}
+
+short get_driver_score(Ride *ride) {
+    return ride->score_driver;
 }

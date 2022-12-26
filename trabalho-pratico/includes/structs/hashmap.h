@@ -18,5 +18,6 @@ void put(Hashmap *hashmap, void *key, void *data, int(*)(void*));
 void *get(Hashmap *hashmap, void *key,  int (*)(void*, void*), int(*)(void*), char mode);
 void * node_Void(HashmapNode * node, char mode);
 HashmapNode * node_Node(HashmapNode * node);
+HashmapNode* get_entry(Hashmap*, int);
 
 #endif

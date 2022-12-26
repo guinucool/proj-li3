@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../includes/io/in.h"
 #include "../includes/structs/global.h"
+#include "../includes/queries.h"
 
 int main(int argc, char * args[])
 {	
@@ -25,7 +26,9 @@ int main(int argc, char * args[])
 
 		//printGlobal(glob);
 
-		readFile(args[2], 0, glob);
+		//readFile(args[2], 0, glob);
+
+		query1("MRibeiro33", glob);
 
 		destroyGlobal(glob);
 	}

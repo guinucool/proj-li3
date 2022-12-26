@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../../includes/structs/hashmap.h"
@@ -136,6 +137,7 @@ int hashKey_Str(void* str)
         p_pow = (p_pow * p) % m;
     }
 
+    // return hash < 0 ? hash * -1 : hash;
     return hash;
 }
 
@@ -184,14 +186,21 @@ int hashKey_date(void* date)
  */
 void put(Hashmap *hashmap, void *key, void *data, int (*hashFunc)(void*))
 {
+
     if (hashmap != NULL)
     {
-        int pos = hashFunc(key);                                                //!< Devolve a hash (posição) do elemento
+        int pos = hashFunc(key);            //!< Devolve a hash (posição) do elemento
+
+        if (pos < 0 || pos >= HASHMAP_MAX) {
+            printf("Oh Oh! Something went wrong here! For key '%s'\nI've generated the index '%d'...\n", (char*)key, pos);
+            return;
+        }                                     
 
         if (hashmap->array[pos] == NULL)                                        //!< Não existe nada na posição
             hashmap->array[pos] = createNode(key, data, NULL);                  //!< Cria node com ligação a null
         else                                                                    //!< Existe algo na posição
             hashmap->array[pos] = createNode(key, data, hashmap->array[pos]);   //!< Cria node com ligação às já existentes
+    
     }
 }
 
@@ -255,4 +264,8 @@ void * node_Void(HashmapNode * node, char mode)
 HashmapNode * node_Node(HashmapNode * node)
 {
     return(node->next);
+}
+
+HashmapNode * get_entry(Hashmap* hashMap, int index) {
+    return hashMap->array[index];
 }
