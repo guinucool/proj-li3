@@ -1,12 +1,9 @@
 #ifndef _DATE_H_
 #define _DATE_H_
 
-typedef struct _DATE_ Date;
+/// \struct Estrutura que define as variáveis do tipo Data.
+typedef short Date[3];
 
-Date * createDate(short* date, void* key, char type);
-void destroyDate(Date * date);
-void date_Date(short * dest, Date * date);
-void * date_Key(Date * date);
-char date_Type(Date * date);
+void createDate(char * date, Date res);
 
 #endif

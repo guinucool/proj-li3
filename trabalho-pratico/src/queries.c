@@ -8,7 +8,7 @@
 #include "../includes/structs/user.h"
 #include "../includes/structs/ride.h"
 #include "../includes/structs/city.h"
-#include "../includes/structs/date.h"
+#include "../includes/structs/datefilter.h"
 #include "../includes/utils.h"
 
 
@@ -72,8 +72,8 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
         void * key;
         if (mode == 'd')
         {
-            Date * date = (Date*) node_Void(tracker, 'd');
-            key = date_Key(date);
+            DateFilter * filter = (DateFilter*) node_Void(tracker, 'd');
+            key = date_Key(filter);
         }
         else
         {
@@ -137,8 +137,8 @@ HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
         HashmapNode * list = get(global_Hashmap(glob, 'd'), inf, equal_date, hashKey_date, 0);
         while (list != NULL)
         {
-            Date * date = (Date*) node_Void(list, 'd');;
-            if (date_Type(date) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
+            DateFilter * filter = (DateFilter*) node_Void(list, 'd');;
+            if (date_Type(filter) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
             list = node_Node(list); 
         }
         nextDay(inf);

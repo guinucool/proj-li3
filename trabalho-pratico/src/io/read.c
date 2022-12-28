@@ -8,7 +8,7 @@
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"
 #include "../../includes/structs/city.h"
-#include "../../includes/structs/date.h"
+#include "../../includes/structs/datefilter.h"
 #include "../../includes/utils.h"
 #include "../../includes/queries.h"
 
@@ -95,17 +95,17 @@ void interRide(char args[][MAX_LINE], Global * glob)
     *data = *ride;*/
     
     City * city = createCity(args[4], *key, 'r');
-    Date * dte = createDate(date, key, 'r');
+    DateFilter * filter = createDateFilter(date, key, 'r');
 
     char * dest = malloc(sizeof(char) * MAX_STR_NAME);
     city_City(dest, city);
 
     short * destDte = malloc(sizeof(short) * 3);
-    date_Date(destDte, dte);
+    date_Date(destDte, filter);
 
     put(global_Hashmap(glob, 'r'), key, ride, hashKey_Int);
     put(global_Hashmap(glob, 'c'), (void *)dest, (void *)city, hashKey_Str);
-    put(global_Hashmap(glob, 'd'), (void *)destDte, (void *)dte, hashKey_date);
+    put(global_Hashmap(glob, 'd'), (void *)destDte, (void *)filter, hashKey_date);
 }
 
 /// @brief A função interCmd interpreta a informação relativa aos comandos acessa

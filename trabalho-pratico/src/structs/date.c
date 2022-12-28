@@ -2,67 +2,75 @@
 
 #include "../../includes/structs/date.h"
 
-/// \struct Estrutura que define as variáveis do tipo cidade.
-typedef struct _DATE_{
-    short date[3];      //!< Data a ser considerada
-    void* keyRef;       //!< Chave associada à data {username(user) ou id(riders && drivers)}
-    char type;          //!< Tipo de data {a - birth_date(driver) ou b - account_creation(driver) ou c - date(rides) ou d - birth_date(users) ou e - account_creation(users)}
-}Date;
-
 /// @brief A função createDate cria uma variável do tipo Date.
 /**
- * A função createDate cria uma variável do tipo Date, alocando
- * o espaço necessário para a mesma na memória.
+ * A função createDate cria uma variável do tipo Date, convertendo
+ * uma string de com o formato correto de data em uma array de short com 
+ * 3 elementos.
  * 
- * De seguida, irá associar a cada propriedade deste tipo
- * de variável um valor do input da função.
+ * O primeiro elemento será o dia, o segundo o mês e o terceiro o ano.
  * 
- * @param date O array de shorts com a data.
+ * @param date A data em formato string.
  * 
- * @param key A chave a qual a data esta associada.
- * 
- * @param type O tipo de id fornecido na propriedade anterior.
- * 
- * @return A variável do tipo Date criada e alocada.
+ * @return A variável do tipo Date criada.
  */ 
-Date * createDate(short * date, void * key, char type)
-{
-    Date* d = (Date*) malloc(sizeof(Date));
-
-    d->date[0] = date[0];
-    d->date[1] = date[1];
-    d->date[2] = date[2];
-    d->keyRef = key;
-    d->type = type;
-    
-    return d;
+void createDate(char * date, Date res)
+{   
+    res[0] = (short)(10*(date[0]-48)+(date[1]-48));
+    res[1] = (short)(10*(date[3]-48)+(date[4]-48));
+    res[2] = (short)(1000*(date[6]-48)+100*(date[7]-48)+10*(date[8]-48)+(date[9]-48));
 }
 
-/// @brief A função destroyDate destroí uma variável do tipo Date.
-/**
- * A função destroyDate destroí uma variável do tipo Date, libertando
- * o espaço ocupado por esta e pela suas propriedades.
+/// @brief A função equal compara duas datas.
+/** 
+ *  A função datecmp compara duas datas, comparando cada elemento da primeira data  
+ *  ao respetivo elemento da segunda data pela ordem ano->mês->dia, verificando qual é maior.
  * 
- * @param date A variável Date a ser destruída.
- */
-void destroyDate(Date * date)
+ * @param dateA Data nº 1.
+ * @param dateB Data nº 2.
+ * 
+ * @return Retorna -1 caso a dateA seja menor que a dateB, retorna 1 caso a dateA seja maior que a dateB e retorna 0 caso as datas sejam iguais.
+ */ 
+int datecmp(Date dateA, Date dateB)
 {
-    free(date);
+    for (int i = 2; i >= 0; i--)
+    {
+        if (dateA[i] < dateB[i]) return -1;
+        if (dateA[i] > dateB[i]) return 1;
+    }
+
+    return 0;
 }
 
-void date_Date(short * dest, Date * date)
-{
-    dest[0] = date->date[0];
-    dest[1] = date->date[1];
-    dest[2] = date->date[2];
-}
+/// @brief A função modifica uma data para o dia seguinte.
+/** 
+ *  A função modifica uma data para o dia seguinte, incrementando 1 valor a data, tendo em conta 
+ *  as mudanças de mês e ano.
+ * 
+ * @param date Data a ser mudada.
+ */ 
+void nextDay(Date date)
+{    
+    short day = 31;
+    if ((date[1] < 8 && date[1] % 2 == 0) || (date[1] >= 8 && date[1] % 2 == 1)) day = 30;
+    if (date[1] == 2)
+    {
+        if (date[2] % 4 == 0) day = 29;
+        else day = 28;
+    }
+    short month = 12;
 
-void * date_Key(Date * date)
-{
-    return(date->keyRef);
-}
-
-char date_Type(Date * date)
-{
-    return(date->type);
+    date[0]++;
+    
+    if (date[0] > day)
+    {
+        date[0] = 1;
+        date[1]++;
+    }
+    
+    if (date[1] > month)
+    {
+        date[1] = 1;
+        date[2]++;
+    }
 }
