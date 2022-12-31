@@ -12,7 +12,7 @@
     - Inserir info drivers estruturas auxiliares; - Done 
     - Q4; - Done 
     - Output das queries; - Done
-    - Q1;
+    - Q1; - Done
     - Q8;
 # Gui:
     - Leitura de ficheiros(por linha -> chama funções); (Done)
@@ -37,7 +37,7 @@
     - hashmap com tamanho dinamico
 
 # Queries:
-    Q1: working... 
+    Q1: DONE 
     Q2: working...
     Q3: working...
     Q4: DONE
