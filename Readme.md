@@ -6,7 +6,7 @@
     - Q7;
     - Q9;
     - preço por car class uma função na utils 
-    - between na utils (reutilização de codigo)
+    - between na utils (reutilização de codigo) --DONE--
 # Alexandra:
     - Inserir info drivers hashmap; - Done 
     - Inserir info drivers estruturas auxiliares; - Done 
