@@ -1,6 +1,9 @@
 #include <string.h>
 #include <math.h>
 #include "../includes/utils.h"
+#include "../includes/structs/hashmap.h"
+#include "../includes/structs/datefilter.h"
+#include "../includes/structs/global.h"
 
 
 short calculateAge(short birthday[]) {
@@ -126,3 +129,39 @@ int isId(char s[200]){
     return res;
 }
 
+
+/// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
+///        Dates de um certo tipo dentro de um intervalo de tempo.
+/** 
+ *  A função betweenDates fornece uma lista ligada de HashmapNode de Dates de um certo tipo
+ *  dentro de um intervalo de tempo, percorrendo todas as Dates do hashmap de Dates
+ *  dentro desse intervalo de tempo.
+ * 
+ *  Quando a função encontrar alguma Date do tipo pretendido adiciona-a à lista ligada
+ *  de HashmapNode de resultado.
+ * 
+ *  @param inf  Data em que começa o intervalo de tempo.
+ *  @param up   Data em que termina o intervalo de tempo.
+ *  @param type Tipo de data pretendido.
+ *  @param glob Estrutura de dados global a ser atualizada.
+ *  
+ *  @return Retorna a lista ligada de HashmapNode de Dates no intervalo de tempo pretendido.
+ */
+HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
+{
+    HashmapNode * result = NULL;
+
+    while(datecmp(inf, up) <= 0)
+    {
+        HashmapNode * list = get(global_Hashmap(glob, 'd'), inf, equal_date, hashKey_date, 0);
+        while (list != NULL)
+        {
+            DateFilter * filter = (DateFilter*) node_Void(list, 'd');;
+            if (date_Type(filter) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
+            list = node_Node(list); 
+        }
+        nextDay(inf);
+    }
+
+    return result;
+}

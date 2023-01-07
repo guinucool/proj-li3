@@ -8,7 +8,7 @@
 #include "../includes/structs/user.h"
 #include "../includes/structs/ride.h"
 #include "../includes/structs/city.h"
-#include "../includes/structs/date.h"
+#include "../includes/structs/datefilter.h"
 #include "../includes/utils.h"
 
 
@@ -72,8 +72,8 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
         void * key;
         if (mode == 'd')
         {
-            Date * date = (Date*) node_Void(tracker, 'd');
-            key = date_Key(date);
+            DateFilter * filter = (DateFilter*) node_Void(tracker, 'd');
+            key = date_Key(filter);
         }
         else
         {
@@ -109,42 +109,6 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
         return (precoSum/n);
     else
         return (0);
-}
-
-/// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
-///        Dates de um certo tipo dentro de um intervalo de tempo.
-/** 
- *  A função betweenDates fornece uma lista ligada de HashmapNode de Dates de um certo tipo
- *  dentro de um intervalo de tempo, percorrendo todas as Dates do hashmap de Dates
- *  dentro desse intervalo de tempo.
- * 
- *  Quando a função encontrar alguma Date do tipo pretendido adiciona-a à lista ligada
- *  de HashmapNode de resultado.
- * 
- *  @param inf  Data em que começa o intervalo de tempo.
- *  @param up   Data em que termina o intervalo de tempo.
- *  @param type Tipo de data pretendido.
- *  @param glob Estrutura de dados global a ser atualizada.
- *  
- *  @return Retorna a lista ligada de HashmapNode de Dates no intervalo de tempo pretendido.
- */
-HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
-{
-    HashmapNode * result = NULL;
-
-    while(datecmp(inf, up) <= 0)
-    {
-        HashmapNode * list = get(global_Hashmap(glob, 'd'), inf, equal_date, hashKey_date, 0);
-        while (list != NULL)
-        {
-            Date * date = (Date*) node_Void(list, 'd');;
-            if (date_Type(date) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
-            list = node_Node(list); 
-        }
-        nextDay(inf);
-    }
-
-    return result;
 }
 
 void query1(char *id, Global *glob) {
