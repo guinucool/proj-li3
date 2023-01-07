@@ -329,7 +329,18 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
 }
 
 void query7(int N,char* city, Global * glob){
+    HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
 
+    while(cityList != NULL){
+        City* cidade = node_Void(cityList,0);
+        char cityType = city_Type(cidade); 
+
+        if(cityType == 'r'){
+        int key = city_Key(cityList);
+        Ride* rideAux = (HashmapNode *) get(global_Hashmap(glob, 'r'), (void*)&key, equal, hashKey_Int, 0);
+        
+        }else cityList = node_Node(cityList);
+    }
 }
 
 void query8(char* gender,int X, Global * glob){
