@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include "../includes/structs/hashmap.h"
 #include "../includes/structs/global.h"
@@ -11,6 +12,7 @@
 #include "../includes/structs/datefilter.h"
 #include "../includes/structs/btree.h";
 #include "../includes/utils.h"
+#include "../includes/structs/btree.h"
 
 
 int isUser(char *id) {
@@ -309,8 +311,131 @@ void query7(int N,char* city, Global * glob){
     }
 }
 
-void query8(char* gender,int X, Global * glob){
-    
+
+// Passo 1 : Extrair a informação das viagens, condutores e utilizadores da hashmap e colocar numa lista ligada.
+// Passo 2: Ordenar a lista ligada conforme o enunciado (antiguidade do perfil de condutor, antiguidade do perfil de utilizador, ordem crescrent do id de viagem)
+// Passo 3: Contruir o array (de strings) com os campos pretendidos.
+char ** query8(char gender,int X, Global * glob) {
+
+    // Actual date.
+    short now[3];
+    stringToDate(REF_DATE, now);
+
+    // Obter todas as viagens.
+    Hashmap *rides = global_Hashmap(glob, 'r');
+
+    // Obter todos os condutores.
+    Hashmap *drivers = global_Hashmap(glob, 'e');
+
+    // Obter todos os utilizadores.
+    Hashmap *users = global_Hashmap(glob, 'u');
+
+    // Definição da estrutura para armazenar os resultados da query (0 - Ride, 1 - Driver, 2 - User).
+    void* records[size(rides)][3];
+    int nrecords = 0;
+
+    // Percorrer todas as viagens e extrair aquelas que respeitam o critário de filtragem.
+    while (rides) {
+
+        // Extrair a informação da viagem.
+        Ride *ride = (Ride*) node_Void(rides, 'd');
+        int rideKey = ride_Int(ride, 'i');
+        char userKey[MAX_USER_STR];
+        ride_Str(userKey, ride, 'u');
+
+        // Extrair a informação do condutor.
+        Driver *driver = (Driver*) get(drivers, (void *)& rideKey, equal, hashKey_Int, 1);
+        short driverProfileDate[3];
+        driver_Date(driverProfileDate, driver, 'b');
+
+        // Extrair a informação do utilizador.
+        User *user = (User*) get(users, (void*) &userKey, equal, hashKey_Str, 1);
+        short userProfileDate[3];
+        user_Date(userProfileDate, user, 'b');
+
+        // Inserir as informações da viagem, condutor e utilizador na lista de resultados.
+        if (driver_Char(driver, 'g') == gender && user_Char(user, 'g') == gender && 
+            dateDiffYears(&driverProfileDate, &now) >= X && dateDiffYears(&userProfileDate, &now) >= X) {
+            records[nrecords][0] = (void*) ride;
+            records[nrecords][1] = (void*) driver;
+            records[nrecords++][2] = (void*) user;
+        }
+
+        // Avançar para a próxima viagem.
+        rides = node_Node(rides);
+    }
+
+    // Criar o array de strings a devolver.
+    char ** resultados = (char**) malloc(sizeof(char*) * nrecords);
+
+    for (int i = 0; i < nrecords; i++) {
+        resultados[i] = (char*) malloc(sizeof(char) * 1024);
+    }
+
+    // Ordenar o array por (1) antiguidade to condutor, (2) antiguidade do utilizador e (3) id viagem por ordem crescente.
+    for (int i = 0; i < nrecords-1; i++) {
+        for (int j = i; j < nrecords; j++ ) {
+
+            // Extrair e calcular a diferença entre as datas dos contudores 'i' e 'j'.
+            short driverProfileDate_i[3], driverProfileDate_j[3];
+            user_Date(driverProfileDate_i, records[i][1], 'b');
+            user_Date(driverProfileDate_j, records[j][1], 'b');
+            int diffDriverDate = dateDiffYears(&driverProfileDate_i, &now) - dateDiffYears(&driverProfileDate_j, &now);
+
+            // Extrair e calcular a diferença entre as datas dos utilizadores 'i' e 'j'.
+            short userProfileDate_i[3], userProfileDate_j[3];
+            user_Date(userProfileDate_i, records[i][2], 'b');
+            user_Date(userProfileDate_j, records[j][2], 'b');
+            int diffUserDate = dateDiffYears(&userProfileDate_i, &now) - dateDiffYears(&userProfileDate_j, &now);
+
+            // Extrair os ids das viagens 'i' e 'j'.
+            int rideID_i, rideID_j;
+            rideID_i = ride_Int(records[i][0], 'i');
+            rideID_j = ride_Int(records[j][0], 'i');
+
+            // Aplicação dos critérios para a troca dos apontadores 'i' e 'j'.
+            if ( diffDriverDate < 0  || (diffDriverDate == 0 && diffUserDate < 0) || (diffDriverDate == 0 && diffUserDate == 0 && rideID_j > rideID_i)) {
+                void * aux[3];
+
+                // Swap de valores.
+                for (int k = 0; k < 3; k++) {
+                    aux[k] = records[i][k];
+                    records[i][k] = records[j][k];
+                    records[j][k] = aux[k];
+                }
+            }
+        }
+    }
+
+    // Criar o array de strings com os campos pretendidos.
+    for (int i = 0; i < nrecords; i++) {
+
+        // Extrair os dados para construir o resultado.
+        char driverID[20];
+        char driverName[NAME_STR_SIZE];
+        char userID[MAX_USER_STR];
+        char userName[MAX_USER_STR];
+
+        itoa(driver_Id(records[i][1]), driverID, 10);
+        driver_Str(driverName, records[i][1], 'n');
+        user_Str(userID, records[i][2], 'i');
+        user_Str(userName, records[i][2], 'n');
+
+        // Iniciar a string do resultado como vazia.
+        resultados[i][0] = '\0';
+
+        strcat(resultados[i], driver_Id);
+        strcat(resultados[i], ";");
+        strcat(resultados[i], driverName);
+        strcat(resultados[i], ";");
+        strcat(resultados[i], userID);
+        strcat(resultados[i], ";");
+        strcat(resultados[i], userName);
+        strcat(resultados[i], ";");
+    }
+
+    // Devolver o resultado da pesquisa.
+    return resultados;
 }
 
 void query9(short* dateA,short* dateB, Global * glob){

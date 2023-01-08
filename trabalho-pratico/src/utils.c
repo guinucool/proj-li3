@@ -157,7 +157,7 @@ HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
         while (list != NULL)
         {
             DateFilter * filter = (DateFilter*) node_Void(list, 'd');;
-            if (date_Type(filter) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
+            if (filter_Type(filter) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
             list = node_Node(list); 
         }
         nextDay(inf);
