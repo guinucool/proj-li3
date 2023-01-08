@@ -50,3 +50,8 @@ void destroyTree(BinaryTree * tree)
     if(tree->rightChild != NULL)destroyTree(tree->rightChild);
     free(tree);
 }
+
+int procuraTreeOrd(BinaryTree* tree, int x){
+    int data = tree->data;
+    if(tree->data == x)
+}

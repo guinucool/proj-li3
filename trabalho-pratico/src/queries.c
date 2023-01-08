@@ -9,6 +9,7 @@
 #include "../includes/structs/ride.h"
 #include "../includes/structs/city.h"
 #include "../includes/structs/datefilter.h"
+#include "../includes/structs/btree.h";
 #include "../includes/utils.h"
 
 
@@ -294,7 +295,7 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
 
 void query7(int N,char* city, Global * glob){
     HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
-
+    BinaryTree* bTree;
     while(cityList != NULL){
         City* cidade = node_Void(cityList,0);
         char cityType = city_Type(cidade); 
@@ -302,6 +303,7 @@ void query7(int N,char* city, Global * glob){
         if(cityType == 'r'){
         int key = city_Key(cityList);
         Ride* rideAux = (HashmapNode *) get(global_Hashmap(glob, 'r'), (void*)&key, equal, hashKey_Int, 0);
+        int driver_id = ride_Int(rideAux,0);
         
         }else cityList = node_Node(cityList);
     }
