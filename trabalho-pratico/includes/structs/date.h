@@ -5,5 +5,6 @@
 typedef short Date[3];
 
 void createDate(char * date, Date res);
+int dateDiffYears(Date *, Date *);
 
 #endif

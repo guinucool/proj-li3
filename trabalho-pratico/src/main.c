@@ -28,7 +28,11 @@ int main(int argc, char * args[])
 
 		//readFile(args[2], 0, glob);
 
-		query1("MRibeiro33", glob);
+		//query1("MRibeiro33", glob);
+
+		char gender = 'M';
+
+		query8(&gender, 1, glob);
 
 		destroyGlobal(glob);
 	}

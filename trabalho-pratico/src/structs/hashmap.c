@@ -269,3 +269,18 @@ HashmapNode * node_Node(HashmapNode * node)
 HashmapNode * get_entry(Hashmap* hashMap, int index) {
     return hashMap->array[index];
 }
+
+
+int size(Hashmap* hashMap) {
+    int count = 0;
+
+    for (int i = 0; i < HASHMAP_MAX; i++) {
+        HashmapNode *node = hashMap->array[i];
+        while (node) {
+            count++;
+            node = node_Node(node);
+        }
+    }
+
+    return count;
+}

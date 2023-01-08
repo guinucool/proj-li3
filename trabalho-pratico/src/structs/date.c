@@ -74,3 +74,12 @@ void nextDay(Date date)
         date[2]++;
     }
 }
+
+int dateDiffYears(Date *dateA, Date *dateB) {
+
+    if (dateA[1] > dateB[1] || (dateA[1] == dateB[1] && dateA[0] > dateB[0])) {
+        return dateB[2] - dateA[2];
+    } else {
+        return dateB[2] - dateA[2] - 1;
+    }
+}

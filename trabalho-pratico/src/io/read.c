@@ -101,7 +101,7 @@ void interRide(char args[][MAX_LINE], Global * glob)
     city_City(dest, city);
 
     short * destDte = malloc(sizeof(short) * 3);
-    date_Date(destDte, filter);
+    filter_Date(destDte, filter);
 
     put(global_Hashmap(glob, 'r'), key, ride, hashKey_Int);
     put(global_Hashmap(glob, 'c'), (void *)dest, (void *)city, hashKey_Str);
