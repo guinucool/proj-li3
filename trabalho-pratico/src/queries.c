@@ -297,18 +297,35 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
 
 void query7(int N,char* city, Global * glob){
     HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
-    BinaryTree* bTree;
+    BinaryTree7* bTree;
+    void* max[N][4];
+
     while(cityList != NULL){
+
         City* cidade = node_Void(cityList,0);
         char cityType = city_Type(cidade); 
 
         if(cityType == 'r'){
-        int key = city_Key(cityList);
-        Ride* rideAux = (HashmapNode *) get(global_Hashmap(glob, 'r'), (void*)&key, equal, hashKey_Int, 0);
-        int driver_id = ride_Int(rideAux,0);
+            int key = city_Key(cityList);
+            Ride* rideAux = (HashmapNode *) get(global_Hashmap(glob, 'r'), (void*)&key, equal, hashKey_Int, 0);
+            int driverID = ride_Int(rideAux,0);
+            int driverScore = get_driver_score(rideAux);
+            BinaryTree7 * auxTree = insertTreeOrd_7(bTree,driverID);
         
+            if(auxTree != NULL){
+                incrementCount(auxTree);
+                addScore(auxTree,driverScore);
+            }else{
+                Driver * driver = (HashmapNode *) get(global_Hashmap(glob, 'd'), (void*)&driverID, equal, hashKey_Int, 0);
+                char * name;
+                driver_Str(name,driver, 'n');
+                auxTree = createTree(driverID,name,driverScore,NULL,NULL);
+            }
         }else cityList = node_Node(cityList);
     }
+
+    maxN(bTree,N,max);
+
 }
 
 

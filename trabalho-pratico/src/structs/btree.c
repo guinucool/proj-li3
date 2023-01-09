@@ -2,11 +2,14 @@
 #include <stdlib.h>
 
 /// \struct Estrutura que define uma binary tree de void pointers.
-typedef struct _BINARY_TREE_ {
-	void * data;
-    struct _BINARY_TREE_ * leftChild;
-    struct _BINARY_TREE_ * rightChild;
-} BinaryTree;
+typedef struct _BINARY_TREE7_ {
+	int id;
+    char* name;
+    int count;
+    int total;
+    struct _BINARY_TREE7_ * leftChild;
+    struct _BINARY_TREE7_ * rightChild;
+} BinaryTree7;
 
 /// @brief A função createTree cria uma arvore binaria.
 /**
@@ -24,11 +27,14 @@ typedef struct _BINARY_TREE_ {
  * 
  * @return A tree criada e alocada.
  */ 
-BinaryTree * createTree(void * data, BinaryTree * lc, BinaryTree * rc){
+BinaryTree7 * createTree(int id, char* name, int total, BinaryTree7 * lc, BinaryTree7 * rc){
 
-    BinaryTree * tree = (BinaryTree*) malloc(sizeof(BinaryTree));
+    BinaryTree7 * tree = (BinaryTree7*) malloc(sizeof(BinaryTree7));
 
-    tree->data = data;
+    tree->id = id;
+    tree->name = name;
+    tree->count = 1;
+    tree->total = total;
     tree->leftChild = lc;
     tree->rightChild = rc;
 }
@@ -44,14 +50,79 @@ BinaryTree * createTree(void * data, BinaryTree * lc, BinaryTree * rc){
  * @param tree A Tree a ser destruída.
  * 
  */ 
-void destroyTree(BinaryTree * tree)
+void destroyTree(BinaryTree7 * tree)
 {
     if(tree->leftChild != NULL)destroyTree(tree->leftChild);
     if(tree->rightChild != NULL)destroyTree(tree->rightChild);
     free(tree);
 }
 
-int procuraTreeOrd(BinaryTree* tree, int x){
-    int data = tree->data;
-    if(tree->data == x)
+/// @brief Esta função procura pelo local da arvore binaria onde o id do driver esta.
+/**
+ * Esta função procura pelo local da arvore binaria onde o id do driver esta e caso não
+ * exista retorna o local onde deve ser inserido. Usando um algoritmo basico de procura
+ * a função percorre a arvore comoparando o id dado com o id de cada data[0].
+ * 
+ * @param tree Arvore bínaria onde pretendemos procurar
+ * 
+ * @param id Id que pretendemos encontrar
+ * 
+ * @return returna a tree onde se encontra o Id ou onde este deve ser adicionado
+*/
+BinaryTree7 * insertTreeOrd_7(BinaryTree7 * tree, int id){
+    while (tree != NULL)
+    {
+        int driverId = tree->id;
+
+        if(id < driverId)tree = tree->leftChild;
+        else if(id > driverId)tree = tree->rightChild;
+        else return tree;
+    }
+    return tree;
+    
+}
+
+void maxN(BinaryTree7 * tree, int N, void *** res){
+    if(tree != NULL){
+        int id = tree->id;
+        int count = tree->count;
+        int total = tree->count;
+        for (int i = N-1; i >= 0; i--)
+        {
+            //insertOrd na matriz 
+        }
+        
+    }
+}
+
+void incrementCount(BinaryTree7 * tree){
+    tree->id++;
+}
+
+void addScore(BinaryTree7 * tree, int score){
+    tree->total += score;
+}
+
+int bTree_id(BinaryTree7 * tree){
+    return tree->id;
+}
+
+char * bTree_name(BinaryTree7 * tree){
+    return tree->name;
+}
+
+int bTree_count(BinaryTree7 * tree){
+    return tree->count;
+}
+
+int bTree_total(BinaryTree7 * tree){
+    return tree->total;
+}
+
+BinaryTree7 * bTree_left(BinaryTree7 * tree){
+    return tree->leftChild;
+}
+
+BinaryTree7 * bTree_right(BinaryTree7 * tree){
+    return tree->rightChild;
 }
