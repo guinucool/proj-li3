@@ -357,11 +357,12 @@ char ** query8(char gender,int X, Global * glob) {
         // Extrair a informação da viagem.
         Ride *ride = (Ride*) node_Void(rides, 'd');
         int rideKey = ride_Int(ride, 'i');
+        int driverKey = ride_Int(ride, 'e');
         char userKey[MAX_USER_STR];
         ride_Str(userKey, ride, 'u');
 
         // Extrair a informação do condutor.
-        Driver *driver = (Driver*) get(drivers, (void *)& rideKey, equal, hashKey_Int, 1);
+        Driver *driver = (Driver*) get(drivers, (void *)& driverKey, equal, hashKey_Int, 1);
         short driverProfileDate[3];
         driver_Date(driverProfileDate, driver, 'b');
 
