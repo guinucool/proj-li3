@@ -3,7 +3,7 @@
 
 typedef struct _BINARY_TREE7_ BinaryTree7;
 
-BinaryTree7 * createTree(int id, char* name, int total, BinaryTree7 * lc, BinaryTree7 * rc);
+void createTree(BinaryTree7* tree,int id, char* name, int total, BinaryTree7 * lc, BinaryTree7 * rc);
 void destroyTree(BinaryTree7 * tree);
 BinaryTree7 * insertTreeOrd_7(BinaryTree7 * tree, int id);
 void incrementCount(BinaryTree7 * tree);
