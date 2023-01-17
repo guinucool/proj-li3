@@ -8,6 +8,7 @@ void destroyTree(BinaryTree7 * tree);
 BinaryTree7 * insertTreeOrd_7(BinaryTree7 * tree, int id);
 void incrementCount(BinaryTree7 * tree);
 void addScore(BinaryTree7 * tree, int score);
+void maxN(BinaryTree7 * tree, int N, BinaryTree7* max[N],int * tree_mutex);
 int bTree_id(BinaryTree7 * tree);
 char * bTree_name(BinaryTree7 * tree);
 int bTree_count(BinaryTree7 * tree);

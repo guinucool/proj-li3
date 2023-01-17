@@ -82,16 +82,42 @@ BinaryTree7 * insertTreeOrd_7(BinaryTree7 * tree, int id){
     
 }
 
-void maxN(BinaryTree7 * tree, int N, void *** res){
+void maxN(BinaryTree7 * tree, int N, BinaryTree7* max[N],int * tree_mutex)
+{
+    while (__sync_lock_test_and_set(tree_mutex, 1));
+    BinaryTree7* auxTree;
+    double avMed = 0.f, avMedAux = 0.f;
+
     if(tree != NULL){
         int id = tree->id;
         int count = tree->count;
         int total = tree->count;
-        for (int i = N-1; i >= 0; i--)
-        {
-            //insertOrd na matriz 
+        int i;
+        avMed = (double)(total/count);
+        auxTree = max[N-1];
+        avMedAux = (double)(auxTree->total/auxTree->count);
+        if(avMed < avMedAux)return;
+        for (i = 0; i < N; i++){
+            if(max[i] != NULL){
+                auxTree = max[i];
+                avMedAux = (double)(auxTree->total/auxTree->count);
+                if(avMed == avMedAux){
+                    if(tree->id > auxTree->id)break;
+                }
+                if(avMed > avMedAux)break;
+            }else break;
         }
-        
+        for (int j = N-1; j > i; j--)
+        {
+            max[j] = max[j-1];
+        }
+        max[i] = tree;
+        __sync_lock_release(tree_mutex);
+        maxN(tree->leftChild,N,max,tree_mutex);
+        maxN(tree->rightChild,N,max,tree_mutex);
+    }else{
+        __sync_lock_release(tree_mutex);
+        return;
     }
 }
 

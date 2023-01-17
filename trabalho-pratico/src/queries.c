@@ -295,10 +295,11 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
     return(med);
 }
 
-void query7(int N,char* city, Global * glob){
+char ** query7(int N,char* city, Global * glob){
     HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
     BinaryTree7* bTree;
-    void* max[N][4];
+    BinaryTree7* max[N];
+    for (int i = 0; i < N; i++)max[i] = NULL;
 
     while(cityList != NULL){
 
@@ -315,7 +316,7 @@ void query7(int N,char* city, Global * glob){
             if(auxTree != NULL){
                 incrementCount(auxTree);
                 addScore(auxTree,driverScore);
-            }else{
+            }else{ 
                 Driver * driver = (HashmapNode *) get(global_Hashmap(glob, 'd'), (void*)&driverID, equal, hashKey_Int, 0);
                 char * name;
                 driver_Str(name,driver, 'n');
@@ -324,8 +325,37 @@ void query7(int N,char* city, Global * glob){
         }else cityList = node_Node(cityList);
     }
 
-    maxN(bTree,N,max);
+    int tree_mutex = 1;
 
+    maxN(bTree,N,max,&tree_mutex);
+    
+    char ** resultados;
+
+    for (int i = 0; i < N; i++)
+    {
+        double avMedia = 0.f;
+        bTree = max[i];
+
+        resultados[i][0] = '\0';
+
+        char driverID[20];
+        char driverName[NAME_STR_SIZE];
+        avMedia = (double)(bTree_total(bTree)/bTree_count(bTree));
+        char avaliacaoMedia[20];
+
+        itoa(bTree_id(bTree),driverID,10);
+        strcpy(driverName,bTree_name(bTree));
+        double_to_string(avMedia,avaliacaoMedia,3);
+
+        strcat(resultados[i], driverID);
+        strcat(resultados[i], ";");
+        strcat(resultados[i], driverName);
+        strcat(resultados[i], ";");
+        strcat(resultados[i], avaliacaoMedia);
+    }
+    
+    // Devolver o resultado da pesquisa.
+    return resultados;
 }
 
 

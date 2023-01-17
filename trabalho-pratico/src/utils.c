@@ -165,3 +165,38 @@ HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
 
     return result;
 }
+
+void double_to_string(double num, char* str, int precision)
+{
+    int whole = (int)num;
+    double decimal = num - whole;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    char temp[50];
+
+    // convert whole part to string
+    while (whole != 0) {
+        int lastDigit = whole % 10;
+        temp[i++] = lastDigit + '0';
+        whole /= 10;
+    }
+
+    // reverse the whole part
+    while (i > 0)
+        str[j++] = temp[--i];
+
+    // add decimal point
+    str[j++] = '.';
+
+    // convert decimal part to string
+    while (precision-- > 0) {
+        decimal *= 10;
+        int lastDigit = (int)decimal;
+        str[j++] = lastDigit + '0';
+        decimal -= lastDigit;
+    }
+
+    // add null character
+    str[j] = '\0';
+}
