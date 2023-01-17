@@ -301,7 +301,7 @@ char ** query7(int N,char* city, Global * glob){
     HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
 
     // Inicializar a árvore auxiliar 
-    BinaryTree7* bTree;
+    BinaryTree7* bTree, *root = bTree;
 
     //Inicializar a lista de arvores com N elementos a NULL
     BinaryTree7* max[N];
@@ -382,6 +382,9 @@ char ** query7(int N,char* city, Global * glob){
         strcat(resultados[i], avaliacaoMedia);
     }
     
+    // Liberação do espaço alocado para a arvore
+    destroyTree(root);
+
     // Devolver o resultado da pesquisa.
     return resultados;
 }
