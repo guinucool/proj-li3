@@ -301,7 +301,7 @@ char ** query7(int N,char* city, Global * glob){
     HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
 
     // Inicializar a árvore auxiliar 
-    BinaryTree7* bTree, *root;
+    BinaryTree7 *bTree = NULL, *root; 
     root = bTree;
 
     //Inicializar a lista de arvores com N elementos a NULL
@@ -324,12 +324,12 @@ char ** query7(int N,char* city, Global * glob){
             int key = city_Key(cityNode);
 
             // Aquisição da estrutura Ride pretendida e dos elementos necessarios
-            Ride* rideAux = (HashmapNode *) get(global_Hashmap(glob, 'r'), (void*)&key, equal, hashKey_Int, 0);
+            Ride* rideAux = (Ride *) get(global_Hashmap(glob, 'r'), (void*)&key, equal, hashKey_Int, 0);
             int driverID = ride_Int(rideAux,0);
             int driverScore = get_driver_score(rideAux);
 
             // Aquisição da estrutura Driver a partir do driverID 
-            Driver * driver = (HashmapNode *) get(global_Hashmap(glob, 'd'), (void*)&driverID, equal, hashKey_Int, 0);
+            Driver * driver = (Driver *) get(global_Hashmap(glob, 'd'), (void*)&driverID, equal, hashKey_Int, 0);
             char status = driver_Char(driver,'s');
             
             if(status){
@@ -377,7 +377,7 @@ char ** query7(int N,char* city, Global * glob){
         double avMedia;
         char avaliacaoMedia[20];
 
-        itoa(bTree_id(bTree),driverID,10);
+        sprintf(driverID,"%d",bTree_id(bTree));
         strcpy(driverName,bTree_name(bTree));
         avMedia = (double)(bTree_total(bTree)/bTree_count(bTree));
         double_to_string(avMedia,avaliacaoMedia,3);

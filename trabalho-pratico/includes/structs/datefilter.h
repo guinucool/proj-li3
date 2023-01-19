@@ -1,5 +1,5 @@
-#ifndef _DATE_H_
-#define _DATE_H_
+#ifndef _DATEFILTER_H_
+#define _DATEFILTER_H_
 
 typedef struct _DATE_FILTER_ DateFilter;
 

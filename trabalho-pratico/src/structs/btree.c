@@ -107,7 +107,7 @@ BinaryTree7 * insertTreeOrd_7(BinaryTree7 * tree, int id){
  * 
  *  @param tree_mutex Localização do integer auxiliar ao semaforo.
 */ 
-void maxN(BinaryTree7 * tree, int N, BinaryTree7* max[N],int * tree_mutex)
+void maxN(BinaryTree7 * tree, int N, BinaryTree7* max[],int * tree_mutex)
 {
     // Semaforo a vermelho ate que seja a vez de processar a informação
     while (__sync_lock_test_and_set(tree_mutex, 1));
