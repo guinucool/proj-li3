@@ -22,15 +22,16 @@ extern char account_status_str[][9];
 extern int account_status_size;
 
 typedef struct _DRIVER_ Driver;
+typedef short Date;
 
-Driver *createDriver(int, char *, short[], char, char, char[], char[], short[], char);
+Driver *createDriver(int, char *, Date, char, char, char[], char[], Date, char);
 void destroyDriver(Driver*);
 void printDriver(Driver*);
 Driver *parseDriver(char[9][200]);
-int parseDate(char*, short[]);
+int parseDate(char*, Date);
 int driver_Id(Driver * driver);
 void driver_Str(char * dest, Driver * driver, char mode);
-void driver_Date(short * dest, Driver * driver, char mode);
+void driver_Date(Date dest, Driver * driver, char mode);
 char driver_Char(Driver * driver, char mode);
 
 #endif

@@ -1,9 +1,5 @@
 #include <stdlib.h>
 
-#include "../../includes/structs/hashmap.h"
-#include "../../includes/structs/global.h"
-#include "../../includes/utils.h"
-#include "../../includes/structs/datefilter.h"
 #include "../../includes/structs/date.h"
 
 /// @brief A função createDate cria uma variável do tipo Date.
@@ -79,47 +75,8 @@ void nextDay(Date date)
     }
 }
 
-int dateDiffYears(Date *dateA, Date *dateB) {
-
-    if (dateA[1] > dateB[1] || (dateA[1] == dateB[1] && dateA[0] > dateB[0])) {
-        return dateB[2] - dateA[2];
-    } else {
-        return dateB[2] - dateA[2] - 1;
-    }
-}
-
-/// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
-///        Dates de um certo tipo dentro de um intervalo de tempo.
-/** 
- *  A função betweenDates fornece uma lista ligada de HashmapNode de Dates de um certo tipo
- *  dentro de um intervalo de tempo, percorrendo todas as Dates do hashmap de Dates
- *  dentro desse intervalo de tempo.
- * 
- *  Quando a função encontrar alguma Date do tipo pretendido adiciona-a à lista ligada
- *  de HashmapNode de resultado.
- * 
- *  @param inf  Data em que começa o intervalo de tempo.
- *  @param up   Data em que termina o intervalo de tempo.
- *  @param type Tipo de data pretendido.
- *  @param glob Estrutura de dados global a ser atualizada.
- *  
- *  @return Retorna a lista ligada de HashmapNode de Dates no intervalo de tempo pretendido.
- */
-HashmapNode * betweenDates(short * inf, short * up, char type, Global * glob)
+int dateDiffYears(Date dateA, Date dateB)
 {
-    HashmapNode * result = NULL;
-
-    while(datecmp(inf, up) <= 0)
-    {
-        HashmapNode * list = get(global_Hashmap(glob, 'd'), inf, equal_date, hashKey_date, 0);
-        while (list != NULL)
-        {
-            DateFilter * filter = (DateFilter*) node_Void(list, 'd');;
-            if (filter_Type(filter) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
-            list = node_Node(list); 
-        }
-        nextDay(inf);
-    }
-
-    return result;
+    if (dateA[1] > dateB[1] || (dateA[1] == dateB[1] && dateA[0] > dateB[0])) return dateB[2] - dateA[2];
+    else return dateB[2] - dateA[2] - 1;
 }

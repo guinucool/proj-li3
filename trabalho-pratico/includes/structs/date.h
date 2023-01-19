@@ -5,6 +5,8 @@
 typedef short Date[3];
 
 void createDate(char * date, Date res);
-int dateDiffYears(Date *, Date *);
+int datecmp(Date dateA, Date dateB);
+void nextDay(Date date);
+int dateDiffYears(Date dateA, Date dateB);
 
 #endif

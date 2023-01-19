@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "../../includes/structs/driver.h"
+#include "../../includes/structs/date.h"
 
 char car_class_str[][8] = {"BASIC", "GREEN", "PREMIUM"};
 int car_class_size = 3;
@@ -11,13 +12,13 @@ int account_status_size = 2;
 
 typedef struct _DRIVER_ {
 	int id;                                      // INTEGER
-	char name[NAME_STR_SIZE];                     // STRING
-	short birth_day[3];                          // {day, month, year}
+	char name[NAME_STR_SIZE];                    // STRING
+	Date birth_day;                              // {day, month, year}
 	char gender;                                 //  {'M' - MALE, 'F' - FEMALE}
 	char car_class;                              // {0 - BASIC, 1 - GREEN, 2 - PREMIUM}
 	char license_plate[LICENSE_PLATE_STR_SIZE];  // STRING
 	char city[CITY_STR_SIZE];                    // STRING
-	short account_creation[3];                   // {day, month, year}
+	Date account_creation;                       // {day, month, year}
 	char account_status;                         // {0 - INACTIVE, 1 - ACTIVE}
 } Driver;
 
@@ -51,7 +52,7 @@ typedef struct _DRIVER_ {
  
  */
 
-Driver *createDriver(int id, char *name, short birth_day[], char gender, char car_class, char license_plate[], char city[], short account_creation[], char account_status) {
+Driver *createDriver(int id, char *name, Date birth_day, char gender, char car_class, char license_plate[], char city[], Date account_creation, char account_status) {
 	
 	Driver *driver = (Driver*) malloc(sizeof(Driver));
 
@@ -118,12 +119,12 @@ Driver *parseDriver(char tokens[9][200]) {
 	//int i = 0, id; 
 	int id;
 	char name[NAME_STR_SIZE];
-	short birth_day[3];
+	Date birth_day;
 	char gender;
 	int car_class;
 	char license_plate[LICENSE_PLATE_STR_SIZE];
 	char city[CITY_STR_SIZE];
-	short account_creation[3];
+	Date account_creation;
 	char account_status;
 	//char limit[] = {';', '\0'};
 
@@ -136,9 +137,7 @@ Driver *parseDriver(char tokens[9][200]) {
 	strncpy(name, tokens[1], NAME_STR_SIZE);
 
 	// Parse BIRTTH DAY.
-	if (!parseDate(tokens[2], birth_day)) {
-		return NULL;
-	}
+	createDate(tokens[2], birth_day);
 
 	// Parse GENDER.
 	gender = tokens[3][0];
@@ -174,9 +173,7 @@ Driver *parseDriver(char tokens[9][200]) {
 	strncpy(city, tokens[6], CITY_STR_SIZE);
 
 	// Parse ACCOUNT CREATION.
-	if (!parseDate(tokens[7], account_creation)) {
-		return NULL;
-	}
+	createDate(tokens[7], account_creation);
 
 	// Parse ACCOUNT STATUS.
 	// Converte para maiusculas o token.
@@ -202,39 +199,6 @@ Driver *parseDriver(char tokens[9][200]) {
 	return createDriver(id, name, birth_day, gender, car_class, license_plate, city, account_creation, account_status);
 }
 
-
-/// @brief A funcao parseDate vai receber uma string e devolve um array com as datas
-/**
- *
- * @return Devolve 3 inteiros armazenados
-*/
-
-int parseDate(char *str, short date[]) {
-
-	char *token;
-	char limit[] = {'/', '\0'};
-	int n, i = 0;
-
-	// Extrair a string antes do primeiro '/' (dia)
-	token = strtok(str, limit);
-
-	do {
-
-		// Converte a string (token) num inteiro.
-		if ((n = atoi(token)) == 0) {
-			return 0;
-		}
-
-		// Armazena o inteiro na posicao correta (0 - dia/1 - mes/2 - ano)
-		date[i++] = n;
-
-		// Continua a extrair as strings para o mes e o ano.
-	} while((token = strtok(NULL, limit)));
-
-	// Verifica se foram armazenados 3 inteiros (dia/mes/ano).
-	return i==3;
-}
-
 int driver_Id(Driver * driver)
 {
 	return(driver->id);
@@ -258,7 +222,7 @@ void driver_Str(char * dest, Driver * driver, char mode)
 	}
 }
 
-void driver_Date(short * dest, Driver * driver, char mode)
+void driver_Date(Date dest, Driver * driver, char mode)
 {
 	if (mode == 'b')
 	{

@@ -2,12 +2,13 @@
 #include <string.h>
 #include <stdio.h>
 #include "../../includes/structs/ride.h"
+#include "../../includes/structs/date.h"
 
 typedef struct _RIDE_ Ride;
 /// \struct Estrutura que define as variáveis do tipo ride.
 typedef struct _RIDE_ {
     int id;                                         //!< Id da ride
-    short date[3];                                  //!< Data da ride
+    Date date;                                      //!< Data da ride
     int driver;                                     //!< Driver da ride
     char user[MAX_STR_NAME], city[MAX_STR_NAME];    //!< User e cidade da ride
     short distance, score_user, score_driver;       //!< Distância, pontuação do user e do driver
@@ -45,7 +46,7 @@ typedef struct _RIDE_ {
  * 
  * @return A ride criada com as respetivas propriedades.
  */
-Ride * createRide(int id, short dte[3], int drv, char * usr, char * cty, short dst, short scu, short scd, float tip, char * cmt)
+Ride * createRide(int id, Date dte, int drv, char * usr, char * cty, short dst, short scu, short scd, float tip, char * cmt)
 {
     Ride * ride = (Ride*) malloc(sizeof(Ride));
     
@@ -102,7 +103,7 @@ int ride_Int(Ride * ride, char mode)
         return(ride->driver);
 }
 
-void ride_Date(short * dest, Ride * ride)
+void ride_Date(Date dest, Ride * ride)
 {
     dest[0] = ride->date[0];
     dest[1] = ride->date[1];
