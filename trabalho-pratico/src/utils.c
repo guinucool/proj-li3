@@ -2,9 +2,9 @@
 #include <math.h>
 #include "../includes/structs/global.h"
 #include "../includes/structs/hashmap.h"
+#include "../includes/structs/date.h"
 #include "../includes/structs/datefilter.h"
 #include "../includes/utils.h"
-
 
 short calculateAge(short birthday[]) {
     short age, now[3];
@@ -18,21 +18,6 @@ short calculateAge(short birthday[]) {
     }
 
     return age;
-}
-
-/// @brief A função string to date insere num array de 3 shorts o número referente ao dia, mês e ano de uma data.
-/** 
- *  A função recebe uma String que contem uma data no formato "DD/MM/AAAA" e converte-a em 3 elementos
- *  do array, ou seja, "DD" -> data[0] = DD, "MM" -> data[1] = MM e "AAAA" -> data[2] = "AAAA".
- * 
- *  @param str  String que contem a data.
- *  @param date Array de shorts que receberá a data.
- */ 
-void stringToDate(char* str,short int* date)
-{    
-    date[0] = (short)(10*(str[0]-48)+(str[1]-48));
-    date[1] = (short)(10*(str[3]-48)+(str[4]-48));
-    date[2] = (short)(1000*(str[6]-48)+100*(str[7]-48)+10*(str[8]-48)+(str[9]-48));
 }
 
 /// @brief A função equal compara duas chaves de tipo Int.
@@ -75,7 +60,6 @@ int isId(char s[200]){
     return res;
 }
 
-
 void double_to_string(double num, char* str, int precision)
 {
     int whole = (int)num;
@@ -108,4 +92,40 @@ void double_to_string(double num, char* str, int precision)
 
     // add null character
     str[j] = '\0';
+}
+
+/// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
+///        Dates de um certo tipo dentro de um intervalo de tempo.
+/** 
+ *  A função betweenDates fornece uma lista ligada de HashmapNode de Dates de um certo tipo
+ *  dentro de um intervalo de tempo, percorrendo todas as Dates do hashmap de Dates
+ *  dentro desse intervalo de tempo.
+ * 
+ *  Quando a função encontrar alguma Date do tipo pretendido adiciona-a à lista ligada
+ *  de HashmapNode de resultado.
+ * 
+ *  @param inf  Data em que começa o intervalo de tempo.
+ *  @param up   Data em que termina o intervalo de tempo.
+ *  @param type Tipo de data pretendido.
+ *  @param glob Estrutura de dados global a ser atualizada.
+ *  
+ *  @return Retorna a lista ligada de HashmapNode de Dates no intervalo de tempo pretendido.
+ */
+HashmapNode * betweenDates(Date inf, Date up, char type, Global * glob)
+{
+    HashmapNode * result = NULL;
+
+    while(datecmp(inf, up) <= 0)
+    {
+        HashmapNode * list = get(global_Hashmap(glob, 'd'), inf, equal_date, hashKey_date, 0);
+        while (list != NULL)
+        {
+            DateFilter * filter = (DateFilter*) node_Void(list, 'd');;
+            if (filter_Type(filter) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
+            list = node_Node(list); 
+        }
+        nextDay(inf);
+    }
+
+    return result;
 }

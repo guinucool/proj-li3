@@ -8,6 +8,7 @@
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"
 #include "../../includes/structs/city.h"
+#include "../../includes/structs/date.h"
 #include "../../includes/structs/datefilter.h"
 #include "../../includes/utils.h"
 #include "../../includes/queries.h"
@@ -83,8 +84,8 @@ void interDriver(char args[][MAX_LINE], Global * glob)
  */ 
 void interRide(char args[][MAX_LINE], Global * glob)
 {
-    short date[3];
-    stringToDate(args[1], date);
+    Date date;
+    createDate(args[1], date);
 
     Ride * ride = createRide(atoi(args[0]), date, atoi(args[2]), args[3], args[4], (short)atoi(args[5]), (short)atoi(args[6]), (short)atoi(args[7]), atof(args[8]), args[9]);
 

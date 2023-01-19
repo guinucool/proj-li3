@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../../includes/structs/user.h"
-#include "../../includes/utils.h"
+#include "../../includes/structs/date.h"
 
 /// \struct Estrutura que define as variáveis do tipo User.
 typedef struct _USER_
@@ -10,8 +10,8 @@ typedef struct _USER_
     char username[MAX_USER_STR];    //!< Username do user
     char name[MAX_USER_STR];        //!< Nome do user
     char gender;                    //!< Genero do user
-    short int birth_date[3];        //!< Data de nascimento do user no formato {dia,mês,ano}
-    short int account_creation[3];  //!< Data de criação de conta do user no formato {dia,mês,ano}
+    Date birth_date;                //!< Data de nascimento do user no formato {dia,mês,ano}
+    Date account_creation;          //!< Data de criação de conta do user no formato {dia,mês,ano}
     char pay_method[MAX_USER_STR];  //!< Metodo de pagamento que o user usa
     char account_status;            //!< Status da conta ('a' para active 'i' para inactive)
 }User;
@@ -35,8 +35,8 @@ User* userCreate(char data[][200])
     strncpy(user->username, data[0], MAX_USER_STR);
     strncpy(user->name, data[1], MAX_USER_STR);
     user->gender = data[2][0];
-    stringToDate(data[3],user->birth_date);
-    stringToDate(data[4],user->account_creation);
+    createDate(data[3],user->birth_date);
+    createDate(data[4],user->account_creation);
     strncpy(user->pay_method, data[5], MAX_USER_STR);
     user->account_status = data[6][0];
 
@@ -100,7 +100,7 @@ char user_Char(User * user, char mode)
     return(' ');
 }
 
-void user_Date(short * dest, User * user, char mode)
+void user_Date(Date dest, User * user, char mode)
 {
     switch (mode)
     {

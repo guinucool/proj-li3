@@ -1,10 +1,11 @@
 #include <stdlib.h>
 
 #include "../../includes/structs/datefilter.h"
+#include "../../includes/structs/date.h"
 
 /// \struct Estrutura que define as variáveis do tipo Filtro de Data.
 typedef struct _DATE_FILTER_{
-    short date[3];      //!< Data a ser considerada
+    Date date;          //!< Data a ser considerada
     void* keyRef;       //!< Chave associada à data {username(user) ou id(riders && drivers)}
     char type;          //!< Tipo de data {a - birth_date(driver) ou b - account_creation(driver) ou c - date(rides) ou d - birth_date(users) ou e - account_creation(users)}
 }DateFilter;
@@ -25,7 +26,7 @@ typedef struct _DATE_FILTER_{
  * 
  * @return A variável do tipo DateFilter criada e alocada.
  */ 
-DateFilter * createDateFilter(short * date, void * key, char type)
+DateFilter * createDateFilter(Date date, void * key, char type)
 {
     DateFilter* d = (DateFilter*) malloc(sizeof(DateFilter));
 
@@ -51,7 +52,7 @@ void destroyDateFilter(DateFilter * filter)
     free(filter);
 }
 
-void filter_Date(short * dest, DateFilter * filter)
+void filter_Date(Date dest, DateFilter * filter)
 {
     dest[0] = filter->date[0];
     dest[1] = filter->date[1];
