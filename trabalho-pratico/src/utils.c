@@ -6,10 +6,12 @@
 #include "../includes/structs/datefilter.h"
 #include "../includes/utils.h"
 
-short calculateAge(short birthday[]) {
-    short age, now[3];
+short calculateAge(Date birthday)
+{
+    short age;
+    Date now;
     
-    stringToDate(REF_DATE, now);
+    createDate(REF_DATE, now);
 
     if (now[1] > birthday[1] || (now[1] == birthday[1] && now[0] >= birthday[0])) {
         age = now[2] - birthday[2];

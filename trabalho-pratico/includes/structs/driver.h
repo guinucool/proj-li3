@@ -22,7 +22,7 @@ extern char account_status_str[][9];
 extern int account_status_size;
 
 typedef struct _DRIVER_ Driver;
-typedef short Date;
+typedef short Date[3];
 
 Driver *createDriver(int, char *, Date, char, char, char[], char[], Date, char);
 void destroyDriver(Driver*);

@@ -4,7 +4,7 @@
 #define MAX_USER_STR 50
 
 typedef struct _USER_ User;
-typedef short Date;
+typedef short Date[3];
 
 User* userCreate(char data[][200]);
 void destroyUser(User * user);
