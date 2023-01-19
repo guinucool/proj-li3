@@ -10,7 +10,7 @@
 #include "../includes/structs/ride.h"
 #include "../includes/structs/city.h"
 #include "../includes/structs/datefilter.h"
-#include "../includes/structs/btree.h";
+#include "../includes/structs/btree.h"
 #include "../includes/utils.h"
 #include "../includes/structs/btree.h"
 
@@ -301,7 +301,8 @@ char ** query7(int N,char* city, Global * glob){
     HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
 
     // Inicializar a árvore auxiliar 
-    BinaryTree7* bTree, *root = bTree;
+    BinaryTree7* bTree, *root;
+    root = bTree;
 
     //Inicializar a lista de arvores com N elementos a NULL
     BinaryTree7* max[N];
@@ -320,7 +321,7 @@ char ** query7(int N,char* city, Global * glob){
         if(cityType == 'r'){
 
             // Aquisição da chave referente à hashmap de Rides
-            int key = city_Key(cityList);
+            int key = city_Key(cityNode);
 
             // Aquisição da estrutura Ride pretendida e dos elementos necessarios
             Ride* rideAux = (HashmapNode *) get(global_Hashmap(glob, 'r'), (void*)&key, equal, hashKey_Int, 0);

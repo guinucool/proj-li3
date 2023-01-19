@@ -6,10 +6,10 @@ all: directory programa-principal programa-testes
 directory:
 	mkdir out
 
-programa-testes: out/test.o out/in.o out/read.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/city.o out/utils.o out/queries.o
+programa-testes: out/test.o out/in.o out/read.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/btree.o out/city.o out/utils.o out/queries.o
 	$(CC) $(CFLAGS) $^ -o $@
 
-programa-principal: out/main.o out/in.o out/read.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/city.o out/utils.o out/queries.o
+programa-principal: out/main.o out/in.o out/read.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/btree.o out/city.o out/utils.o out/queries.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 out/test.o: src/test.c
@@ -25,6 +25,9 @@ out/read.o: src/io/read.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 out/queries.o: src/queries.c
+	$(CC) $(CFLAGS) -c $^ -o $@
+
+out/btree.o: src/structs/btree.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 out/city.o: src/structs/city.c

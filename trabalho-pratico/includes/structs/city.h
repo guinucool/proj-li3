@@ -9,6 +9,6 @@ City * createCity(char * str, int key, char type);
 void destroyCity(City * city);
 void city_City(char * dest, City * city);
 int city_Key(City * city);
-char city_Char(City * city);
+char city_Type(City * city);
 
 #endif

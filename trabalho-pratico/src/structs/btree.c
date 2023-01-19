@@ -141,7 +141,7 @@ void maxN(BinaryTree7 * tree, int N, BinaryTree7* max[N],int * tree_mutex)
 
                 // Em caso de empate fica com a posição o maior id, senão passa para a proxima
                 if(avMed == avMedAux){
-                    if(tree->id > auxTree->id)break;
+                    if(id > auxTree->id)break;
                     else{i++;break;}
                 }
                 // Se a avaliação media for maior que a da posição atual encontramos a posição de inserção

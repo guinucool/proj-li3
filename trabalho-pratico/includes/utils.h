@@ -1,6 +1,9 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
+typedef struct _HASHMAP_NODE_ HashmapNode;
+typedef struct _GLOBAL_ Global;
+
 #define REF_DATE "09/10/2022"
 
 void stringToDate(char* str,short int* date);

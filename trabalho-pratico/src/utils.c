@@ -1,9 +1,9 @@
 #include <string.h>
 #include <math.h>
-#include "../includes/utils.h"
+#include "../includes/structs/global.h"
 #include "../includes/structs/hashmap.h"
 #include "../includes/structs/datefilter.h"
-#include "../includes/structs/global.h"
+#include "../includes/utils.h"
 
 
 short calculateAge(short birthday[]) {
@@ -172,7 +172,6 @@ void double_to_string(double num, char* str, int precision)
     double decimal = num - whole;
     int i = 0;
     int j = 0;
-    int k = 0;
     char temp[50];
 
     // convert whole part to string
