@@ -327,23 +327,29 @@ char ** query7(int N,char* city, Global * glob){
             int driverID = ride_Int(rideAux,0);
             int driverScore = get_driver_score(rideAux);
 
-            // Localização do elemento da arvore em que a ocorrência sera adicionada
-            BinaryTree7 * auxTree = insertTreeOrd_7(bTree,driverID);
+            // Aquisição da estrutura Driver a partir do driverID 
+            Driver * driver = (HashmapNode *) get(global_Hashmap(glob, 'd'), (void*)&driverID, equal, hashKey_Int, 0);
+            char status = driver_Char(driver,'s');
+            
+            if(status){
+                // Localização do elemento da arvore em que a ocorrência sera adicionada
+                BinaryTree7 * auxTree = insertTreeOrd_7(bTree,driverID);
+            
+                // Verificar se o driver ainda n esta adicionado na arvore auxiliar
+                if(auxTree != NULL){
+                    incrementCount(auxTree);
+                    addScore(auxTree,driverScore);
+                }else{
+                    char * name;
+                    driver_Str(name,driver, 'n');
 
-            // Verificar se o driver ainda n esta adicionado na arvore auxiliar
-            if(auxTree != NULL){
-                incrementCount(auxTree);
-                addScore(auxTree,driverScore);
-            }else{
-                // Aquisição da estrutura Driver a partir do driverID para adquirir o nome
-                Driver * driver = (HashmapNode *) get(global_Hashmap(glob, 'd'), (void*)&driverID, equal, hashKey_Int, 0);
-                char * name;
-                driver_Str(name,driver, 'n');
-
-                // Criação da nova ocorrencia deste Driver
-                createTree(auxTree,driverID,name,driverScore,NULL,NULL);
+                    // Criação da nova ocorrencia deste Driver
+                    createTree(auxTree,driverID,name,driverScore,NULL,NULL);
+                }
             }
-        }else cityList = node_Node(cityList);
+        }
+    
+    cityList = node_Node(cityList);
     }
 
     // Integer auxiliar ao semáforo
