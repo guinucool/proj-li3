@@ -165,7 +165,15 @@ void interCmd(char args[][MAX_LINE], Global * glob, int cmd)
             break;
 
         case 7:
-            query7(atoi(args[1]),args[2],glob);
+            int N = atoi(args[1]);
+
+            char ** res = query7(N,args[2],glob);
+
+            for (int i = 0; i < N; i++)
+            {
+                fprintf(fp,"%s\n",res[i]);
+            }
+            
             break;
 
         case 8:
