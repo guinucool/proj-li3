@@ -7,6 +7,7 @@ typedef struct _USER_ User;
 typedef short Date[3];
 
 User* userCreate(char data[][200]);
+void userUpdate(User * user, int score, double money_spent, int distance);
 void destroyUser(User * user);
 void printUser(User * user);
 void user_Str(char * dest, User * user, char mode);

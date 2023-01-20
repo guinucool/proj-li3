@@ -2,7 +2,6 @@
 #define _DATEFILTER_H_
 
 typedef struct _DATE_FILTER_ DateFilter;
-typedef short Date[3];
 
 DateFilter * createDateFilter(Date date, void* key, char type);
 void destroyDateFilter(DateFilter * filter);

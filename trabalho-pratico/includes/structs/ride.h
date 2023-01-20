@@ -5,9 +5,8 @@
 #define MAX_STR_COMM 100
 
 typedef struct _RIDE_ Ride;
-typedef short Date[3];
 
-Ride * createRide(int id, Date dte, int drv, char * usr, char * cty, short dst, short scu, short scd, float tip, char * cmt);
+Ride * createRide(int id, Date date, int driver, char * user, char * city, short distance, short score_user, short score_driver, float tip, char * comment);
 void destroyRide(Ride * ride);
 void printRide(Ride * ride);
 int ride_Int(Ride * ride, char mode);

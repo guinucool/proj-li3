@@ -35,7 +35,7 @@ double calculate_ride_cost(Ride *ride, Global *glob) {
             total = 3.25 + ride_Short(ride, 'p') * 0.62 + ride_Tip(ride); 
             break;
         case 1: // GREEN
-            total = 3.25 + ride_Short(ride, 'p') * 0.79 + ride_Tip(ride); 
+            total = 4.00 + ride_Short(ride, 'p') * 0.79 + ride_Tip(ride); 
             break;
         case 2: // PREMIUM
             total = 5.20 + ride_Short(ride, 'p') * 0.94 + ride_Tip(ride); 

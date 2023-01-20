@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "../../includes/structs/ride.h"
 #include "../../includes/structs/date.h"
+#include "../../includes/structs/ride.h"
 
 typedef struct _RIDE_ Ride;
 /// \struct Estrutura que define as variáveis do tipo ride.
@@ -26,42 +26,42 @@ typedef struct _RIDE_ {
  * 
  * @param id O id da ride.
  * 
- * @param dte A data da ride.
+ * @param date A data da ride.
  * 
- * @param drv O id do driver da ride.
+ * @param driver O id do driver da ride.
  * 
- * @param usr O username do user da ride.
+ * @param user O username do user da ride.
  * 
- * @param cty A cidade da ride.
+ * @param city A cidade da ride.
  * 
- * @param dst A distância da ride.
+ * @param distance A distância da ride.
  * 
- * @param scu O score dado ao user da ride.
+ * @param score_user O score dado ao user da ride.
  * 
- * @param scd O score dado ao driver da ride.
+ * @param score_driver O score dado ao driver da ride.
  * 
  * @param tip A gorjeta dada na ride.
  * 
- * @param cmt O comentário da ride.
+ * @param comment O comentário da ride.
  * 
  * @return A ride criada com as respetivas propriedades.
  */
-Ride * createRide(int id, Date dte, int drv, char * usr, char * cty, short dst, short scu, short scd, float tip, char * cmt)
+Ride * createRide(int id, Date date, int driver, char * user, char * city, short distance, short score_user, short score_driver, float tip, char * comment)
 {
     Ride * ride = (Ride*) malloc(sizeof(Ride));
     
     ride->id = id; 
-    ride->date[0] = dte[0];
-    ride->date[1] = dte[1];
-    ride->date[2] = dte[2];
-    ride->driver = drv;
-    strncpy(ride->user, usr, MAX_STR_NAME);
-    strncpy(ride->city, cty, MAX_STR_NAME);
-    ride->distance = dst;
-    ride->score_user = scu;
-    ride->score_driver = scd;
+    ride->date[0] = date[0];
+    ride->date[1] = date[1];
+    ride->date[2] = date[2];
+    ride->driver = driver;
+    strncpy(ride->user, user, MAX_STR_NAME);
+    strncpy(ride->city, city, MAX_STR_NAME);
+    ride->distance = distance;
+    ride->score_user = score_user;
+    ride->score_driver = score_driver;
     ride->tip = tip;
-    strncpy(ride->comment, cmt, MAX_STR_COMM);
+    strncpy(ride->comment, comment, MAX_STR_COMM);
 
     return ride;
 }

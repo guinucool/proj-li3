@@ -14,6 +14,10 @@ typedef struct _USER_
     Date account_creation;          //!< Data de criação de conta do user no formato {dia,mês,ano}
     char pay_method[MAX_USER_STR];  //!< Metodo de pagamento que o user usa
     char account_status;            //!< Status da conta ('a' para active 'i' para inactive)
+    int score;                      //!< Avaliação total do utilizador
+    int rides;                      //!< Número de viagens do utilizador
+    double money_spent;             //!< Total gasto em viagens pelo utilizador
+    int distance;                   //!< Distancia total percorrida pelo utilizador
 }User;
 
 /// @brief A função userCreate cria uma variável do tipo User.
@@ -39,6 +43,35 @@ User* userCreate(char data[][200])
     createDate(data[4],user->account_creation);
     strncpy(user->pay_method, data[5], MAX_USER_STR);
     user->account_status = data[6][0];
+    user->score = 0;
+    user->rides = 0;
+    user->money_spent = 0;
+    user->distance = 0;
+
+    return user;
+}
+
+/// @brief A função userUpdate atualiza os valores de um user após uma ride.
+/**
+ * A função userUpdate atualiza uma variável do tipo User
+ * após uma viagem.
+ * 
+ * @param user A variável user a ser atualizada.
+ * 
+ * @param score A pontuação a ser adicionada ao user.
+ * 
+ * @param money_spent O dinheiro a ser adicionado ao user.
+ * 
+ * @param distance A distância a ser adicionado ao user.
+ * 
+ * @return A User criada com as respetivas propriedades.
+ */
+void userUpdate(User * user, int score, double money_spent, int distance)
+{
+    user->score = 0;
+    user->rides = 0;
+    user->money_spent = 0;
+    user->distance = 0;
 
     return user;
 }

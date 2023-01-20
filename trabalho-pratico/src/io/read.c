@@ -87,7 +87,11 @@ void interRide(char args[][MAX_LINE], Global * glob)
     Date date;
     createDate(args[1], date);
 
-    Ride * ride = createRide(atoi(args[0]), date, atoi(args[2]), args[3], args[4], (short)atoi(args[5]), (short)atoi(args[6]), (short)atoi(args[7]), atof(args[8]), args[9]);
+    int distance = atoi(args[5]);
+    int score_user = atoi(args[6]);
+    int score_driver = atoi(args[7]);
+
+    Ride * ride = createRide(atoi(args[0]), date, atoi(args[2]), args[3], args[4], (short)distance, (short)score_user, (short)score_driver, atof(args[8]), args[9]);
 
     int * key = malloc(sizeof(int));
     *key = ride_Int(ride, 'i');
@@ -103,6 +107,11 @@ void interRide(char args[][MAX_LINE], Global * glob)
 
     short * destDte = malloc(sizeof(short) * 3);
     filter_Date(destDte, filter);
+
+    double money = calculate_ride_cost(ride, glob);
+
+    User * user = get(global_Hashmap(glob, 'u'), args[4], equal_str, hashKey_Str, 1);
+    userUpdate(user, score_user, money, distance);
 
     put(global_Hashmap(glob, 'r'), key, ride, hashKey_Int);
     put(global_Hashmap(glob, 'c'), (void *)dest, (void *)city, hashKey_Str);

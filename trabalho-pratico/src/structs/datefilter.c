@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include "../../includes/structs/datefilter.h"
 #include "../../includes/structs/date.h"
+#include "../../includes/structs/datefilter.h"
 
 /// \struct Estrutura que define as variáveis do tipo Filtro de Data.
 typedef struct _DATE_FILTER_{

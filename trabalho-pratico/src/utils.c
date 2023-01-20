@@ -2,6 +2,8 @@
 #include <math.h>
 #include "../includes/structs/global.h"
 #include "../includes/structs/hashmap.h"
+#include "../includes/structs/driver.h"
+#include "../includes/structs/ride.h"
 #include "../includes/structs/date.h"
 #include "../includes/structs/datefilter.h"
 #include "../includes/utils.h"
@@ -94,6 +96,35 @@ void double_to_string(double num, char* str, int precision)
 
     // add null character
     str[j] = '\0';
+}
+
+double calculate_ride_cost(Ride *ride, Global *glob)
+{
+    int driver_key = ride_Int(ride, 'd');
+    double total = 0;
+
+    Driver * driver = (Driver *) get(global_Hashmap(glob, 'e'), (void*)&driver_key, equal, hashKey_Int, 1);
+
+    switch(driver_Char(driver, 'c'))
+    {
+        case BASIC:   // BASIC
+            total = 3.25 + ride_Short(ride, 'p') * 0.62 + ride_Tip(ride); 
+            break;
+
+        case GREEN:   // GREEN
+            total = 4.00 + ride_Short(ride, 'p') * 0.79 + ride_Tip(ride); 
+            break;
+
+        case PREMIUM: // PREMIUM
+            total = 5.20 + ride_Short(ride, 'p') * 0.94 + ride_Tip(ride); 
+            break;
+
+        default:
+            total = 0;
+            break; 
+    }
+
+    return total;
 }
 
 /// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 

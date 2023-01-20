@@ -7,7 +7,6 @@ typedef struct _GLOBAL_ Global;
 
 int isUser(char*);
 int isDriver(char*);
-double calculate_ride_cost(Ride*, Global*);
 
 void query1(char*id, Global * glob);
 void query2(int N, Global * glob);
