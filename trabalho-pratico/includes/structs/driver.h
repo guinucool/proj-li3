@@ -25,6 +25,7 @@ typedef struct _DRIVER_ Driver;
 typedef short Date[3];
 
 Driver *createDriver(int, char *, Date, char, char, char[], char[], Date, char);
+void updateDriver(Driver * driver, int score, double money_received, char * city);
 void destroyDriver(Driver*);
 void printDriver(Driver*);
 Driver *parseDriver(char[9][200]);

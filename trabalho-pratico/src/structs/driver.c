@@ -20,6 +20,11 @@ typedef struct _DRIVER_ {
 	char city[CITY_STR_SIZE];                    // STRING
 	Date account_creation;                       // {day, month, year}
 	char account_status;                         // {0 - INACTIVE, 1 - ACTIVE}
+	int * score;								 // DYNAMIC ARRAY
+	int * rides;								 // DYNAMIC ARRAY
+	double money_received;						 // DOUBLE
+	char ** cities;								 // DYNAMIC STRING ARRAY
+	int counter;								 // INTEGER
 } Driver;
 
 /// @brief A funcao createDriver cria uma variavel do tipo drive.
@@ -49,9 +54,7 @@ typedef struct _DRIVER_ {
  * @param account_status O estado da conta do driver.
  *
  * @return O driver criado com as respetivas propriedades.
- 
  */
-
 Driver *createDriver(int id, char *name, Date birth_day, char gender, char car_class, char license_plate[], char city[], Date account_creation, char account_status) {
 	
 	Driver *driver = (Driver*) malloc(sizeof(Driver));
@@ -70,11 +73,50 @@ Driver *createDriver(int id, char *name, Date birth_day, char gender, char car_c
 	driver->account_creation[0] = account_creation[0];
 	driver->account_creation[1] = account_creation[1];
 	driver->account_creation[2] = account_creation[2];
-	driver->account_status = account_status; 
+	driver->account_status = account_status;
+
+	driver->score = malloc(sizeof(int));
+	driver->score[0] = 0;
+	driver->rides = malloc(sizeof(int));
+	driver->rides[0] = 0;
+	driver->money_received = 0.f;
+	driver->counter = 0;
 
 	return driver;
 }
 
+void updateDriver(Driver * driver, int score, double money_received, char * city)
+{
+	int target = -1;
+
+	for (int i = 0; i < driver->counter; i++)
+		if(strcmp(driver->cities[i], city) == 0) target = i;
+
+	if (target == -1)
+	{
+		target = driver->counter;
+		driver->counter++;
+
+		if (driver->counter == 0) driver->cities = malloc(sizeof(char*));
+		else driver->cities = realloc(driver->cities, sizeof(char*) * driver->counter);
+
+		driver->cities[target] = malloc(sizeof(char) * strlen(city));
+		strncpy(driver->cities[target], city, strlen(city));
+
+		driver->score = realloc(driver->score, sizeof(int) * (driver->counter + 1));
+		driver->rides = realloc(driver->rides, sizeof(int) * (driver->counter + 1));
+	}
+
+	target++;
+
+	driver->score[0] += score;
+	driver->score[target] += score;
+
+	driver->rides[0]++;
+	driver->score[target]++;
+
+	driver->money_received += money_received;
+}
 
 /// @brief A funcao destroyDriver destroi uma variavel do tipo Driver.
 /**
@@ -83,12 +125,9 @@ Driver *createDriver(int id, char *name, Date birth_day, char gender, char car_c
  * 
  * @param driver A variavel do tipo driver que vai ser destruida.
  */
-
 void destroyDriver(Driver *driver) {
 	free(driver);
 }
-
-
 
 void printDriver(Driver* driver) {
 	printf("Driver {id: %d, name: %s, birth_date: %02d/%02d/%04d, gender: %c, car_class: %s, license_plate: %s, city: %s, account_creation: %02d/%02d/%04d, account_status: %s}", 
@@ -103,7 +142,6 @@ void printDriver(Driver* driver) {
 		account_status_str[(int) driver->account_status]
 	);
 }
-
 
 /// @brief A funcao parseDriver
 /**

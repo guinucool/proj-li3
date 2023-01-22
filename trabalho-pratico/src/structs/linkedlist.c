@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/// \struct Estrutura que define as listas de ligadas
+typedef struct _LINKED_NODE_ {
+    void * element;                 //!< Elemento de uma posição da lista
+    struct _LINKED_NODE_ * next;    //!< Apontador para a próxima posição da lista
+}*LinkedList;
+
+/// @brief A função createList cria uma lista ligada.
+/** 
+ * A função createList cria uma lista ligada alocando uma posição
+ * da mesma.
+ * 
+ * Dentro desta posição aloca insere um elemento, e anexa (ou não)
+ * a continuação/o final(NULL) da lista.
+ * 
+ * @param element Elemento a ser guardado nesta posição da lista.
+ * @param next Lista a qual esta se liga.
+ * 
+ * @return A nova lista criada.
+ */
+LinkedList createList(void * element, LinkedList next)
+{
+    LinkedList node = (LinkedList) malloc(sizeof(LinkedList));
+
+    node->element = element;
+    node->next = next;
+
+    return node;
+}
+
+/// @brief A função addOrdList adiciona um elemento a uma lista ligada ordenada.
+/**
+ * A função addOrdList adiciona um elemento a uma lista ligada ordenada,
+ * usando uma função compare fornecida para decidir a melhor posição para
+ * colocar este novo elemento.
+ * 
+ * A função compare fornecida deverá seguir as seguintes regras:
+ * - return >0 se o elemento 1 for maior que o elemento 2;
+ * - return =0 se o elemento 1 for igual ao elemento 2;
+ * - return <0 se o elemento 1 for menor que o elemento 2;
+ * 
+ * @param element O elemento a ser adicionado.
+ * @param list A lista à qual vai ser adicionado o elemento.
+ * @param compare A função compare adequada ao processo.
+ * 
+ * @return A lista com o novo elemento.
+ */
+LinkedList addOrdList(void * element, LinkedList list, int (*compare)(void*,void*))
+{
+    LinkedList holder = list;
+    int first = 1;
+
+    while (compare(element, list->element) < 0 && list->next)
+    {    
+        list = list->next;
+        first = 0;
+    }
+
+    if (compare(element, list->element) > 0)
+        list = createList(element, list);
+    else if(compare(element, list->element) < 0)
+        list->next = createList(element, NULL);
+
+    if (first) holder = list;
+
+    return holder;
+}
+
+/// @brief A função destroyList destroí a lista.
+/**
+ * A função destroyList destroí a estrutura da lista,
+ * porém sem modificar os seus elementos.
+ * 
+ * @param list A lista a ser destruída.
+ */
+void destroyList(LinkedList list)
+{
+    while (list)
+    {
+        LinkedList holder = list;
+        list = list->next;
+        free(holder);
+    }
+}
+
+/// @brief A função debugPrintList imprime a lista e os seus elementos.
+/**
+ * A função debugPrintList imprime a lista e os seus elementos
+ * para propósitos de debugging.
+ * 
+ * @param list A lista a ser impresa.
+ * @param elemPrinter A impresora do tipo de elementos da lista.
+ */
+void debugPrintList(LinkedList list, void (*elemPrinter)(void*))
+{
+    if (list)
+    {
+        printf("[%p](LinkedList) {\n    (element) - ", list);
+        elemPrinter(list->element);
+        printf("\n    (next) - ");
+        debugPrintList(list->next, elemPrinter);
+        printf("}\n");
+    }
+    else
+        printf("NULL\n");
+}
+
+/// @brief A função list_element devolve um elemento da lista.
+/**
+ * A função list_element devolve o apontador
+ * do elemento da posição atual da lista.
+ * 
+ * @param list A lista na posição onde é pretendida a devolução.
+ * 
+ * @return O apontador do elemento.
+ */
+void * list_element(LinkedList list)
+{
+    return list->element;
+}
+
+/// @brief A função list_next devolve uma posição da lista.
+/**
+ * A função list_next devolve o apontador da próxima
+ * posição da lista, relativamente à atual.
+ * 
+ * @param list A lista na posição onde é pretendida a devolução.
+ * 
+ * @return O apontador do elemento.
+ */
+LinkedList list_next(LinkedList list)
+{
+    return list->next;
+}

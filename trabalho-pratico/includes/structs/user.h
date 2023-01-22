@@ -3,6 +3,16 @@
 
 #define MAX_USER_STR 50
 
+#define MALE 'M'
+#define FEMALE 'F'
+
+#define INACTIVE 0
+#define ACTIVE 1
+
+#define CASH 0
+#define CREDIT_CARD 1
+#define DEBIT_CARD 2
+
 typedef struct _USER_ User;
 typedef short Date[3];
 

@@ -45,7 +45,7 @@ User* userCreate(char data[][200])
     user->account_status = data[6][0];
     user->score = 0;
     user->rides = 0;
-    user->money_spent = 0;
+    user->money_spent = 0.f;
     user->distance = 0;
 
     return user;
@@ -64,16 +64,13 @@ User* userCreate(char data[][200])
  * 
  * @param distance A distância a ser adicionado ao user.
  * 
- * @return A User criada com as respetivas propriedades.
  */
 void userUpdate(User * user, int score, double money_spent, int distance)
 {
-    user->score = 0;
-    user->rides = 0;
-    user->money_spent = 0;
-    user->distance = 0;
-
-    return user;
+    user->score += score;
+    user->rides++;
+    user->money_spent += money_spent;
+    user->distance += distance;
 }
 
 /// @brief A função destroyUser destroí uma variável do tipo User.
