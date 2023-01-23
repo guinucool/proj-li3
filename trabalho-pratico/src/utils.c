@@ -8,22 +8,6 @@
 #include "../includes/structs/datefilter.h"
 #include "../includes/utils.h"
 
-short calculateAge(Date birthday)
-{
-    short age;
-    Date now;
-    
-    createDate(REF_DATE, now);
-
-    if (now[1] > birthday[1] || (now[1] == birthday[1] && now[0] >= birthday[0])) {
-        age = now[2] - birthday[2];
-    } else {
-        age = now[2] - birthday[2] - 1;
-    }
-
-    return age;
-}
-
 /// @brief A função equal compara duas chaves de tipo Int.
 /** 
  *  A função equal compara duas chaves de tipo Int, igualando-as.

@@ -1,24 +1,28 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include "../../includes/structs/user.h"
+#include <string.h>
+#include <ctype.h>
 #include "../../includes/structs/date.h"
+#include "../../includes/structs/user.h"
+
+char payment_methods[METHODS_SIZE][MAX_USER_STR] = {"CASH", "CREDIT_CARD", "DEBIT_CARD"};
+char account_statuses[STATUS_SIZE][MAX_USER_STR] = {"INACTIVE", "ACTIVE"};
 
 /// \struct Estrutura que define as variáveis do tipo User.
-typedef struct _USER_
-{
+typedef struct _USER_ {
     char username[MAX_USER_STR];    //!< Username do user
     char name[MAX_USER_STR];        //!< Nome do user
     char gender;                    //!< Genero do user
-    Date birth_date;                //!< Data de nascimento do user no formato {dia,mês,ano}
+    short age;                      //!< Data de nascimento do user no formato {dia,mês,ano}
     Date account_creation;          //!< Data de criação de conta do user no formato {dia,mês,ano}
-    char pay_method[MAX_USER_STR];  //!< Metodo de pagamento que o user usa
+    char pay_method;                //!< Metodo de pagamento que o user usa
     char account_status;            //!< Status da conta ('a' para active 'i' para inactive)
     int score;                      //!< Avaliação total do utilizador
     int rides;                      //!< Número de viagens do utilizador
     double money_spent;             //!< Total gasto em viagens pelo utilizador
     int distance;                   //!< Distancia total percorrida pelo utilizador
-}User;
+    Date last_ride;                 //!< Data da última viagem
+}*User, NPUser;
 
 /// @brief A função userCreate cria uma variável do tipo User.
 /**
@@ -28,25 +32,40 @@ typedef struct _USER_
  * Assim sendo, irá depois, também, associar os respetivos valores de input
  * da função às repetivas propriedades da variável.
  * 
- * @param data A lista de strings que contem os parametros para a criação do user.
+ * @param username O username do user.
+ * @param name O nome do user.
+ * @param gender O género do user.
+ * @param age A idade do user.
+ * @param account_creation A data de criação de conta do user.
+ * @param pay_method A forma de pagamento do user.
+ * @param account_status O estado da conta do user.
  * 
- * @return A User criada com as respetivas propriedades.
+ * @return O User criada com as respetivas propriedades.
  */
-User* userCreate(char data[][200])
+User userCreate(char * username, char * name, char gender, short age, Date account_creation, char pay_method, char account_status)
 {
-    User * user = (User*) malloc(sizeof(User));
+    User user = (User) malloc(sizeof(NPUser));
 
-    strncpy(user->username, data[0], MAX_USER_STR);
-    strncpy(user->name, data[1], MAX_USER_STR);
-    user->gender = data[2][0];
-    createDate(data[3],user->birth_date);
-    createDate(data[4],user->account_creation);
-    strncpy(user->pay_method, data[5], MAX_USER_STR);
-    user->account_status = data[6][0];
+    strncpy(user->username, username, MAX_USER_STR);
+    strncpy(user->name, name, MAX_USER_STR);
+    user->gender = gender;
+
+    user->age = age;
+    user->account_creation[0] = account_creation[0];
+    user->account_creation[1] = account_creation[1];
+    user->account_creation[2] = account_creation[2];
+
+    user->pay_method = pay_method;
+    user->account_status = account_status;
+
     user->score = 0;
     user->rides = 0;
     user->money_spent = 0.f;
     user->distance = 0;
+
+    user->last_ride[0] = account_creation[0];
+    user->last_ride[1] = account_creation[1];
+    user->last_ride[2] = account_creation[2];
 
     return user;
 }
@@ -57,20 +76,24 @@ User* userCreate(char data[][200])
  * após uma viagem.
  * 
  * @param user A variável user a ser atualizada.
- * 
  * @param score A pontuação a ser adicionada ao user.
- * 
  * @param money_spent O dinheiro a ser adicionado ao user.
- * 
  * @param distance A distância a ser adicionado ao user.
- * 
+ * @param date A data da viagem que provocou a atualização.
  */
-void userUpdate(User * user, int score, double money_spent, int distance)
+void userUpdate(User user, int score, double money_spent, int distance, Date date)
 {
     user->score += score;
     user->rides++;
     user->money_spent += money_spent;
     user->distance += distance;
+
+    if (datecmp(date, user->last_ride) > 0)
+    {
+        user->last_ride[0] = date[0];
+        user->last_ride[1] = date[1];
+        user->last_ride[2] = date[2];
+    }
 }
 
 /// @brief A função destroyUser destroí uma variável do tipo User.
@@ -80,70 +103,198 @@ void userUpdate(User * user, int score, double money_spent, int distance)
  * 
  * @param user A variável do tipo User que vai ser destruída.
  */
-void destroyUser(User * user)
+void destroyUser(User user)
 {
     free(user);
 }
 
-void printUser(User* user){
-    printf("[User] -> {username: %s, name: %s, gender: %c, birth_date: %d/%d/%d, account_creation: %d/%d/%d, pay_method: %s, account_status:%c}",
-    user->username,
-    user->name,
-    user->gender,
-    user->birth_date[0],user->birth_date[1],user->birth_date[2],
-    user->account_creation[0],user->account_creation[1],user->account_creation[2],
-    user->pay_method,
-    user->account_status
+/// @brief A função debugPrintUser imprime um User.
+/**
+ * A função debugPrintUser imprime toda a informação registada
+ * numa variável do tipo User para propósitos de debugging.
+ * 
+ * @param user A variável User a ser imprensa.
+ */
+void debugPrintUser(User user)
+{
+    printf("[%p](User) {\n    username: %s\n    name: %s\n    gender: %c\n    age: %d\n    account_creation: %d/%d/%d\n    pay_method: %d\n    account_status:%d\n    ",
+        user,
+        user->username,
+        user->name,
+        user->gender,
+        user->age,
+        user->account_creation[0],user->account_creation[1],user->account_creation[2],
+        user->pay_method,
+        user->account_status
+    );
+    printf("score: %d\n    rides: %d\n    money_spent: %.3f\n    distance: %d\n    last_ride: %d/%d/%d\n}\n",
+        user->score,
+        user->rides,
+        user->money_spent,
+        user->distance,
+        user->last_ride[0],user->last_ride[1],user->last_ride[2]
     );
 }
 
-void user_Str(char * dest, User * user, char mode)
+void strtop(char * str)
 {
-    switch (mode)
-    {
-        case 'u':
-            strcpy(dest, user->username);
-            break;
-
-        case 'n':
-            strcpy(dest, user->name);
-            break;
-
-        case 'p':
-            strcpy(dest, user->pay_method);
-            break;
-    }
+    for (int i = 0; str[i] != '\0'; i++)
+        toupper(str[i]);
 }
 
-char user_Char(User * user, char mode)
+/// @brief A função parseUser converte o input numa variável User.
+/**
+ * A função parseUser tem como objetivo analisar, intrepetar
+ * e converter o input do parser em propriedades adequadas
+ * para a variável User.
+ * 
+ * Irá também fazer as devidas verificações de forma a não
+ * converter informação inválida.
+ * 
+ * @param data O input do parser.
+ * 
+ * @return O User criado.
+ */
+User parseUser(char data[7][200])
 {
-    switch (mode)
-    {
-        case 'g':
-            return(user->gender);
-            break;
+    Date birth_date;
+    createDate(data[3], birth_date);
 
-        case 's':
-            return(user->account_status);
-            break;
-    }
-    return(' ');
+    Date account_creation;
+    createDate(data[4], account_creation);
+
+    char username[MAX_USER_STR], name[MAX_USER_STR];
+    char gender, pay_method, account_status;
+    short age;
+
+    strncpy(username, data[0], MAX_USER_STR);
+    strncpy(name, data[1], MAX_USER_STR);
+
+    gender = data[2][0];
+
+    age = calculateAge(birth_date);
+
+    strtop(data[5]);
+    strtop(data[6]);
+
+    for (int i = 0; i < METHODS_SIZE; i++)
+        if(strcmp(data[5], payment_methods[i])) pay_method = i;
+
+    for (int i = 0; i < STATUS_SIZE; i++)
+        if(strcmp(data[5], account_statuses[i])) account_status = i;
+
+    return userCreate(username, name, gender, age, account_creation, pay_method, account_status);
 }
 
-void user_Date(Date dest, User * user, char mode)
+/// @brief A função usercmp compara dois users.
+/**
+ * A função usercmp compara dois users usando as propriedades
+ * da distância total percorrida, da data da ultima viagem em
+ * caso de empate, e do username em caso de outro empate.
+ * 
+ * Objetiva a ordenar os users por ordem decrescente, exceto
+ * na propriedade de username, onde é usada a ordem crescente.
+ * 
+ * @param user1 O user número 1.
+ * @param user2 O user número 2.
+ * 
+ * @return Os valores do costume de acordo com as comparações.
+ */ 
+int usercmp(User user1, User user2)
 {
-    switch (mode)
-    {
-        case 'b':
-            dest[0] = user->birth_date[0];
-            dest[1] = user->birth_date[1];
-            dest[2] = user->birth_date[2];
-            break;
+    int res = 0;
 
-        case 'a':
-            dest[0] = user->account_creation[0];
-            dest[1] = user->account_creation[1];
-            dest[2] = user->account_creation[2];
-            break;
-    }
+    if (user1->distance > user2->distance) res = 1;
+    if (user1->distance < user2->distance) res = -1;
+    
+    if (res == 0) res = datecmp(user1->last_ride, user2->last_ride);
+
+    if (res == 0) res = strcmp(user2->username, user1->username);
+
+    return res;
+}
+
+/// @brief A função user_username devolve o username de um User.
+void user_username(char * dest, User user)
+{
+    strncpy(dest, user->username, MAX_USER_STR);
+}
+
+/// @brief A função user_name devolve o nome de um User.
+void user_name(char * dest, User user)
+{
+    strncpy(dest, user->name, MAX_USER_STR);
+}
+
+/// @brief A função user_gender devolve o género de um User.
+char user_gender(User user)
+{
+    return user->gender;
+}
+
+/// @brief A função user_age devolve a idade de um User.
+short user_age(User user)
+{
+    return user->age;
+}
+
+/// @brief A função user_accountCreation devolve a data de criação da conta de um User.
+void user_accountCreation(Date dest, User user)
+{
+    dest[0] = user->account_creation[0];
+    dest[1] = user->account_creation[1];
+    dest[2] = user->account_creation[2];
+}
+
+/// @brief A função user_accountStatus devolve o estado de uma conta de um User.
+char user_accountStatus(User user)
+{
+    return user->account_status;
+}
+
+/// @brief A função user_averageScore devolve a pontuação média de um User.
+double user_averageScore(User user)
+{
+    return ((double)user->score / user->rides);
+}
+
+/// @brief A função user_rides devolve o número de viagens de um User.
+int user_rides(User user)
+{
+    return user->rides;
+}
+
+/// @brief A função user_moneySpent devolve o dinheiro gasto por um User.
+double user_moneySpent(User user)
+{
+    return user->money_spent;
+}
+
+/// @brief A função user_distance devolve a distância de um User.
+int user_distance(User user)
+{
+    return user->distance;
+}
+
+int main()
+{
+    char user[7][200] = { "joaoganer", "João Silva", "M", "09/09/2000", "23/05/2021", "cash", "active"};
+
+    User u = parseUser(user);
+
+    debugPrintUser(u);
+
+    Date last = {23,5,2022};
+
+    userUpdate(u, 5, 5.2f, 5, last);
+
+    Date last2 = {23,4,2022};
+
+    userUpdate(u, 2, 3.4f, 7, last2);
+
+    debugPrintUser(u);
+
+    destroyUser(u);
+
+    debugPrintUser(u);
 }

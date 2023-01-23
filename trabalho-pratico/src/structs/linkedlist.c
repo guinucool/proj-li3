@@ -128,7 +128,7 @@ void * list_element(LinkedList list)
  * 
  * @param list A lista na posição onde é pretendida a devolução.
  * 
- * @return O apontador do elemento.
+ * @return O apontador do próximo elemento.
  */
 LinkedList list_next(LinkedList list)
 {
