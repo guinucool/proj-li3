@@ -275,26 +275,3 @@ int user_distance(User user)
 {
     return user->distance;
 }
-
-int main()
-{
-    char user[7][200] = { "joaoganer", "João Silva", "M", "09/09/2000", "23/05/2021", "cash", "active"};
-
-    User u = parseUser(user);
-
-    debugPrintUser(u);
-
-    Date last = {23,5,2022};
-
-    userUpdate(u, 5, 5.2f, 5, last);
-
-    Date last2 = {23,4,2022};
-
-    userUpdate(u, 2, 3.4f, 7, last2);
-
-    debugPrintUser(u);
-
-    destroyUser(u);
-
-    debugPrintUser(u);
-}
