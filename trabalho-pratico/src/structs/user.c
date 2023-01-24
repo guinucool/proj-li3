@@ -158,10 +158,10 @@ void strtop(char * str)
 User parseUser(char data[7][200])
 {
     Date birth_date;
-    createDate(data[3], birth_date);
+    parseDate(data[3], birth_date);
 
     Date account_creation;
-    createDate(data[4], account_creation);
+    parseDate(data[4], account_creation);
 
     char username[MAX_USER_STR], name[MAX_USER_STR];
     char gender, pay_method, account_status;

@@ -3,13 +3,17 @@
 
 #define REF_DATE { 9, 10, 2022 }
 
+// Estrutura
+
 /// \struct Estrutura que define as variáveis do tipo Data.
 typedef short Date[3];
 
-void createDate(char * date, Date res);
-int datecmp(Date dateA, Date dateB);
+// Tratamentos
+void createDate(short day, short month, short year, Date res);
 void nextDay(Date date);
-int dateDiffYears(Date dateA, Date dateB);
-short calculateAge(Date birthday);
+void debugPrintDate(Date date);
+void parseDate(char * str, Date date);
+int datecmp(Date dateA, Date dateB);
+short calculateAge(Date date);
 
 #endif
