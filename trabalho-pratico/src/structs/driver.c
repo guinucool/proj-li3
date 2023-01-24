@@ -2,74 +2,63 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "../../includes/structs/driver.h"
 #include "../../includes/structs/date.h"
+#include "../../includes/structs/driver.h"
 
-char car_class_str[][8] = {"BASIC", "GREEN", "PREMIUM"};
-int car_class_size = 3;
-char account_status_str[][9] = {"INACTIVE", "ACTIVE"};
-int account_status_size = 2;
+char car_classes[CLASS_SIZE][8] = {"BASIC", "GREEN", "PREMIUM"};
+char account_statuses[STATUS_SIZE][9] = {"INACTIVE", "ACTIVE"};
 
 typedef struct _DRIVER_ {
-	int id;                                      // INTEGER
-	char name[NAME_STR_SIZE];                    // STRING
-	Date birth_day;                              // {day, month, year}
-	char gender;                                 //  {'M' - MALE, 'F' - FEMALE}
-	char car_class;                              // {0 - BASIC, 1 - GREEN, 2 - PREMIUM}
-	char license_plate[LICENSE_PLATE_STR_SIZE];  // STRING
-	char city[CITY_STR_SIZE];                    // STRING
-	Date account_creation;                       // {day, month, year}
-	char account_status;                         // {0 - INACTIVE, 1 - ACTIVE}
-	int * score;								 // DYNAMIC ARRAY
-	int * rides;								 // DYNAMIC ARRAY
-	double money_received;						 // DOUBLE
-	char ** cities;								 // DYNAMIC STRING ARRAY
-	int counter;								 // INTEGER
-} Driver;
+	int id;                                      //!< INTEGER - Id do driver
+	char name[NAME_STR_SIZE];                    //!< STRING - Nome do driver
+	short age;                                   //!< SHORT - Idade do driver
+	char gender;                                 //!< CHAR {'M' - MALE, 'F' - FEMALE} - Género do driver
+	char car_class;                              //!< CHAR {0 - BASIC, 1 - GREEN, 2 - PREMIUM} - Classe do driver
+	char license_plate[LICENSE_PLATE_STR_SIZE];  //!< STRING - Matrícula do driver
+	char city[CITY_STR_SIZE];                    //!< STRING - Cidade do driver
+	Date account_creation;                       //!< DATE {day, month, year} - Data de criação da conta do driver
+	char account_status;                         //!< CHAR {0 - INACTIVE, 1 - ACTIVE} - Estado da conta do driver
+	int * score;								 //!< DYNAMIC ARRAY - Pontuação do driver (global e cidades)
+	int * rides;								 //!< DYNAMIC ARRAY - Número de viagens do driver (global e cidades)
+	double money_received;						 //!< DOUBLE - Totalidade do dinheiro recebido pelo driver
+	char ** cities;								 //!< DYNAMIC STRING ARRAY - Cidades das viagens do driver
+	int counter;								 //!< INTEGER - Número de cidades das viagens do driver
+	Date last_ride;								 //!< DATE {day, month, year} - Data da última viagem do driver
+}*Driver, NPDriver;
 
-/// @brief A funcao createDriver cria uma variavel do tipo drive.
+/// @brief A funcao createDriver cria uma variavel do tipo driver.
 /**
  * A funcao createDriver cria uma variavel do tipo drive, alocando 
- * o espaco necesaario na memoria para a mesma.
+ * o espaco necessário na memoria para a mesma.
  *
- * Assim sendo, ira depois, tambem, associar os respetivos valores de input
- * da funcao as repetivas propriedades da variavel.
+ * Assim sendo, irá depois, também, associar os respetivos valores de input
+ * da função às repetivas propriedades da variável.
  *
  * @param id O id do driver.
- * 
  * @param name O nome do driver
- * 
- * @param birth_day A data de nascimento do driver.
- * 
+ * @param age A idade do driver.
  * @param gender O genero do driver.
- * 
  * @param car_class A classe do veiculo do driver.
- * 
  * @param license_plate A matricula do carro do driver.
- *
  * @param city A cidade do driver.
- *
  * @param account_creation A data de criacao da conta do driver.
- *
  * @param account_status O estado da conta do driver.
  *
  * @return O driver criado com as respetivas propriedades.
  */
-Driver *createDriver(int id, char *name, Date birth_day, char gender, char car_class, char license_plate[], char city[], Date account_creation, char account_status) {
-	
-	Driver *driver = (Driver*) malloc(sizeof(Driver));
+Driver createDriver(int id, char * name, short age, char gender, char car_class, char * license_plate, char * city, Date account_creation, char account_status)
+{	
+	Driver driver = (Driver) malloc(sizeof(NPDriver));
 
 	driver->id = id;
 	strncpy(driver->name, name, NAME_STR_SIZE);
-
-	driver->birth_day[0] = birth_day[0];
-	driver->birth_day[1] = birth_day[1];
-	driver->birth_day[2] = birth_day[2];
-	
+	driver->age = age;
 	driver->gender = gender;
+
 	driver->car_class = car_class;
 	strncpy(driver->license_plate, license_plate, LICENSE_PLATE_STR_SIZE);
 	strncpy(driver->city, city, CITY_STR_SIZE);
+
 	driver->account_creation[0] = account_creation[0];
 	driver->account_creation[1] = account_creation[1];
 	driver->account_creation[2] = account_creation[2];
@@ -82,10 +71,26 @@ Driver *createDriver(int id, char *name, Date birth_day, char gender, char car_c
 	driver->money_received = 0.f;
 	driver->counter = 0;
 
+	driver->last_ride[0] = account_creation[0];
+	driver->last_ride[1] = account_creation[1];
+	driver->last_ride[2] = account_creation[2];
+
 	return driver;
 }
 
-void updateDriver(Driver * driver, int score, double money_received, char * city)
+/// @brief A função updateDriver atualiza a informação de um Driver.
+/**
+ * A função updateDriver atualiza a informação de um Driver
+ * após um viagem, adicionando as estatísticas dessa viagem
+ * às já existentes no Driver.
+ * 
+ * @param driver O Driver a ser atualizado.
+ * @param score A pontuação a ser adicionada.
+ * @param money_received O dinheiro recebido a ser adicionado.
+ * @param city A cidade onde a viagem ocorreu.
+ * @param date A data da viagem.
+ */
+void updateDriver(Driver driver, int score, double money_received, char * city, Date date)
 {
 	int target = -1;
 
@@ -104,7 +109,9 @@ void updateDriver(Driver * driver, int score, double money_received, char * city
 		strncpy(driver->cities[target], city, strlen(city));
 
 		driver->score = realloc(driver->score, sizeof(int) * (driver->counter + 1));
+		driver->score[driver->counter] = 0;
 		driver->rides = realloc(driver->rides, sizeof(int) * (driver->counter + 1));
+		driver->rides[driver->counter] = 0;
 	}
 
 	target++;
@@ -113,78 +120,113 @@ void updateDriver(Driver * driver, int score, double money_received, char * city
 	driver->score[target] += score;
 
 	driver->rides[0]++;
-	driver->score[target]++;
+	driver->rides[target]++;
 
 	driver->money_received += money_received;
+
+	if (datecmp(date, driver->last_ride) > 0)
+    {
+        driver->last_ride[0] = date[0];
+        driver->last_ride[1] = date[1];
+        driver->last_ride[2] = date[2];
+    }
 }
 
-/// @brief A funcao destroyDriver destroi uma variavel do tipo Driver.
+/// @brief A função destroyDriver destroi uma variavel do tipo Driver.
 /**
- * A funcao destroyDriver destroi uma variavel do tipo driver, libertando
- * o espaco ocupado pela variavel e pelas suas propriedades.
+ * A função destroyDriver destroi uma variavel do tipo Driver, libertando
+ * o espaco ocupado pela variável e pelas suas propriedades.
  * 
- * @param driver A variavel do tipo driver que vai ser destruida.
+ * @param driver A variável do tipo Driver que vai ser destruida.
  */
-void destroyDriver(Driver *driver) {
+void destroyDriver(Driver driver)
+{
 	free(driver);
 }
 
-void printDriver(Driver* driver) {
-	printf("Driver {id: %d, name: %s, birth_date: %02d/%02d/%04d, gender: %c, car_class: %s, license_plate: %s, city: %s, account_creation: %02d/%02d/%04d, account_status: %s}", 
+/// @brief A função debugPrintDriver imprime um Driver.
+/**
+ * A função debugPrintDriver imprime um Driver e as suas informações
+ * afim de dar informações úteis para debugging.
+ * 
+ * @param driver O Driver a ser imprenso.
+ */
+void debugPrintDriver(Driver driver)
+{
+	printf("[%p](Driver) {\n    id: %d\n    name: %s\n    age: %d\n    gender: %c\n    car_class: %d\n    license_plate: %s\n    city: %s\n    account_creation: %d/%d/%d\n    account_status: %d\n    ",
+		driver,
 		driver->id, 
 		driver->name,
-		driver->birth_day[0], driver->birth_day[1], driver->birth_day[2],
+		driver->age,
 		driver->gender,
-		car_class_str[(int) driver->car_class],
+		driver->car_class,
 		driver->license_plate,
 		driver->city,
 		driver->account_creation[0], driver->account_creation[1], driver->account_creation[2],
-		account_status_str[(int) driver->account_status]
+		driver->account_status
 	);
+	printf("[Global]\n    score: %d\n    rides: %d\n    money_received: %.3f\n    last_ride: %d/%d/%d\n",
+        driver->score[0],
+        driver->rides[0],
+        driver->money_received,
+        driver->last_ride[0],driver->last_ride[1],driver->last_ride[2]
+    );
+	for (int i = 0; i < driver->counter; i++)
+	{
+		printf("    [%s]\n    score: %d\n    rides: %d\n",
+			driver->cities[i],
+        	driver->score[i+1],
+        	driver->rides[i+1]
+    	);
+	}
+	printf("}\n");
 }
 
-/// @brief A funcao parseDriver
+/// @brief A função parseDriver converte várias strings em propriedades adequadas ao tipo Driver.
 /**
- * Extrai os campos id, name, birth_day, gender, car_class, license_plate, city, account_creation, account_status do array tokens passado
- * como parametro. E devolve um Driver com esses mesmos parametros.
- * Caso aconteca um erro na extracao de um parametro do array tokens, a funcao devolve o valor NULL.
+ * A função parseDriver extrai os campos id, name, birth_day, gender, car_class, license_plate,
+ * city, account_creation, account_status do array tokens passado
+ * como parametro.
  * 
+ * Depois de os tratar, devolve um Driver com esses mesmos parametros.
+ * Caso aconteca um erro na extracao de um parametro do array tokens,
+ * a funcao devolve o valor NULL.
+ * 
+ * @param tokens A informação em strings.
  *
- * @return Driver | NULL
+ * @return O Driver criado.
 */
-Driver *parseDriver(char tokens[9][200]) {
-		
+Driver parseDriver(char tokens[9][200])
+{
+	// Parse BIRTH_DAY
+	Date birth_day;
+	parseDate(tokens[2], birth_day);
+
+	// Parse ACCOUNT_CREATION
+	Date account_creation;
+	parseDate(tokens[7], account_creation);
+
 	//int i = 0, id; 
 	int id;
-	char name[NAME_STR_SIZE];
-	Date birth_day;
-	char gender;
-	int car_class;
-	char license_plate[LICENSE_PLATE_STR_SIZE];
-	char city[CITY_STR_SIZE];
-	Date account_creation;
-	char account_status;
+	short age;
+	char name[NAME_STR_SIZE], license_plate[LICENSE_PLATE_STR_SIZE], city[CITY_STR_SIZE];
+	char gender, car_class, account_status;
 	//char limit[] = {';', '\0'};
 
-	// Parse ID.
-	if ((id = atoi(tokens[0])) == 0) {
-		return NULL;
-	}
+	// Parse ID
+	if ((id = atoi(tokens[0])) == 0) return NULL;
 
-	// Parse NAME.
+	// Parse NAME
 	strncpy(name, tokens[1], NAME_STR_SIZE);
 
-	// Parse BIRTTH DAY.
-	createDate(tokens[2], birth_day);
+	// Parse AGE
+	age = calculateAge(birth_day);
 
-	// Parse GENDER.
+	// Parse GENDER
 	gender = tokens[3][0];
+	if (gender != MALE && gender != FEMALE) return NULL;
 
-	if (gender != MALE && gender != FEMALE) {
-		return NULL;
-	}
-
-	// Parse CAR CLASS.
+	// Parse CAR_CLASS
 	// Converte o token para maiusculas.
 	for(int i = 0; tokens[4][i]; i++) {
 		tokens[4][i] = toupper(tokens[4][i]);
@@ -192,105 +234,169 @@ Driver *parseDriver(char tokens[9][200]) {
 
 	// Verificar se o token existe no array car_class_str (onde estao todos os car classe possiveis).
 	car_class = -1;
-	for (int i = 0; i < car_class_size; i++) {
-		if (strcmp(tokens[4], car_class_str[i]) == 0) {
-			car_class = i;
-			break;
-		}
-	}
+	for (int i = 0; i < CLASS_SIZE; i++)
+		if (strcmp(tokens[4], car_classes[i]) == 0) car_class = i;
 
 	// Interrompe a funcao se car class nao e valido (-1).
-	if (car_class == -1) {
-		return NULL;
-	}
+	if (car_class == -1) return NULL;
 
-	// Parse LICENSE PLATE
+	// Parse LICENSE_PLATE
 	strncpy(license_plate, tokens[5], LICENSE_PLATE_STR_SIZE);
 
-	// Parse CITY.
+	// Parse CITY
 	strncpy(city, tokens[6], CITY_STR_SIZE);
 
-	// Parse ACCOUNT CREATION.
-	createDate(tokens[7], account_creation);
-
-	// Parse ACCOUNT STATUS.
+	// Parse ACCOUNT_STATUS
 	// Converte para maiusculas o token.
 	for(int i = 0; tokens[8][i]; i++) {
 		tokens[8][i] = toupper(tokens[8][i]);
 	}
 
 	// Veririca se o estado em token é valido (isto e se existe no array account_status_str).
-	account_status = 9;
-	for (int i = 0; i < account_status_size; i++) {
-		if (strcmp(tokens[8], account_status_str[i]) == 0) {
-			account_status = i;
-			break;
-		}
-	}
+	account_status = -1;
+	for (int i = 0; i < STATUS_SIZE; i++)
+		if (strcmp(tokens[8], account_statuses[i]) == 0) account_status = i;
 
-	// Interrompe a funcao se status nao é valido (9).
-	if (account_status == 9) {
-		return NULL;
-	}
+	// Interrompe a funcao se status nao é valido (-1).
+	if (account_status == -1) return NULL;
 
 	// Cria e devolve um novo driver com os parametros extraidos do array tokens.
-	return createDriver(id, name, birth_day, gender, car_class, license_plate, city, account_creation, account_status);
+	return createDriver(id, name, age, gender, car_class, license_plate, city, account_creation, account_status);
 }
 
-int driver_Id(Driver * driver)
+/// @brief A função drivercmp compara dois Drivers.
+/**
+ * A função drivercmp tem como objetivo proceder à comparação
+ * de dois drivers, dando um output que obedece às regras
+ * da comparação (1 para maior, etc...).
+ * 
+ * A primeira prioridade na comparação será a avaliação média
+ * dos Drivers, por ordem crescente.
+ * 
+ * A segunda prioridade, no caso de empate e da comparação
+ * ser global, será a data da viagem mais recente.
+ * 
+ * E a terceira prioridade será o id do driver, por ordem
+ * crescente no caso global, e decrescente no caso de
+ * cidade.
+ * 
+ * @param driver1 O Driver 1.
+ * @param driver2 O Driver 2.
+ * @param city A cidade de comparação (NULL no caso de Global).
+ * 
+ * @return O valor correspondente ao resultado da comparação.
+ */
+int drivercmp(Driver driver1, Driver driver2, char * city)
 {
-	return(driver->id);
+	int res = 0;
+	double av1 = (double) driver1->score[0] / driver1->rides[0];
+	double av2 = (double) driver2->score[0] / driver2->rides[0];
+
+	if (city)
+	{
+		for (int i = 0; i < driver1->counter; i++)
+			if(strcmp(driver1->cities[i], city) == 0) av1 = (double)driver1->score[i+1] / driver1->rides[i+1];
+
+		for (int i = 0; i < driver2->counter; i++)
+			if(strcmp(driver2->cities[i], city) == 0) av1 = (double)driver2->score[i+1] / driver2->rides[i+1];
+	}
+
+	if (av1 > av2) res = 1;
+	if (av1 < av2) res = -1;
+
+	if(!city && res == 0) datecmp(driver1->last_ride, driver2->last_ride);
+
+	if(res == 0)
+	{
+		if(driver1->id < driver2->id) res = -1;
+		else res = 1;
+		
+		if(city) res = -res;
+	}
+
+	return res;
 }
 
-void driver_Str(char * dest, Driver * driver, char mode)
+/// @brief A função driver_id devolve o id de um Driver. 
+int driver_id(Driver driver)
 {
-	switch (mode)
-	{
-		case 'n':
-			strcpy(dest, driver->name);
-			break;
-
-		case 'l':
-			strcpy(dest, driver->license_plate);
-			break;
-
-		case 'c':
-			strcpy(dest, driver->city);
-			break;
-	}
+	return driver->id;
 }
 
-void driver_Date(Date dest, Driver * driver, char mode)
+/// @brief A função driver_name devolve o nome de um Driver. 
+void driver_name(char * dest, Driver driver)
 {
-	if (mode == 'b')
-	{
-		dest[0] = driver->account_creation[0];
-		dest[1] = driver->account_creation[1];
-		dest[2] = driver->account_creation[2];
-	}
-	else
-	{
-		dest[0] = driver->birth_day[0];
-		dest[1] = driver->birth_day[1];
-		dest[2] = driver->birth_day[2];
-	}
+	strncpy(dest, driver->name, NAME_STR_SIZE);
 }
 
-char driver_Char(Driver * driver, char mode)
+/// @brief A função driver_age devolve a idade de um Driver. 
+short driver_age(Driver driver)
 {
-	switch (mode)
-	{
-		case 'g':
-			return(driver->gender);
-			break;
+	return driver->age;
+}
 
-		case 'c':
-			return(driver->car_class);
-			break;
+/// @brief A função driver_gender devolve o género de um Driver. 
+char driver_gender(Driver driver)
+{
+	return driver->gender;
+}
 
-		case 's':
-			return(driver->account_status);
-			break;
-	}
-	return(' ');
+/// @brief A função driver_carClass devolve a classe de um Driver.
+char driver_carClass(Driver driver)
+{
+	return driver->car_class;
+}
+
+/// @brief A função driver_accountCreation devolve a data de criação de conta de um Driver.
+void driver_accountCreation(Date dest, Driver driver)
+{
+	dest[0] = driver->account_creation[0];
+	dest[1] = driver->account_creation[1];
+	dest[2] = driver->account_creation[2];
+}
+
+/// @brief A função driver_accountStatus devolve o estado da conta de um Driver.
+char driver_accountStatus(Driver driver)
+{
+	return driver->account_status;
+}
+
+/// @brief A função driver_score devolve a pontuação média de um Driver.
+double driver_score(Driver driver, char * city)
+{
+	double res = (double)driver->score[0] / driver->rides[0];
+
+	if(city) for (int i = 0; i < driver->counter; i++)
+				if(strcmp(driver->cities[i], city) == 0) res = (double)driver->score[i+1] / driver->rides[i+1];
+	
+	return res;
+}
+
+/// @brief A função driver_rides devolve o número de viagens de um Driver.
+int driver_rides(Driver driver)
+{
+	return driver->rides[0];
+}
+
+/// @brief A função driver_moneyReceived devolve o dinheiro ganho por um Driver.
+double driver_moneyReceived(Driver driver)
+{
+	return driver->money_received;
+}
+
+int main()
+{
+	char chrdriver[9][200] = { "0000001", "Luís Almeida", "11/07/1995", "M", "green", "EV-54-07", "Braga", "15/06/2017", "active" };
+
+	Driver driver = parseDriver(chrdriver);
+
+	Date data1 = {15 , 6 , 2019};
+
+	updateDriver(driver, 5, 3.4f, "Braga", data1);
+
+	Date data2 = {17 , 6 , 2019};
+
+	updateDriver(driver, 2, 3.4f, "Viseu", data2);
+
+	debugPrintDriver(driver);
 }

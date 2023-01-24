@@ -178,10 +178,10 @@ User parseUser(char data[7][200])
     strtop(data[6]);
 
     for (int i = 0; i < METHODS_SIZE; i++)
-        if(strcmp(data[5], payment_methods[i])) pay_method = i;
+        if(strcmp(data[5], payment_methods[i]) == 0) pay_method = i;
 
     for (int i = 0; i < STATUS_SIZE; i++)
-        if(strcmp(data[5], account_statuses[i])) account_status = i;
+        if(strcmp(data[5], account_statuses[i]) == 0) account_status = i;
 
     return userCreate(username, name, gender, age, account_creation, pay_method, account_status);
 }

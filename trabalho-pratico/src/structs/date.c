@@ -126,7 +126,7 @@ short calculateAge(Date date)
     Date ref = REF_DATE;
     short res;
 
-    if (date[1] > ref[1] || (date[1] == ref[1] && date[0] >= ref[0]))
+    if (date[1] < ref[1] || (date[1] == ref[1] && date[0] <= ref[0]))
         res = ref[2] - date[2];
     else
         res = ref[2] - date[2] - 1;

@@ -5,7 +5,7 @@
 typedef struct _LINKED_NODE_ {
     void * element;                 //!< Elemento de uma posição da lista
     struct _LINKED_NODE_ * next;    //!< Apontador para a próxima posição da lista
-}*LinkedList;
+}*LinkedList, NPLinkedList;
 
 /// @brief A função createList cria uma lista ligada.
 /** 
@@ -22,7 +22,7 @@ typedef struct _LINKED_NODE_ {
  */
 LinkedList createList(void * element, LinkedList next)
 {
-    LinkedList node = (LinkedList) malloc(sizeof(LinkedList));
+    LinkedList node = (LinkedList) malloc(sizeof(NPLinkedList));
 
     node->element = element;
     node->next = next;
