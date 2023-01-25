@@ -298,13 +298,16 @@ int drivercmp(Driver driver1, Driver driver2, char * city)
 			if(strcmp(driver1->cities[i], city) == 0) av1 = (double)driver1->score[i+1] / driver1->rides[i+1];
 
 		for (int i = 0; i < driver2->counter; i++)
-			if(strcmp(driver2->cities[i], city) == 0) av1 = (double)driver2->score[i+1] / driver2->rides[i+1];
+			if(strcmp(driver2->cities[i], city) == 0) av2 = (double)driver2->score[i+1] / driver2->rides[i+1];
 	}
+
+	if (av1 != av1) av1 = 0.f;
+	if (av2 != av2) av2 = 0.f;
 
 	if (av1 > av2) res = 1;
 	if (av1 < av2) res = -1;
 
-	if(!city && res == 0) datecmp(driver1->last_ride, driver2->last_ride);
+	if(!city && res == 0) res = datecmp(driver1->last_ride, driver2->last_ride);
 
 	if(res == 0)
 	{
@@ -382,21 +385,4 @@ int driver_rides(Driver driver)
 double driver_moneyReceived(Driver driver)
 {
 	return driver->money_received;
-}
-
-int main()
-{
-	char chrdriver[9][200] = { "0000001", "Luís Almeida", "11/07/1995", "M", "green", "EV-54-07", "Braga", "15/06/2017", "active" };
-
-	Driver driver = parseDriver(chrdriver);
-
-	Date data1 = {15 , 6 , 2019};
-
-	updateDriver(driver, 5, 3.4f, "Braga", data1);
-
-	Date data2 = {17 , 6 , 2019};
-
-	updateDriver(driver, 2, 3.4f, "Viseu", data2);
-
-	debugPrintDriver(driver);
 }
