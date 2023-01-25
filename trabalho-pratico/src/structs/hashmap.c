@@ -7,37 +7,35 @@
 typedef struct _HASHMAP_NODE_ {
 	void * key;							//!< Key do elemento da node
 	void * data;						//!< Elemento da node
-	struct _HASHMAP_NODE_ * next;		//!< Próxima node ligada à mesma posição do hashmap
+    char status;                        //!< Estado da node
 } HashmapNode;
 
 /// \struct Estrutura que define o hashmap.
 typedef struct _HASHMAP_ {
-	HashmapNode * array[HASHMAP_MAX];	//!< Array de nodes que definem o hashmap
-} Hashmap;
+	HashmapNode * map;	                //!< Array de nodes que definem o hashmap
+    int size;                           //!< Tamanho atual do hashmap
+    int max;                            //!< Tamanho máximo do hashmap
+}*Hashmap, NPHashmap;
 
 /// @brief A função createNode cria uma node do Hashmap.
 /**
- * A função createNode cria uma node do Hashmap, alocando
- * a memória necessária a sua criação.
+ * A função createNode cria uma node do Hashmap.
  * 
- * Uma vez alocada a memória, associa os inputs da função às
+ * Uma vez criada, associa os inputs da função às
  * propriedades da node criada.
  * 
  * @param key O void pointer da chave de procura da node.
- * 
  * @param data O void pointer da informação que será guardada na node.
  * 
- * @param next A próxima node a ser inserida na lista ligada (para o caso de colisões).
- * 
- * @return A node criada e alocada.
+ * @return A node criada.
  */ 
-HashmapNode * createNode(void *key, void *data, HashmapNode * next)
+HashmapNode createNode(void * key, void * data)
 {
-    HashmapNode * node = (HashmapNode*) malloc(sizeof(HashmapNode));
+    HashmapNode node;
 
-    node->key = key;
-    node->data = data;
-    node->next = next;
+    node.key = key;
+    node.data = data;
+    node.status = ACTIVE;
 
     return(node);
 }
@@ -45,59 +43,96 @@ HashmapNode * createNode(void *key, void *data, HashmapNode * next)
 /// @brief A função destroyNode destroí uma node do Hashmap.
 /**
  * A função destroyNode destroí uma node do Hashmap,
- * libertando o espaço ocupado por esta na memória.
- * 
- * Desta forma, irá também destruir todas as nodes que estam,
- * posteriormente, ligadas a esta.
+ * libertando o espaço ocupado pelos seus
+ * elementos na memória.
  * 
  * @param node A node a ser destruída.
- * 
- * @param mode Modo que decide se a função também liberta a o espaço ocupado pela data do elemento.
  */ 
-void destroyNode(HashmapNode * node, char mode)
+void destroyNode(HashmapNode node, void (*destroy)(void *))
 {
-    HashmapNode * hold = node;
-
-    while (hold != NULL)
+    if (node.key)
     {
-        HashmapNode * temp = hold->next;    //!< Encontra o próximo elemento na 
-        if (mode == 1) free(hold->key);     //!< Liberta a chave do elemento
-        if (mode == 1) free(hold->data);    //!< Liberta a data do elemento
-        free(hold);                         //!< Liberta o atual
-        hold = temp;                        //!< Passa o processo para o próximo elemento
+        free(node.key);         //!< Liberta a chave do elemento
+        destroy(node.data);     //!< Liberta a data do elemento
     }
+}
+
+void debugPrintNode(HashmapNode node)
+{
+    printf("(HashmapNode) {\n    ");
 }
 
 /// @brief A função createHashmap cria um Hashmap.
 /**
  * A função createHashmap cria um Hashmap, alocando
- * a memória necessária paara este tipo de variável.
+ * a memória necessária para guardar os seus elementos.
  * 
  * @return O Hashmap criado e alocado.
  */
-Hashmap* createHashmap()
+Hashmap createHashmap()
 {
-    Hashmap *hashmap = (Hashmap*) malloc(sizeof(Hashmap));
+    Hashmap hashmap = (Hashmap) malloc(sizeof(NPHashmap));
+
+    hashmap->map = malloc(sizeof(HashmapNode) * HASHMAP_SIZE);
+    hashmap->size = 0;
+    hashmap->max = HASHMAP_SIZE;
+
     return hashmap;
+}
+
+int isPrime(int num)
+{
+    int res = 1;
+
+    if (num <= 1) res = 0;
+
+    if (num % 2 == 0 && num > 2) res = 0;
+
+    for(int i = 3; i < num / 2 && res; i+= 2) if (num % i == 0) res = 0;
+
+    return res;
+}
+
+void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
+{
+    for (int i = 0; i < hashmap->max; i++)
+        if (hashmap->map[i].key) hashmap->map[i].status = INACTIVE;
+
+    int new = hashmap->max * 2;
+    int ini = hashmap->max;
+
+    while (!isPrime(new)) new++;
+    hashmap->max = new;
+
+    hashmap->map = realloc(hashmap->map, sizeof(HashmapNode) * hashmap->max);
+    hashmap->size = 0;
+
+    for (int i = 0; i < ini; i++)
+        if (hashmap->map[i].key && !hashmap->map[i].status) put(hashmap, hashmap->map[i].key, hashmap->map[i].data, hashFunc);
 }
 
 /// @brief A função destroyHashmap destroí um Hashmap.
 /**
  * A função destroyHashmap destroí um Hashmap, libertando
- * o espaço reservado por esta variável, assim como
  * o espaço reservado por cada elemento da mesma.
  * 
  * @param hashmap O Hashmap a ser destruído.
  */ 
-void destroyHashmap(Hashmap* hashmap)
+void destroyHashmap(Hashmap hashmap, void (*destroy)(void*))
 {
-    if (hashmap != NULL)
-    {
-        for (int i = 0; i < HASHMAP_MAX; i++)
-            destroyNode(hashmap->array[i], 1);
+    if (hashmap)
+        for (int i = 0; i < hashmap->max; i++)
+            destroyNode(hashmap->map[i], destroy);
+}
 
-        free(hashmap);
-    }
+void debugPrintHashmap(Hashmap hashmap)
+{
+    printf("[%p](Hashmap) {\n    max: %d\n    size: %d\n    ",
+        hashmap,
+        hashmap->max,
+        hashmap->size
+    );
+
 }
 
 /// @brief A função hashKey_Int cria uma hash de procura, cuja chave é um Int.
@@ -108,11 +143,11 @@ void destroyHashmap(Hashmap* hashmap)
  * 
  * @param key O void pointer da chave do elemento pretendido.
  */
-int hashKey_Int(void *key)
+int hashKey_Int(void * key, int size)
 {
     int *true_Key = ((int*) key);
 
-    return(*true_Key % HASHMAP_MAX);
+    return(*true_Key % size);
 }
 
 /// @brief A função hashKey_Str cria uma hash de procura, cuja chave é uma String.
@@ -123,46 +158,21 @@ int hashKey_Int(void *key)
  * 
  * @param str O void pointer da chave do elemento pretendido.
  */
-int hashKey_Str(void* str)
+int hashKey_Str(void * str, int size)
 {
     const char * s = str;
     const int n = strlen(s);
-    const int p = 111111, m = 99991;
+    const int p = 111111;
     int hash = 0;
     long p_pow = 1;
 
     for (int i = 0; i < n; i++)
     {
-        hash = (hash + s[i] * p_pow) % m;
-        p_pow = (p_pow * p) % m;
+        hash = (hash + s[i] * p_pow) % size;
+        p_pow = (p_pow * p) % size;
     }
 
     // return hash < 0 ? hash * -1 : hash;
-    return hash;
-}
-
-/// @brief A função hashKey_date cria uma hash de procura, cuja chave é um array de shorts.
-/**
- * A função hashKey_date cria uma hash de procura, cuja chave é um array de shorts, usando 
- * o somatorio do modulo do resultado da multiplicação de cada short com as respetivas posições 
- * no array. O resultado deste somatorio será a posição do elemento na hashmap.
- * 
- * @param date O void pointer da chave do elemento pretendido.
- */
-int hashKey_date(void* date)
-{
-    const short* d = (short*)date;
-    const int n = 3;
-    const int p = 111111, m = 99991;
-    int hash = 0;
-    long p_pow = 1;
-
-    for (int i = 0; i < n; i++)
-    {
-        hash = (hash + d[i] * p_pow) % m;
-        p_pow = (p_pow * p) % m;
-    }
-
     return hash;
 }
 
@@ -184,23 +194,32 @@ int hashKey_date(void* date)
  * 
  * @param hashFunc A função que irá dar hash à chave.
  */
-void put(Hashmap *hashmap, void *key, void *data, int (*hashFunc)(void*))
+void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
 {
-
-    if (hashmap != NULL)
+    if (hashmap)
     {
-        int pos = hashFunc(key);            //!< Devolve a hash (posição) do elemento
+        double a = (double) hashmap->size / hashmap->max;
 
-        if (pos < 0 || pos >= HASHMAP_MAX) {
-            printf("Oh Oh! Something went wrong here! For key '%s'\nI've generated the index '%d'...\n", (char*)key, pos);
+        if (a >= 0.8f) resizeHashmap(hashmap, hashFunc);
+
+        int pos = hashFunc(key, hashmap->max);
+        int or = pos;
+
+        for (int i = 1; hashmap->map[pos].key && hashmap->map[pos].status && i <= hashmap->size; i++)
+            pos = (or + i * i) % hashmap->max;
+        
+        if (hashmap->map[pos].key && hashmap->map[pos].status)
+        {
+            resizeHashmap(hashmap, hashFunc);
+            put(hashmap, key, data, hashFunc);
             return;
-        }                                     
-
-        if (hashmap->array[pos] == NULL)                                        //!< Não existe nada na posição
-            hashmap->array[pos] = createNode(key, data, NULL);                  //!< Cria node com ligação a null
-        else                                                                    //!< Existe algo na posição
-            hashmap->array[pos] = createNode(key, data, hashmap->array[pos]);   //!< Cria node com ligação às já existentes
-    
+        }
+        
+        if (hashmap->map[pos].key && !hashmap->map[pos].status)
+            put(hashmap, hashmap->map[pos].key, hashmap->map[pos].data, hashFunc);
+        
+        hashmap->map[pos] = createNode(key, data);
+        hashmap->size++;
     }
 }
 
@@ -224,63 +243,21 @@ void put(Hashmap *hashmap, void *key, void *data, int (*hashFunc)(void*))
  * 
  * @param hashFunc A função de hash para o tipo de chave fornecido.
  * 
- * @param mode O modo desejado (devolver o void pointer do elemento ou da cabeça da lista ligada de nodes).
- * 
  * @return O void pointer do elemento/cabeça da lista desejado.
  */
-void * get(Hashmap *hashmap, void *key, int (*equal)(void*, void*), int (*hashFunc)(void*), char mode)
+void * get(Hashmap hashmap, void * key, int (*equal)(void*, void*), int (*hashFunc)(void*,int))
 {
-    if (hashmap != NULL)
+    if (hashmap)
     {
-        int pos = hashFunc(key);                    //!< Devolve a possível hash (posição) onde pode estar o elemento desejado
+        int pos = hashFunc(key, hashmap->max);
+        int or = pos;
 
-        HashmapNode * node = hashmap->array[pos];   //!< Encontra a node presente na posição desejada
-
-        while (node != NULL)                        //!< Enquanto existir algo na posição
-        {
-            if(equal(node->key, key))               //!< Verifica se a key da node é a do elemento desejado
-            {
-                if(mode)                            //!< Caso o modo do elemento esteja ativo
-                    return(node->data);             //!< Devolve o pointer do elemento
-                else                                //!< Caso não esteja ativo
-                    return((void*)node);            //!< Devolve o pointer da cabeça da lista de nodes (onde a key já é a desejada)
-            }
-            
-            node = node->next;                      //!< Passa à próxima node (ligada à atual) na posição desejada
-        }
+        for (int i = 1; hashmap->map[pos].key && !equal(hashmap->map[pos].key, key) && i <= hashmap->size; i++)
+            pos = (or + i * i) % hashmap->max;
+        
+        if(hashmap->map[pos].key && equal(hashmap->map[pos].key, key))
+            return hashmap->map[pos].data;
     }
 
     return NULL;
-}
-
-void * node_Void(HashmapNode * node, char mode)
-{
-    if (mode == 'k')
-        return(node->key);
-    else
-        return(node->data);
-}
-
-HashmapNode * node_Node(HashmapNode * node)
-{
-    return(node->next);
-}
-
-HashmapNode * get_entry(Hashmap* hashMap, int index) {
-    return hashMap->array[index];
-}
-
-
-int size(Hashmap* hashMap) {
-    int count = 0;
-
-    for (int i = 0; i < HASHMAP_MAX; i++) {
-        HashmapNode *node = hashMap->array[i];
-        while (node) {
-            count++;
-            node = node_Node(node);
-        }
-    }
-
-    return count;
 }
