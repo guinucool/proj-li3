@@ -29,13 +29,13 @@ typedef struct _HASHMAP_ {
  * 
  * @return A node criada.
  */ 
-HashmapNode createNode(void * key, void * data)
+HashmapNode createNode(void * key, void * data, char status)
 {
     HashmapNode node;
 
     node.key = key;
     node.data = data;
-    node.status = ACTIVE;
+    node.status = status;
 
     return(node);
 }
@@ -53,13 +53,17 @@ void destroyNode(HashmapNode node, void (*destroy)(void *))
     if (node.key)
     {
         free(node.key);         //!< Liberta a chave do elemento
-        destroy(node.data);     //!< Liberta a data do elemento
+        //destroy(node.data);     //!< Liberta a data do elemento
     }
 }
 
-void debugPrintNode(HashmapNode node)
+void debugPrintNode(HashmapNode node, void (*keyPrinter)(void*), void (*elemPrinter)(void*))
 {
-    printf("(HashmapNode) {\n    ");
+    printf("(HashmapNode) {\n    [%p]key: ", node.key);
+    keyPrinter(node.key);
+    printf("\n    [%p]data: ", node.data);
+    elemPrinter(node.data);
+    printf("\n    status: %d\n}\n", node.status);
 }
 
 /// @brief A função createHashmap cria um Hashmap.
@@ -93,22 +97,35 @@ int isPrime(int num)
     return res;
 }
 
+void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int));
+
 void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
 {
+    int ini = hashmap->max;
+
     for (int i = 0; i < hashmap->max; i++)
         if (hashmap->map[i].key) hashmap->map[i].status = INACTIVE;
 
-    int new = hashmap->max * 2;
-    int ini = hashmap->max;
+    hashmap->max = hashmap->max * 2;
 
-    while (!isPrime(new)) new++;
-    hashmap->max = new;
+    while (!isPrime(hashmap->max)) hashmap->max++;
 
     hashmap->map = realloc(hashmap->map, sizeof(HashmapNode) * hashmap->max);
+    hashmap->map[ini] = createNode(NULL, NULL, INACTIVE);
     hashmap->size = 0;
 
     for (int i = 0; i < ini; i++)
-        if (hashmap->map[i].key && !hashmap->map[i].status) put(hashmap, hashmap->map[i].key, hashmap->map[i].data, hashFunc);
+    {
+        if (hashmap->map[i].key && !hashmap->map[i].status)
+        {
+            void * reKey = hashmap->map[i].key;
+            void * reData = hashmap->map[i].data;
+
+            hashmap->map[i] = createNode(NULL, NULL, INACTIVE);
+
+            put(hashmap, reKey, reData, hashFunc);
+        }
+    }
 }
 
 /// @brief A função destroyHashmap destroí um Hashmap.
@@ -125,14 +142,20 @@ void destroyHashmap(Hashmap hashmap, void (*destroy)(void*))
             destroyNode(hashmap->map[i], destroy);
 }
 
-void debugPrintHashmap(Hashmap hashmap)
+void debugPrintHashmap(Hashmap hashmap, void (*keyPrinter)(void*), void (*elemPrinter)(void*))
 {
-    printf("[%p](Hashmap) {\n    max: %d\n    size: %d\n    ",
+    printf("[%p](Hashmap) {\n    max: %d\n    size: %d\n    [%p]elements:\n",
         hashmap,
         hashmap->max,
-        hashmap->size
+        hashmap->size,
+        hashmap->map
     );
-
+    for (int i = 0; i < hashmap->max; i++)
+    {
+        printf("    [%d]", i);
+        debugPrintNode(hashmap->map[i], keyPrinter, elemPrinter);
+    }
+    printf("}\n");
 }
 
 /// @brief A função hashKey_Int cria uma hash de procura, cuja chave é um Int.
@@ -216,9 +239,18 @@ void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
         }
         
         if (hashmap->map[pos].key && !hashmap->map[pos].status)
-            put(hashmap, hashmap->map[pos].key, hashmap->map[pos].data, hashFunc);
+        {
+            void * reKey = hashmap->map[pos].key;
+            void * reData = hashmap->map[pos].data;
+
+            hashmap->map[pos] = createNode(NULL, NULL, INACTIVE);
+
+            put(hashmap, reKey, reData, hashFunc);
+            put(hashmap, key, data, hashFunc);
+            return;
+        }
         
-        hashmap->map[pos] = createNode(key, data);
+        hashmap->map[pos] = createNode(key, data, ACTIVE);
         hashmap->size++;
     }
 }
@@ -260,4 +292,114 @@ void * get(Hashmap hashmap, void * key, int (*equal)(void*, void*), int (*hashFu
     }
 
     return NULL;
+}
+
+void printerInt(void * i)
+{
+    int * a = (int *) i;
+
+    if(a) printf("%d", *a);
+    else printf("NULL");
+}
+
+int equal(void* key1, void* key2)
+{
+    return *((int*) key1) == *((int*) key2);
+}
+
+int main()
+{
+    int * data = (int*) malloc(sizeof(int));
+
+    *data = 10;
+
+    int * data1 = (int*) malloc(sizeof(int));
+
+    *data1 = 21;
+
+    int * data2 = (int*) malloc(sizeof(int));
+
+    *data2 = 32;
+
+    int * data3 = (int*) malloc(sizeof(int));
+
+    *data3 = 3;
+
+    int * data4 = (int*) malloc(sizeof(int));
+
+    *data4 = 1;
+
+    int * data5 = (int*) malloc(sizeof(int));
+
+    *data5 = 23;
+
+    int * data6 = (int*) malloc(sizeof(int));
+
+    *data6 = 31;
+
+    int * data7 = (int*) malloc(sizeof(int));
+
+    *data7 = 7;
+
+    int * data8 = (int*) malloc(sizeof(int));
+
+    *data8 = 19;
+
+    int * data9 = (int*) malloc(sizeof(int));
+
+    *data9 = 6;
+
+    int * data10 = (int*) malloc(sizeof(int));
+
+    *data10 = 29;
+
+    int * data11 = (int*) malloc(sizeof(int));
+
+    *data11 = 52;
+
+    int * data12 = (int*) malloc(sizeof(int));
+
+    *data12 = 75;
+
+    Hashmap hashmap = createHashmap();
+
+    put(hashmap, data, data, hashKey_Int);
+
+    put(hashmap, data1, data1, hashKey_Int);
+
+    put(hashmap, data2, data2, hashKey_Int);
+
+    put(hashmap, data3, data3, hashKey_Int);
+
+    put(hashmap, data4, data4, hashKey_Int);
+
+    put(hashmap, data5, data5, hashKey_Int);
+
+    put(hashmap, data6, data6, hashKey_Int);
+
+    put(hashmap, data7, data7, hashKey_Int);
+
+    put(hashmap, data8, data8, hashKey_Int);
+
+    put(hashmap, data9, data9, hashKey_Int);
+
+    put(hashmap, data10, data10, hashKey_Int);
+
+    put(hashmap, data11, data11, hashKey_Int);
+
+    put(hashmap, data12, data12, hashKey_Int);
+
+    debugPrintHashmap(hashmap, printerInt, printerInt);
+
+    //destroyHashmap(hashmap, free);
+
+    int * key = malloc(sizeof(int));
+
+    *key = 75;
+
+    int * val = get(hashmap, key, equal, hashKey_Int);
+
+    printf("%d\n", *val);
+
+    return 0;
 }
