@@ -19,13 +19,13 @@ typedef struct _HASHMAP_ {
 
 /// @brief A função createNode cria uma node do Hashmap.
 /**
- * A função createNode cria uma node do Hashmap.
- * 
- * Uma vez criada, associa os inputs da função às
+ * A função createNode cria uma node do Hashmap,
+ * associando os inputs da função às
  * propriedades da node criada.
  * 
  * @param key O void pointer da chave de procura da node.
  * @param data O void pointer da informação que será guardada na node.
+ * @param status O status da node (ativa ou desativa(necessidade de reposicionar)).
  * 
  * @return A node criada.
  */ 
@@ -47,16 +47,26 @@ HashmapNode createNode(void * key, void * data, char status)
  * elementos na memória.
  * 
  * @param node A node a ser destruída.
+ * @param destroy A função que destroí um elemento da node.
  */ 
 void destroyNode(HashmapNode node, void (*destroy)(void *))
 {
     if (node.key)
     {
         free(node.key);         //!< Liberta a chave do elemento
-        //destroy(node.data);     //!< Liberta a data do elemento
+        destroy(node.data);     //!< Liberta a data do elemento
     }
 }
 
+/// @brief A função debugPrintNode imprime uma node.
+/**
+ * A função debugPrintNode imprime a estrutura de uma node
+ * para propósitos de debugging.
+ * 
+ * @param node A node a ser imprensa.
+ * @param keyPrinter A função que imprime uma chave do node.
+ * @param elemPrinter A função que imprime um elemento do node.
+ */
 void debugPrintNode(HashmapNode node, void (*keyPrinter)(void*), void (*elemPrinter)(void*))
 {
     printf("(HashmapNode) {\n    [%p]key: ", node.key);
@@ -97,8 +107,22 @@ int isPrime(int num)
     return res;
 }
 
-void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int));
-
+/// @brief A função resizeHashmap redimensiona um hashmap.
+/**
+ * A função resizeHashmap redimensiona um hashmap, e é normalmente
+ * chamada quando este está a 80% da sua capacidade ou caso
+ * não conseguia encontrar uma posição para inserir um elemento.
+ * 
+ * Uma vez redimensionado o hashmap, este irá ser percorrido
+ * de forma a reposicionar os seus elementos de forma a
+ * respeitar as regras das novas dimensões do hashmap.
+ * 
+ * Para tal será usado o identificador de status de
+ * cada node.
+ * 
+ * @param hashmap O hashmap a ser redimensionado.
+ * @param hashFunc A função de hash a ser usada para o reposionamento dos elementos.
+ */
 void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
 {
     int ini = hashmap->max;
@@ -131,7 +155,7 @@ void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
 /// @brief A função destroyHashmap destroí um Hashmap.
 /**
  * A função destroyHashmap destroí um Hashmap, libertando
- * o espaço reservado por cada elemento da mesma.
+ * o espaço reservado por cada elemento do mesmo.
  * 
  * @param hashmap O Hashmap a ser destruído.
  */ 
@@ -142,6 +166,15 @@ void destroyHashmap(Hashmap hashmap, void (*destroy)(void*))
             destroyNode(hashmap->map[i], destroy);
 }
 
+/// @brief A função debugPrintHashmap imprime um hashmap.
+/**
+ * A função debugPrintHashmap imprime um hashmap
+ * e todos os seus elementos para fins de debugging.
+ * 
+ * @param hashmap O hashmap a ser imprenso.
+ * @param keyPrinter A função que imprime as chaves de cada elemento do hashmap.
+ * @param elemPrinter A função que imprime cada elemento do hashmap.
+ */
 void debugPrintHashmap(Hashmap hashmap, void (*keyPrinter)(void*), void (*elemPrinter)(void*))
 {
     printf("[%p](Hashmap) {\n    max: %d\n    size: %d\n    [%p]elements:\n",
@@ -165,6 +198,7 @@ void debugPrintHashmap(Hashmap hashmap, void (*keyPrinter)(void*), void (*elemPr
  * corresponderá à posição do elemento na hashmap.
  * 
  * @param key O void pointer da chave do elemento pretendido.
+ * @param size O tamanho do hashmap para o qual vai ser criada a chave.
  */
 int hashKey_Int(void * key, int size)
 {
@@ -180,6 +214,7 @@ int hashKey_Int(void * key, int size)
  * na string. O resultado deste somatorio será a posição do elemento na hashmap.
  * 
  * @param str O void pointer da chave do elemento pretendido.
+ * @param size O tamanho do hashmap para o qual vai ser criada a chave.
  */
 int hashKey_Str(void * str, int size)
 {
@@ -206,15 +241,13 @@ int hashKey_Str(void * str, int size)
  * 
  * Após descobrir a posição, esta irá verificar se ocorreu alguma
  * colisão. Caso não tenha ocorrido, insere o elemento numa nova
- * node nesta posição. Caso contrário, insere o elemento no topo
- * da lista ligada de nodes que se encontra nessa posição.
+ * node nesta posição. Caso contrário, irá utilizar a estratégia
+ * de quadric probing para procurar uma nova posição adequada
+ * que esteja livre.
  * 
  * @param hashmap O hashmap onde irá ser inserido o elemento.
- * 
  * @param key O void pointer da chave do elemento a ser inserido.
- * 
  * @param data O void pointer do elemento a ser inserido.
- * 
  * @param hashFunc A função que irá dar hash à chave.
  */
 void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
@@ -260,22 +293,16 @@ void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
  * A função get encontra e devolve o void pointer de um elemento no hashmap,
  * usando a função hash da chave para encontrar a posição do respetivo.
  * 
- * Encontrando a posição desejada, irá precorrer a lista de nodes (se necessário)
- * nessa posição até encontrar a chave, e respetivamente o elemento, desejada.
- * 
- * Alternativamente e se desejado, a função poderá devolver a node, e respetivas
- * ligações, apartir da qual é encontrada a chave (útil para estruturas auxiliares
- * de procura).
+ * Encontrando a posição desejada, irá precorrer as várias posições obtidas através
+ * do quadric probing (se necessário) até encontrar a chave,
+ * e respetivamente o elemento, desejada.
  * 
  * @param hashmap O hashmap onde será feita a procura.
- * 
- * @param key O void pointer da chave do elemento desejado.
- * 
+ * @param key O void pointer com uma chave igual à do elemento desejado.
  * @param equal A função de igualdade para o tipo de chave fornecido.
- * 
  * @param hashFunc A função de hash para o tipo de chave fornecido.
  * 
- * @return O void pointer do elemento/cabeça da lista desejado.
+ * @return O void pointer do elemento desejado.
  */
 void * get(Hashmap hashmap, void * key, int (*equal)(void*, void*), int (*hashFunc)(void*,int))
 {
@@ -294,112 +321,18 @@ void * get(Hashmap hashmap, void * key, int (*equal)(void*, void*), int (*hashFu
     return NULL;
 }
 
-void printerInt(void * i)
+/// @brief A função map irá aplicar uma função a todos os elementos de um hashmap.
+/**
+ * A função map irá percorrer um hashmap inteiro e
+ * aplicar a função fornecida a todos os seus elementos
+ * existentes.
+ * 
+ * @param hashmap O hashmap onde as mudanças irão ocorrer.
+ * @param function A função que irá ser aplicada.
+ */
+void map(Hashmap hashmap, void (*function)(void*))
 {
-    int * a = (int *) i;
-
-    if(a) printf("%d", *a);
-    else printf("NULL");
-}
-
-int equal(void* key1, void* key2)
-{
-    return *((int*) key1) == *((int*) key2);
-}
-
-int main()
-{
-    int * data = (int*) malloc(sizeof(int));
-
-    *data = 10;
-
-    int * data1 = (int*) malloc(sizeof(int));
-
-    *data1 = 21;
-
-    int * data2 = (int*) malloc(sizeof(int));
-
-    *data2 = 32;
-
-    int * data3 = (int*) malloc(sizeof(int));
-
-    *data3 = 3;
-
-    int * data4 = (int*) malloc(sizeof(int));
-
-    *data4 = 1;
-
-    int * data5 = (int*) malloc(sizeof(int));
-
-    *data5 = 23;
-
-    int * data6 = (int*) malloc(sizeof(int));
-
-    *data6 = 31;
-
-    int * data7 = (int*) malloc(sizeof(int));
-
-    *data7 = 7;
-
-    int * data8 = (int*) malloc(sizeof(int));
-
-    *data8 = 19;
-
-    int * data9 = (int*) malloc(sizeof(int));
-
-    *data9 = 6;
-
-    int * data10 = (int*) malloc(sizeof(int));
-
-    *data10 = 29;
-
-    int * data11 = (int*) malloc(sizeof(int));
-
-    *data11 = 52;
-
-    int * data12 = (int*) malloc(sizeof(int));
-
-    *data12 = 75;
-
-    Hashmap hashmap = createHashmap();
-
-    put(hashmap, data, data, hashKey_Int);
-
-    put(hashmap, data1, data1, hashKey_Int);
-
-    put(hashmap, data2, data2, hashKey_Int);
-
-    put(hashmap, data3, data3, hashKey_Int);
-
-    put(hashmap, data4, data4, hashKey_Int);
-
-    put(hashmap, data5, data5, hashKey_Int);
-
-    put(hashmap, data6, data6, hashKey_Int);
-
-    put(hashmap, data7, data7, hashKey_Int);
-
-    put(hashmap, data8, data8, hashKey_Int);
-
-    put(hashmap, data9, data9, hashKey_Int);
-
-    put(hashmap, data10, data10, hashKey_Int);
-
-    put(hashmap, data11, data11, hashKey_Int);
-
-    put(hashmap, data12, data12, hashKey_Int);
-
-    debugPrintHashmap(hashmap, printerInt, printerInt);
-
-    //destroyHashmap(hashmap, free);
-
-    int * key = malloc(sizeof(int));
-
-    *key = 75;
-
-    int * val = get(hashmap, key, equal, hashKey_Int);
-
-    printf("%d\n", *val);
-
-    return 0;
+    for (int i = 0; i < hashmap->max; i++)
+        if(hashmap->map[i].key)
+            function(hashmap->map[i].data);
 }
