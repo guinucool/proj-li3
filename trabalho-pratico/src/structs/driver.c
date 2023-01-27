@@ -292,6 +292,9 @@ int drivercmp(Driver driver1, Driver driver2, char * city)
 	double av1 = (double) driver1->score[0] / driver1->rides[0];
 	double av2 = (double) driver2->score[0] / driver2->rides[0];
 
+	if(driver1 == NULL) res = -1;
+	if(driver2 == NULL) res = 1;
+
 	if (city)
 	{
 		for (int i = 0; i < driver1->counter; i++)

@@ -146,3 +146,22 @@ HashmapNode * betweenDates(Date inf, Date up, char type, Global * glob)
 
     return result;
 }
+
+void insertDOrd(Driver* maxN[],int N,Driver* driver,char* city){
+    int i;
+
+    if(drivercmp(maxN,driver,city))return;
+
+    for (i = 0; i < N; i++)
+    {
+        if(drivercmp(driver,maxN,city))break;
+    }
+
+    for(int j = N-1; j > i; j--)
+    {
+        maxN[j] = maxN[j-1];
+    }
+
+    maxN[i] = driver;
+    
+}

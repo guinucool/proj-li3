@@ -297,16 +297,14 @@ double query6(char * cty, short * dateInf, short * dateUp, Global * glob)
 
 char ** query7(int N,char* city, Global * glob){
 
+    double avMedia;
+    Driver maxN[N];
+    Driver driver;
+    
+    for (int i = 0; i < N; i++){maxN[i] = NULL;}
+    
     // Obter a lista de todas as ocorrências na cidade pretendida
     HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
-
-    // Inicializar a árvore auxiliar 
-    BinaryTree7 *bTree = NULL, *root; 
-    root = bTree;
-
-    //Inicializar a lista de arvores com N elementos a NULL
-    BinaryTree7* max[N];
-    for (int i = 0; i < N; i++)max[i] = NULL;
 
     // Percorrer a lista das ocorrências na cidade pretendida
     while(cityList != NULL){
@@ -326,47 +324,36 @@ char ** query7(int N,char* city, Global * glob){
             // Aquisição da estrutura Ride pretendida e dos elementos necessarios
             Ride* rideAux = (Ride *) get(global_Hashmap(glob, 'r'), (void*)&key, equal, hashKey_Int, 0);
             int driverID = ride_Int(rideAux,0);
-            int driverScore = get_driver_score(rideAux);
 
             // Aquisição da estrutura Driver a partir do driverID 
-            Driver * driver = (Driver *) get(global_Hashmap(glob, 'd'), (void*)&driverID, equal, hashKey_Int, 0);
+            driver = (Driver *) get(global_Hashmap(glob, 'd'), (void*)&driverID, equal, hashKey_Int, 0);
             char status = driver_Char(driver,'s');
             
-            if(status){
-                // Localização do elemento da arvore em que a ocorrência sera adicionada
-                BinaryTree7 * auxTree = insertTreeOrd_7(bTree,driverID);
-            
-                // Verificar se o driver ainda n esta adicionado na arvore auxiliar
-                if(auxTree != NULL){
-                    incrementCount(auxTree);
-                    addScore(auxTree,driverScore);
-                }else{
-                    char * name;
-                    driver_Str(name,driver, 'n');
+            if(!status)break;
 
-                    // Criação da nova ocorrencia deste Driver
-                    createTree(auxTree,driverID,name,driverScore,NULL,NULL);
+            for (int i = 0; i < N; i++)
+            {
+                if(driver == maxN[i]){
+                    status = 0;
+                    break;
                 }
             }
+
+            if(!status)break;
+            else insertDOrd(maxN,N,driver,city);
+            
         }
     
     cityList = node_Node(cityList);
     }
 
-    // Integer auxiliar ao semáforo
-    int tree_mutex = 1;
-
-    //Inserção ordenada por avaliação media dos elementos da arvore
-    maxN(bTree,N,max,&tree_mutex);
-    
     // Inicialização da lista de Strings contendo os resultados
     char ** resultados;
 
     // Inserção dos resultados da lista de Strings
     for (int i = 0; i < N; i++)
     {   
-        // Aquisição da arvore a ser usada
-        bTree = max[i];
+        driver = maxN[i];
 
         // Iniciar a string do resultado como vazia.
         resultados[i][0] = '\0';
@@ -374,12 +361,11 @@ char ** query7(int N,char* city, Global * glob){
         // Extração dos resultados de cada String
         char driverID[20];
         char driverName[NAME_STR_SIZE];
-        double avMedia;
         char avaliacaoMedia[20];
 
-        sprintf(driverID,"%d",bTree_id(bTree));
-        strcpy(driverName,bTree_name(bTree));
-        avMedia = (double)(bTree_total(bTree)/bTree_count(bTree));
+        sprintf(driverID,"%d",driver_id(driver));
+        driver_name(driverName,driver);
+        avMedia = driver_score(driver,city);
         double_to_string(avMedia,avaliacaoMedia,3);
 
         strcat(resultados[i], driverID);
@@ -388,9 +374,6 @@ char ** query7(int N,char* city, Global * glob){
         strcat(resultados[i], ";");
         strcat(resultados[i], avaliacaoMedia);
     }
-    
-    // Liberação do espaço alocado para a arvore
-    destroyTree(root);
 
     // Devolver o resultado da pesquisa.
     return resultados;
