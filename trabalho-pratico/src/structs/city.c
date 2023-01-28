@@ -22,9 +22,11 @@ typedef struct _CITY_
  * 
  * @param cty O nome da cidade da city.
  * 
- * @param key O id de driver/ride da city.
+ * @param preco_total O dinheiro total gasto por todos os users na cidade em questão.
  * 
- * @param type O tipo de id fornecido na propriedade anterior.
+ * @param rides Número total de viagens realizadas na cidade em questão.
+ * 
+ * @param drivers Lista de todos os drivers que fizeram viagens na cidade em questão.
  * 
  * @return A variável do tipo city criada e alocada.
  */ 
@@ -40,12 +42,31 @@ City * createCity(char * cty, int preco_total, int rides, LinkedList drivers)
     return(city);
 }
 
-void updateCity(City city, void * driver, int money_received, LinkedList drivers)
-{
+/// @brief Esta função autaliza a estrutura City.
+/**
+ *  Esta função autaliza a estrutura City, adicionando o dinheiro
+ *  adquirido por uma nova viagem ao preço_total e incrementando 
+ *  o número de rides da estrutura. Caso o driver ainda não tenha sido 
+ *  adicionado à linkedList é feito isso.
+ * 
+ *  @param city Estrutura City a ser analisada.
+ * 
+ *  @param driver Void pointer contendo o driver da ride adicionada.
+ * 
+ *  @param money_received Dinheiro a ser adicionado ao preço_total.
+ */
+void updateCity(City city, void * driver, int money_received)
+{   
+    LinkedList drivers = city->drivers;
+
     city->preco_total += money_received;
     city->rides++;
-    LinkedList new = createList(driver,drivers);
 
+    if(check_element(drivers,driver) == 0)
+    {
+    LinkedList new = createList(driver,drivers);
+    drivers = new;
+    }
 }
 
 /// @brief A função destroyCity destroí uma variável do tipo city.

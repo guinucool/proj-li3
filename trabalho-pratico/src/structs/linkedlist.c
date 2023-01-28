@@ -68,6 +68,25 @@ LinkedList addOrdList(void * element, LinkedList list, int (*compare)(void*,void
     return holder;
 }
 
+/// @brief Esta função verifica se um elemento pertence à LinkedList.
+/**
+ *  @param list Lista a ser analisada.
+ * 
+ *  @param elem
+ * 
+ *  @return int de confirmação de existência do elemento da lista ligada.
+ */   
+int check_element(LinkedList list, void * elem)
+{
+    while(list->next != NULL)
+    {
+        if(list->element == elem)return 1;
+        list = list->next;
+    }
+
+    return 0;
+}
+
 /// @brief A função destroyList destroí a lista.
 /**
  * A função destroyList destroí a estrutura da lista,

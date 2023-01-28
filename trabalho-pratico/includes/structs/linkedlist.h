@@ -7,6 +7,7 @@ typedef struct _LINKED_NODE_ *LinkedList;
 // Tratamentos
 LinkedList createList(void * element, LinkedList next);
 LinkedList addOrdList(void * element, LinkedList list, int (*)(void*, void*));
+int check_element(LinkedList list, void * elem);
 void destroyList(LinkedList list);
 void debugPrintList(LinkedList list, void (*)(void*));
 
