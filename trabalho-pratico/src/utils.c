@@ -82,34 +82,6 @@ void double_to_string(double num, char* str, int precision)
     str[j] = '\0';
 }
 
-double calculate_ride_cost(Ride *ride, Global *glob)
-{
-    int driver_key = ride_Int(ride, 'd');
-    double total = 0;
-
-    Driver * driver = (Driver *) get(global_Hashmap(glob, 'e'), (void*)&driver_key, equal, hashKey_Int, 1);
-
-    switch(driver_Char(driver, 'c'))
-    {
-        case BASIC:   // BASIC
-            total = 3.25 + ride_Short(ride, 'p') * 0.62 + ride_Tip(ride); 
-            break;
-
-        case GREEN:   // GREEN
-            total = 4.00 + ride_Short(ride, 'p') * 0.79 + ride_Tip(ride); 
-            break;
-
-        case PREMIUM: // PREMIUM
-            total = 5.20 + ride_Short(ride, 'p') * 0.94 + ride_Tip(ride); 
-            break;
-
-        default:
-            total = 0;
-            break; 
-    }
-
-    return total;
-}
 
 /// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
 ///        Dates de um certo tipo dentro de um intervalo de tempo.

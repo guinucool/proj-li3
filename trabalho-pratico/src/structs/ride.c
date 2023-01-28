@@ -1,21 +1,27 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "../../includes/utils.h"
+#include "../../includes/structs/driver.h"
+#include "../../includes/structs/user.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/ride.h"
 
 typedef struct _RIDE_ Ride;
 /// \struct Estrutura que define as variáveis do tipo ride.
 typedef struct _RIDE_ {
-    int id;                                         //!< Id da ride
-    Date date;                                      //!< Data da ride
-    int driver;                                     //!< Driver da ride
-    char user[MAX_STR_NAME], city[MAX_STR_NAME];    //!< User e cidade da ride
-    short distance, score_user, score_driver;       //!< Distância, pontuação do user e do driver
+    int id;                                         //!< Id da ride                                   //!< Data da ride
+    Driver driver;                                  //!< Driver da ride
+    User user;                                      //!< Iser da ride 
+    char city[MAX_STR_NAME];                        //!< Cidade da ride
+    short distance;                                 //!< Distância
+    short score_user;                               //!< Pontuação do user
+    short score_driver;                             //!< Pontuação do driver
     double tip;                                      //!< Gorjeta da ride
     char comment[MAX_STR_COMM];                     //!< Comentário da ride
-} Ride;
+} *Ride,NPRide;
 
+// [DOCUMENTAÇÃO OUTDATED]
 /// @brief A função createRide cria uma variável do tipo ride.
 /**
  * A função createRide cria uma variável do tipo ride, alocando
@@ -46,17 +52,13 @@ typedef struct _RIDE_ {
  * 
  * @return A ride criada com as respetivas propriedades.
  */
-Ride * createRide(int id, Date date, int driver, char * user, char * city, short distance, short score_user, short score_driver, float tip, char * comment)
+Ride createRide(int id, Driver driver, User user, char * city, short distance, short score_user, short score_driver, double tip, char * comment)
 {
-    Ride * ride = (Ride*) malloc(sizeof(Ride));
+    Ride ride = (Ride) malloc(sizeof(Ride));
     
     ride->id = id; 
-    ride->date[0] = date[0];
-    ride->date[1] = date[1];
-    ride->date[2] = date[2];
     ride->driver = driver;
-    strncpy(ride->user, user, MAX_STR_NAME);
-    strncpy(ride->city, city, MAX_STR_NAME);
+    ride->user = user;
     ride->distance = distance;
     ride->score_user = score_user;
     ride->score_driver = score_driver;
@@ -66,6 +68,89 @@ Ride * createRide(int id, Date date, int driver, char * user, char * city, short
     return ride;
 }
 
+Ride parseRide(char tokens[10][200], Driver driver, User user)
+{
+    // Parse ID
+    int id = atoi(tokens[0]);
+    if(id < 1) return NULL;
+
+    // Parse City
+    char city[MAX_STR_NAME];
+    strcpy(city,tokens[4]);
+
+    // Parce distance
+    short distance = (short)atoi(tokens[5]);
+    if(distance < 1) return NULL;
+
+    //Parce score_user
+    short score_user = (short)atoi(tokens[6]);
+    if(score_user < 1) return NULL;
+
+    //parce score_driver
+    short score_driver = (short)atoi(tokens[7]);
+    if(score_driver < 1) return NULL;
+
+    //parce tip
+    double tip = atoi(tokens[8]);
+    if(tip < 1) return NULL;
+
+    //parse comment 
+    char comment[MAX_STR_COMM];
+    strcpy(comment,tokens[9]);
+
+    return createRide(id,driver,user,city,distance,score_user,score_driver,tip,comment);
+}
+
+int ride_cmp(Ride ride1, Ride ride2)
+{
+    int res;
+    Date date1,date2;
+    
+    driver_accountCreation(date1,ride1->driver);
+    driver_accountCreation(date2,ride2->driver);
+    
+    res = datecmp(date1,date2);
+
+    if(res == 0)
+    {
+        user_accountCreation(date1,ride1->user);
+        user_accountCreation(date2,ride2->user);
+
+        res = datecmp(date1,date2);
+        if(res == 0)
+        {
+            if(ride1->id > ride2->id) res = 1; 
+        }
+    }
+    return res;
+}
+
+double calculate_ride_cost(Ride ride)
+{
+    double total = 0;
+
+    switch(driver_carClass(ride->driver))
+    {
+        case BASIC:   // BASIC
+            total = 3.25 + ride->distance * 0.62 + ride->tip; 
+            break;
+
+        case GREEN:   // GREEN
+            total = 4.00 + ride->distance * 0.79 + ride->tip; 
+            break;
+
+        case PREMIUM: // PREMIUM
+            total = 5.20 + ride->distance * 0.94 + ride->tip; 
+            break;
+
+        default:
+            total = 0;
+            break; 
+    }
+
+    return total;
+}
+
 /// @brief A função destroyRide destroí uma variável do tipo ride.
 /**
  * A função destroyRide destroí uma variável do tipo ride, libertando
@@ -73,17 +158,16 @@ Ride * createRide(int id, Date date, int driver, char * user, char * city, short
  * 
  * @param ride A variável do tipo ride que vai ser destruída.
  */
-void destroyRide(Ride * ride)
+void destroyRide(Ride ride)
 {
     if (ride != NULL)
         free(ride);
 }
 
-void printRide(Ride * ride)
+void debugPrintRide(Ride ride)
 {
-    printf("[Ride] -> {id: %d, date: %02d/%02d/%04d, driver: %d,user: %s, city: %s, distance: %d,score_user: %d,score_driver: %d,tip: %f, comment: %s}",
+    printf("[Ride]\n    id: %d\n    driver: %p\n    user: %p\n    city: %s\n    distance: %d\n    score_user: %d\n    score_driver: %d\n    tip: %f\n    comment: %s\n    ",
         ride->id,
-        ride->date[0], ride->date[1], ride->date[2],
         ride->driver,
         ride->user,
         ride->city,
@@ -95,29 +179,25 @@ void printRide(Ride * ride)
     );
 }
 
-int ride_Int(Ride * ride, char mode)
+int ride_Id(Ride ride, char mode)
 {
-    if (mode == 'i')
-        return(ride->id);
-    else
-        return(ride->driver);
+    return(ride->id);
 }
 
-void ride_Date(Date dest, Ride * ride)
+Driver ride_driver(Ride ride)
 {
-    dest[0] = ride->date[0];
-    dest[1] = ride->date[1];
-    dest[2] = ride->date[2];
+    return ride->driver;
 }
 
-void ride_Str(char * dest, Ride * ride, char mode)
+User ride_user(Ride ride)
+{
+    return ride->user;
+}
+
+void ride_Str(char * dest, Ride ride, char mode)
 {
     switch (mode)
     {
-        case 'u':
-            strcpy(dest, ride->user);
-            break;
-
         case 'c':
             strcpy(dest, ride->city);
             break;
@@ -128,7 +208,7 @@ void ride_Str(char * dest, Ride * ride, char mode)
     }
 }
 
-short ride_Short(Ride * ride, char mode)
+short ride_Short(Ride ride, char mode)
 {
     switch (mode)
     {
@@ -144,18 +224,18 @@ short ride_Short(Ride * ride, char mode)
             return(ride->score_driver);
             break;
     }
-    return(0);
+    return 0;
 }
 
-double ride_Tip(Ride * ride)
-{
-    return(ride->tip);
-}
-
-short get_user_score(Ride *ride) {
+short get_user_score(Ride ride) {
     return ride->score_user;
 }
 
-short get_driver_score(Ride *ride) {
+short get_driver_score(Ride ride) {
     return ride->score_driver;
+}
+
+double ride_Tip(Ride ride)
+{
+    return ride->tip;
 }
