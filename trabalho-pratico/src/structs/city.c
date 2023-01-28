@@ -1,14 +1,16 @@
 #include <stdlib.h>
 #include <string.h>
+#include "../../includes/structs/linkedlist.h"
 #include "../../includes/structs/city.h"
 
 /// \struct Estrutura que define as variáveis do tipo cidade.
 typedef struct _CITY_
 {
-    char city[MAX_STR_NAME];    //!< Nome (string) da cidade
-    int key;                    //!< Id do elemento (ride/driver) que contém esta cidade
-    char type;                  //!< Tipo da key (ride/driver)
-}City;
+    char * city;
+    int preco_total;
+    int rides;
+    LinkedList drivers;                  
+}*City, NPCity;
 
 /// @brief A função createCity cria uma variável do tipo city.
 /**
@@ -26,15 +28,24 @@ typedef struct _CITY_
  * 
  * @return A variável do tipo city criada e alocada.
  */ 
-City * createCity(char * cty, int key, char type)
+City * createCity(char * cty, int preco_total, int rides, LinkedList drivers)
 {
-    City * city = (City *)malloc(sizeof(City));
+    City city = (City)malloc(sizeof(NPCity));
 
     strncpy(city->city, cty, MAX_STR_NAME);
-    city->key = key;
-    city->type = type;
+    city->preco_total = preco_total;
+    city->rides = rides;
+    city->drivers = drivers;
 
     return(city);
+}
+
+void updateCity(City city, void * driver, int money_received, LinkedList drivers)
+{
+    city->preco_total += money_received;
+    city->rides++;
+    LinkedList new = createList(driver,drivers);
+
 }
 
 /// @brief A função destroyCity destroí uma variável do tipo city.
@@ -44,23 +55,30 @@ City * createCity(char * cty, int key, char type)
  * 
  * @param city A variável city a ser destruída.
  */
-void destroyCity(City * city)
+void destroyCity(City city)
 {
     if (city != NULL)
         free(city);
 }
 
-void city_City(char * dest, City * city)
+void city_City(char * dest, City city)
 {
     strcpy(dest, city->city);
 }
 
-int city_Key(City * city)
+int city_preco_total(City city)
 {
-    return(city->key);
+    return city->preco_total;
+    
 }
 
-char city_Type(City * city)
+int city_rides(City city)
 {
-    return(city->type);
+    return(city->rides);
+}
+
+double city_preço_medio(City city)
+{
+    double preço_medio = (double)city->preco_total/city->rides;
+    return preço_medio;
 }
