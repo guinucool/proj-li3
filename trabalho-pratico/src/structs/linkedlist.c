@@ -68,38 +68,44 @@ LinkedList addOrdList(void * element, LinkedList list, int (*compare)(void*,void
     return holder;
 }
 
-/// @brief Esta função verifica se um elemento pertence à LinkedList.
+/// @brief A função addUniqueList adiciona um elemento a uma lista sem repetições.
 /**
- *  @param list Lista a ser analisada.
+ * A função addUniqueList adiciona um elemento a uma lista
+ * averiguando que na mesma não existe já o elemento
+ * que se quer adicionar.
  * 
- *  @param elem
+ * @param element O elemento a ser adicionado.
+ * @param list A lista à qual vai ser adicionado o elemento.
  * 
- *  @return int de confirmação de existência do elemento da lista ligada.
+ * @return A lista com a adição caso tenha sido autorizada.
  */   
-int check_element(LinkedList list, void * elem)
+LinkedList addUniqueList(void * element, LinkedList list)
 {
-    while(list != NULL)
-    {
-        if(list->element == elem)return 1;
-        list = list->next;
-    }
+    int res = 0;
 
-    return 0;
+    for(LinkedList holder = list; holder; holder = holder->next)
+        if(holder->element == element) res = 1;
+
+    if (!res) list = createList(element, list);
+
+    return list;
 }
 
 /// @brief A função destroyList destroí a lista.
 /**
  * A função destroyList destroí a estrutura da lista,
- * porém sem modificar os seus elementos.
+ * destruíndo ou não os seus elementos.
  * 
  * @param list A lista a ser destruída.
+ * @param destroy A função que destroí os elementos da lista.
  */
-void destroyList(LinkedList list)
+void destroyList(LinkedList list, void (*destroy)(void*))
 {
     while (list)
     {
         LinkedList holder = list;
         list = list->next;
+        destroy(holder->element);
         free(holder);
     }
 }
