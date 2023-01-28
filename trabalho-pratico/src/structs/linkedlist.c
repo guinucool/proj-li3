@@ -78,7 +78,7 @@ LinkedList addOrdList(void * element, LinkedList list, int (*compare)(void*,void
  */   
 int check_element(LinkedList list, void * elem)
 {
-    while(list->next != NULL)
+    while(list != NULL)
     {
         if(list->element == elem)return 1;
         list = list->next;
