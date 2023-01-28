@@ -98,7 +98,7 @@ int city_rides(City city)
     return(city->rides);
 }
 
-double city_preço_medio(City city)
+double city_preco_medio(City city)
 {
     double preço_medio = (double)city->preco_total/city->rides;
     return preço_medio;
