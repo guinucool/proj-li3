@@ -1,16 +1,23 @@
+#include <stdio.h>
 #include <stdlib.h>
+#include "../../includes/structs/user.h"
+#include "../../includes/structs/driver.h"
+#include "../../includes/structs/ride.h"
+#include "../../includes/structs/city.h"
+#include "../../includes/structs/linkedlist.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
 
 /// \struct Estrutura global que segura toda a informação necessária à execução do programa.
-typedef struct _GLOBAL_
-{
-    Hashmap * users;    //!< Hashmap que armazena os users
-    Hashmap * drivers;  //!< Hashmap que armazena os drivers
-    Hashmap * rides;    //!< Hashmap que armazena as rides
-    Hashmap * cities;   //!< Hashmap que armazena as cidades
-    Hashmap * dates;    //!< Hashmap que armazena as datas
-}Global;
+typedef struct _GLOBAL_ {
+    Hashmap users;          //!< Hashmap que armazena os users
+    Hashmap drivers;        //!< Hashmap que armazena os drivers
+    Hashmap rides;          //!< Hashmap que armazena as rides
+    Hashmap cities;         //!< Hashmap que armazena as cidades
+    LinkedList userList;    //!< Lista que aponta para os users de forma ordenada
+    LinkedList driverList;  //!< Lista que aponta para os drivers de forma ordenada
+    LinkedList rideList;    //!< Lista que aponta para os drivers de forma ordenada
+}*Global, NPGlobal;
 
 /// @brief A função createGlobal cria uma variável do tipo global.
 /**
@@ -22,17 +29,25 @@ typedef struct _GLOBAL_
  * 
  * @return A variável global (Glob) inicializada e alocada.
  */
-Global * createGlobal()
+Global createGlobal()
 {
-    Global * glob = (Global *) malloc(sizeof(Global));
+    Global glob = (Global) malloc(sizeof(NPGlobal));
 
     glob->users = createHashmap();
     glob->drivers = createHashmap();
     glob->rides = createHashmap();
     glob->cities = createHashmap();
-    glob->dates = createHashmap();
+
+    glob->userList = NULL;
+    glob->driverList = NULL;
+    glob->rideList = NULL;
 
     return(glob);
+}
+
+void null(void * element)
+{
+    return;
 }
 
 /// @brief A função destroyGlobal destroí uma variável do tipo global.
@@ -42,41 +57,61 @@ Global * createGlobal()
  * 
  * @param glob A variável global a ser destruída.
  */
-void destroyGlobal(Global * glob)
+void destroyGlobal(Global glob)
 {
-    if (glob != NULL)
+    if (glob)
     {
-        destroyHashmap(glob->users);
-        destroyHashmap(glob->drivers);
-        destroyHashmap(glob->rides);
-        destroyHashmap(glob->dates);
+        destroyHashmap(glob->users, destroyUser);
+        destroyHashmap(glob->drivers, destroyDriver);
+        destroyHashmap(glob->rides, destroyRide);
+        destroyHashmap(glob->cities, destroyCity);
+
+        destroyList(glob->userList, null);
+        destroyList(glob->driverList, null);
+        destroyList(glob->rideList, null);
+
         free(glob);
     }
 }
 
-Hashmap * global_Hashmap(Global * glob, char mode)
+/// @brief A função glob_user devolve o apontador do hashmap dos Users. 
+void * glob_user(Global glob)
 {
-    switch (mode)
-    {
-        case 'u':
-            return(glob->users);
-            break;
+    return glob->users;
+}
 
-        case 'e':
-            return(glob->drivers);
-            break;
-        
-        case 'r':
-            return(glob->rides);
-            break;
+/// @brief A função glob_driver devolve o apontador do hashmap dos Drivers.
+void * glob_driver(Global glob)
+{
+    return glob->drivers;
+}
 
-        case 'c':
-            return(glob->cities);
-            break;
+/// @brief A função glob_ride devolve o apontador do hashmap das Rides.
+void * glob_ride(Global glob)
+{
+    return glob->rides;
+}
 
-        case 'd':
-            return(glob->dates);
-            break;
-    }
-    return(NULL);
+/// @brief A função glob_city devolve o apontador do hashmap das Cities.
+void * glob_city(Global glob)
+{
+    return glob->cities;
+}
+
+/// @brief A função glob_userList devolve o apontador da lista dos Users.
+void * glob_userList(Global glob)
+{
+    return glob->userList;
+}
+
+/// @brief A função glob_driverList devolve o apontador da lista dos Drivers.
+void * glob_driverList(Global glob)
+{
+    return glob->driverList;
+}
+
+/// @brief A função glob_rideList devolve o apontador da lista das Rides.
+void * glob_rideList(Global glob)
+{
+    return glob->rideList;
 }

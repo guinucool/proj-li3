@@ -1,10 +1,20 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
-typedef struct _GLOBAL_ Global;
+// Estrutura
+typedef struct _GLOBAL_ *Global;
 
-Global *  createGlobal();
-void destroyGlobal(Global * glob);
-Hashmap * global_Hashmap(Global * glob, char mode);
+// Tratamentos
+Global createGlobal();
+void destroyGlobal(Global glob);
+
+// Devoluções
+void * glob_user(Global glob);
+void * glob_driver(Global glob);
+void * glob_ride(Global glob);
+void * glob_city(Global glob);
+void * glob_userList(Global glob);
+void * glob_driverList(Global glob);
+void * glob_rideList(Global glob);
 
 #endif
