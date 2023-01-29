@@ -1,172 +1,87 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include "../../includes/utils.h"
-#include "../../includes/structs/driver.h"
-#include "../../includes/structs/user.h"
 #include "../../includes/structs/date.h"
+#include "../../includes/structs/user.h"
+#include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"
 
-typedef struct _RIDE_ Ride;
 /// \struct Estrutura que define as variáveis do tipo ride.
 typedef struct _RIDE_ {
-    int id;                                         //!< Id da ride                                   //!< Data da ride
+    int id;                                         //!< Id da ride
     Driver driver;                                  //!< Driver da ride
     User user;                                      //!< Iser da ride 
     char city[MAX_STR_NAME];                        //!< Cidade da ride
     short distance;                                 //!< Distância
     short score_user;                               //!< Pontuação do user
     short score_driver;                             //!< Pontuação do driver
-    double tip;                                      //!< Gorjeta da ride
+    double tip;                                     //!< Gorjeta da ride
     char comment[MAX_STR_COMM];                     //!< Comentário da ride
-} *Ride,NPRide;
+}*Ride, NPRide;
 
-// [DOCUMENTAÇÃO OUTDATED]
-/// @brief A função createRide cria uma variável do tipo ride.
+/// @brief A função createRide cria uma variável do tipo Ride.
 /**
- * A função createRide cria uma variável do tipo ride, alocando
+ * A função createRide cria uma variável do tipo Ride, alocando
  * o espaço necessário na memória para a mesma.
  * 
  * Assim sendo, irá depois, também, associar os respetivos valores de input
  * da função às repetivas propriedades da variável.
  * 
- * @param id O id da ride.
+ * @param id O id da Ride.
+ * @param driver O apontador do driver da Ride.
+ * @param user O apontador do user da Ride.
+ * @param city A cidade da Ride.
+ * @param distance A distância da Ride.
+ * @param score_user O score dado ao user da Ride.
+ * @param score_driver O score dado ao driver da Ride.
+ * @param tip A gorjeta dada na Ride.
+ * @param comment O comentário da Ride.
  * 
- * @param date A data da ride.
- * 
- * @param driver O id do driver da ride.
- * 
- * @param user O username do user da ride.
- * 
- * @param city A cidade da ride.
- * 
- * @param distance A distância da ride.
- * 
- * @param score_user O score dado ao user da ride.
- * 
- * @param score_driver O score dado ao driver da ride.
- * 
- * @param tip A gorjeta dada na ride.
- * 
- * @param comment O comentário da ride.
- * 
- * @return A ride criada com as respetivas propriedades.
+ * @return A Ride criada com as respetivas propriedades.
  */
 Ride createRide(int id, Driver driver, User user, char * city, short distance, short score_user, short score_driver, double tip, char * comment)
 {
-    Ride ride = (Ride) malloc(sizeof(Ride));
+    Ride ride = (Ride) malloc(sizeof(NPRide));
     
-    ride->id = id; 
+    ride->id = id;
     ride->driver = driver;
     ride->user = user;
+
+    strncpy(ride->city, city, MAX_STR_NAME);
+
     ride->distance = distance;
     ride->score_user = score_user;
     ride->score_driver = score_driver;
     ride->tip = tip;
+
     strncpy(ride->comment, comment, MAX_STR_COMM);
 
     return ride;
 }
 
-Ride parseRide(char tokens[10][200], Driver driver, User user)
-{
-    // Parse ID
-    int id = atoi(tokens[0]);
-    if(id < 1) return NULL;
-
-    // Parse City
-    char city[MAX_STR_NAME];
-    strcpy(city,tokens[4]);
-
-    // Parce distance
-    short distance = (short)atoi(tokens[5]);
-    if(distance < 1) return NULL;
-
-    //Parce score_user
-    short score_user = (short)atoi(tokens[6]);
-    if(score_user < 1) return NULL;
-
-    //parce score_driver
-    short score_driver = (short)atoi(tokens[7]);
-    if(score_driver < 1) return NULL;
-
-    //parce tip
-    double tip = atoi(tokens[8]);
-    if(tip < 1) return NULL;
-
-    //parse comment 
-    char comment[MAX_STR_COMM];
-    strcpy(comment,tokens[9]);
-
-    return createRide(id,driver,user,city,distance,score_user,score_driver,tip,comment);
-}
-
-int ride_cmp(Ride ride1, Ride ride2)
-{
-    int res;
-    Date date1,date2;
-    
-    driver_accountCreation(date1,ride1->driver);
-    driver_accountCreation(date2,ride2->driver);
-    
-    res = datecmp(date1,date2);
-
-    if(res == 0)
-    {
-        user_accountCreation(date1,ride1->user);
-        user_accountCreation(date2,ride2->user);
-
-        res = datecmp(date1,date2);
-        if(res == 0)
-        {
-            if(ride1->id > ride2->id) res = 1; 
-        }
-    }
-    return res;
-}
-
-double calculate_ride_cost(Ride ride)
-{
-    double total = 0;
-
-    switch(driver_carClass(ride->driver))
-    {
-        case BASIC:   // BASIC
-            total = 3.25 + ride->distance * 0.62 + ride->tip; 
-            break;
-
-        case GREEN:   // GREEN
-            total = 4.00 + ride->distance * 0.79 + ride->tip; 
-            break;
-
-        case PREMIUM: // PREMIUM
-            total = 5.20 + ride->distance * 0.94 + ride->tip; 
-            break;
-
-        default:
-            total = 0;
-            break; 
-    }
-
-    return total;
-}
-
-/// @brief A função destroyRide destroí uma variável do tipo ride.
+/// @brief A função destroyRide destroí uma variável do tipo Ride.
 /**
- * A função destroyRide destroí uma variável do tipo ride, libertando
+ * A função destroyRide destroí uma variável do tipo Ride, libertando
  * o espaço ocupado pela variável e pelas suas propriedades.
  * 
- * @param ride A variável do tipo ride que vai ser destruída.
+ * @param ride A variável do tipo Ride que vai ser destruída.
  */
 void destroyRide(Ride ride)
 {
-    if (ride != NULL)
-        free(ride);
+    if (ride) free(ride);
 }
 
+/// @brief A função debugPrintRide imprime uma Ride.
+/**
+ * A função debugPrintRide imprime as informações acerca
+ * de uma Ride com propósitos de debugging.
+ * 
+ * @param ride A Ride a ser impresa.
+ */
 void debugPrintRide(Ride ride)
 {
-    printf("[Ride]\n    id: %d\n    driver: %p\n    user: %p\n    city: %s\n    distance: %d\n    score_user: %d\n    score_driver: %d\n    tip: %f\n    comment: %s\n    ",
+    printf("[%p](Ride) {\n    id: %d\n    driver: %p\n    user: %p\n    city: %s\n    distance: %d\n    score_user: %d\n    score_driver: %d\n    tip: %.3f\n    comment: %s\n}\n",
+        ride,
         ride->id,
         ride->driver,
         ride->user,
@@ -179,63 +94,167 @@ void debugPrintRide(Ride ride)
     );
 }
 
-int ride_Id(Ride ride, char mode)
+/// @brief A funçao parseRide converte informação numa Ride.
+/**
+ * A função parseRide converte, fazendo as devidas verificações,
+ * uma array de strings numa variável do tipo Ride.
+ * 
+ * @param tokens O array de strings a converter.
+ * @param driver O apontador para o driver da Ride.
+ * @param user O apontador para o user da Ride.
+ * 
+ * @return A Ride convertida e criada.
+ */
+Ride parseRide(char tokens[10][200], Driver driver, User user)
 {
-    return(ride->id);
+    // Parse City
+    char city[MAX_STR_NAME];
+    strncpy(city, tokens[4], MAX_STR_NAME);
+    
+    // Parse Comment
+    char comment[MAX_STR_COMM];
+    strncpy(comment, tokens[9], MAX_STR_COMM);
+
+    int id;
+    double tip;
+    short distance, score_user, score_driver;
+
+    // Parse ID
+    id = atoi(tokens[0]);
+    if(id < 1) return NULL;
+
+    // Parse Distance
+    distance = (short)atoi(tokens[5]);
+    if(distance < 1) return NULL;
+
+    // Parse Score_user
+    score_user = (short)atoi(tokens[6]);
+    if(score_user < 0) return NULL;
+
+    // Parse Score_driver
+    score_driver = (short)atoi(tokens[7]);
+    if(score_driver < 0) return NULL;
+
+    // Parse Tip
+    tip = atof(tokens[8]);
+    if(tip < 0.0f) return NULL;
+
+    return createRide(id, driver, user, city, distance, score_user, score_driver, tip, comment);
 }
 
-Driver ride_driver(Ride ride)
+/// @brief A função ridecmp compara duas Rides.
+/**
+ * A função ridecmp compara duas Rides, devolvendo
+ * o output na lógica das comparações (1 para maior,
+ * etc...).
+ * 
+ * Irá considerar em primeiro lugar a data de
+ * criação de contas dos Drivers de cada Ride.
+ * 
+ * Em segundo lugar, a data de criação de contas
+ * dos Users de cada Ride.
+ * 
+ * E por último, caso ambos os anteriores
+ * falhem, irá considerar o id de cada
+ * Ride, por ordem crescente.
+ * 
+ * @param ride1 A ride número 1.
+ * @param ride2 A ride número 2.
+ * 
+ * @return O típico resultado de comparação.
+ */
+int ridecmp(Ride ride1, Ride ride2)
+{
+    Date date1;
+    driver_accountCreation(date1, ride1->driver);
+
+    Date date2;
+    driver_accountCreation(date2, ride2->driver);
+    
+    int res = datecmp(date1, date2);
+
+    user_accountCreation(date1, ride1->user);
+    user_accountCreation(date2, ride2->user);
+
+    if(res == 0) res = datecmp(date1, date2);
+
+    if(res == 0)
+    {
+        if (ride1->id < ride2->id) res = 1;
+        else res = -1;
+    }
+
+    return res;
+}
+
+/// @brief A função rideCost calcula o custo de uma Ride.
+/**
+ * A função rideCost calucla o custo de uma Ride,
+ * considerando se deve ter em conta a gorjeta
+ * e qual o tipo de veículo do Driver da
+ * mesma.
+ * 
+ * @param ride A Ride da qual se quer calcular o custo.
+ * @param tip Se se deve considerar ou não a gorjeta.
+ * 
+ * @return O custo da Ride.
+ */
+double rideCost(Ride ride, char tip)
+{
+    double total = 0;
+
+    switch(driver_carClass(ride->driver))
+    {
+        case BASIC:
+            total = 3.25 + ride->distance * 0.62; 
+            break;
+
+        case GREEN:
+            total = 4.00 + ride->distance * 0.79; 
+            break;
+
+        case PREMIUM:
+            total = 5.20 + ride->distance * 0.94; 
+            break;
+    }
+
+    if (tip) total += ride->tip;
+
+    return total;
+}
+
+/// @brief A função ride_id devolve o id de uma viagem.
+int ride_id(Ride ride)
+{
+    return ride->id;
+}
+
+/// @brief A função ride_driver devolve o apontador do driver de uma viagem. 
+void * ride_driver(Ride ride)
 {
     return ride->driver;
 }
 
-User ride_user(Ride ride)
+/// @brief A função ride_user devolve o apontador do user de uma viagem. 
+void * ride_user(Ride ride)
 {
     return ride->user;
 }
 
-void ride_Str(char * dest, Ride ride, char mode)
+/// @brief A função ride_city devolve a cidade de uma viagem. 
+void ride_city(char * dest, Ride ride)
 {
-    switch (mode)
-    {
-        case 'c':
-            strcpy(dest, ride->city);
-            break;
-
-        case 'o':
-            strcpy(dest, ride->comment);
-            break;
-    }
+    strncpy(dest, ride->city, MAX_STR_NAME);
 }
 
-short ride_Short(Ride ride, char mode)
+/// @brief A função ride_distance devolve a distância de uma viagem.
+short ride_distance(Ride ride)
 {
-    switch (mode)
-    {
-        case 'p':
-            return(ride->distance);
-            break;
-
-        case 'u':
-            return(ride->score_user);
-            break;
-
-        case 'd':
-            return(ride->score_driver);
-            break;
-    }
-    return 0;
+    return ride->distance;
 }
 
-short get_user_score(Ride ride) {
-    return ride->score_user;
-}
-
-short get_driver_score(Ride ride) {
-    return ride->score_driver;
-}
-
-double ride_Tip(Ride ride)
+/// @brief A função ride_tip devolve a gorjeta de uma viagem.
+double ride_tip(Ride ride)
 {
     return ride->tip;
 }

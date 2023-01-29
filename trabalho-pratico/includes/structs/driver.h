@@ -15,10 +15,8 @@
 #define INACTIVE 0
 #define ACTIVE 1
 
-extern char car_class_str[][8];
 #define CLASS_SIZE 3
 
-extern char account_status_str[][9];
 #define STATUS_SIZE 2
 
 // Estrutura

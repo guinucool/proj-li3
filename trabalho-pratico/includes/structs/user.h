@@ -14,10 +14,8 @@
 #define DEBIT_CARD 2
 
 #define METHODS_SIZE 3
-extern char payment_methods[METHODS_SIZE][MAX_USER_STR];
 
 #define STATUS_SIZE 2
-extern char account_statuses[STATUS_SIZE][MAX_USER_STR];
 
 // Estrutura
 typedef struct _USER_ *User;

@@ -6,7 +6,7 @@
 #include "../../includes/structs/driver.h"
 
 char car_classes[CLASS_SIZE][8] = {"BASIC", "GREEN", "PREMIUM"};
-char account_statuses[STATUS_SIZE][9] = {"INACTIVE", "ACTIVE"};
+char driver_account_statuses[STATUS_SIZE][9] = {"INACTIVE", "ACTIVE"};
 
 typedef struct _DRIVER_ {
 	int id;                                      //!< INTEGER - Id do driver
@@ -255,7 +255,7 @@ Driver parseDriver(char tokens[9][200])
 	// Veririca se o estado em token é valido (isto e se existe no array account_status_str).
 	account_status = -1;
 	for (int i = 0; i < STATUS_SIZE; i++)
-		if (strcmp(tokens[8], account_statuses[i]) == 0) account_status = i;
+		if (strcmp(tokens[8], driver_account_statuses[i]) == 0) account_status = i;
 
 	// Interrompe a funcao se status nao é valido (-1).
 	if (account_status == -1) return NULL;
@@ -314,8 +314,8 @@ int drivercmp(Driver driver1, Driver driver2, char * city)
 
 	if(res == 0)
 	{
-		if(driver1->id < driver2->id) res = -1;
-		else res = 1;
+		if(driver1->id < driver2->id) res = 1;
+		else res = -1;
 		
 		if(city) res = -res;
 	}

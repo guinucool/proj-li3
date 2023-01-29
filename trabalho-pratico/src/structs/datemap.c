@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../../includes/structs/date.h"
 #include "../../includes/structs/linkedlist.h"
 #include "../../includes/structs/datemap.h"
 
@@ -121,4 +122,31 @@ void dateMap(DateMap map, void (*function)(void*))
     for (int i = 0; i < MONTHS; i++)
         for (int j = 0; j < DAYS; j++)
             listMap(map->map[i][j], function);
+}
+
+/// @brief A função dateFilter aplica uma mudança a certos elementos de um DateMap.
+/**
+ * A função dateFilter mapeia uma DateMap aplicando
+ * uma função a elementos pertencentes a um certo
+ * intervalo de datas fornecido no input.
+ * 
+ * @param map O DateMap a ser mapeado.
+ * @param up O limite superior.
+ * @param down O limite inferior.
+ * @param function A função a ser aplicada.
+ */
+void dateFilter(DateMap map, Date up, Date down, void (*function)(void*))
+{
+    Date pos;
+
+    for (int i = 0; i < MONTHS; i++)
+    {
+        for (int j = 0; j < DAYS; j++)
+        {
+            createDate(j+1, i+1, map->year, pos);
+
+            if (datecmp(up, pos) >= 0 && datecmp(down, pos) <= 0)
+                listMap(map->map[i][j], function);
+        }
+    }
 }

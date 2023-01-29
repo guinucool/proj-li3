@@ -6,7 +6,7 @@
 #include "../../includes/structs/user.h"
 
 char payment_methods[METHODS_SIZE][MAX_USER_STR] = {"CASH", "CREDIT_CARD", "DEBIT_CARD"};
-char account_statuses[STATUS_SIZE][MAX_USER_STR] = {"INACTIVE", "ACTIVE"};
+char user_account_statuses[STATUS_SIZE][MAX_USER_STR] = {"INACTIVE", "ACTIVE"};
 
 /// \struct Estrutura que define as variáveis do tipo User.
 typedef struct _USER_ {
@@ -181,7 +181,7 @@ User parseUser(char data[7][200])
         if(strcmp(data[5], payment_methods[i]) == 0) pay_method = i;
 
     for (int i = 0; i < STATUS_SIZE; i++)
-        if(strcmp(data[5], account_statuses[i]) == 0) account_status = i;
+        if(strcmp(data[5], user_account_statuses[i]) == 0) account_status = i;
 
     return userCreate(username, name, gender, age, account_creation, pay_method, account_status);
 }
