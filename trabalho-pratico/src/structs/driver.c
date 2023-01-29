@@ -141,7 +141,7 @@ void updateDriver(Driver driver, int score, double money_received, char * city, 
  */
 void destroyDriver(Driver driver)
 {
-	free(driver);
+	if (driver) free(driver);
 }
 
 /// @brief A função debugPrintDriver imprime um Driver.

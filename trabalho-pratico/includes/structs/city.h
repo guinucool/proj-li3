@@ -3,12 +3,17 @@
 
 #define MAX_STR_NAME 50
 
-typedef struct _CITY_ City;
+// Estrutura
+typedef struct _CITY_ *City;
 
-City * createCity(char * str, int key, char type);
-void destroyCity(City * city);
-void city_City(char * dest, City * city);
-int city_Key(City * city);
-char city_Type(City * city);
+// Tratamentos
+City createCity(char * name, double money_spent, void * driver);
+void updateCity(City city, double money_spent, void * driver);
+void destroyCity(City city);
+void debugPrintCity(City city, void (*elemPrinter)(void*));
+
+// Devoluções
+double city_averageMoney(City city);
+void * city_drivers(City city);
 
 #endif

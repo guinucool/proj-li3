@@ -132,6 +132,21 @@ void debugPrintList(LinkedList list, void (*elemPrinter)(void*))
         printf("NULL\n");
 }
 
+/// @brief A função listMap faz uma mudança em todos os elementos de uma Lista.
+/**
+ * A função listMap mapeia uma lista ligada, aplicando
+ * a todos os seus elementos uma função fornecida como
+ * input.
+ * 
+ * @param list A lista a ser mapeada.
+ * @param function A função que será aplicada aos elementos da lista.
+ */
+void listMap(LinkedList list, void (*function)(void*))
+{
+    for (LinkedList holder = list; holder; holder = holder->next)
+        function(holder->element);
+}
+
 /// @brief A função list_element devolve um elemento da lista.
 /**
  * A função list_element devolve o apontador

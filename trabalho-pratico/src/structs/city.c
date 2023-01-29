@@ -1,75 +1,68 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../../includes/structs/linkedlist.h"
 #include "../../includes/structs/city.h"
 
 /// \struct Estrutura que define as variáveis do tipo cidade.
-typedef struct _CITY_
-{
-    char * city;
-    int preco_total;
-    int rides;
-    LinkedList drivers;                  
+typedef struct _CITY_ {
+    char city[MAX_STR_NAME];        //!< O nome da cidade.
+    double money_spent;             //!< O preço total gasto na cidade.
+    int rides;                      //!< O número de viagens feitas na cidade.
+    LinkedList drivers;             //!< A lista de drivers que fizeram viagens na cidade.      
 }*City, NPCity;
 
-/// @brief A função createCity cria uma variável do tipo city.
+/// @brief A função createCity cria uma City.
 /**
- * A função createCity cria uma variável do tipo city, alocando
+ * A função createCity cria uma variável do tipo City, alocando
  * o espaço necessário para a mesma na memória.
  * 
  * De seguida, irá associar a cada propriedade deste tipo
  * de variável um valor do input da função.
  * 
- * @param cty O nome da cidade da city.
+ * @param name O nome da cidade.
+ * @param money_spent O dinheiro gasto na viagem que originou esta City.
+ * @param driver O driver da viagme que originou esta City.
  * 
- * @param preco_total O dinheiro total gasto por todos os users na cidade em questão.
- * 
- * @param rides Número total de viagens realizadas na cidade em questão.
- * 
- * @param drivers Lista de todos os drivers que fizeram viagens na cidade em questão.
- * 
- * @return A variável do tipo city criada e alocada.
+ * @return A variável do tipo City criada e alocada.
  */ 
-City * createCity(char * cty, int preco_total, int rides, LinkedList drivers)
+City createCity(char * name, double money_spent, void * driver)
 {
-    City city = (City)malloc(sizeof(NPCity));
+    City city = (City) malloc(sizeof(NPCity));
 
-    strncpy(city->city, cty, MAX_STR_NAME);
-    city->preco_total = preco_total;
-    city->rides = rides;
-    city->drivers = drivers;
+    strncpy(city->city, name, MAX_STR_NAME);
 
-    return(city);
+    city->money_spent = money_spent;
+    city->rides = 1;
+    city->drivers = createList(driver, NULL);
+
+    return city;
 }
 
-/// @brief Esta função autaliza a estrutura City.
+/// @brief A função updateCity atualiza uma City.
 /**
- *  Esta função autaliza a estrutura City, adicionando o dinheiro
- *  adquirido por uma nova viagem ao preço_total e incrementando 
- *  o número de rides da estrutura. Caso o driver ainda não tenha sido 
- *  adicionado à linkedList é feito isso.
+ * A função updateCity atualiza uma City, adicionando o dinheiro gasto
+ * na viagem de atualização e incrementando o número de viagens.
+ * Caso o driver da viagem ainda não tenha sido adicionado à lista,
+ * este será adicionado.
  * 
- *  @param city Estrutura City a ser analisada.
- * 
- *  @param driver Void pointer contendo o driver da ride adicionada.
- * 
- *  @param money_received Dinheiro a ser adicionado ao preço_total.
+ * @param city A City a ser atualizada.
+ * @param money_spent O dinheiro gasto na viagem.
+ * @param driver Void pointer contendo o driver da viagem adicionada.
  */
-void updateCity(City city, void * driver, int money_received)
+void updateCity(City city, double money_spent, void * driver)
 {   
-    LinkedList drivers = city->drivers;
-
-    city->preco_total += money_received;
+    city->money_spent += money_spent;
     city->rides++;
-
-    if(check_element(drivers,driver) == 0)
-    {
-    LinkedList new = createList(driver,drivers);
-    drivers = new;
-    }
+    city->drivers = addUniqueList(driver, city->drivers);
 }
 
-/// @brief A função destroyCity destroí uma variável do tipo city.
+void null(void * element)
+{
+    return;
+}
+
+/// @brief A função destroyCity destroí uma City.
 /**
  * A função destroyCity destroí uma variável do tipo city, libertando
  * o espaço ocupado por esta e pela suas propriedades.
@@ -78,28 +71,56 @@ void updateCity(City city, void * driver, int money_received)
  */
 void destroyCity(City city)
 {
-    if (city != NULL)
+    if (city)
+    {
+        destroyList(city->drivers, null);
         free(city);
+    }
 }
 
-void city_City(char * dest, City city)
+/// @brief A função debugPrintCity imprime uma City.
+/**
+ * A função debugPrintCity imprime uma City e a suas
+ * propriedades para propósitos de debugging.
+ * 
+ * @param city A City a ser imprensa.
+ * @param elemPrinter A função que imprime os elementos da lista da City.
+ */
+void debugPrintCity(City city, void (*elemPrinter)(void*))
+{
+    printf("[%p](City) {\n    city: %s\n    money_spent: %.3f\n    rides: %d\n    drivers:\n    ",
+        city,
+        city->city,
+        city->money_spent,
+        city->rides
+    );
+    debugPrintList(city->drivers, elemPrinter);
+    printf("}\n");
+}
+ 
+void city_city(char * dest, City city)
 {
     strcpy(dest, city->city);
 }
 
-int city_preco_total(City city)
+double city_moneySpent(City city)
 {
-    return city->preco_total;
-    
+    return city->money_spent;
 }
 
 int city_rides(City city)
 {
-    return(city->rides);
+    return city->rides;
 }
 
-double city_preco_medio(City city)
+/// @brief A função city_averageMoney devolve a média do preço de viagem por cidade. 
+double city_averageMoney(City city)
 {
-    double preço_medio = (double)city->preco_total/city->rides;
-    return preço_medio;
+    return city->money_spent / city->rides;
+}
+
+/// @brief A função city_drivers devolve o apontador da lista de drivers da cidade. 
+void * city_drivers(City city)
+{
+    return city->drivers;
 }

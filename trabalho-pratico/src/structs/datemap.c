@@ -4,7 +4,7 @@
 #include "../../includes/structs/datemap.h"
 
 /// \struct Estrutura que define as variáveis do tipo Filtro de Data.
-typedef struct _DATE_MAP_{
+typedef struct _DATE_MAP_ {
     short year;                         //!< O ano do DateMap
     LinkedList map[MONTHS][DAYS];       //!< O mapa de datas do DateMap
 }*DateMap, NPDateMap;
@@ -105,4 +105,20 @@ void debugPrintDateMap(DateMap map, void (*elemPrinter)(void*))
 void * dateMapGet(DateMap map, short day, short month)
 {
     return map->map[month-1][day-1];
+}
+
+/// @brief A função dateMap aplica uma mudança a todos os elementos de um DateMap.
+/**
+ * A função dateMap mapeia um DateMap, aplicando
+ * a todos os seus elementos uma função fornecida
+ * como input.
+ * 
+ * @param map O DateMap a ser mapeado.
+ * @param function A função a ser aplicada a cada elemento.
+ */
+void dateMap(DateMap map, void (*function)(void*))
+{
+    for (int i = 0; i < MONTHS; i++)
+        for (int j = 0; j < DAYS; j++)
+            listMap(map->map[i][j], function);
 }

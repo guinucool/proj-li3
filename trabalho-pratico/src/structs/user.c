@@ -105,7 +105,7 @@ void userUpdate(User user, int score, double money_spent, int distance, Date dat
  */
 void destroyUser(User user)
 {
-    free(user);
+    if (user) free(user);
 }
 
 /// @brief A função debugPrintUser imprime um User.
