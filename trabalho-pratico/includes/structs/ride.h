@@ -21,6 +21,8 @@ void * ride_driver(Ride ride);
 void * ride_user(Ride ride);
 void ride_city(char * dest, Ride ride);
 short ride_distance(Ride ride);
+short ride_scoreUser(Ride ride);
+short ride_scoreDriver(Ride ride);
 double ride_tip(Ride ride);
 
 #endif

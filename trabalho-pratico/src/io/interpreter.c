@@ -1,17 +1,18 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include "../../includes/structs/global.h"
-#include "../../includes/structs/hashmap.h"
-#include "../../includes/io/read.h"
+#include "../../includes/utils.h"
+#include "../../includes/structs/date.h"
 #include "../../includes/structs/user.h"
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"
 #include "../../includes/structs/city.h"
-#include "../../includes/structs/date.h"
-#include "../../includes/structs/datefilter.h"
-#include "../../includes/utils.h"
-#include "../../includes/queries.h"
+#include "../../includes/structs/datemap.h"
+#include "../../includes/structs/hashmap.h"
+#include "../../includes/structs/global.h"
+/*
+#include "../../includes/queries.h"*/
+#include "../../includes/io/interpreter.h"
 
 
 /// @brief A função interUser interpreta e insere informação relativa aos users
@@ -27,43 +28,38 @@
  * contentores.
  * 
  * @param args Informação recebida da leitura de uma linha do ficheiro.
- * 
  * @param glob Estrutura de dados global a ser atualizada.
  */ 
-void interUser(char args[][MAX_LINE], Global * glob)
+void interUser(char args[][MAX_LINE], Global glob)
 {
-    User* user = userCreate(args);
+    User user = parseUser(args);
 
     char * key = malloc(sizeof(char) * MAX_USER_STR);
     user_Str(key, user, 'u');
 
-    /*User * data = malloc(sizeof(User));
-    *data = *user;*/
-
-    put(global_Hashmap(glob, 'u'), (void *)key, user, hashKey_Str);
+    put(glob_user(glob), key, user, hashKey_Str);
 }
 
-/// @brief A funcao interDriver interpreta e insere informacao relativa aos drivers
+/// @brief A função interDriver interpreta e insere informacao relativa aos drivers
 ///        na estrutura de dados global.
 /**
- * A funcao interDriver interpreta a informacao que recebe (da leitura do ficheiro)
+ * A função interDriver interpreta a informacao que recebe (da leitura do ficheiro)
  * e insere a mesma nas respetivas estruturas de dados (Hashmaps).
  * 
  * No final insere toda a informacao tratada na estrutura global nos respetivos
  * contentores.
  * 
  * @param args Informacao recebida da leitura de uma linha do ficheiro.
- * 
  * @param glob Estrutura de dados global a ser atualizada.
  */ 
-void interDriver(char args[][MAX_LINE], Global * glob)
+void interDriver(char args[][MAX_LINE], Global glob)
 {   
-    Driver* driver = parseDriver(args);
+    Driver driver = parseDriver(args);
 
     int * key = malloc(sizeof(int));
-    *key = driver_Id(driver);
+    *key = driver_id(driver);
     
-    put(global_Hashmap(glob, 'e'), key, (void*)driver,hashKey_Int);
+    put(glob_driver(glob), key, driver, hashKey_Int);
 }
 
 /// @brief A função interRide interpreta e insere informação relativa às rides
@@ -79,43 +75,56 @@ void interDriver(char args[][MAX_LINE], Global * glob)
  * contentores.
  * 
  * @param args Informação recebida da leitura de uma linha do ficheiro.
- * 
  * @param glob Estrutura de dados global a ser atualizada.
  */ 
-void interRide(char args[][MAX_LINE], Global * glob)
+void interRide(char args[][MAX_LINE], Global glob)
 {
-    Date date;
-    createDate(args[1], date);
+    // Criação da Ride
+    int id = atoi(args[2]);
 
-    int distance = atoi(args[5]);
-    int score_user = atoi(args[6]);
-    int score_driver = atoi(args[7]);
+    char username[MAX_USER_STR];
+    strncpy(username, args[3], MAX_USER_STR);
 
-    Ride * ride = createRide(atoi(args[0]), date, atoi(args[2]), args[3], args[4], (short)distance, (short)score_user, (short)score_driver, atof(args[8]), args[9]);
-
-    int * key = malloc(sizeof(int));
-    *key = ride_Int(ride, 'i');
-
-    /*Ride * data = malloc(sizeof(Ride));
-    *data = *ride;*/
+    User user = get(glob_user(glob), &username, equal_str, hashKey_Str);
+    Driver driver = get(glob_driver(glob), &id, equal, hashKey_Int);
     
-    City * city = createCity(args[4], *key, 'r');
-    DateFilter * filter = createDateFilter(date, key, 'r');
+    Ride ride = parseRide(args, driver, user);
 
-    char * dest = malloc(sizeof(char) * MAX_STR_NAME);
-    city_City(dest, city);
+    // Inserção da Ride
+    Date date;
+    parseDate(args[1], date);
 
-    short * destDte = malloc(sizeof(short) * 3);
-    filter_Date(destDte, filter);
+    DateMap map = get(glob_ride(glob), &date[2], equal, hashKey_Int);
+    char mapExist = map;
 
-    double money = calculate_ride_cost(ride, glob);
+    if (!mapExist) map = createDateMap(date[2]);
 
-    User * user = get(global_Hashmap(glob, 'u'), args[4], equal_str, hashKey_Str, 1);
-    userUpdate(user, score_user, money, distance);
+    updateDateMap(map, date[0], date[1], ride);
 
-    put(global_Hashmap(glob, 'r'), key, ride, hashKey_Int);
-    put(global_Hashmap(glob, 'c'), (void *)dest, (void *)city, hashKey_Str);
-    put(global_Hashmap(glob, 'd'), (void *)destDte, (void *)filter, hashKey_date);
+    if (!mapExist)
+    {
+        int * key = malloc(sizeof(int));
+        *key = (int)date[2];
+
+        put(glob_ride(glob), key, map, hashKey_Int);
+    }
+
+    // Criação e inserção da city
+    City city = get(glob_city(glob), args[4], equal_str, hashKey_Str);
+
+    if(city) updateCity(city, rideCost(ride, 0), driver);
+    else
+    {
+        char * name = malloc(sizeof(char) * strlen(args[4]));
+        strncpy(name, args[4], MAX_STR_NAME);
+
+        city = createCity(args[4], rideCost(ride, 0), driver);
+        put(glob_city(city), name, city, hashKey_Str);
+    }
+
+    // Atualiza user e driver
+    userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
+    updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
 }
 
 /// @brief A função interCmd interpreta a informação relativa aos comandos acessa
@@ -131,10 +140,10 @@ void interRide(char args[][MAX_LINE], Global * glob)
  * que as querys exigem e executa a query em questão com a informação do comando.
  * 
  * @param args Informação recebida da leitura de uma linha do ficheiro.
- * 
  * @param glob Estrutura de dados global a ser atualizada.
+ * @param cmd Número do comando atual.
  */ 
-void interCmd(char args[][MAX_LINE], Global * glob, int cmd)
+void interCmd(char args[][MAX_LINE], Global glob, int cmd)
 {
     short dateA[3], dateB[3];
     char * filename = (char*) malloc(sizeof(char) * 100);

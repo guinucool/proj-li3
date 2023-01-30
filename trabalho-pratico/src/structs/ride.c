@@ -253,6 +253,18 @@ short ride_distance(Ride ride)
     return ride->distance;
 }
 
+/// @brief A função ride_scoreUser devolve a pontuação de um User de uma viagem. 
+short ride_scoreUser(Ride ride)
+{
+    return ride->score_user;
+}
+
+/// @brief A função ride_scoreDriver devolve a pontuação de um Driver de uma viagem. 
+short ride_scoreDriver(Ride ride)
+{
+    return ride->score_driver;
+}
+
 /// @brief A função ride_tip devolve a gorjeta de uma viagem.
 double ride_tip(Ride ride)
 {
