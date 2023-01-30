@@ -16,6 +16,6 @@ double query5(short* dateA , short* dateB, Global * glob);
 double query6(char * cty, short * dateInf, short * dateUp, Global * glob);
 char ** query7(int N,char* city, Global * glob);
 char ** query8(char gender,int X, Global * glob);
-void query9(short* dateA,short* dateB, Global * glob);
+char ** query9( Date dateA, Date dateB, Global glob);
 
 #endif

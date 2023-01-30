@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../../includes/utils.h"
 #include "../../includes/structs/linkedlist.h"
 #include "../../includes/structs/city.h"
 
@@ -55,11 +56,6 @@ void updateCity(City city, double money_spent, void * driver)
     city->money_spent += money_spent;
     city->rides++;
     city->drivers = addUniqueList(driver, city->drivers);
-}
-
-void null(void * element)
-{
-    return;
 }
 
 /// @brief A função destroyCity destroí uma City.

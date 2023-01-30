@@ -136,12 +136,6 @@ void debugPrintUser(User user)
     );
 }
 
-void strtop(char * str)
-{
-    for (int i = 0; str[i] != '\0'; i++)
-        toupper(str[i]);
-}
-
 /// @brief A função parseUser converte o input numa variável User.
 /**
  * A função parseUser tem como objetivo analisar, intrepetar

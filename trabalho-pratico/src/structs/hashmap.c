@@ -94,19 +94,6 @@ Hashmap createHashmap()
     return hashmap;
 }
 
-int isPrime(int num)
-{
-    int res = 1;
-
-    if (num <= 1) res = 0;
-
-    if (num % 2 == 0 && num > 2) res = 0;
-
-    for(int i = 3; i < num / 2 && res; i+= 2) if (num % i == 0) res = 0;
-
-    return res;
-}
-
 /// @brief A função resizeHashmap redimensiona um hashmap.
 /**
  * A função resizeHashmap redimensiona um hashmap, e é normalmente
@@ -191,48 +178,7 @@ void debugPrintHashmap(Hashmap hashmap, void (*keyPrinter)(void*), void (*elemPr
     printf("}\n");
 }
 
-/// @brief A função hashKey_Int cria uma hash de procura, cuja chave é um Int.
-/**
- * A função hashKey_Int cria uma hash de procura, cuja chave é um Int, usando
- * o módulo (chave mod tamanho do hashmap) para criar a hash que
- * corresponderá à posição do elemento na hashmap.
- * 
- * @param key O void pointer da chave do elemento pretendido.
- * @param size O tamanho do hashmap para o qual vai ser criada a chave.
- */
-int hashKey_Int(void * key, int size)
-{
-    int *true_Key = ((int*) key);
 
-    return(*true_Key % size);
-}
-
-/// @brief A função hashKey_Str cria uma hash de procura, cuja chave é uma String.
-/**
- * A função hashKey_Str cria uma hash de procura, cuja chave é uma String, usando 
- * o somatorio do modulo do resultado da multiplicação dos caracteres com as respetivas posições 
- * na string. O resultado deste somatorio será a posição do elemento na hashmap.
- * 
- * @param str O void pointer da chave do elemento pretendido.
- * @param size O tamanho do hashmap para o qual vai ser criada a chave.
- */
-int hashKey_Str(void * str, int size)
-{
-    const char * s = str;
-    const int n = strlen(s);
-    const int p = 111111;
-    int hash = 0;
-    long p_pow = 1;
-
-    for (int i = 0; i < n; i++)
-    {
-        hash = (hash + s[i] * p_pow) % size;
-        p_pow = (p_pow * p) % size;
-    }
-
-    // return hash < 0 ? hash * -1 : hash;
-    return hash;
-}
 
 /// @brief A função put insere um elemento no hashmap.
 /**

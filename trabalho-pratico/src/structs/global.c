@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../../includes/utils.h"
 #include "../../includes/structs/user.h"
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"
@@ -43,11 +44,6 @@ Global createGlobal()
     glob->rideList = NULL;
 
     return(glob);
-}
-
-void null(void * element)
-{
-    return;
 }
 
 /// @brief A função destroyGlobal destroí uma variável do tipo global.

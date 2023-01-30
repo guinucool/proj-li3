@@ -1,11 +1,5 @@
 #include <string.h>
 #include <math.h>
-#include "../includes/structs/global.h"
-#include "../includes/structs/hashmap.h"
-#include "../includes/structs/driver.h"
-#include "../includes/structs/ride.h"
-#include "../includes/structs/date.h"
-#include "../includes/structs/datefilter.h"
 #include "../includes/utils.h"
 
 /// @brief A função equal compara duas chaves de tipo Int.
@@ -82,58 +76,69 @@ void double_to_string(double num, char* str, int precision)
     str[j] = '\0';
 }
 
-
-/// @brief A função betweenDates fornece uma lista ligada de HashmapNode de 
-///        Dates de um certo tipo dentro de um intervalo de tempo.
-/** 
- *  A função betweenDates fornece uma lista ligada de HashmapNode de Dates de um certo tipo
- *  dentro de um intervalo de tempo, percorrendo todas as Dates do hashmap de Dates
- *  dentro desse intervalo de tempo.
- * 
- *  Quando a função encontrar alguma Date do tipo pretendido adiciona-a à lista ligada
- *  de HashmapNode de resultado.
- * 
- *  @param inf  Data em que começa o intervalo de tempo.
- *  @param up   Data em que termina o intervalo de tempo.
- *  @param type Tipo de data pretendido.
- *  @param glob Estrutura de dados global a ser atualizada.
- *  
- *  @return Retorna a lista ligada de HashmapNode de Dates no intervalo de tempo pretendido.
- */
-HashmapNode * betweenDates(Date inf, Date up, char type, Global * glob)
+void null(void * element)
 {
-    HashmapNode * result = NULL;
-
-    while(datecmp(inf, up) <= 0)
-    {
-        HashmapNode * list = get(global_Hashmap(glob, 'd'), inf, equal_date, hashKey_date, 0);
-        while (list != NULL)
-        {
-            DateFilter * filter = (DateFilter*) node_Void(list, 'd');;
-            if (filter_Type(filter) == type) result = createNode(node_Void(list, 'k'), node_Void(list, 'd'), result);
-            list = node_Node(list); 
-        }
-        nextDay(inf);
-    }
-
-    return result;
+    return;
 }
 
-void insertDOrd(Driver* maxN[],int N,Driver* driver,char* city){
-    int i;
+int isPrime(int num)
+{
+    int res = 1;
 
-    if(drivercmp(maxN,driver,city))return;
+    if (num <= 1) res = 0;
 
-    for (i = 0; i < N; i++)
+    if (num % 2 == 0 && num > 2) res = 0;
+
+    for(int i = 3; i < num / 2 && res; i+= 2) if (num % i == 0) res = 0;
+
+    return res;
+}
+
+/// @brief A função hashKey_Int cria uma hash de procura, cuja chave é um Int.
+/**
+ * A função hashKey_Int cria uma hash de procura, cuja chave é um Int, usando
+ * o módulo (chave mod tamanho do hashmap) para criar a hash que
+ * corresponderá à posição do elemento na hashmap.
+ * 
+ * @param key O void pointer da chave do elemento pretendido.
+ * @param size O tamanho do hashmap para o qual vai ser criada a chave.
+ */
+int hashKey_Int(void * key, int size)
+{
+    int *true_Key = ((int*) key);
+
+    return(*true_Key % size);
+}
+
+/// @brief A função hashKey_Str cria uma hash de procura, cuja chave é uma String.
+/**
+ * A função hashKey_Str cria uma hash de procura, cuja chave é uma String, usando 
+ * o somatorio do modulo do resultado da multiplicação dos caracteres com as respetivas posições 
+ * na string. O resultado deste somatorio será a posição do elemento na hashmap.
+ * 
+ * @param str O void pointer da chave do elemento pretendido.
+ * @param size O tamanho do hashmap para o qual vai ser criada a chave.
+ */
+int hashKey_Str(void * str, int size)
+{
+    const char * s = str;
+    const int n = strlen(s);
+    const int p = 111111;
+    int hash = 0;
+    long p_pow = 1;
+
+    for (int i = 0; i < n; i++)
     {
-        if(drivercmp(driver,maxN,city))break;
+        hash = (hash + s[i] * p_pow) % size;
+        p_pow = (p_pow * p) % size;
     }
 
-    for(int j = N-1; j > i; j--)
-    {
-        maxN[j] = maxN[j-1];
-    }
+    // return hash < 0 ? hash * -1 : hash;
+    return hash;
+}
 
-    maxN[i] = driver;
-    
+void strtop(char * str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+        toupper(str[i]);
 }

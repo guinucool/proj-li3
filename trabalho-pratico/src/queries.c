@@ -2,17 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "../includes/structs/hashmap.h"
+#include "../includes/utils.h"
 #include "../includes/structs/global.h"
-#include "../includes/queries.h"
+#include "../includes/structs/hashmap.h"
 #include "../includes/structs/driver.h"
 #include "../includes/structs/user.h"
 #include "../includes/structs/ride.h"
 #include "../includes/structs/city.h"
-#include "../includes/structs/datefilter.h"
-#include "../includes/structs/btree.h"
-#include "../includes/utils.h"
-#include "../includes/structs/btree.h"
+#include "../includes/structs/date.h"
+#include "../includes/structs/datemap.h"
+#include "../includes/queries.h"
 
 
 int isUser(char *id) {
@@ -112,6 +111,25 @@ double preco_medio(HashmapNode * list, Global * glob, char mode)
         return (precoSum/n);
     else
         return (0);
+}
+
+void insertDOrd(Driver maxN[], int N, Driver driver,char* city){
+    int i;
+
+    if(drivercmp(maxN,driver,city))return;
+
+    for (i = 0; i < N; i++)
+    {
+        if(drivercmp(driver,maxN,city))break;
+    }
+
+    for(int j = N-1; j > i; j--)
+    {
+        maxN[j] = maxN[j-1];
+    }
+
+    maxN[i] = driver;
+    
 }
 
 void query1(char *id, Global *glob) {
@@ -507,6 +525,13 @@ char ** query8(char gender,int X, Global * glob) {
     return resultados;
 }
 
-void query9(short* dateA,short* dateB, Global * glob){
+char ** query9(Date dateA, Date dateB, Global glob){
     
+    Hashmap dates_hashmap = glob_ride(glob);
+    DateMap dates;
+
+    while(dateA != dateB){
+        dates = get();
+    }
+
 }

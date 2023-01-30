@@ -9,10 +9,12 @@ typedef struct _GLOBAL_ Global;
 int equal(void* key1, void* key2);
 int equal_date(void* key1, void* key2);
 int equal_str(void* s1, void* s2);
-short age(short[]);
-short calculateAge(Date);
-double calculate_ride_cost(Ride * ride, Global * glob);
-HashmapNode * betweenDates(Date inf, Date up, char type, Global * glob);
+int isId(char s[200]);
+void null(void * element);
+int isPrime(int num);
+int hashKey_Int(void * key, int size);
+int hashKey_Str(void * str, int size);
+void strtop(char * str);
 void double_to_string(double num, char* str, int precision);
 
 #endif
