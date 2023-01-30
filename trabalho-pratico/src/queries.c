@@ -11,6 +11,7 @@
 #include "../includes/structs/city.h"
 #include "../includes/structs/date.h"
 #include "../includes/structs/datemap.h"
+#include "../includes/structs/linkedlist.h"
 #include "../includes/queries.h"
 
 
@@ -64,25 +65,19 @@ double calculate_ride_cost(Ride *ride, Global *glob) {
  * 
  * @return O preço médio das viagens neste filtro.
  */
-double preco_medio(HashmapNode * list, Global * glob, char mode)
+double av_price(Hashmap calendario,Date dateA,Date dateB)
 {
     HashmapNode * tracker = list;
     int n = 0;
     double precoRide = 0, precoSum = 0;
+
     while(tracker != NULL)
     {
         void * key;
-        if (mode == 'd')
-        {
-            DateFilter * filter = (DateFilter*) node_Void(tracker, 'd');
-            key = date_Key(filter);
-        }
-        else
-        {
-            City * city = (City*) node_Void(tracker, 'd');
-            int id = city_Key(city);
-            key = (void*) &id;
-        }
+
+        DateMap * filter = (DateMap) node_Void(tracker, 'd');
+        key = date_Key(filter);
+        
         Ride * ride = (Ride*) get(global_Hashmap(glob, 'r'), key, equal, hashKey_Int, 1);
         int did = ride_Int(ride, 'd');
         Driver * driver = (Driver*) get(global_Hashmap(glob, 'e'), (void*)&did, equal, hashKey_Int, 1);
@@ -224,7 +219,7 @@ void query3(int N, Global* glob){
     
 }
 
-/// @brief A funcao query4 calcula o preco medio das viagens realizadas numa determinada cidade.
+/// @brief [OUTDATED DOCUMENTACION]A funcao query4 calcula o preco medio das viagens realizadas numa determinada cidade.
 /**
  *  A função vai usar a lista da cidade para calcular a média, após ter a lista ligada, vai passá-la 
  *  à função preco_medio, que vai percorrer a lista elemento por elemento. Após ter os valores, 
@@ -234,11 +229,18 @@ void query3(int N, Global* glob){
  *  @param glob Estrutura de dados global a ser atualizada.
  *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
-double query4(char* city, Global* glob)
+double query4(char* city, Global glob)
 {
-    HashmapNode * cityList = (HashmapNode *) get(global_Hashmap(glob, 'c'), city, equal_str, hashKey_Str, 0);
-    double result = preco_medio(cityList,glob,'c');
-    return result;
+    // Aquisição do Hashmap de cities
+    Hashmap cities = glob_city(glob);
+
+    // Aquisição da struct da city a ser analisada
+    City city = get(cities, city, equal_str, hashKey_Str);
+
+    // Aquisição do preço médio da cidade a partir da struct city
+    double preco_medio = city_averageMoney(city);
+
+    return preco_medio;
 }
 
 /// @brief A função query5 calcula o preço médio das viagens realizadas entre duas datas.
@@ -253,12 +255,38 @@ double query4(char* city, Global* glob)
  * 
  *  @return Retorna o preço médio das viagens realizadas entre essas duas datas.
  */ 
-double query5(short* dateA , short* dateB, Global* glob)
+double query5(Date dateA , Date dateB, Global glob)
 {
-    HashmapNode * listRides = betweenDates(dateA, dateB, 'r', glob);
-    double result = preco_medio(listRides,glob,'d');
-    destroyNode(listRides, 0);
-    return result;
+    Date dateAOriginal = dateA, dateBOriginal = dateB;
+    Hashmap calendario = glob_ride(glob); 
+    Ride ride;
+    double preco_medio,sum = 0;
+    int count = 0;
+
+    while (dateA[2] != dateB[2]+1)
+    {
+        DateMap anoA = get(calendario,&dateA[2],equal,hashKey_Int);
+
+        while(dateA[2] != datemap_year(anoA)+1)
+        {
+
+            LinkedList lista_rides = dateMapGet(anoA,dateA[0],dateA[1]); 
+
+            while(lista_rides != NULL)
+            {
+                ride = list_element(lista_rides);
+
+                sum += rideCost(ride, 0);
+                count++;
+
+                lista_rides = list_next(lista_rides);
+            }
+
+            nextDay(dateA);
+        }
+    }
+
+    return preco_medio;
 }
 
 /// @brief A função query6 calcula a média da distância percorrida

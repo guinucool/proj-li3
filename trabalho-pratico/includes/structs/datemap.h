@@ -15,5 +15,6 @@ void debugPrintDateMap(DateMap map, void (*)(void*));
 void * dateMapGet(DateMap map, short day, short month);
 void dateMap(DateMap map, void (*)(void*));
 void dateFilter(DateMap map, Date up, Date down, void (*)(void*));
+short datemap_year(DateMap map);
 
 #endif

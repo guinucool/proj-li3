@@ -150,3 +150,8 @@ void dateFilter(DateMap map, Date up, Date down, void (*function)(void*))
         }
     }
 }
+
+short datemap_year(DateMap map)
+{
+    return map->year;
+}
