@@ -81,6 +81,11 @@ void null(void * element)
     return;
 }
 
+void nullMap(void * element, void (*function)(void*,void*), void * second)
+{
+    function(element, second);
+}
+
 int isPrime(int num)
 {
     int res = 1;

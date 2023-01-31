@@ -11,6 +11,7 @@ int equal_date(void* key1, void* key2);
 int equal_str(void* s1, void* s2);
 int isId(char s[200]);
 void null(void * element);
+void nullMap(void * element, void (*)(void*,void*), void * second);
 int isPrime(int num);
 int hashKey_Int(void * key, int size);
 int hashKey_Str(void * str, int size);
