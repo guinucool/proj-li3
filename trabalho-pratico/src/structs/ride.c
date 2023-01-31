@@ -29,6 +29,7 @@ typedef struct _RIDE_ {
  * da função às repetivas propriedades da variável.
  * 
  * @param id O id da Ride.
+ * @param date A data da Ride.
  * @param driver O apontador do driver da Ride.
  * @param user O apontador do user da Ride.
  * @param city A cidade da Ride.
@@ -84,9 +85,10 @@ void destroyRide(Ride ride)
  */
 void debugPrintRide(Ride ride)
 {
-    printf("[%p](Ride) {\n    id: %d\n    driver: %p\n    user: %p\n    city: %s\n    distance: %d\n    score_user: %d\n    score_driver: %d\n    tip: %.3f\n    comment: %s\n}\n",
+    printf("[%p](Ride) {\n    id: %d\n    date: %d/%d/%d\n    driver: %p\n    user: %p\n    city: %s\n    distance: %d\n    score_user: %d\n    score_driver: %d\n    tip: %.3f\n    comment: %s\n}\n",
         ride,
         ride->id,
+        ride->date[0],ride->date[1],ride->date[2],
         ride->driver,
         ride->user,
         ride->city,
@@ -111,7 +113,6 @@ void debugPrintRide(Ride ride)
  */
 Ride parseRide(char tokens[10][200], Driver driver, User user)
 {
-
     // Parse ID
     int id;
     id = atoi(tokens[0]);
@@ -199,9 +200,10 @@ int ridecmp(Ride ride1, Ride ride2)
 
 int ridecmp2(Ride ride1, Ride ride2)
 {
+    int res = 0;
 
-    if(ride1->distance > ride2->distance)return 1;
-    else if(ride1->distance < ride2->distance) return 0;
+    if(ride1->distance > ride2->distance) res = 1;
+    if(ride1->distance < ride2->distance) res = -1;
     else
     {
         int cmp = datecmp(ride1->date,ride2->date);

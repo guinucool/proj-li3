@@ -100,10 +100,13 @@ void null(void * element)
  * @param element O suposto elemento que iria ser mapeado.
  * @param function A função que ia ser usada no mapeamento.
  * @param second O segundo argumento da função que ia ser usada.
+ * 
+ * @return O suposto número de operações executadas.
  */ 
-void nullMap(void * element, void (*function)(void*,void*), void * second)
+int nullMap(void * element, void (*function)(void*,void*), void * second)
 {
     function(element, second);
+    return 1;
 }
 
 /// @brief A função isId verifica se uma string contém apenas números.

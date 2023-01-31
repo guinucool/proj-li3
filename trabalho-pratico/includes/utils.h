@@ -9,7 +9,7 @@ int hashKey_Str(void * str, int size);
 
 // Nulas
 void null(void * element);
-void nullMap(void * element, void (*)(void*,void*), void * second);
+int nullMap(void * element, void (*)(void*,void*), void * second);
 
 // Verificações
 int isId(char s[200]);

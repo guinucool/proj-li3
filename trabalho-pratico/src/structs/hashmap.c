@@ -275,10 +275,16 @@ void * get(Hashmap hashmap, void * key, int (*equal)(void*, void*), int (*hashFu
  * @param mapper A função que mapeia cada elemento do hashmap, caso seja mapeável.
  * @param function A função que irá ser aplicada.
  * @param second O segundo parâmetro da função que irá ser aplicada.
+ * 
+ * @return O número de operações executadas.
  */
-void map(Hashmap hashmap, void (*mapper)(void*, void (*)(void*,void*), void*), void (*function)(void*,void*), void * second)
+int map(Hashmap hashmap, int (*mapper)(void*, void (*)(void*,void*), void*), void (*function)(void*,void*), void * second)
 {
+    int count = 0;
+
     for (int i = 0; i < hashmap->max; i++)
         if(hashmap->map[i].key)
-            mapper(hashmap->map[i].data, function, second);
+            count += mapper(hashmap->map[i].data, function, second);
+
+    return count;
 }

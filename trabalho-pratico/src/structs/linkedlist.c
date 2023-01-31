@@ -141,14 +141,19 @@ void debugPrintList(LinkedList list, void (*elemPrinter)(void*))
  * @param list A lista a ser mapeada.
  * @param function A função que será aplicada aos elementos da lista.
  * @param second O segundo parâmetro da função que será aplicada.
+ * 
+ * @return O número de operações executadas.
  */
-void listMap(LinkedList list, void (*function)(void*, void*), void * second)
+int listMap(LinkedList list, void (*function)(void*, void*), void * second)
 {
-    int count;
-    for (LinkedList holder = list; holder; holder = holder->next){
+    int count = 0;
+
+    for (LinkedList holder = list; holder; holder = holder->next)
+    {
         function(holder->element, second);
         count++;
     }
+
     return count;
 }
 

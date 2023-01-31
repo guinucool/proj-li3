@@ -117,12 +117,18 @@ void * dateMapGet(DateMap map, short day, short month)
  * @param map O DateMap a ser mapeado.
  * @param function A função a ser aplicada a cada elemento.
  * @param second O segundo parâmetro da função a ser aplicada.
+ * 
+ * @return O número de operações executadas.
  */
-void dateMap(DateMap map, void (*function)(void*, void*), void * second)
+int dateMap(DateMap map, void (*function)(void*, void*), void * second)
 {
+    int count = 0;
+
     for (int i = 0; i < MONTHS; i++)
         for (int j = 0; j < DAYS; j++)
-            listMap(map->map[i][j], function, second);
+            count += listMap(map->map[i][j], function, second);
+
+    return count;
 }
 
 /// @brief A função dateFilter aplica uma mudança a certos elementos de um DateMap.
@@ -136,16 +142,20 @@ void dateMap(DateMap map, void (*function)(void*, void*), void * second)
  * @param down O limite inferior.
  * @param function A função a ser aplicada.
  * @param second O segundo parâmetro da função a ser aplicada.
+ * 
+ * @return O número de operações executadas.
  */
 int dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*, void*), void * second)
 {
     int count = 0;
+
     while(dateA[2] != map->year+1)
     {
         LinkedList lista_rides = dateMapGet(map,dateA[0],dateA[1]); 
         count += listMap(lista_rides,function, second);
         nextDay(dateA);
     }
+
     return count;
 }
 
