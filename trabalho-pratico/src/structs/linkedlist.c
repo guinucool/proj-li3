@@ -144,8 +144,12 @@ void debugPrintList(LinkedList list, void (*elemPrinter)(void*))
  */
 void listMap(LinkedList list, void (*function)(void*, void*), void * second)
 {
-    for (LinkedList holder = list; holder; holder = holder->next)
+    int count;
+    for (LinkedList holder = list; holder; holder = holder->next){
         function(holder->element, second);
+        count++;
+    }
+    return count;
 }
 
 /// @brief A função list_element devolve um elemento da lista.

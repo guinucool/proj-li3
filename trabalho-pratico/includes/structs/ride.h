@@ -8,11 +8,12 @@
 typedef struct _RIDE_ *Ride;
 
 // Tratamentos
-Ride createRide(int id, Driver driver, User user, char * city, short distance, short score_user, short score_driver, double tip, char * comment);
+Ride createRide(int id, Date date, Driver driver, User user, char * city, short distance, short score_user, short score_driver, double tip, char * comment);
 void destroyRide(Ride ride);
 void debugPrintRide(Ride ride);
 Ride parseRide(char tokens[10][200], Driver driver, User user);
 int ridecmp(Ride ride1, Ride ride2);
+int ridecmp2(Ride ride1, Ride ride2);
 double rideCost(Ride ride, char tip);
 
 // Devoluções

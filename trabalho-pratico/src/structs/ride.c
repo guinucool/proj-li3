@@ -9,6 +9,7 @@
 /// \struct Estrutura que define as variáveis do tipo ride.
 typedef struct _RIDE_ {
     int id;                                         //!< Id da ride
+    Date date;                                      //!< Date da ride                                       
     Driver driver;                                  //!< Driver da ride
     User user;                                      //!< Iser da ride 
     char city[MAX_STR_NAME];                        //!< Cidade da ride
@@ -39,11 +40,14 @@ typedef struct _RIDE_ {
  * 
  * @return A Ride criada com as respetivas propriedades.
  */
-Ride createRide(int id, Driver driver, User user, char * city, short distance, short score_user, short score_driver, double tip, char * comment)
+Ride createRide(int id, Date date, Driver driver, User user, char * city, short distance, short score_user, short score_driver, double tip, char * comment)
 {
     Ride ride = (Ride) malloc(sizeof(NPRide));
     
     ride->id = id;
+    ride->date[0] = date[0];
+    ride->date[1] = date[1];
+    ride->date[2] = date[2];
     ride->driver = driver;
     ride->user = user;
 
@@ -107,39 +111,45 @@ void debugPrintRide(Ride ride)
  */
 Ride parseRide(char tokens[10][200], Driver driver, User user)
 {
-    // Parse City
-    char city[MAX_STR_NAME];
-    strncpy(city, tokens[4], MAX_STR_NAME);
-    
-    // Parse Comment
-    char comment[MAX_STR_COMM];
-    strncpy(comment, tokens[9], MAX_STR_COMM);
-
-    int id;
-    double tip;
-    short distance, score_user, score_driver;
 
     // Parse ID
+    int id;
     id = atoi(tokens[0]);
     if(id < 1) return NULL;
 
+    // Parse Date
+    Date date;
+    parseDate(tokens[1],date);
+
+    // Parse City
+    char city[MAX_STR_NAME];
+    strncpy(city, tokens[4], MAX_STR_NAME);
+
     // Parse Distance
+    short distance;
     distance = (short)atoi(tokens[5]);
     if(distance < 1) return NULL;
 
     // Parse Score_user
+    short score_user;
     score_user = (short)atoi(tokens[6]);
     if(score_user < 0) return NULL;
 
     // Parse Score_driver
+    short score_driver;
     score_driver = (short)atoi(tokens[7]);
     if(score_driver < 0) return NULL;
 
     // Parse Tip
+    double tip;
     tip = atof(tokens[8]);
     if(tip < 0.0f) return NULL;
 
-    return createRide(id, driver, user, city, distance, score_user, score_driver, tip, comment);
+    // Parse Comment
+    char comment[MAX_STR_COMM];
+    strncpy(comment, tokens[9], MAX_STR_COMM);
+
+    return createRide(id, date, driver, user, city, distance, score_user, score_driver, tip, comment);
 }
 
 /// @brief A função ridecmp compara duas Rides.
@@ -185,6 +195,24 @@ int ridecmp(Ride ride1, Ride ride2)
     }
 
     return res;
+}
+
+int ridecmp2(Ride ride1, Ride ride2)
+{
+
+    if(ride1->distance > ride2->distance)return 1;
+    else if(ride1->distance < ride2->distance) return 0;
+    else
+    {
+        int cmp = datecmp(ride1->date,ride2->date);
+        if(cmp == 1) return 1;
+        else if(cmp == -1) return 0;
+        else
+        {
+            return ride1->id > ride2->id;
+        }
+    }
+
 }
 
 /// @brief A função rideCost calcula o custo de uma Ride.

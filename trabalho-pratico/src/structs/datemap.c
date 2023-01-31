@@ -137,14 +137,16 @@ void dateMap(DateMap map, void (*function)(void*, void*), void * second)
  * @param function A função a ser aplicada.
  * @param second O segundo parâmetro da função a ser aplicada.
  */
-void dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*, void*), void * second)
+int dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*, void*), void * second)
 {
+    int count = 0;
     while(dateA[2] != map->year+1)
     {
         LinkedList lista_rides = dateMapGet(map,dateA[0],dateA[1]); 
-        listMap(lista_rides,function, second);
+        count += listMap(lista_rides,function, second);
         nextDay(dateA);
     }
+    return count;
 }
 
 short datemap_year(DateMap map)
