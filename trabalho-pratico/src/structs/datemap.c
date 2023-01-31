@@ -116,12 +116,13 @@ void * dateMapGet(DateMap map, short day, short month)
  * 
  * @param map O DateMap a ser mapeado.
  * @param function A função a ser aplicada a cada elemento.
+ * @param second O segundo parâmetro da função a ser aplicada.
  */
-void dateMap(DateMap map, void (*function)(void*))
+void dateMap(DateMap map, void (*function)(void*, void*), void * second)
 {
     for (int i = 0; i < MONTHS; i++)
         for (int j = 0; j < DAYS; j++)
-            listMap(map->map[i][j], function);
+            listMap(map->map[i][j], function, second);
 }
 
 /// @brief A função dateFilter aplica uma mudança a certos elementos de um DateMap.
@@ -134,38 +135,16 @@ void dateMap(DateMap map, void (*function)(void*))
  * @param up O limite superior.
  * @param down O limite inferior.
  * @param function A função a ser aplicada.
+ * @param second O segundo parâmetro da função a ser aplicada.
  */
-void dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*))
-{   
-    void * ride;
-    double sum = 0;
-    int count = 0;
-    //Date pos;
-
-        while(dateA[2] != map->year+1)
-        {
-
-            LinkedList lista_rides = dateMapGet(map,dateA[0],dateA[1]); 
-
-            while(lista_rides != NULL)
-            {
-                listMap(lista_rides,function);
-
-                lista_rides = list_next(lista_rides);
-            }
-
-            nextDay(dateA);
-        }
-    // for (int i = 0; i < MONTHS; i++)
-    // {
-    //     for (int j = 0; j < DAYS; j++)
-    //     {
-    //         createDate(j+1, i+1, map->year, pos);
-
-    //         if (datecmp(up, pos) >= 0 && datecmp(down, pos) <= 0)
-    //             listMap(map->map[i][j], function);
-    //     }
-    // }
+void dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*, void*), void * second)
+{
+    while(dateA[2] != map->year+1)
+    {
+        LinkedList lista_rides = dateMapGet(map,dateA[0],dateA[1]); 
+        listMap(lista_rides,function, second);
+        nextDay(dateA);
+    }
 }
 
 short datemap_year(DateMap map)

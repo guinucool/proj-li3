@@ -140,11 +140,12 @@ void debugPrintList(LinkedList list, void (*elemPrinter)(void*))
  * 
  * @param list A lista a ser mapeada.
  * @param function A função que será aplicada aos elementos da lista.
+ * @param second O segundo parâmetro da função que será aplicada.
  */
-void listMap(LinkedList list, void (*function)(void*))
+void listMap(LinkedList list, void (*function)(void*, void*), void * second)
 {
     for (LinkedList holder = list; holder; holder = holder->next)
-        function(holder->element);
+        function(holder->element, second);
 }
 
 /// @brief A função list_element devolve um elemento da lista.

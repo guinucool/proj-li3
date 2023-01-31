@@ -13,8 +13,8 @@ void updateDateMap(DateMap map, short day, short month, void * element);
 void destroyDateMap(DateMap map, void (*)(void*));
 void debugPrintDateMap(DateMap map, void (*)(void*));
 void * dateMapGet(DateMap map, short day, short month);
-void dateMap(DateMap map, void (*)(void*));
-void dateFilter(DateMap map, Date up, Date down, void (*)(void*));
+void dateMap(DateMap map, void (*)(void*,void*), void * second);
+void dateFilter(DateMap map, Date up, Date down, void (*)(void*,void*), void * second);
 short datemap_year(DateMap map);
 
 #endif

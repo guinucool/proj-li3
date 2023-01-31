@@ -273,11 +273,13 @@ void * get(Hashmap hashmap, void * key, int (*equal)(void*, void*), int (*hashFu
  * existentes.
  * 
  * @param hashmap O hashmap onde as mudanças irão ocorrer.
+ * @param mapper A função que mapeia cada elemento do hashmap, caso seja mapeável.
  * @param function A função que irá ser aplicada.
+ * @param second O segundo parâmetro da função que irá ser aplicada.
  */
-void map(Hashmap hashmap, void (*function)(void*))
+void map(Hashmap hashmap, void (*mapper)(void*, void (*)(void*,void*), void*), void (*function)(void*,void*), void * second)
 {
     for (int i = 0; i < hashmap->max; i++)
         if(hashmap->map[i].key)
-            function(hashmap->map[i].data);
+            mapper(hashmap->map[i].data, function, second);
 }
