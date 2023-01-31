@@ -178,7 +178,7 @@ void strtop(char * str)
  */
 int intLen(int value)
 {
-    int count;
+    int count = 0;
     while(value != 0)
     {
         value /= 10;
