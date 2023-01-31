@@ -48,65 +48,6 @@ double calculate_ride_cost(Ride *ride, Global *glob) {
     return total;
 }
 
-/// @brief A função preco_medio calcula o preco_medio de um certo filtro de viagens.
-/**
- * A função preco_medio calcula o preco_medio de um certo filtro de viagens, percorrendo
- * todas as suas ocorrências no Hashmap de rides e no Hashmap de drivers, obtendo
- * assim as tarifas e a distancia percorrida de cada viagem.
- * 
- * Acaba por ir somando os vários preços calculados de cada viagem, e no final 
- * divide esta soma pelo número de viagens existentes no certo filtro.
- * 
- * @param list Lista de viagens no filtro.
- * 
- * @param glob A global que contém a informação recolhida na base de dados.
- * 
- * @param mode O tipo de filtro fornecido (d - datas, c - cidades).
- * 
- * @return O preço médio das viagens neste filtro.
- */
-double av_price(Hashmap calendario,Date dateA,Date dateB)
-{
-    HashmapNode * tracker = list;
-    int n = 0;
-    double precoRide = 0, precoSum = 0;
-
-    while(tracker != NULL)
-    {
-        void * key;
-
-        DateMap * filter = (DateMap) node_Void(tracker, 'd');
-        key = date_Key(filter);
-        
-        Ride * ride = (Ride*) get(global_Hashmap(glob, 'r'), key, equal, hashKey_Int, 1);
-        int did = ride_Int(ride, 'd');
-        Driver * driver = (Driver*) get(global_Hashmap(glob, 'e'), (void*)&did, equal, hashKey_Int, 1);
-
-        switch (driver_Char(driver, 'c'))
-        {
-            case 0:
-                precoRide = 3.25 + 0.62 * ride_Short(ride, 'p');
-                break;
-        
-            case 1:
-                precoRide = 4 + 0.79 * ride_Short(ride, 'p');
-                break;
-
-            case 2:
-                precoRide = 5.2 + 0.94 * ride_Short(ride, 'p');
-                break;
-        }
-
-        precoSum += precoRide;
-        n++;
-        tracker = node_Node(tracker);
-    }
-    
-    if (n != 0)
-        return (precoSum/n);
-    else
-        return (0);
-}
 
 void insertDOrd(Driver maxN[], int N, Driver driver,char* city){
     int i;
@@ -125,6 +66,46 @@ void insertDOrd(Driver maxN[], int N, Driver driver,char* city){
 
     maxN[i] = driver;
     
+}
+
+void rideCostFilterNoTip(void * ride, double res)
+{
+    res = rideCost(ride,0);
+}
+
+void linkedListRes(void * ride,LinkedList res)
+{
+    res = addOrdList(ride,res,ridecmp2);
+}
+
+void idOutput(int id, char * dest)
+{   
+    int size, i;
+    char * idAux;
+    sprintf(idAux,"%d",id);
+    size = strlen(idAux);
+    for (i = 0; i < 12-size; i++)
+    {
+        dest[i] = '0';
+    }
+    for (i; i < 12; i++)
+    {
+        dest[i] = idAux[i-12+size];
+    }
+}
+
+void dateOutput(Date date, char * dest)
+{
+    char *day,*month,*year;
+    sprintf(day,"%d",date[0]);
+    sprintf(month,"%d",date[1]);
+    sprintf(year,"%d",date[2]);
+
+    strcat(dest,day);
+    strcat(dest,"/");
+    strcat(dest,month);
+    strcat(dest,"/");
+    strcat(dest,year);
 }
 
 void query1(char *id, Global *glob) {
@@ -243,7 +224,7 @@ double query4(char* city, Global glob)
     return preco_medio;
 }
 
-/// @brief A função query5 calcula o preço médio das viagens realizadas entre duas datas.
+/// @brief [DOCUMENTAÇÃO OUTDATED]A função query5 calcula o preço médio das viagens realizadas entre duas datas.
 /**
  *  A função chama a função betweenDates() para asquirir a lista ligada de HashmapNode 
  *  de Date do intervalo de tempo entre as duas datas pretendidas e depois usa a função
@@ -257,36 +238,19 @@ double query4(char* city, Global glob)
  */ 
 double query5(Date dateA , Date dateB, Global glob)
 {
-    Date dateAOriginal = dateA, dateBOriginal = dateB;
     Hashmap calendario = glob_ride(glob); 
     Ride ride;
-    double preco_medio,sum = 0;
+    double sum = 0;
     int count = 0;
 
     while (dateA[2] != dateB[2]+1)
     {
         DateMap anoA = get(calendario,&dateA[2],equal,hashKey_Int);
 
-        while(dateA[2] != datemap_year(anoA)+1)
-        {
-
-            LinkedList lista_rides = dateMapGet(anoA,dateA[0],dateA[1]); 
-
-            while(lista_rides != NULL)
-            {
-                ride = list_element(lista_rides);
-
-                sum += rideCost(ride, 0);
-                count++;
-
-                lista_rides = list_next(lista_rides);
-            }
-
-            nextDay(dateA);
-        }
+        dateFilter(anoA,dateA,dateB,rideCostFilterNoTip);
     }
 
-    return preco_medio;
+    return (double)sum/count;
 }
 
 /// @brief A função query6 calcula a média da distância percorrida
@@ -555,11 +519,71 @@ char ** query8(char gender,int X, Global * glob) {
 
 char ** query9(Date dateA, Date dateB, Global glob){
     
-    Hashmap dates_hashmap = glob_ride(glob);
-    DateMap dates;
+    Hashmap calendario = glob_ride(glob); 
+    Ride ride;
+    LinkedList res;
+    int size;
 
-    while(dateA != dateB){
-        dates = get();
+    while (dateA[2] != dateB[2]+1)
+    {
+        DateMap anoA = get(calendario,&dateA[2],equal,hashKey_Int);
+        
+        size = dateFilter(anoA,dateA,dateB,linkedListRes,res);
+    }
+    
+    char ** resultados = malloc(sizeof(char*) * size);
+
+    char * string;
+    char * id;
+    char * date;
+    char * distance;
+    char * city;
+    char * tip;
+
+    int strSize;
+    int distSize;
+    int citySize;
+    int tipSize;
+
+
+    for (int i = 0; i < size; i++)
+    {
+        ride = list_element(res);
+
+        
+        idOutput(ride_id(ride),id);
+
+        dateOutput(ride_Date(ride),date);
+       
+        sprintf(distance,"%d",ride_distance(ride));
+        distSize = strlen(distance);
+
+
+        ride_city(city,ride);
+        citySize = strlen(city);
+
+
+        sprintf(tip,"%.3f",ride_tip(ride));
+        tipSize = strlen(tip);
+
+        strSize = 26 + distSize + citySize + tipSize;
+
+        string = malloc(strSize);
+
+        strcat(string,id);
+        strcat(string,';');
+        strcat(string,date);
+        strcat(string,';');
+        strcat(string,distance);
+        strcat(string,';');
+        strcat(string,city);
+        strcat(string,';');
+        strcat(string,tip);
+
+        resultados[i] = string;
+
+        list_next(res);
     }
 
+    return resultados;
 }
