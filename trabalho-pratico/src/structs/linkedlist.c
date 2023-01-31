@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../../includes/structs/linkedlist.h"
 
 /// \struct Estrutura que define as listas de ligadas
 typedef struct _LINKED_NODE_ {

@@ -10,8 +10,7 @@
 #include "../../includes/structs/datemap.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
-/*
-#include "../../includes/queries.h"*/
+#include "../../includes/queries.h"
 #include "../../includes/io/interpreter.h"
 
 
@@ -35,7 +34,7 @@ void interUser(char args[][MAX_LINE], Global glob)
     User user = parseUser(args);
 
     char * key = malloc(sizeof(char) * MAX_USER_STR);
-    user_Str(key, user, 'u');
+    user_username(key, user);
 
     put(glob_user(glob), key, user, hashKey_Str);
 }
@@ -94,8 +93,10 @@ void interRide(char args[][MAX_LINE], Global glob)
     Date date;
     parseDate(args[1], date);
 
-    DateMap map = get(glob_ride(glob), &date[2], equal, hashKey_Int);
-    char mapExist = map;
+    int year = (int)date[2];
+
+    DateMap map = get(glob_ride(glob), &year, equal, hashKey_Int);
+    char mapExist = map != NULL;
 
     if (!mapExist) map = createDateMap(date[2]);
 
@@ -110,7 +111,7 @@ void interRide(char args[][MAX_LINE], Global glob)
     }
 
     // Criação e inserção da city
-    City city = get(glob_city(glob), args[4], equal_str, hashKey_Str);
+    /*City city = get(glob_city(glob), args[4], equal_str, hashKey_Str);
 
     if(city) updateCity(city, rideCost(ride, 0), driver);
     else
@@ -119,12 +120,12 @@ void interRide(char args[][MAX_LINE], Global glob)
         strncpy(name, args[4], MAX_STR_NAME);
 
         city = createCity(args[4], rideCost(ride, 0), driver);
-        put(glob_city(city), name, city, hashKey_Str);
-    }
+        put(glob_city(glob), name, city, hashKey_Str);
+    }*/
 
     // Atualiza user e driver
     userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
-    updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
+    //updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
 }
 
 /// @brief A função interCmd interpreta a informação relativa aos comandos acessa
@@ -151,59 +152,77 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
     sprintf(filename, "Resultados/command%d_output.txt", cmd);
     FILE * fp = fopen(filename, "w");
 
+    char ** mulRes;
+
     switch (atoi(args[0]))
     {
         case 1:
-            query1(args[1],glob);
+            //query1(args[1],glob);
             break;
 
         case 2:
-            query2(atoi(args[1]),glob);
+            mulRes = query2(atoi(args[1]),glob);
+
+            for (int i = 0; i < atoi(args[1]); i++)
+            {
+                fprintf(fp, "%s\n", mulRes[i]);
+                free(mulRes[i]);
+            }
+
+            free(mulRes);
             break;
 
         case 3:
-            query3(atoi(args[1]),glob);
+            char ** mulRes = query3(atoi(args[1]),glob);
+
+            for (int i = 0; i < atoi(args[1]); i++)
+            {
+                fprintf(fp, "%s\n", mulRes[i]);
+                free(mulRes[i]);
+            }
+
+            free(mulRes);
             break;
 
         case 4:
-            fprintf(fp, "%.3f\n", query4(args[1],glob));
+            //fprintf(fp, "%.3f\n", query4(args[1],glob));
             break;
 
         case 5:
-            stringToDate(args[1],dateA);
-            stringToDate(args[2],dateB);
+            //stringToDate(args[1],dateA);
+            //stringToDate(args[2],dateB);
 
-            fprintf(fp, "%.3f\n", query5(dateA,dateB,glob));
+            //fprintf(fp, "%.3f\n", query5(dateA,dateB,glob));
             break;
 
         case 6:
-            stringToDate(args[2],dateA);
-            stringToDate(args[3],dateB);
+            //stringToDate(args[2],dateA);
+            //stringToDate(args[3],dateB);
             
-            fprintf(fp, "%.3f\n", query6(args[1],dateA,dateB,glob));
+            //fprintf(fp, "%.3f\n", query6(args[1],dateA,dateB,glob));
             break;
 
         case 7:
-            int N = atoi(args[1]);
+            /*int N = atoi(args[1]);
 
             char ** res = query7(N,args[2],glob);
 
             for (int i = 0; i < N; i++)
             {
                 fprintf(fp,"%s\n",res[i]);
-            }
+            }*/
             
             break;
 
         case 8:
-            query8(args[1],atoi(args[2]),glob);
+            //query8(args[1],atoi(args[2]),glob);
             break;
 
         case 9:
-            stringToDate(args[1],dateA);
-            stringToDate(args[2],dateB);
+            //stringToDate(args[1],dateA);
+            //stringToDate(args[2],dateB);
 
-            query9(dateA,dateB,glob);
+            //query9(dateA,dateB,glob);
             break;
     }
 

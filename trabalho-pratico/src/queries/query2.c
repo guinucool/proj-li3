@@ -2,14 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../includes/utils.h"
+#include "../../includes/structs/date.h"
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/linkedlist.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
+#include "../../includes/queries.h"
+
+int comparaDrivers(void * elem1, void * elem2)
+{
+    return drivercmp(elem1, elem2, NULL);
+}
 
 void createDriverList(void * element, void * list)
 {
-    list = addOrdList(element, list, drivercmp);
+    if (driver_accountStatus(element)) list = addOrdList(element, list, comparaDrivers);
 }
 
 char ** query2(int N, Global glob)

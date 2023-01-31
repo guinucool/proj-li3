@@ -2,14 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../includes/utils.h"
+#include "../../includes/structs/date.h"
 #include "../../includes/structs/user.h"
 #include "../../includes/structs/linkedlist.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
+#include "../../includes/queries.h"
 
 void createUserList(void * element, void * list)
 {
-    list = addOrdList(element, list, usercmp);
+    if (user_accountStatus(element)) list = addOrdList(element, list, usercmp);
 }
 
 char ** query3(int N, Global glob)
