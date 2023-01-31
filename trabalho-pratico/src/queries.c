@@ -108,6 +108,11 @@ void dateOutput(Date date, char * dest)
     strcat(dest,year);
 }
 
+char ** output(int )
+{
+
+}
+
 void query1(char *id, Global *glob) {
     printf("QUERY one:\n");
 
@@ -534,51 +539,40 @@ char ** query9(Date dateA, Date dateB, Global glob){
     char ** resultados = malloc(sizeof(char*) * size);
 
     char * string;
-    char * id;
-    char * date;
-    char * distance;
     char * city;
-    char * tip;
 
     int strSize;
-    int distSize;
+    int distSize,dist;
     int citySize;
     int tipSize;
 
+    Date date;
 
     for (int i = 0; i < size; i++)
     {
         ride = list_element(res);
 
-        
-        idOutput(ride_id(ride),id);
-
-        dateOutput(ride_Date(ride),date);
-       
-        sprintf(distance,"%d",ride_distance(ride));
-        distSize = strlen(distance);
-
-
+        dist = ride_distance(ride);
+        distSize = intLen(dist);
         ride_city(city,ride);
         citySize = strlen(city);
-
-
-        sprintf(tip,"%.3f",ride_tip(ride));
-        tipSize = strlen(tip);
+        tipSize = intLen(ride_tip(ride))+3;
 
         strSize = 26 + distSize + citySize + tipSize;
 
         string = malloc(strSize);
 
-        strcat(string,id);
-        strcat(string,';');
-        strcat(string,date);
-        strcat(string,';');
-        strcat(string,distance);
-        strcat(string,';');
-        strcat(string,city);
-        strcat(string,';');
-        strcat(string,tip);
+        ride_date(date,ride);
+
+        sprintf(string,"%012d;%02d/%02d/%04d;%d;%s;%.3f",
+                ride_id(ride),
+                date[0],
+                date[1],
+                date[2],
+                dist,
+                city,
+                ride_tip(ride)
+                );
 
         resultados[i] = string;
 

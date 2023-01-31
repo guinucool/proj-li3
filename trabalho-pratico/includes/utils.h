@@ -17,5 +17,6 @@ int isPrime(int num);
 
 // Tratamentos
 void strtop(char * str);
+int intLen(int value);
 
 #endif

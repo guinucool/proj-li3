@@ -259,6 +259,13 @@ int ride_id(Ride ride)
     return ride->id;
 }
 
+void ride_date(Date dest, Ride ride)
+{   
+    dest[0] = ride->date[0];
+    dest[1] = ride->date[1];
+    dest[2] = ride->date[2];
+}
+
 /// @brief A função ride_driver devolve o apontador do driver de uma viagem. 
 void * ride_driver(Ride ride)
 {

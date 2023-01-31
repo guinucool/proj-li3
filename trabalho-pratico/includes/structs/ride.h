@@ -18,6 +18,7 @@ double rideCost(Ride ride, char tip);
 
 // Devoluções
 int ride_id(Ride ride);
+void ride_date(Date dest, Ride ride);
 void * ride_driver(Ride ride);
 void * ride_user(Ride ride);
 void ride_city(char * dest, Ride ride);
