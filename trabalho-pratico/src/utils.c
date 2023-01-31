@@ -167,6 +167,15 @@ void strtop(char * str)
         toupper(str[i]);
 }
 
+/// @brief A função intLen calcula o numero de digitos que um int tem.
+/**
+ * A função intLen faz divisões inteiras por 10 do int a ser processado até que este
+ * seja igual a 0, o número de divisoes realisadas é o número de digitos do int.
+ * 
+ * @param value O int a ser processado.
+ * 
+ * @return O número de dígitos do int.
+ */
 int intLen(int value)
 {
     int count;
