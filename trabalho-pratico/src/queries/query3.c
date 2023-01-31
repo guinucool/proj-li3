@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../includes/utils.h";
-#include "../../includes/structs/user.h";
-#include "../../includes/structs/linkedlist.h";
-#include "../../includes/structs/hashmap.h";
-#include "../../includes/structs/global.h";
+#include "../../includes/utils.h"
+#include "../../includes/structs/user.h"
+#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/hashmap.h"
+#include "../../includes/structs/global.h"
 
 void createUserList(void * element, void * list)
 {

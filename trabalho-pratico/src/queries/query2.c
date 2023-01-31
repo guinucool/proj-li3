@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../includes/utils.h";
-#include "../../includes/structs/driver.h";
-#include "../../includes/structs/linkedlist.h";
-#include "../../includes/structs/hashmap.h";
-#include "../../includes/structs/global.h";
+#include "../../includes/utils.h"
+#include "../../includes/structs/driver.h"
+#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/hashmap.h"
+#include "../../includes/structs/global.h"
 
 void createDriverList(void * element, void * list)
 {
