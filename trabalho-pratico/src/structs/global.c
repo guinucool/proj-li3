@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../../includes/utils.h"
+#include "../../includes/structs/date.h"
 #include "../../includes/structs/user.h"
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"

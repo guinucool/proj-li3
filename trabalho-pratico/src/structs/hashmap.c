@@ -207,7 +207,7 @@ void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
 
         for (int i = 1; hashmap->map[pos].key && hashmap->map[pos].status && i <= hashmap->size; i++)
             pos = (or + i * i) % hashmap->max;
-        
+
         if (hashmap->map[pos].key && hashmap->map[pos].status)
         {
             resizeHashmap(hashmap, hashFunc);

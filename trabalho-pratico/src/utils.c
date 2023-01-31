@@ -72,6 +72,8 @@ int hashKey_Str(void * str, int size)
         p_pow = (p_pow * p) % size;
     }
 
+    if (hash < 0) hash = -hash;
+
     // return hash < 0 ? hash * -1 : hash;
     return hash;
 }
@@ -164,7 +166,7 @@ int isPrime(int num)
 void strtop(char * str)
 {
     for (int i = 0; str[i] != '\0'; i++)
-        toupper(str[i]);
+        str[i] = toupper(str[i]);
 }
 
 /// @brief A função intLen calcula o numero de digitos que um int tem.

@@ -47,7 +47,7 @@ DateMap createDateMap(short year)
  */
 void updateDateMap(DateMap map, short day, short month, void * element)
 {
-    map->map[month-1][day-1] = addUniqueList(element, map->map[month-1][day-1]);
+    map->map[month-1][day-1] = createList(element, map->map[month-1][day-1]);
 }
 
 /// @brief A função destroyDateMap destroí um DateMap.

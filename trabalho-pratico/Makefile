@@ -1,15 +1,15 @@
 CC=gcc
 CFLAGS=-Wall -Iincludes
 
-all: directory programa-principal programa-testes
+all: directory programa-principal #programa-testes
 
 directory:
 	mkdir out
 
-programa-testes: out/test.o out/in.o out/read.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/btree.o out/city.o out/utils.o out/queries.o
-	$(CC) $(CFLAGS) $^ -o $@
+#programa-testes: out/test.o out/parser.o out/interpreter.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/datemap.o out/linkedlist.o out/city.o out/utils.o out/query2.o out/query3.o
+#	$(CC) $(CFLAGS) $^ -o $@
 
-programa-principal: out/main.o out/in.o out/read.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/btree.o out/city.o out/utils.o out/queries.o
+programa-principal: out/main.o out/utils.o out/date.o out/linkedlist.o out/user.o out/driver.o out/ride.o out/hashmap.o out/datemap.o out/city.o out/global.o out/query2.o out/query3.o out/parser.o out/interpreter.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 out/test.o: src/test.c
@@ -18,16 +18,16 @@ out/test.o: src/test.c
 out/main.o: src/main.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-out/in.o: src/io/in.c
+out/parser.o: src/io/parser.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-out/read.o: src/io/read.c
+out/interpreter.o: src/io/interpreter.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-out/queries.o: src/queries.c
+out/query2.o: src/queries/query2.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-out/btree.o: src/structs/btree.c
+out/query3.o: src/queries/query3.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 out/city.o: src/structs/city.c
@@ -51,13 +51,20 @@ out/ride.o: src/structs/ride.c
 out/user.o: src/structs/user.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
+out/linkedlist.o: src/structs/linkedlist.c
+	$(CC) $(CFLAGS) -c $^ -o $@
+
+out/datemap.o: src/structs/datemap.c
+	$(CC) $(CFLAGS) -c $^ -o $@
+
 out/utils.o: src/utils.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 clean: files dirs
 
 files:
-	rm programa-testes programa-principal out/*
+	rm programa-principal out/*
+	#programa-testes
 
 dirs:
 	rmdir out
