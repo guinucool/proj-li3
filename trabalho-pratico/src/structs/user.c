@@ -183,8 +183,9 @@ User parseUser(char data[7][200])
 /// @brief A função usercmp compara dois users.
 /**
  * A função usercmp compara dois users usando as propriedades
- * da distância total percorrida, da data da ultima viagem em
- * caso de empate, e do username em caso de outro empate.
+ * da distância total percorrida, do score de cada user,
+ * da data da ultima viagem em caso de empate,
+ * e do username em caso de outro empate.
  * 
  * Objetiva a ordenar os users por ordem decrescente, exceto
  * na propriedade de username, onde é usada a ordem crescente.
@@ -200,6 +201,9 @@ int usercmp(User user1, User user2)
 
     if (user1->distance > user2->distance) res = 1;
     if (user1->distance < user2->distance) res = -1;
+
+    if (res == 0 && (double)user1->score/user1->rides > (double)user2->score/user2->rides) res = 1;
+    if (res == 0 && (double)user1->score/user1->rides < (double)user2->score/user2->rides) res = -1;
     
     if (res == 0) res = datecmp(user1->last_ride, user2->last_ride);
 
