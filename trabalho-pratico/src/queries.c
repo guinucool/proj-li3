@@ -510,7 +510,7 @@ char ** query9(Date dateA, Date dateB, Global glob){
     int strSize;
     int distSize,dist;
     int citySize;
-    int tipSize;
+    int tipSize,tip;
 
     Date date;
 
@@ -520,9 +520,12 @@ char ** query9(Date dateA, Date dateB, Global glob){
 
         dist = ride_distance(ride);
         distSize = intLen(dist);
+
         ride_city(city,ride);
         citySize = strlen(city);
-        tipSize = intLen(ride_tip(ride))+3;
+        
+        tip = ride_tip(ride);
+        tipSize = intLen(tip)+3;
 
         strSize = 26 + distSize + citySize + tipSize;
 
@@ -537,7 +540,7 @@ char ** query9(Date dateA, Date dateB, Global glob){
                 date[2],
                 dist,
                 city,
-                ride_tip(ride)
+                tip
                 );
 
         resultados[i] = string;
