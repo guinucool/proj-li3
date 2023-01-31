@@ -198,23 +198,43 @@ int ridecmp(Ride ride1, Ride ride2)
     return res;
 }
 
+/// @brief A função ridecmp2 compara duas Rides.
+/**
+ * A função ridecmp2 compara duas Rides, devolvendo
+ * a conclusão a que chegar.
+ * 
+ * Esta, porém, segue prioridades diferentes comparada
+ * à anterior.
+ * 
+ * Primeiro irá considerar a distância percorrida de
+ * cada viagem.
+ * 
+ * Em segundo comparará as datas de ambas as viagens.
+ * 
+ * Por último, se ambos os anteriores não chegarem
+ * a nenhum conclusão, usará o id de viagem.
+ * 
+ * @param ride1 A viagem 1.
+ * @param ride2 A viagem 2.
+ * 
+ * @return A conclusão a que chegou.
+ */
 int ridecmp2(Ride ride1, Ride ride2)
 {
     int res = 0;
 
     if(ride1->distance > ride2->distance) res = 1;
     if(ride1->distance < ride2->distance) res = -1;
-    else
+
+    if(res == 0) res = datecmp(ride1->date,ride2->date);
+    
+    if (res == 0)
     {
-        int cmp = datecmp(ride1->date,ride2->date);
-        if(cmp == 1) return 1;
-        else if(cmp == -1) return 0;
-        else
-        {
-            return ride1->id > ride2->id;
-        }
+        if (ride1->id < ride2->id) res = -1;
+        else res = 1;
     }
 
+    return res;
 }
 
 /// @brief A função rideCost calcula o custo de uma Ride.
