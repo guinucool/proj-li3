@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "../../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/driver.h"
 
@@ -228,9 +229,7 @@ Driver parseDriver(char tokens[9][200])
 
 	// Parse CAR_CLASS
 	// Converte o token para maiusculas.
-	for(int i = 0; tokens[4][i]; i++) {
-		tokens[4][i] = toupper(tokens[4][i]);
-	}
+	strtop(tokens[4]);
 
 	// Verificar se o token existe no array car_class_str (onde estao todos os car classe possiveis).
 	car_class = -1;
@@ -248,9 +247,7 @@ Driver parseDriver(char tokens[9][200])
 
 	// Parse ACCOUNT_STATUS
 	// Converte para maiusculas o token.
-	for(int i = 0; tokens[8][i]; i++) {
-		tokens[8][i] = toupper(tokens[8][i]);
-	}
+	strtop(tokens[8]);
 
 	// Veririca se o estado em token é valido (isto e se existe no array account_status_str).
 	account_status = -1;

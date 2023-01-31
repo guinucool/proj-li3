@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "../../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/user.h"
 

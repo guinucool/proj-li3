@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../../includes/utils.h"
 #include "../../includes/structs/hashmap.h"
 
 /// \struct Estrutura que define uma node do hashmap.
@@ -177,8 +178,6 @@ void debugPrintHashmap(Hashmap hashmap, void (*keyPrinter)(void*), void (*elemPr
     }
     printf("}\n");
 }
-
-
 
 /// @brief A função put insere um elemento no hashmap.
 /**

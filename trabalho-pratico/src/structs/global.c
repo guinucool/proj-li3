@@ -6,6 +6,7 @@
 #include "../../includes/structs/ride.h"
 #include "../../includes/structs/city.h"
 #include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/datemap.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
 
@@ -46,6 +47,12 @@ Global createGlobal()
     return(glob);
 }
 
+/// @brief A função destroyMap combina a função de destruir DateMaps com a função de destruir Rides. 
+void destroyMap(void * map)
+{
+    destroyDateMap(map, destroyRide);
+}
+
 /// @brief A função destroyGlobal destroí uma variável do tipo global.
 /**
  * A função destroyGlobal destroí uma variável do tipo global e a suas propriedades,
@@ -59,7 +66,7 @@ void destroyGlobal(Global glob)
     {
         destroyHashmap(glob->users, destroyUser);
         destroyHashmap(glob->drivers, destroyDriver);
-        destroyHashmap(glob->rides, destroyRide);
+        destroyHashmap(glob->rides, destroyMap);
         destroyHashmap(glob->cities, destroyCity);
 
         destroyList(glob->userList, null);
