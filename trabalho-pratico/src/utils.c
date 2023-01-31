@@ -166,3 +166,14 @@ void strtop(char * str)
     for (int i = 0; str[i] != '\0'; i++)
         toupper(str[i]);
 }
+
+int intLen(int value)
+{
+    int count;
+    while(value != 0)
+    {
+        value /= 10;
+        count++;
+    }
+    return count;
+}

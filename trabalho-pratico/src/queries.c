@@ -78,35 +78,6 @@ void linkedListRes(void * ride,LinkedList res)
     res = addOrdList(ride,res,ridecmp2);
 }
 
-void idOutput(int id, char * dest)
-{   
-    int size, i;
-    char * idAux;
-    sprintf(idAux,"%d",id);
-    size = strlen(idAux);
-    for (i = 0; i < 12-size; i++)
-    {
-        dest[i] = '0';
-    }
-    for (i; i < 12; i++)
-    {
-        dest[i] = idAux[i-12+size];
-    }
-}
-
-void dateOutput(Date date, char * dest)
-{
-    char *day,*month,*year;
-    sprintf(day,"%d",date[0]);
-    sprintf(month,"%d",date[1]);
-    sprintf(year,"%d",date[2]);
-
-    strcat(dest,day);
-    strcat(dest,"/");
-    strcat(dest,month);
-    strcat(dest,"/");
-    strcat(dest,year);
-}
 
 void query1(char *id, Global *glob) {
     printf("QUERY one:\n");
@@ -534,51 +505,43 @@ char ** query9(Date dateA, Date dateB, Global glob){
     char ** resultados = malloc(sizeof(char*) * size);
 
     char * string;
-    char * id;
-    char * date;
-    char * distance;
     char * city;
-    char * tip;
 
     int strSize;
-    int distSize;
+    int distSize,dist;
     int citySize;
-    int tipSize;
+    int tipSize,tip;
 
+    Date date;
 
     for (int i = 0; i < size; i++)
     {
         ride = list_element(res);
 
-        
-        idOutput(ride_id(ride),id);
-
-        dateOutput(ride_Date(ride),date);
-       
-        sprintf(distance,"%d",ride_distance(ride));
-        distSize = strlen(distance);
-
+        dist = ride_distance(ride);
+        distSize = intLen(dist);
 
         ride_city(city,ride);
         citySize = strlen(city);
-
-
-        sprintf(tip,"%.3f",ride_tip(ride));
-        tipSize = strlen(tip);
+        
+        tip = ride_tip(ride);
+        tipSize = intLen(tip)+3;
 
         strSize = 26 + distSize + citySize + tipSize;
 
         string = malloc(strSize);
 
-        strcat(string,id);
-        strcat(string,';');
-        strcat(string,date);
-        strcat(string,';');
-        strcat(string,distance);
-        strcat(string,';');
-        strcat(string,city);
-        strcat(string,';');
-        strcat(string,tip);
+        ride_date(date,ride);
+
+        sprintf(string,"%012d;%02d/%02d/%04d;%d;%s;%.3f",
+                ride_id(ride),
+                date[0],
+                date[1],
+                date[2],
+                dist,
+                city,
+                tip
+                );
 
         resultados[i] = string;
 
