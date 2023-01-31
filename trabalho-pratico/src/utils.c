@@ -154,6 +154,11 @@ int isPrime(int num)
     return res;
 }
 
+int charIsPosInt(char caracter)
+{
+    return caracter > 48 && caracter <= 57;
+}
+
 /// @brief A função strtop transforma uma string em letras maiscúlas.
 /**
  * A função strtop converte todos caracteres de uma string
