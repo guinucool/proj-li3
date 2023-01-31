@@ -1,102 +1,36 @@
-#include <string.h>
+#include <ctype.h>
 #include <math.h>
+#include <string.h>
 #include "../includes/utils.h"
 
 /// @brief A função equal compara duas chaves de tipo Int.
 /** 
- *  A função equal compara duas chaves de tipo Int, igualando-as.
+ * A função equal compara duas chaves de tipo Int, retornando
+ * 1 caso sejam igual ou 0 caso sejam diferentes.
  * 
- * @param key1 Chave nº 1.
- * @param key2 chave nº 2.
+ * @param key1 A chave 1.
+ * @param key2 A chave 2.
  * 
- * @return Retorna o resultado da comparação das duas chaves.
+ * @return O resultado da comparação das duas chaves.
  */ 
 int equal(void* key1, void* key2)
 {
     return *((int*) key1) == *((int*) key2);
 }
 
-/// @brief A função equal_date é a negação da função datecmp.
-int equal_date(void* key1, void* key2)
-{
-    return !datecmp((short*) key1, (short*) key2);
-}
-
-/// @brief A função equal_date é a negação da função strcmp.
+/// @brief A função equal_str compara duas chaves de tipo String.
+/** 
+ * A função equal compara duas chaves de tipo String, retornando
+ * 1 caso sejam igual ou 0 caso sejam diferentes.
+ * 
+ * @param s1 A chave 1.
+ * @param s2 A chave 2.
+ * 
+ * @return O resultado da comparação das duas chaves.
+ */
 int equal_str(void* s1,void* s2)
 {
     return !(strcmp(s1,s2));
-}
-
-/// @brief A função verifica se a string contem apenas um número, ou seja, que representa um Id.
-/// @param s String pode ou não representar um Id.
-/// @return A função retorna 1 caso a String represente um Id ou 0 caso contrário.
-int isId(char s[200]){
-    int res = 1;
-    for (int i = 0; s[i] != '\0'; i++)
-    {
-        if(s[i]<48 || s[i]>57){
-            res = 0;
-        }
-    }
-    return res;
-}
-
-void double_to_string(double num, char* str, int precision)
-{
-    int whole = (int)num;
-    double decimal = num - whole;
-    int i = 0;
-    int j = 0;
-    char temp[50];
-
-    // convert whole part to string
-    while (whole != 0) {
-        int lastDigit = whole % 10;
-        temp[i++] = lastDigit + '0';
-        whole /= 10;
-    }
-
-    // reverse the whole part
-    while (i > 0)
-        str[j++] = temp[--i];
-
-    // add decimal point
-    str[j++] = '.';
-
-    // convert decimal part to string
-    while (precision-- > 0) {
-        decimal *= 10;
-        int lastDigit = (int)decimal;
-        str[j++] = lastDigit + '0';
-        decimal -= lastDigit;
-    }
-
-    // add null character
-    str[j] = '\0';
-}
-
-void null(void * element)
-{
-    return;
-}
-
-void nullMap(void * element, void (*function)(void*,void*), void * second)
-{
-    function(element, second);
-}
-
-int isPrime(int num)
-{
-    int res = 1;
-
-    if (num <= 1) res = 0;
-
-    if (num % 2 == 0 && num > 2) res = 0;
-
-    for(int i = 3; i < num / 2 && res; i+= 2) if (num % i == 0) res = 0;
-
-    return res;
 }
 
 /// @brief A função hashKey_Int cria uma hash de procura, cuja chave é um Int.
@@ -142,6 +76,88 @@ int hashKey_Str(void * str, int size)
     return hash;
 }
 
+/// @brief A função null funciona como um NULL para funções.
+/**
+ * A função null será usada como um NULL para
+ * parâmetros em que é necessário fornecer uma
+ * função, porém não sendo pretendido que essa
+ * função faça alterações.
+ * 
+ * @param element O suposto elemento que iria ser alterado.
+ */
+void null(void * element)
+{
+    return;
+}
+
+/// @brief A função nullMap funciona como um NULL para funções de map.
+/**
+ * A função nullMap será usada como um NULL para
+ * parâmetros em que é necessário fornecer uma
+ * função map, porém o elemento que deveria ser
+ * mapeado não é mapeável.
+ * 
+ * @param element O suposto elemento que iria ser mapeado.
+ * @param function A função que ia ser usada no mapeamento.
+ * @param second O segundo argumento da função que ia ser usada.
+ */ 
+void nullMap(void * element, void (*function)(void*,void*), void * second)
+{
+    function(element, second);
+}
+
+/// @brief A função isId verifica se uma string contém apenas números.
+/**
+ * A função isId verifica se uma string contém apenas números, sendo
+ * assim possível assumir que esta se trata de um Id de Driver.
+ * 
+ * Retornará, então, 1 ou 0 dependo da conclusão a que chegar.
+ * 
+ * @param s A string a ser verificada.
+ * 
+ * @return A conclusão a que chegou.
+ */
+int isId(char s[200]){
+    int res = 1;
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        if(s[i]<48 || s[i]>57){
+            res = 0;
+        }
+    }
+    return res;
+}
+
+/// @brief A função isPrime verifica se um número é um primo.
+/**
+ * A função isPrime verifica se um número é um primo,
+ * retornando 1 ou 0 dependendo da conclusão
+ * a que chegou.
+ * 
+ * @param num O número a ser verificado.
+ * 
+ * @return A conclusão a que chegou.
+ */
+int isPrime(int num)
+{
+    int res = 1;
+
+    if (num <= 1) res = 0;
+
+    if (num % 2 == 0 && num > 2) res = 0;
+
+    for(int i = 3; i < num / 2 && res; i+= 2) if (num % i == 0) res = 0;
+
+    return res;
+}
+
+/// @brief A função strtop transforma uma string em letras maiscúlas.
+/**
+ * A função strtop converte todos caracteres de uma string
+ * em maiscúlos.
+ * 
+ * @param str A string a ser transformada.
+ */
 void strtop(char * str)
 {
     for (int i = 0; str[i] != '\0'; i++)

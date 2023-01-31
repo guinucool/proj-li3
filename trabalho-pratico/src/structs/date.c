@@ -94,12 +94,17 @@ void parseDate(char * str, Date date)
 /// @brief A função datecmp compara duas datas.
 /** 
  * A função datecmp compara duas datas, comparando cada elemento da primeira data  
- * ao respetivo elemento da segunda data pela ordem ano->mês->dia, verificando qual é maior.
+ * ao respetivo elemento da segunda data pela ordem ano->mês->dia, verificando qual é mais
+ * recente.
  * 
- * @param dateA Data nº 1.
- * @param dateB Data nº 2.
+ * Retorna -1 caso a dateA seja mais antiga que a dateB,
+ * retorna 1 caso a dateA seja mais recente que a dateB
+ * e retorna 0 caso as datas sejam iguais.
  * 
- * @return Retorna -1 caso a dateA seja menor que a dateB, retorna 1 caso a dateA seja maior que a dateB e retorna 0 caso as datas sejam iguais.
+ * @param dateA A data 1.
+ * @param dateB A data 2.
+ * 
+ * @return O resultado da comparação das datas.
  */ 
 int datecmp(Date dateA, Date dateB)
 {
