@@ -78,40 +78,6 @@ void linkedListRes(void * ride,LinkedList res)
     res = addOrdList(ride,res,ridecmp2);
 }
 
-void idOutput(int id, char * dest)
-{   
-    int size, i;
-    char * idAux;
-    sprintf(idAux,"%d",id);
-    size = strlen(idAux);
-    for (i = 0; i < 12-size; i++)
-    {
-        dest[i] = '0';
-    }
-    for (i; i < 12; i++)
-    {
-        dest[i] = idAux[i-12+size];
-    }
-}
-
-void dateOutput(Date date, char * dest)
-{
-    char *day,*month,*year;
-    sprintf(day,"%d",date[0]);
-    sprintf(month,"%d",date[1]);
-    sprintf(year,"%d",date[2]);
-
-    strcat(dest,day);
-    strcat(dest,"/");
-    strcat(dest,month);
-    strcat(dest,"/");
-    strcat(dest,year);
-}
-
-char ** output(int )
-{
-
-}
 
 void query1(char *id, Global *glob) {
     printf("QUERY one:\n");
