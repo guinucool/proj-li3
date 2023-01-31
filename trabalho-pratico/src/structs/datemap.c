@@ -135,20 +135,37 @@ void dateMap(DateMap map, void (*function)(void*))
  * @param down O limite inferior.
  * @param function A função a ser aplicada.
  */
-void dateFilter(DateMap map, Date up, Date down, void (*function)(void*))
-{
-    Date pos;
+void dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*))
+{   
+    void * ride;
+    double sum = 0;
+    int count = 0;
+    //Date pos;
 
-    for (int i = 0; i < MONTHS; i++)
-    {
-        for (int j = 0; j < DAYS; j++)
+        while(dateA[2] != map->year+1)
         {
-            createDate(j+1, i+1, map->year, pos);
 
-            if (datecmp(up, pos) >= 0 && datecmp(down, pos) <= 0)
-                listMap(map->map[i][j], function);
+            LinkedList lista_rides = dateMapGet(map,dateA[0],dateA[1]); 
+
+            while(lista_rides != NULL)
+            {
+                listMap(lista_rides,function);
+
+                lista_rides = list_next(lista_rides);
+            }
+
+            nextDay(dateA);
         }
-    }
+    // for (int i = 0; i < MONTHS; i++)
+    // {
+    //     for (int j = 0; j < DAYS; j++)
+    //     {
+    //         createDate(j+1, i+1, map->year, pos);
+
+    //         if (datecmp(up, pos) >= 0 && datecmp(down, pos) <= 0)
+    //             listMap(map->map[i][j], function);
+    //     }
+    // }
 }
 
 short datemap_year(DateMap map)
