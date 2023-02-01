@@ -18,6 +18,5 @@ char ** listOut(List list, char* (*)(void*), int N);
 
 // Verificações
 int listEmpty(List list);
-int listOrd(List list);
 
 #endif

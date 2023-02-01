@@ -119,8 +119,11 @@ void quickSort(void ** array, int bottom, int top, int (*compare)(void*,void*))
  */
 void sortList(List list, int (*compare)(void*,void*))
 {
-    quickSort(list->list, 0, (list->size - 1), compare);
-    list->ord = ORDERED;
+    if (list->ord == UNORDERED)
+    {
+        quickSort(list->list, 0, (list->size - 1), compare);
+        list->ord = ORDERED;
+    }
 }
 
 /// @brief A função destroyList destroí a lista.
@@ -214,10 +217,4 @@ char ** listOut(List list, char* (*printer)(void*), int N)
 int listEmpty(List list)
 {
     return list->size == 0;
-}
-
-/// @brief A função listEmpty verifica se uma lista é ordernada. 
-int listOrd(List list)
-{
-    return list->ord == ORDERED;
 }

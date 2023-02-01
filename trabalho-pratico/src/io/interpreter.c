@@ -40,7 +40,7 @@ void interUser(char args[][MAX_LINE], Global glob)
         user_username(key, user);
 
         put(glob_user(glob), key, user, hashKey_Str);
-        addList(user, glob_userList(glob));
+        if (user_accountStatus(user)) addList(user, glob_userList(glob));
     }
 }
 
@@ -66,7 +66,7 @@ void interDriver(char args[][MAX_LINE], Global glob)
         *key = driver_id(driver);
         
         put(glob_driver(glob), key, driver, hashKey_Int);
-        addList(driver, glob_driverList(glob));
+        if (driver_accountStatus(driver)) addList(driver, glob_driverList(glob));
     }
 }
 
@@ -137,7 +137,7 @@ void interRide(char args[][MAX_LINE], Global glob)
         // Atualiza user e driver
         userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
         updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
-        addList(ride, glob_rideList(glob));
+        if (user_accountStatus(user) && driver_accountStatus(driver)) addList(ride, glob_rideList(glob));
     }
 }
 
