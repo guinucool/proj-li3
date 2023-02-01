@@ -14,7 +14,7 @@ void sortList(List list, int (*)(void*, void*));
 void destroyList(List list, void (*)(void*), char mode);
 void debugPrintList(List list, void (*)(void*));
 int listMap(List list, void(*)(void*,void*), void * second);
-char ** listOut(List list, char* (*)(void*), int N);
+char ** listOut(List list, char* (*)(void*,void*), int N, void * second);
 
 // Verificações
 int listEmpty(List list);
