@@ -86,7 +86,13 @@ void parseDate(char * str, Date date)
 {
     short day, month, year;
 
-    if(str[2] == '/' && 
+    day = (short)(10*(str[0]-48)+(str[1]-48));
+    month = (short)(10*(str[3]-48)+(str[4]-48));
+    year = (short)(1000*(str[6]-48)+100*(str[7]-48)+10*(str[8]-48)+(str[9]-48));
+
+    createDate(day,month,year,date);
+
+    /*if(str[2] == '/' && 
        str[5] == '/' &&
        strlen(str) == 10 &&
        charIsPosInt(str[0]) &&
@@ -105,7 +111,7 @@ void parseDate(char * str, Date date)
             createDate(day,month,year,date);
         }
             
-    }
+    }*/
 }
 
 /// @brief A função datecmp compara duas datas.

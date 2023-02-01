@@ -78,21 +78,23 @@ void addOrdList(void * element, LinkedList list, int (*compare)(void*,void*))
         return;
     }
 
+    LinkedNode previous = list->head;
     LinkedNode holder = list->head;
     int first = 1;
 
     while (compare(element, holder->element) < 0 && holder->next)
-    {    
+    {
+        previous = holder;    
         holder = holder->next;
         first = 0;
     }
 
-    if (compare(element, holder->element) > 0)
-        holder = createListNode(element, holder);
-    else if(compare(element, holder->element) < 0)
+    if (!first && compare(element, holder->element) > 0)
+        previous->next = createListNode(element, holder);
+    else if(!first && compare(element, holder->element) < 0)
         holder->next = createListNode(element, NULL);
 
-    if (first) list->head = holder;
+    if (first) list->head = createListNode(element, list->head);
 }
 
 /// @brief A função addList adiciona um elemento a uma lista.
