@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "../../includes/utils.h"
 #include "../../includes/structs/global.h"
 #include "../../includes/structs/hashmap.h"
