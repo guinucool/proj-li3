@@ -135,7 +135,7 @@ Ride parseRide(char tokens[10][200], Driver driver, User user)
 
     // Parse Score_user
     short score_user;
-    if(isIntorFloat(tokens[6]))
+    if(isDigit(tokens[6],'d'))
     {
     score_user = (short)atof(tokens[6]);
     if(score_user < 0) return NULL;
@@ -144,7 +144,7 @@ Ride parseRide(char tokens[10][200], Driver driver, User user)
 
     // Parse Score_driver
     short score_driver;
-    if(isIntorFloat(tokens[7]))
+    if(isDigit(tokens[7],'d'))
     {
     score_driver = (short)atof(tokens[7]);
     if(score_driver < 0) return NULL;
