@@ -7,8 +7,8 @@
 typedef struct _CITY_ *City;
 
 // Tratamentos
-City createCity(char * name, double money_spent, void * driver);
-void updateCity(City city, double money_spent, void * driver);
+City createCity(char * name, double money_spent);
+void updateCity(City city, double money_spent);
 void destroyCity(City city);
 void debugPrintCity(City city, void (*elemPrinter)(void*));
 

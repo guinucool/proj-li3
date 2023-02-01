@@ -9,32 +9,30 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
+char * printerUsers(void * user)
+{
+    char username[MAX_USER_STR];
+    user_username(username, user);
+
+    char name[MAX_USER_STR];
+    user_name(name, user);
+
+    char * res = malloc(sizeof(char) * (2 + strlen(username) + strlen(name) + intLen(user_distance(user))));
+    sprintf(res,"%s;%s;%d", username, name, user_distance(user));
+
+    return res;
+}
+
 void createUserList(void * element, void * list)
 {
-    if (user_accountStatus(element)) list = addOrdList(element, list, usercmp);
+    if (user_accountStatus(element)) addOrdList(element, list, usercmp);
 }
 
 char ** query3(int N, Global glob)
 {
     LinkedList ordUser = glob_userList(glob);
 
-    if (!ordUser) map(glob_user(glob), nullMap, createUserList, ordUser);
-
-    char ** res = malloc(sizeof(char*) * N);
-
-    for (int i = 0; i < N && ordUser; i++)
-    {
-        User user = list_element(ordUser);
-
-        char username[MAX_USER_STR];
-        user_username(username, user);
-
-        char name[MAX_USER_STR];
-        user_name(name, user);
-
-        res[i] = malloc(sizeof(char) * (2 + strlen(username) + strlen(name) + intLen(user_distance(user))));
-        sprintf(res[i],"%s;%s;%d", username, name, user_distance(user));
-    }
+    if (listEmpty(ordUser)) map(glob_user(glob), nullMap, createUserList, ordUser);
     
-    return res;
+    return listOut(ordUser, printerUsers, N);
 }

@@ -41,9 +41,9 @@ Global createGlobal()
     glob->rides = createHashmap();
     glob->cities = createHashmap();
 
-    glob->userList = NULL;
-    glob->driverList = NULL;
-    glob->rideList = NULL;
+    glob->userList = createList();
+    glob->driverList = createList();
+    glob->rideList = createList();
 
     return(glob);
 }

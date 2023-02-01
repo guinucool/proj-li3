@@ -2,33 +2,57 @@
 #include <stdlib.h>
 #include "../../includes/structs/linkedlist.h"
 
-/// \struct Estrutura que define as listas de ligadas
+/// \struct Estrutura que define as nodes das listas de ligadas
 typedef struct _LINKED_NODE_ {
     void * element;                 //!< Elemento de uma posição da lista
     struct _LINKED_NODE_ * next;    //!< Apontador para a próxima posição da lista
+}*LinkedNode, NPLinkedNode;
+
+/// \struct Estrutura que define as listas ligadas
+typedef struct _LINKED_LIST_ {
+    LinkedNode head;                //!< Apontador para a cabeça da lista
 }*LinkedList, NPLinkedList;
 
-/// @brief A função createList cria uma lista ligada.
+/// @brief A função createNode cria uma node de lista ligada.
 /** 
- * A função createList cria uma lista ligada alocando uma posição
- * da mesma.
+ * A função createList cria uma node de lista ligada
+ * alocando o espaço necessário para mesma.
  * 
- * Dentro desta posição aloca insere um elemento, e anexa (ou não)
+ * Dentro desta posição alocada insere um elemento, e anexa (ou não)
  * a continuação/o final(NULL) da lista.
  * 
  * @param element Elemento a ser guardado nesta posição da lista.
  * @param next Lista a qual esta se liga.
  * 
- * @return A nova lista criada.
+ * @return A nova node criada.
  */
-LinkedList createList(void * element, LinkedList next)
+LinkedNode createListNode(void * element, LinkedNode next) 
 {
-    LinkedList node = (LinkedList) malloc(sizeof(NPLinkedList));
+    LinkedNode node = (LinkedNode) malloc(sizeof(NPLinkedNode));
 
     node->element = element;
     node->next = next;
 
     return node;
+}
+
+/// @brief A função createList cria uma lista ligada.
+/** 
+ * A função createList cria uma lista ligada
+ * alocando o espaço necessário para mesma.
+ * 
+ * Dentro desta posição alocada irá guardar a cabeça da
+ * lista.
+ * 
+ * @return A nova lista criada.
+ */
+LinkedList createList()
+{
+    LinkedList list = (LinkedList) malloc(sizeof(NPLinkedList));
+
+    list->head = NULL;
+
+    return list;
 }
 
 /// @brief A função addOrdList adiciona um elemento a uma lista ligada ordenada.
@@ -45,51 +69,43 @@ LinkedList createList(void * element, LinkedList next)
  * @param element O elemento a ser adicionado.
  * @param list A lista à qual vai ser adicionado o elemento.
  * @param compare A função compare adequada ao processo.
- * 
- * @return A lista com o novo elemento.
  */
-LinkedList addOrdList(void * element, LinkedList list, int (*compare)(void*,void*))
+void addOrdList(void * element, LinkedList list, int (*compare)(void*,void*))
 {
-    LinkedList holder = list;
+    if (!list->head)
+    {
+        list->head = createListNode(element, NULL);
+        return;
+    }
+
+    LinkedNode holder = list->head;
     int first = 1;
 
-    while (compare(element, list->element) < 0 && list->next)
+    while (compare(element, holder->element) < 0 && holder->next)
     {    
-        list = list->next;
+        holder = holder->next;
         first = 0;
     }
 
-    if (compare(element, list->element) > 0)
-        list = createList(element, list);
-    else if(compare(element, list->element) < 0)
-        list->next = createList(element, NULL);
+    if (compare(element, holder->element) > 0)
+        holder = createListNode(element, holder);
+    else if(compare(element, holder->element) < 0)
+        holder->next = createListNode(element, NULL);
 
-    if (first) holder = list;
-
-    return holder;
+    if (first) list->head = holder;
 }
 
-/// @brief A função addUniqueList adiciona um elemento a uma lista sem repetições.
+/// @brief A função addList adiciona um elemento a uma lista.
 /**
- * A função addUniqueList adiciona um elemento a uma lista
- * averiguando que na mesma não existe já o elemento
- * que se quer adicionar.
+ * A função addList adiciona um elemento a uma lista
+ * ligada.
  * 
  * @param element O elemento a ser adicionado.
  * @param list A lista à qual vai ser adicionado o elemento.
- * 
- * @return A lista com a adição caso tenha sido autorizada.
  */   
-LinkedList addUniqueList(void * element, LinkedList list)
+void addList(void * element, LinkedList list)
 {
-    int res = 0;
-
-    for(LinkedList holder = list; holder; holder = holder->next)
-        if(holder->element == element) res = 1;
-
-    if (!res) list = createList(element, list);
-
-    return list;
+    list->head = createListNode(element, list->head);
 }
 
 /// @brief A função destroyList destroí a lista.
@@ -102,18 +118,42 @@ LinkedList addUniqueList(void * element, LinkedList list)
  */
 void destroyList(LinkedList list, void (*destroy)(void*))
 {
-    while (list)
+    while (list->head)
     {
-        LinkedList holder = list;
-        list = list->next;
+        LinkedNode holder = list->head;
+        list->head = holder->next;
         destroy(holder->element);
         free(holder);
     }
+
+    free(list);
 }
 
-/// @brief A função debugPrintList imprime a lista e os seus elementos.
+/// @brief A função debugPrintListNode imprime uma node.
 /**
- * A função debugPrintList imprime a lista e os seus elementos
+ * A função debugPrintListNode imprime uma node e os seus elementos
+ * para propósitos de debugging.
+ * 
+ * @param node A node a ser impresa.
+ * @param elemPrinter A impresora do tipo de elementos da lista.
+ */
+void debugPrintListNode(LinkedNode node, void (*elemPrinter)(void*))
+{
+    if (node)
+    {
+        printf("[%p](LinkedNode) {\n    (element) - ", node);
+        elemPrinter(node->element);
+        printf("\n    (next) - ");
+        debugPrintList(node->next, elemPrinter);
+        printf("}\n");
+    }
+    else
+        printf("NULL\n");
+}
+
+/// @brief A função debugPrintList imprime uma lista.
+/**
+ * A função debugPrintList imprime uma lista ligada
  * para propósitos de debugging.
  * 
  * @param list A lista a ser impresa.
@@ -123,14 +163,10 @@ void debugPrintList(LinkedList list, void (*elemPrinter)(void*))
 {
     if (list)
     {
-        printf("[%p](LinkedList) {\n    (element) - ", list);
-        elemPrinter(list->element);
-        printf("\n    (next) - ");
-        debugPrintList(list->next, elemPrinter);
+        printf("[%p](LinkedList) {\n    (head) - ", list);
+        debugPrintListNode(list->head, elemPrinter);
         printf("}\n");
     }
-    else
-        printf("NULL\n");
 }
 
 /// @brief A função listMap faz uma mudança em todos os elementos de uma Lista.
@@ -149,7 +185,7 @@ int listMap(LinkedList list, void (*function)(void*, void*), void * second)
 {
     int count = 0;
 
-    for (LinkedList holder = list; holder; holder = holder->next)
+    for (LinkedNode holder = list->head; holder; holder = holder->next)
     {
         function(holder->element, second);
         count++;
@@ -158,30 +194,35 @@ int listMap(LinkedList list, void (*function)(void*, void*), void * second)
     return count;
 }
 
-/// @brief A função list_element devolve um elemento da lista.
+/// @brief A função listOut cria um output de N elementos de uma lista.
 /**
- * A função list_element devolve o apontador
- * do elemento da posição atual da lista.
+ * A função listOut cria um output de N elementos de uma lista,
+ * colocando-o numa array de strings que serão criadas
+ * de acordo com uma função fornecida como argumento.
  * 
- * @param list A lista na posição onde é pretendida a devolução.
+ * @param list A lista a ser exportada.
+ * @param function A função de conversão para string.
+ * @param N O número de elementos a serem exportados.
  * 
- * @return O apontador do elemento.
+ * @return O apontador do array de strings criado.
  */
-void * list_element(LinkedList list)
+char ** listOut(LinkedList list, char* (*printer)(void*), int N)
 {
-    return list->element;
+    char ** res = malloc(sizeof(char*) * N);
+
+    LinkedNode holder = list->head;
+
+    for (int i = 0; i < N && holder; i++)
+    {
+        res[i] = printer(holder->element);
+        holder = holder->next;
+    }
+
+    return res;
 }
 
-/// @brief A função list_next devolve uma posição da lista.
-/**
- * A função list_next devolve o apontador da próxima
- * posição da lista, relativamente à atual.
- * 
- * @param list A lista na posição onde é pretendida a devolução.
- * 
- * @return O apontador do próximo elemento.
- */
-LinkedList list_next(LinkedList list)
+/// @brief A função listEmpty verifica se uma lista é vazia. 
+int listEmpty(LinkedList list)
 {
-    return list->next;
+    return list->head == NULL;
 }

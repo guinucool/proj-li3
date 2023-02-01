@@ -102,7 +102,7 @@ void updateDriver(Driver driver, int score, double money_received, char * city, 
 		target = driver->counter;
 		driver->counter++;
 
-		if (driver->counter == 0) driver->cities = malloc(sizeof(char*));
+		if (driver->counter == 1) driver->cities = malloc(sizeof(char*));
 		else driver->cities = realloc(driver->cities, sizeof(char*) * driver->counter);
 
 		driver->cities[target] = malloc(sizeof(char) * strlen(city));

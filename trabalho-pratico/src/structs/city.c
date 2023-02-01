@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../includes/utils.h"
+#include "../../includes/structs/date.h"
+#include "../../includes/structs/driver.h"
 #include "../../includes/structs/linkedlist.h"
 #include "../../includes/structs/city.h"
 
@@ -23,11 +25,10 @@ typedef struct _CITY_ {
  * 
  * @param name O nome da cidade.
  * @param money_spent O dinheiro gasto na viagem que originou esta City.
- * @param driver O driver da viagme que originou esta City.
  * 
  * @return A variável do tipo City criada e alocada.
  */ 
-City createCity(char * name, double money_spent, void * driver)
+City createCity(char * name, double money_spent)
 {
     City city = (City) malloc(sizeof(NPCity));
 
@@ -35,7 +36,7 @@ City createCity(char * name, double money_spent, void * driver)
 
     city->money_spent = money_spent;
     city->rides = 1;
-    city->drivers = createList(driver, NULL);
+    city->drivers = createList();
 
     return city;
 }
@@ -44,18 +45,14 @@ City createCity(char * name, double money_spent, void * driver)
 /**
  * A função updateCity atualiza uma City, adicionando o dinheiro gasto
  * na viagem de atualização e incrementando o número de viagens.
- * Caso o driver da viagem ainda não tenha sido adicionado à lista,
- * este será adicionado.
  * 
  * @param city A City a ser atualizada.
  * @param money_spent O dinheiro gasto na viagem.
- * @param driver Void pointer contendo o driver da viagem adicionada.
  */
-void updateCity(City city, double money_spent, void * driver)
+void updateCity(City city, double money_spent)
 {   
     city->money_spent += money_spent;
     city->rides++;
-    city->drivers = addUniqueList(driver, city->drivers);
 }
 
 /// @brief A função destroyCity destroí uma City.

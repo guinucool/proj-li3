@@ -30,7 +30,7 @@ DateMap createDateMap(short year)
 
     for (int i = 0; i < MONTHS; i++)
         for (int j = 0; j < DAYS; j++)
-            map->map[i][j] = NULL;
+            map->map[i][j] = createList();
     
     return map;
 }
@@ -47,7 +47,7 @@ DateMap createDateMap(short year)
  */
 void updateDateMap(DateMap map, short day, short month, void * element)
 {
-    map->map[month-1][day-1] = createList(element, map->map[month-1][day-1]);
+    addList(element, map->map[month-1][day-1]);
 }
 
 /// @brief A função destroyDateMap destroí um DateMap.

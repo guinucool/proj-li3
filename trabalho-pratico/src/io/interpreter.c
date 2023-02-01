@@ -111,21 +111,21 @@ void interRide(char args[][MAX_LINE], Global glob)
     }
 
     // Criação e inserção da city
-    /*City city = get(glob_city(glob), args[4], equal_str, hashKey_Str);
+    City city = get(glob_city(glob), args[4], equal_str, hashKey_Str);
 
-    if(city) updateCity(city, rideCost(ride, 0), driver);
+    if(city) updateCity(city, rideCost(ride, 0));
     else
     {
         char * name = malloc(sizeof(char) * strlen(args[4]));
-        strncpy(name, args[4], MAX_STR_NAME);
+        strncpy(name, args[4], strlen(args[4]));
 
-        city = createCity(args[4], rideCost(ride, 0), driver);
+        city = createCity(args[4], rideCost(ride, 0));
         put(glob_city(glob), name, city, hashKey_Str);
-    }*/
+    }
 
     // Atualiza user e driver
     userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
-    //updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
+    updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
 }
 
 /// @brief A função interCmd interpreta a informação relativa aos comandos acessa
