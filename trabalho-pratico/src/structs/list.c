@@ -198,6 +198,7 @@ int listMap(List list, void (*function)(void*, void*), void * second)
  * @param list A lista a ser exportada.
  * @param function A função de conversão para string.
  * @param N O número de elementos a serem exportados.
+ * @param second O segundo parâmetro da função de conversão.
  * 
  * @return O apontador do array de strings criado.
  */

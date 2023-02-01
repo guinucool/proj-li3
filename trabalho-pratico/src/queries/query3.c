@@ -27,5 +27,5 @@ char ** query3(int N, Global glob)
 {
     sortList(glob_userList(glob), usercmp);
     
-    return listOut(glob_userList(glob), printerUsers, N);
+    return listOut(glob_userList(glob), printerUsers, N, NULL);
 }

@@ -29,5 +29,5 @@ char ** query2(int N, Global glob)
 {
     sortList(glob_driverList(glob), comparaDrivers);
     
-    return listOut(glob_driverList(glob), printerDrivers, N);
+    return listOut(glob_driverList(glob), printerDrivers, N, NULL);
 }
