@@ -122,14 +122,50 @@ int nullMap(void * element, void (*function)(void*,void*), void * second)
  * 
  * @return A conclusão a que chegou.
  */
-int isId(char s[200]){
+int isDigit(char s[200], char mode){
+
     int res = 1;
-    for (int i = 0; s[i] != '\0'; i++)
+
+    switch (mode)
     {
-        if(s[i]<48 || s[i]>57){
-            res = 0;
+    case 'p':
+        
+        for (int i = 0; s[i] != '\0'; i++)
+        {
+            if(s[i]<=48 || s[i]>57){
+                res = 0;
+            }
         }
+
+        break;
+    
+    case 'i':
+
+        for (int i = 0; s[i] != '\0'; i++)
+        {
+            if(s[i]<48 || s[i]>57){
+                res = 0;
+            }
+        }
+
+        break;
+
+    case 'd':
+
+        for (int i = 0; s[i] != '\0'; i++)
+        {
+            if(s[i]<46 || s[i]>57 || s[i] == 47){
+                res = 0;
+            }
+        }
+
+        break;
+
+    default:
+        break;
     }
+    
+    
     return res;
 }
 
@@ -154,11 +190,6 @@ int isPrime(int num)
     for(int i = 3; i < num / 2 && res; i+= 2) if (num % i == 0) res = 0;
 
     return res;
-}
-
-int charIsPosInt(char caracter)
-{
-    return caracter > 48 && caracter <= 57;
 }
 
 /// @brief A função strtop transforma uma string em letras maiscúlas.

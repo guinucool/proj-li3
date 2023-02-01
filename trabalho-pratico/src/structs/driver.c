@@ -200,13 +200,12 @@ Driver parseDriver(char tokens[9][200])
 {
 	// Parse BIRTH_DAY
 	Date birth_day;
-	parseDate(tokens[2], birth_day);
+	if(!(parseDate(tokens[2], birth_day)))return NULL;
 
 	// Parse ACCOUNT_CREATION
 	Date account_creation;
-	parseDate(tokens[7], account_creation);
+	if(!(parseDate(tokens[7], account_creation)))return NULL;
 
-	//int i = 0, id; 
 	int id;
 	short age;
 	char name[NAME_STR_SIZE], license_plate[LICENSE_PLATE_STR_SIZE], city[CITY_STR_SIZE];
@@ -218,6 +217,7 @@ Driver parseDriver(char tokens[9][200])
 
 	// Parse NAME
 	strncpy(name, tokens[1], NAME_STR_SIZE);
+	if(isDigit(name,'i') && strlen(tokens[1]) == 0)return NULL;
 
 	// Parse AGE
 	age = calculateAge(birth_day);
@@ -240,9 +240,11 @@ Driver parseDriver(char tokens[9][200])
 
 	// Parse LICENSE_PLATE
 	strncpy(license_plate, tokens[5], LICENSE_PLATE_STR_SIZE);
+	if(strlen(tokens[5]) == 0)return NULL;
 
 	// Parse CITY
 	strncpy(city, tokens[6], CITY_STR_SIZE);
+	if(strlen(tokens[6]) == 0)return NULL;
 
 	// Parse ACCOUNT_STATUS
 	// Converte para maiusculas o token.

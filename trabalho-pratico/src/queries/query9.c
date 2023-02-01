@@ -9,7 +9,7 @@
 
 void linkedListRes(void * ride,LinkedList res)
 {
-    res = addOrdList(ride,res,ridecmp2);
+    addOrdList(ride,res,ridecmp2);
 }
 
 char ** query9(Date dateA, Date dateB, Global glob){

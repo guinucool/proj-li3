@@ -152,19 +152,22 @@ void debugPrintUser(User user)
 User parseUser(char data[7][200])
 {
     Date birth_date;
-    parseDate(data[3], birth_date);
+    if(!(parseDate(data[3], birth_date)))return NULL;
 
     Date account_creation;
-    parseDate(data[4], account_creation);
+    if(!(parseDate(data[4], account_creation)))return NULL;
 
     char username[MAX_USER_STR], name[MAX_USER_STR];
     char gender, pay_method, account_status;
     short age;
 
     strncpy(username, data[0], MAX_USER_STR);
+    if(isDigit(username,'i') && strlen(data[0]) == 0)return NULL;
     strncpy(name, data[1], MAX_USER_STR);
+    if(isDigit(name,'i') && strlen(data[1]) == 0)return NULL;
 
     gender = data[2][0];
+    if (gender != MALE && gender != FEMALE) return NULL;
 
     age = calculateAge(birth_date);
 

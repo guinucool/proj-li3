@@ -5,6 +5,7 @@
 #include "../../includes/structs/user.h"
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"
+#include "../../includes/utils.h"
 
 /// \struct Estrutura que define as variáveis do tipo ride.
 typedef struct _RIDE_ {
@@ -120,11 +121,12 @@ Ride parseRide(char tokens[10][200], Driver driver, User user)
 
     // Parse Date
     Date date;
-    parseDate(tokens[1],date);
+    if(!(parseDate(tokens[1],date)))return NULL;
 
     // Parse City
     char city[MAX_STR_NAME];
-    strncpy(city, tokens[4], MAX_STR_NAME);
+    if(strlen(tokens[4]) > 0) strncpy(city, tokens[4], MAX_STR_NAME);
+    else return NULL;
 
     // Parse Distance
     short distance;
@@ -133,13 +135,20 @@ Ride parseRide(char tokens[10][200], Driver driver, User user)
 
     // Parse Score_user
     short score_user;
-    score_user = (short)atoi(tokens[6]);
+    if(isDigit(tokens[6],'d'))
+    {
+    score_user = (short)atof(tokens[6]);
     if(score_user < 0) return NULL;
+    }
+    
 
     // Parse Score_driver
     short score_driver;
-    score_driver = (short)atoi(tokens[7]);
+    if(isDigit(tokens[7],'d'))
+    {
+    score_driver = (short)atof(tokens[7]);
     if(score_driver < 0) return NULL;
+    }
 
     // Parse Tip
     double tip;

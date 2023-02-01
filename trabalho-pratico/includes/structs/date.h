@@ -12,8 +12,9 @@ typedef short Date[3];
 void createDate(short day, short month, short year, Date res);
 void nextDay(Date date);
 void debugPrintDate(Date date);
-void parseDate(char * str, Date date);
+int parseDate(char * str, Date date);
 int datecmp(Date dateA, Date dateB);
 short calculateAge(Date date);
+int dateVal(char * str);
 
 #endif
