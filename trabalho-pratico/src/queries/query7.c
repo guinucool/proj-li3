@@ -8,9 +8,9 @@
 #include "../../includes/structs/driver.h"
 
 
-void linkedListRes(void * driver,LinkedList res)
+void linkedListRes(void * driver, LinkedList res)
 {
-    res = addOrdList(driver,res,drivercmp);
+    if(driver_accountStatus(driver) == '1') addOrdList(driver,res,drivercmp);
 }
 
 char ** query7(int N,char* city, Global * glob){

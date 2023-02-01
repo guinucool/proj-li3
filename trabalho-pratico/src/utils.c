@@ -122,15 +122,56 @@ int nullMap(void * element, void (*function)(void*,void*), void * second)
  * 
  * @return A conclusão a que chegou.
  */
-int isId(char s[200]){
+int isDigit(char s[200], char mode){
+
     int res = 1;
-    for (int i = 0; s[i] != '\0'; i++)
+
+    switch (mode)
     {
-        if(s[i]<48 || s[i]>57){
-            res = 0;
+    case 'p':
+        
+        for (int i = 0; s[i] != '\0'; i++)
+        {
+            if(s[i]<=48 || s[i]>57){
+                res = 0;
+            }
         }
+
+        break;
+    
+    case 'i':
+
+        for (int i = 0; s[i] != '\0'; i++)
+        {
+            if(s[i]<48 || s[i]>57){
+                res = 0;
+            }
+        }
+
+        break;
+
+    case 'd':
+
+        for (int i = 0; s[i] != '\0'; i++)
+        {
+            if(s[i]<46 || s[i]>57 || s[i] == 47){
+                res = 0;
+            }
+        }
+
+        break;
+
+    default:
+        break;
     }
+    
+    
     return res;
+}
+
+int isIntorFloat(char s[200])
+{
+    
 }
 
 /// @brief A função isPrime verifica se um número é um primo.
