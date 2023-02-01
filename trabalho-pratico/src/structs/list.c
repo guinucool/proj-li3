@@ -119,8 +119,11 @@ void quickSort(void ** array, int bottom, int top, int (*compare)(void*,void*))
  */
 void sortList(List list, int (*compare)(void*,void*))
 {
-    quickSort(list->list, 0, (list->size - 1), compare);
-    list->ord = ORDERED;
+    if (list->ord == UNORDERED)
+    {
+        quickSort(list->list, 0, (list->size - 1), compare);
+        list->ord = ORDERED;
+    }
 }
 
 /// @brief A função destroyList destroí a lista.
@@ -195,6 +198,7 @@ int listMap(List list, void (*function)(void*, void*), void * second)
  * @param list A lista a ser exportada.
  * @param function A função de conversão para string.
  * @param N O número de elementos a serem exportados.
+ * @param second O segundo parâmetro da função de conversão.
  * 
  * @return O apontador do array de strings criado.
  */
@@ -214,10 +218,4 @@ char ** listOut(List list, char* (*printer)(void*,void*), int N, void * second)
 int listEmpty(List list)
 {
     return list->size == 0;
-}
-
-/// @brief A função listEmpty verifica se uma lista é ordernada. 
-int listOrd(List list)
-{
-    return list->ord == ORDERED;
 }

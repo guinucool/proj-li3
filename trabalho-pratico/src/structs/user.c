@@ -210,8 +210,8 @@ int usercmp(User user1, User user2)
     if (user1->distance > user2->distance) res = 1;
     if (user1->distance < user2->distance) res = -1;
 
-    if (res == 0 && (double)user1->score/user1->rides > (double)user2->score/user2->rides) res = 1;
-    if (res == 0 && (double)user1->score/user1->rides < (double)user2->score/user2->rides) res = -1;
+    /*if (res == 0 && (double)user1->score/user1->rides > (double)user2->score/user2->rides) res = 1;
+    if (res == 0 && (double)user1->score/user1->rides < (double)user2->score/user2->rides) res = -1;*/
     
     if (res == 0) res = datecmp(user1->last_ride, user2->last_ride);
 

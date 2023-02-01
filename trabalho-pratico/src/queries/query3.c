@@ -17,22 +17,15 @@ char * printerUsers(void * user)
     char name[MAX_USER_STR];
     user_name(name, user);
 
-    char * res = malloc(sizeof(char) * (2 + strlen(username) + strlen(name) + intLen(user_distance(user))));
+    char * res = malloc(sizeof(char) * (3 + strlen(username) + strlen(name) + intLen(user_distance(user))));
     sprintf(res,"%s;%s;%d", username, name, user_distance(user));
 
     return res;
 }
 
-/*void createUserList(void * element, void * list)
-{
-    if (user_accountStatus(element)) addOrdList(element, list, usercmp);
-}*/
-
 char ** query3(int N, Global glob)
 {
-    /*List ordUser = glob_userList(glob);
-
-    if (listEmpty(ordUser)) map(glob_user(glob), nullMap, createUserList, ordUser);
+    sortList(glob_userList(glob), usercmp);
     
-    return listOut(ordUser, printerUsers, N);*/
+    return listOut(glob_userList(glob), printerUsers, N, NULL);
 }
