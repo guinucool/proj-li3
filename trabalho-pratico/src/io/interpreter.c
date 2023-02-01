@@ -7,6 +7,7 @@
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"
 #include "../../includes/structs/city.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/datemap.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
@@ -33,10 +34,14 @@ void interUser(char args[][MAX_LINE], Global glob)
 {
     User user = parseUser(args);
 
-    char * key = malloc(sizeof(char) * MAX_USER_STR);
-    user_username(key, user);
+    if (user)
+    {
+        char * key = malloc(sizeof(char) * MAX_USER_STR);
+        user_username(key, user);
 
-    put(glob_user(glob), key, user, hashKey_Str);
+        put(glob_user(glob), key, user, hashKey_Str);
+        addList(user, glob_userList(glob));
+    }
 }
 
 /// @brief A função interDriver interpreta e insere informacao relativa aos drivers
@@ -55,10 +60,14 @@ void interDriver(char args[][MAX_LINE], Global glob)
 {   
     Driver driver = parseDriver(args);
 
-    int * key = malloc(sizeof(int));
-    *key = driver_id(driver);
-    
-    put(glob_driver(glob), key, driver, hashKey_Int);
+    if (driver)
+    {
+        int * key = malloc(sizeof(int));
+        *key = driver_id(driver);
+        
+        put(glob_driver(glob), key, driver, hashKey_Int);
+        addList(driver, glob_driverList(glob));
+    }
 }
 
 /// @brief A função interRide interpreta e insere informação relativa às rides
@@ -89,43 +98,47 @@ void interRide(char args[][MAX_LINE], Global glob)
     
     Ride ride = parseRide(args, driver, user);
 
-    // Inserção da Ride
-    Date date;
-    parseDate(args[1], date);
-
-    int year = (int)date[2];
-
-    DateMap map = get(glob_ride(glob), &year, equal, hashKey_Int);
-    char mapExist = map != NULL;
-
-    if (!mapExist) map = createDateMap(date[2]);
-
-    updateDateMap(map, date[0], date[1], ride);
-
-    if (!mapExist)
+    if (ride)
     {
-        int * key = malloc(sizeof(int));
-        *key = (int)date[2];
+        // Inserção da Ride
+        Date date;
+        parseDate(args[1], date);
 
-        put(glob_ride(glob), key, map, hashKey_Int);
+        int year = (int)date[2];
+
+        DateMap map = get(glob_ride(glob), &year, equal, hashKey_Int);
+        char mapExist = map != NULL;
+
+        if (!mapExist) map = createDateMap(date[2]);
+
+        updateDateMap(map, date[0], date[1], ride);
+
+        if (!mapExist)
+        {
+            int * key = malloc(sizeof(int));
+            *key = (int)date[2];
+
+            put(glob_ride(glob), key, map, hashKey_Int);
+        }
+
+        // Criação e inserção da city
+        City city = get(glob_city(glob), args[4], equal_str, hashKey_Str);
+
+        if(city) updateCity(city, rideCost(ride, 0));
+        else
+        {
+            char * name = malloc(sizeof(char) * strlen(args[4]));
+            strncpy(name, args[4], strlen(args[4]));
+
+            city = createCity(args[4], rideCost(ride, 0));
+            put(glob_city(glob), name, city, hashKey_Str);
+        }
+
+        // Atualiza user e driver
+        userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
+        updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
+        addList(ride, glob_rideList(glob));
     }
-
-    // Criação e inserção da city
-    City city = get(glob_city(glob), args[4], equal_str, hashKey_Str);
-
-    if(city) updateCity(city, rideCost(ride, 0));
-    else
-    {
-        char * name = malloc(sizeof(char) * strlen(args[4]));
-        strncpy(name, args[4], strlen(args[4]));
-
-        city = createCity(args[4], rideCost(ride, 0));
-        put(glob_city(glob), name, city, hashKey_Str);
-    }
-
-    // Atualiza user e driver
-    userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
-    updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
 }
 
 /// @brief A função interCmd interpreta a informação relativa aos comandos acessa

@@ -152,19 +152,20 @@ void debugPrintUser(User user)
 User parseUser(char data[7][200])
 {
     Date birth_date;
-    if(!(parseDate(data[3], birth_date)))return NULL;
+    if(!parseDate(data[3], birth_date)) return NULL;
 
     Date account_creation;
-    if(!(parseDate(data[4], account_creation)))return NULL;
+    if(!parseDate(data[4], account_creation)) return NULL;
 
     char username[MAX_USER_STR], name[MAX_USER_STR];
-    char gender, pay_method, account_status;
+    char gender, pay_method = -1, account_status = -1;
     short age;
 
     strncpy(username, data[0], MAX_USER_STR);
-    if(isDigit(username,'i') && strlen(data[0]) == 0)return NULL;
+    if(strlen(username) == 0) return NULL;
+
     strncpy(name, data[1], MAX_USER_STR);
-    if(isDigit(name,'i') && strlen(data[1]) == 0)return NULL;
+    if(strlen(name) == 0) return NULL;
 
     gender = data[2][0];
     if (gender != MALE && gender != FEMALE) return NULL;
@@ -177,8 +178,12 @@ User parseUser(char data[7][200])
     for (int i = 0; i < METHODS_SIZE; i++)
         if(strcmp(data[5], payment_methods[i]) == 0) pay_method = i;
 
+    if (pay_method == -1) return NULL;
+
     for (int i = 0; i < STATUS_SIZE; i++)
-        if(strcmp(data[5], user_account_statuses[i]) == 0) account_status = i;
+        if(strcmp(data[6], user_account_statuses[i]) == 0) account_status = i;
+
+    if (account_status == -1) return NULL;
 
     return userCreate(username, name, gender, age, account_creation, pay_method, account_status);
 }

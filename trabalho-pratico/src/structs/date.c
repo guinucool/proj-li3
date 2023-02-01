@@ -74,6 +74,35 @@ void debugPrintDate(Date date)
     );
 }
 
+/// @brief A função checkDate verifica se uma string é uma data válida.
+/**
+ * A função checkDate verifica se uma string é uma
+ * data válida, verificando se esta cumpre a
+ * estrutura de uma data (dd/mm/yyyy).
+ * 
+ * @param str A string a ser verificada.
+ * 
+ * @return A conclusão da verificação.
+ */
+int checkDate(char * str)
+{
+    int res = 1;
+    char day[3], month[3], year[5];
+
+    if(str[2] != '/' || str[5] != '/' || strlen(str) != 10) res = 0;
+
+    if (res == 1)
+    {
+        strncpy(day, str, 2);
+        strncpy(month, str+3, 2);
+        strncpy(year, str+6, 4);
+
+        if (atoi(day) <= 0 || atoi(month) <= 0 || atoi(year) <= 0) res = 0;
+    }
+
+    return res;
+}
+
 /// @brief A função parseDate transforma uma string numa Date.
 /**
  * A função parseDate transforma uma string devidamente
@@ -81,21 +110,25 @@ void debugPrintDate(Date date)
  * 
  * @param str A string a ser transformada.
  * @param date Local onde a data criada será armazenada.
+ * 
+ * @return O resultado da operação (sucesso ou fracasso).
  */ 
 int parseDate(char * str, Date date)
 {
-    short day, month, year;
+    int res = checkDate(str);
 
-    if(dateVal(str))
+    if (res)
     {
-    day = (short)(10*(str[0]-48)+(str[1]-48));
-    month = (short)(10*(str[3]-48)+(str[4]-48));
-    year = (short)(1000*(str[6]-48)+100*(str[7]-48)+10*(str[8]-48)+(str[9]-48));
+        short day, month, year;
 
-    createDate(day,month,year,date);
-    return 1;
+        day = (short)(10*(str[0]-48)+(str[1]-48));
+        month = (short)(10*(str[3]-48)+(str[4]-48));
+        year = (short)(1000*(str[6]-48)+100*(str[7]-48)+10*(str[8]-48)+(str[9]-48));
+
+        createDate(day,month,year,date);
     }
-    else return 0;
+
+    return res;
 }
 
 /// @brief A função datecmp compara duas datas.
@@ -144,19 +177,4 @@ short calculateAge(Date date)
         res = ref[2] - date[2] - 1;
 
     return res;
-}
-
-int dateVal(char * str)
-{
-    char * day[2] = {str[0],str[1]};
-    char * month[2] = {str[3],str[4]};
-    char * year[4] = {str[6],str[7],str[8],str[9]}; 
-    if(str[2] == '/' && 
-       str[5] == '/' &&
-       strlen(str) == 10 &&
-       atoi(day) > 0 &&
-       atoi(month) > 0 &&
-       atoi(year) > 0 
-       )return 1;
-    else return 0;
 }

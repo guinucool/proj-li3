@@ -15,6 +15,5 @@ void debugPrintDate(Date date);
 int parseDate(char * str, Date date);
 int datecmp(Date dateA, Date dateB);
 short calculateAge(Date date);
-int dateVal(char * str);
 
 #endif

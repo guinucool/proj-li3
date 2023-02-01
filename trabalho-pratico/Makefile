@@ -9,7 +9,7 @@ directory:
 #programa-testes: out/test.o out/parser.o out/interpreter.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/datemap.o out/linkedlist.o out/city.o out/utils.o out/query2.o out/query3.o
 #	$(CC) $(CFLAGS) $^ -o $@
 
-programa-principal: out/main.o out/utils.o out/date.o out/linkedlist.o out/user.o out/driver.o out/ride.o out/hashmap.o out/datemap.o out/city.o out/global.o out/query2.o out/query3.o out/parser.o out/interpreter.o
+programa-principal: out/main.o out/utils.o out/date.o out/list.o out/user.o out/driver.o out/ride.o out/hashmap.o out/datemap.o out/city.o out/global.o out/query2.o out/query3.o out/parser.o out/interpreter.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 out/test.o: src/test.c
@@ -51,7 +51,7 @@ out/ride.o: src/structs/ride.c
 out/user.o: src/structs/user.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-out/linkedlist.o: src/structs/linkedlist.c
+out/list.o: src/structs/list.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 out/datemap.o: src/structs/datemap.c

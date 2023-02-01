@@ -1,6 +1,9 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
+#define INT 'i'
+#define DOUBLE 'd'
+
 // Hashmaps
 int equal(void* key1, void* key2);
 int equal_str(void* s1, void* s2);
@@ -12,7 +15,7 @@ void null(void * element);
 int nullMap(void * element, void (*)(void*,void*), void * second);
 
 // Verificações
-int isDigit(char s[200], char mode);
+int isNumber(char s[200], char mode);
 int isPrime(int num);
 
 // Tratamentos

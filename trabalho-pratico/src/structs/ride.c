@@ -114,46 +114,41 @@ void debugPrintRide(Ride ride)
  */
 Ride parseRide(char tokens[10][200], Driver driver, User user)
 {
+    if (!driver || !user) return NULL;
+
     // Parse ID
     int id;
     id = atoi(tokens[0]);
-    if(id < 1) return NULL;
+    if(id == 0) return NULL;
 
     // Parse Date
     Date date;
-    if(!(parseDate(tokens[1],date)))return NULL;
+    if(!parseDate(tokens[1],date)) return NULL;
 
     // Parse City
     char city[MAX_STR_NAME];
-    if(strlen(tokens[4]) > 0) strncpy(city, tokens[4], MAX_STR_NAME);
-    else return NULL;
+    strncpy(city, tokens[4], MAX_STR_NAME);
+    if(strlen(tokens[4]) == 0) return NULL;
 
     // Parse Distance
     short distance;
     distance = (short)atoi(tokens[5]);
-    if(distance < 1) return NULL;
+    if(distance < 1 || !isNumber(tokens[5], INT)) return NULL;
 
     // Parse Score_user
     short score_user;
-    if(isDigit(tokens[6],'d'))
-    {
-    score_user = (short)atof(tokens[6]);
-    if(score_user < 0) return NULL;
-    }
-    
+    score_user = (short)atoi(tokens[6]);
+    if(score_user < 0 || !isNumber(tokens[6],DOUBLE)) return NULL;
 
     // Parse Score_driver
     short score_driver;
-    if(isDigit(tokens[7],'d'))
-    {
-    score_driver = (short)atof(tokens[7]);
-    if(score_driver < 0) return NULL;
-    }
+    score_driver = (short)atoi(tokens[7]);
+    if(score_driver < 0 || !isNumber(tokens[7],DOUBLE)) return NULL;
 
     // Parse Tip
     double tip;
     tip = atof(tokens[8]);
-    if(tip < 0.0f) return NULL;
+    if(tip < 0.0f || !isNumber(tokens[8],DOUBLE)) return NULL;
 
     // Parse Comment
     char comment[MAX_STR_COMM];

@@ -4,7 +4,7 @@
 #include "../../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/driver.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
@@ -20,7 +20,7 @@ char * printerDrivers(void * driver)
     return res;
 }
 
-int comparaDrivers(void * elem1, void * elem2)
+/*int comparaDrivers(void * elem1, void * elem2)
 {
     return drivercmp(elem1, elem2, NULL);
 }
@@ -28,13 +28,13 @@ int comparaDrivers(void * elem1, void * elem2)
 void createDriverList(void * element, void * list)
 {
     if (driver_accountStatus(element)) addOrdList(element, list, comparaDrivers);
-}
+}*/
 
 char ** query2(int N, Global glob)
 {
-    LinkedList ordDriver = glob_driverList(glob);
+    /*List ordDriver = glob_driverList(glob);
 
     if (listEmpty(ordDriver)) map(glob_driver(glob), nullMap, createDriverList, ordDriver);
     
-    return listOut(ordDriver, printerDrivers, N);
+    return listOut(ordDriver, printerDrivers, N);*/
 }

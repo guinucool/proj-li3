@@ -200,16 +200,16 @@ Driver parseDriver(char tokens[9][200])
 {
 	// Parse BIRTH_DAY
 	Date birth_day;
-	if(!(parseDate(tokens[2], birth_day)))return NULL;
+	if(!parseDate(tokens[2], birth_day)) return NULL;
 
 	// Parse ACCOUNT_CREATION
 	Date account_creation;
-	if(!(parseDate(tokens[7], account_creation)))return NULL;
+	if(!parseDate(tokens[7], account_creation)) return NULL;
 
 	int id;
 	short age;
 	char name[NAME_STR_SIZE], license_plate[LICENSE_PLATE_STR_SIZE], city[CITY_STR_SIZE];
-	char gender, car_class, account_status;
+	char gender, car_class = -1, account_status = -1;
 	//char limit[] = {';', '\0'};
 
 	// Parse ID
@@ -217,7 +217,7 @@ Driver parseDriver(char tokens[9][200])
 
 	// Parse NAME
 	strncpy(name, tokens[1], NAME_STR_SIZE);
-	if(isDigit(name,'i') && strlen(tokens[1]) == 0)return NULL;
+	if(strlen(name) == 0) return NULL;
 
 	// Parse AGE
 	age = calculateAge(birth_day);
@@ -231,7 +231,6 @@ Driver parseDriver(char tokens[9][200])
 	strtop(tokens[4]);
 
 	// Verificar se o token existe no array car_class_str (onde estao todos os car classe possiveis).
-	car_class = -1;
 	for (int i = 0; i < CLASS_SIZE; i++)
 		if (strcmp(tokens[4], car_classes[i]) == 0) car_class = i;
 
@@ -240,18 +239,17 @@ Driver parseDriver(char tokens[9][200])
 
 	// Parse LICENSE_PLATE
 	strncpy(license_plate, tokens[5], LICENSE_PLATE_STR_SIZE);
-	if(strlen(tokens[5]) == 0)return NULL;
+	if(strlen(tokens[5]) == 0) return NULL;
 
 	// Parse CITY
 	strncpy(city, tokens[6], CITY_STR_SIZE);
-	if(strlen(tokens[6]) == 0)return NULL;
+	if(strlen(tokens[6]) == 0) return NULL;
 
 	// Parse ACCOUNT_STATUS
 	// Converte para maiusculas o token.
 	strtop(tokens[8]);
 
 	// Veririca se o estado em token é valido (isto e se existe no array account_status_str).
-	account_status = -1;
 	for (int i = 0; i < STATUS_SIZE; i++)
 		if (strcmp(tokens[8], driver_account_statuses[i]) == 0) account_status = i;
 

@@ -4,7 +4,7 @@
 #include "../../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/user.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
@@ -23,16 +23,16 @@ char * printerUsers(void * user)
     return res;
 }
 
-void createUserList(void * element, void * list)
+/*void createUserList(void * element, void * list)
 {
     if (user_accountStatus(element)) addOrdList(element, list, usercmp);
-}
+}*/
 
 char ** query3(int N, Global glob)
 {
-    LinkedList ordUser = glob_userList(glob);
+    /*List ordUser = glob_userList(glob);
 
     if (listEmpty(ordUser)) map(glob_user(glob), nullMap, createUserList, ordUser);
     
-    return listOut(ordUser, printerUsers, N);
+    return listOut(ordUser, printerUsers, N);*/
 }

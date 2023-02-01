@@ -111,61 +111,33 @@ int nullMap(void * element, void (*function)(void*,void*), void * second)
     return 1;
 }
 
-/// @brief A função isId verifica se uma string contém apenas números.
+/// @brief A função isNumber verifica se uma string é um número.
 /**
- * A função isId verifica se uma string contém apenas números, sendo
- * assim possível assumir que esta se trata de um Id de Driver.
+ * A função isNumber verifica se uma string é um números, sendo
+ * possível decidir se se pretende verificar que se trata de
+ * um número decimal ou inteiro.
  * 
  * Retornará, então, 1 ou 0 dependo da conclusão a que chegar.
  * 
  * @param s A string a ser verificada.
+ * @param mode Se verifica por decimal ou inteiro.
  * 
  * @return A conclusão a que chegou.
  */
-int isDigit(char s[200], char mode){
+int isNumber(char s[200], char mode){
 
     int res = 1;
 
-    switch (mode)
-    {
-    case 'p':
-        
-        for (int i = 0; s[i] != '\0'; i++)
-        {
-            if(s[i]<=48 || s[i]>57){
+    if (mode == INT)
+        for (int i = 0; s[i] != '\0' && res; i++)
+            if(s[i] < 48 || s[i] > 57)
                 res = 0;
-            }
-        }
 
-        break;
-    
-    case 'i':
-
-        for (int i = 0; s[i] != '\0'; i++)
-        {
-            if(s[i]<48 || s[i]>57){
+    if (mode == DOUBLE)
+        for (int i = 0; s[i] != '\0' && res; i++)
+            if((s[i] < 48 || s[i] > 57) && s[i] != 46)
                 res = 0;
-            }
-        }
 
-        break;
-
-    case 'd':
-
-        for (int i = 0; s[i] != '\0'; i++)
-        {
-            if(s[i]<46 || s[i]>57 || s[i] == 47){
-                res = 0;
-            }
-        }
-
-        break;
-
-    default:
-        break;
-    }
-    
-    
     return res;
 }
 
