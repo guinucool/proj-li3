@@ -3,12 +3,12 @@
 #include "../../includes/utils.h"
 #include "../../includes/structs/global.h"
 #include "../../includes/structs/hashmap.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/city.h"
 #include "../../includes/structs/driver.h"
 
 
-void linkedListRes(void * driver, LinkedList res)
+void linkedListRes(void * driver, List res)
 {
     if(driver_accountStatus(driver) == '1') addOrdList(driver,res,drivercmp);
 }
@@ -17,7 +17,7 @@ char ** query7(int N,char* city, Global * glob){
 
     Hashmap cities = glob_city(glob);
     City cityS = get(cities,city,equal_str,hashKey_Str);
-    LinkedList res;
+    List res;
     int size;
 
     size = listMap(city_drivers(cityS),linkedListRes,res);

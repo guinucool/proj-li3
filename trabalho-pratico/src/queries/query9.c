@@ -1,13 +1,13 @@
 #include "../../includes/utils.h"
 #include "../../includes/structs/global.h"
 #include "../../includes/structs/hashmap.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/ride.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/datemap.h"
 
 
-void linkedListRes(void * ride,LinkedList res)
+void linkedListRes(void * ride, List res)
 {
     addOrdList(ride,res,ridecmp2);
 }
@@ -16,7 +16,7 @@ char ** query9(Date dateA, Date dateB, Global glob){
     
     Hashmap calendario = glob_ride(glob); 
     Ride ride;
-    LinkedList res;
+    List res;
     int size;
 
     while (dateA[2] != dateB[2]+1)

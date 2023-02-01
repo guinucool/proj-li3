@@ -4,7 +4,7 @@
 #include "../../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/user.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
@@ -30,7 +30,7 @@ void createUserList(void * element, void * list)
 
 char ** query3(int N, Global glob)
 {
-    LinkedList ordUser = glob_userList(glob);
+    List ordUser = glob_userList(glob);
 
     if (listEmpty(ordUser)) map(glob_user(glob), nullMap, createUserList, ordUser);
     

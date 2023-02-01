@@ -4,7 +4,7 @@
 #include "../../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/driver.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
@@ -32,7 +32,7 @@ void createDriverList(void * element, void * list)
 
 char ** query2(int N, Global glob)
 {
-    LinkedList ordDriver = glob_driverList(glob);
+    List ordDriver = glob_driverList(glob);
 
     if (listEmpty(ordDriver)) map(glob_driver(glob), nullMap, createDriverList, ordDriver);
     
