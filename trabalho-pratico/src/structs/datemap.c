@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../../includes/structs/date.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/datemap.h"
 
 /// \struct Estrutura que define as variáveis do tipo Filtro de Data.
 typedef struct _DATE_MAP_ {
     short year;                         //!< O ano do DateMap
-    LinkedList map[MONTHS][DAYS];       //!< O mapa de datas do DateMap
+    List map[MONTHS][DAYS];       //!< O mapa de datas do DateMap
 }*DateMap, NPDateMap;
 
 /// @brief A função createDateMap cria um DateMap.
@@ -64,7 +64,7 @@ void destroyDateMap(DateMap map, void (*destroy)(void*))
     {
         for (int i = 0; i < MONTHS; i++)
             for (int j = 0; j < DAYS; j++)
-                destroyList(map->map[i][j], destroy);
+                destroyList(map->map[i][j], destroy, 1);
 
         free(map);
     }
@@ -151,8 +151,8 @@ int dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*, void
 
     while(dateA[2] != map->year+1)
     {
-        LinkedList lista_rides = dateMapGet(map,dateA[0],dateA[1]); 
-        count += listMap(lista_rides,function, second);
+        List lista_rides = dateMapGet(map,dateA[0],dateA[1]); 
+        count += listMap(lista_rides, function, second);
         nextDay(dateA);
     }
 

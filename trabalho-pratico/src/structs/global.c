@@ -6,7 +6,7 @@
 #include "../../includes/structs/driver.h"
 #include "../../includes/structs/ride.h"
 #include "../../includes/structs/city.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/datemap.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
@@ -17,9 +17,9 @@ typedef struct _GLOBAL_ {
     Hashmap drivers;        //!< Hashmap que armazena os drivers
     Hashmap rides;          //!< Hashmap que armazena as rides
     Hashmap cities;         //!< Hashmap que armazena as cidades
-    LinkedList userList;    //!< Lista que aponta para os users de forma ordenada
-    LinkedList driverList;  //!< Lista que aponta para os drivers de forma ordenada
-    LinkedList rideList;    //!< Lista que aponta para os drivers de forma ordenada
+    List userList;          //!< Lista que aponta para os users de forma ordenada
+    List driverList;        //!< Lista que aponta para os drivers de forma ordenada
+    List rideList;          //!< Lista que aponta para os drivers de forma ordenada
 }*Global, NPGlobal;
 
 /// @brief A função createGlobal cria uma variável do tipo global.
@@ -70,9 +70,9 @@ void destroyGlobal(Global glob)
         destroyHashmap(glob->rides, destroyMap);
         destroyHashmap(glob->cities, destroyCity);
 
-        destroyList(glob->userList, null);
-        destroyList(glob->driverList, null);
-        destroyList(glob->rideList, null);
+        destroyList(glob->userList, null, 0);
+        destroyList(glob->driverList, null, 0);
+        destroyList(glob->rideList, null, 0);
 
         free(glob);
     }
