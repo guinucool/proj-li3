@@ -15,5 +15,6 @@ void debugPrintCity(City city, void (*elemPrinter)(void*));
 // Devoluções
 double city_averageMoney(City city);
 void * city_drivers(City city);
+void city_city(char * dest, City city);
 
 #endif

@@ -201,14 +201,14 @@ int listMap(List list, void (*function)(void*, void*), void * second)
  * 
  * @return O apontador do array de strings criado.
  */
-char ** listOut(List list, char* (*printer)(void*), int N)
+char ** listOut(List list, char* (*printer)(void*,void*), int N, void * second)
 {
     if (N > list->size) N = list->size;
 
     char ** res = malloc(sizeof(char*) * N);
 
     for (int i = 0; i < N && i < list->size; i++)
-        res[i] = printer(list->list[i]);
+        res[i] = printer(list->list[i],second);
 
     return res;
 }

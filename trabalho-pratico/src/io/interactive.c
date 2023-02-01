@@ -9,7 +9,7 @@ void interactiveMode(Global glob)
     char str[MAX_LINE];
     int cmd = 0;
     printf("Insira o comando no sequinte formato: < query id > [arg1...argN ]\n");
-    printf("Exemplo: 6 Lisboa 01/01/2020 31/12/2020");
+    printf("Exemplo: 6 Lisboa 01/01/2020 31/12/2020\n");
     while(1)
     {     
         scanf("%s\n",str);
