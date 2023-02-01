@@ -4,7 +4,7 @@
 #include "../../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/driver.h"
-#include "../../includes/structs/linkedlist.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/city.h"
 
 /// \struct Estrutura que define as variáveis do tipo cidade.
@@ -12,7 +12,7 @@ typedef struct _CITY_ {
     char city[MAX_STR_NAME];        //!< O nome da cidade.
     double money_spent;             //!< O preço total gasto na cidade.
     int rides;                      //!< O número de viagens feitas na cidade.
-    LinkedList drivers;             //!< A lista de drivers que fizeram viagens na cidade.      
+    List drivers;                   //!< A lista de drivers que fizeram viagens na cidade.      
 }*City, NPCity;
 
 /// @brief A função createCity cria uma City.
@@ -66,7 +66,7 @@ void destroyCity(City city)
 {
     if (city)
     {
-        destroyList(city->drivers, null);
+        destroyList(city->drivers, null, 0);
         free(city);
     }
 }
