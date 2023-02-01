@@ -82,36 +82,20 @@ void debugPrintDate(Date date)
  * @param str A string a ser transformada.
  * @param date Local onde a data criada será armazenada.
  */ 
-void parseDate(char * str, Date date)
+int parseDate(char * str, Date date)
 {
     short day, month, year;
 
+    if(dateVal(str))
+    {
     day = (short)(10*(str[0]-48)+(str[1]-48));
     month = (short)(10*(str[3]-48)+(str[4]-48));
     year = (short)(1000*(str[6]-48)+100*(str[7]-48)+10*(str[8]-48)+(str[9]-48));
 
     createDate(day,month,year,date);
-
-    /*if(str[2] == '/' && 
-       str[5] == '/' &&
-       strlen(str) == 10 &&
-       charIsPosInt(str[0]) &&
-       charIsPosInt(str[1]) &&
-       charIsPosInt(str[3]) &&
-       charIsPosInt(str[4]) &&
-       charIsPosInt(str[6]) &&
-       charIsPosInt(str[7]) &&
-       charIsPosInt(str[8]) &&
-       charIsPosInt(str[9])
-      ){
-        day = (short)(10*(str[0]-48)+(str[1]-48));
-        month = (short)(10*(str[3]-48)+(str[4]-48));
-        year = (short)(1000*(str[6]-48)+100*(str[7]-48)+10*(str[8]-48)+(str[9]-48));
-        if(day <= 31 && month <= 12){
-            createDate(day,month,year,date);
-        }
-            
-    }*/
+    return 1;
+    }
+    else return 0;
 }
 
 /// @brief A função datecmp compara duas datas.
@@ -160,4 +144,19 @@ short calculateAge(Date date)
         res = ref[2] - date[2] - 1;
 
     return res;
+}
+
+int dateVal(char * str)
+{
+    char * day[2] = {str[0],str[1]};
+    char * month[2] = {str[3],str[4]};
+    char * year[4] = {str[6],str[7],str[8],str[9]}; 
+    if(str[2] == '/' && 
+       str[5] == '/' &&
+       strlen(str) == 10 &&
+       atoi(day) > 0 &&
+       atoi(month) > 0 &&
+       atoi(year) > 0 
+       )return 1;
+    else return 0;
 }
