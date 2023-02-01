@@ -13,9 +13,7 @@ int nullMap(void * element, void (*)(void*,void*), void * second);
 
 // Verificações
 int isDigit(char s[200], char mode);
-int isIntorFloat(char s[200]);
 int isPrime(int num);
-int charIsPosInt(char caracter);
 
 // Tratamentos
 void strtop(char * str);

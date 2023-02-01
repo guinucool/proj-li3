@@ -169,11 +169,6 @@ int isDigit(char s[200], char mode){
     return res;
 }
 
-int isIntorFloat(char s[200])
-{
-    
-}
-
 /// @brief A função isPrime verifica se um número é um primo.
 /**
  * A função isPrime verifica se um número é um primo,
@@ -195,11 +190,6 @@ int isPrime(int num)
     for(int i = 3; i < num / 2 && res; i+= 2) if (num % i == 0) res = 0;
 
     return res;
-}
-
-int charIsPosInt(char caracter)
-{
-    return caracter > 48 && caracter <= 57;
 }
 
 /// @brief A função strtop transforma uma string em letras maiscúlas.
