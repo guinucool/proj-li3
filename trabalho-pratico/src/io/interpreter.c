@@ -159,7 +159,7 @@ void interRide(char args[][MAX_LINE], Global glob)
  */ 
 void interCmd(char args[][MAX_LINE], Global glob, int cmd)
 {
-    short dateA[3], dateB[3];
+    //short dateA[3], dateB[3];
     char * filename = (char*) malloc(sizeof(char) * 100);
 
     sprintf(filename, "Resultados/command%d_output.txt", cmd);
@@ -176,25 +176,25 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
         case 2:
             mulRes = query2(atoi(args[1]),glob);
 
-            for (int i = 0; i < atoi(args[1]); i++)
+            for (int i = 0; mulRes && i < atoi(args[1]) && mulRes[i]; i++)
             {
                 fprintf(fp, "%s\n", mulRes[i]);
                 free(mulRes[i]);
             }
 
-            free(mulRes);
+            if (mulRes) free(mulRes);
             break;
 
         case 3:
-            char ** mulRes = query3(atoi(args[1]),glob);
+            mulRes = query3(atoi(args[1]),glob);
 
-            for (int i = 0; i < atoi(args[1]); i++)
+            for (int i = 0; mulRes && i < atoi(args[1]) && mulRes[i]; i++)
             {
                 fprintf(fp, "%s\n", mulRes[i]);
                 free(mulRes[i]);
             }
 
-            free(mulRes);
+            if (mulRes) free(mulRes);
             break;
 
         case 4:
@@ -238,7 +238,6 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
             //query9(dateA,dateB,glob);
             break;
     }
-
     fclose(fp);
 }
 

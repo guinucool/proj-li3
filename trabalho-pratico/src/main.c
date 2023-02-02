@@ -21,7 +21,7 @@ int main(int argc, char * args[])
 
 		strcpy(truePath, args[1]);
 		strcat(truePath, "/rides.csv");
-		readFile(truePath, 3, glob);		
+		readFile(truePath, 3, glob);
 
 		//printGlobal(glob);
 
