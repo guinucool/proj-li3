@@ -45,6 +45,9 @@ void readFile(char * path, char mode, Global glob)
     {
         int f = 0, j = 0;
 
+        for (int i = 0; i < size; i++)
+            args[i][0] = '\0';
+
         for (int i = 0; line[i] != '\n'; i++)
         {
             holder[i-j] = line[i];

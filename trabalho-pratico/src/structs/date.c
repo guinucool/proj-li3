@@ -74,39 +74,12 @@ void debugPrintDate(Date date)
     );
 }
 
-/// @brief A função checkDate verifica se uma string é uma data válida.
-/**
- * A função checkDate verifica se uma string é uma
- * data válida, verificando se esta cumpre a
- * estrutura de uma data (dd/mm/yyyy).
- * 
- * @param str A string a ser verificada.
- * 
- * @return A conclusão da verificação.
- */
-int checkDate(char * str)
-{
-    int res = 1;
-    char day[3], month[3], year[5];
-
-    if(str[2] != '/' || str[5] != '/' || strlen(str) != 10) res = 0;
-
-    if (res == 1)
-    {
-        strncpy(day, str, 2);
-        strncpy(month, str+3, 2);
-        strncpy(year, str+6, 4);
-
-        if (atoi(day) <= 0 || atoi(month) <= 0 || atoi(year) <= 0) res = 0;
-    }
-
-    return res;
-}
-
 /// @brief A função parseDate transforma uma string numa Date.
 /**
- * A função parseDate transforma uma string devidamente
- * formatada numa variável do tipo Date.
+ * A função parseDate transforma uma string numa variável do tipo Date.
+ * 
+ * Caso a string não esteja devidamente formatada concluí a
+ * operação como fracassada.
  * 
  * @param str A string a ser transformada.
  * @param date Local onde a data criada será armazenada.
@@ -115,18 +88,23 @@ int checkDate(char * str)
  */ 
 int parseDate(char * str, Date date)
 {
-    int res = checkDate(str);
+    int res = 1;
+    short day, month, year;
 
-    if (res)
+    if(str[2] != '/' || str[5] != '/' || strlen(str) != 10) res = 0;
+
+    if (res == 1)
     {
-        short day, month, year;
-
         day = (short)(10*(str[0]-48)+(str[1]-48));
         month = (short)(10*(str[3]-48)+(str[4]-48));
         year = (short)(1000*(str[6]-48)+100*(str[7]-48)+10*(str[8]-48)+(str[9]-48));
 
-        createDate(day,month,year,date);
+        if (day < 1 || month < 1 || year < 1) res = 0;
+
+        if (day > 31 || month > 12) res = 0;
     }
+
+    if (res == 1) createDate(day,month,year,date);
 
     return res;
 }

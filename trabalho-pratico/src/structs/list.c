@@ -204,6 +204,8 @@ int listMap(List list, void (*function)(void*, void*), void * second)
  */
 char ** listOut(List list, char* (*printer)(void*,void*), int N, void * second)
 {
+    if (list->size == 0) return NULL;
+
     if (N > list->size) N = list->size;
 
     char ** res = malloc(sizeof(char*) * N);
