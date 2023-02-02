@@ -34,7 +34,7 @@ void printRide(void * ride, void * null, int * ignore, FILE * fp)
 
         ride_city(city,ride);
 
-        fprintf(fp, "%012d;%02d/%02d/%04d;%d;%s;%.3f\n", ride_id(ride), date[0], date[1], date[2], ride_distance(city), city, ride_tip(ride));
+        fprintf(fp, "%012d;%02d/%02d/%04d;%d;%s;%.3f\n", ride_id(ride), date[0], date[1], date[2], ride_distance(ride), city, ride_tip(ride));
     }
     else *ignore -= 1;
 }
