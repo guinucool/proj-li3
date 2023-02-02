@@ -167,8 +167,6 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
     sprintf(filename, "Resultados/command%d_output.txt", cmd);
     FILE * fp = fopen(filename, "w");
 
-    char * uniRes;
-
     switch (atoi(args[0]))
     {
         case 1:
