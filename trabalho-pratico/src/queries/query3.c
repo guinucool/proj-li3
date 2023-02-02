@@ -24,8 +24,8 @@ char * printerUsers(void * user, void * null, int * ignore, FILE * fp)
     else *ignore -= 1;
 }
 
-void query3(int N, Global glob, void * fp)
+void query3(int N, Global glob, FILE * fp)
 {
-    sortList(glob_userList(glob), usercmp);
+    sortList(glob_userList(glob), usercmp, NULL);
     listOut(glob_userList(glob), printerUsers, 0, N, NULL, fp);
 }

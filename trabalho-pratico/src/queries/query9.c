@@ -66,7 +66,7 @@ void createListTip(void * ride, void * list)
  * 
  *  @return Lista de strings com os outputs.
  */  
-void query9(Date dateA, Date dateB, Global glob, void * fp)
+void query9(Date dateA, Date dateB, Global glob, FILE * fp)
 { 
     List list = createList();
     int size = 0, key = 0;
@@ -81,7 +81,7 @@ void query9(Date dateA, Date dateB, Global glob, void * fp)
         if (!anoA) dateA[2]++;
     }
 
-    sortList(list, ridecmp2);
+    sortList(list, ridecmp2, NULL);
     listOut(list, printRide, 0, size, NULL, fp);
     destroyList(list, null, 0);
 }

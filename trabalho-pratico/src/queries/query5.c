@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "../../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/user.h"
@@ -26,7 +27,7 @@ void rideCostFilterNoTip(void * ride, double * res)
  * 
  * @return Retorna o preço médio das viagens realizadas entre essas duas datas.
  */ 
-char * query5(Date dateA, Date dateB, Global glob)
+void query5(Date dateA, Date dateB, Global glob, FILE * fp)
 { 
     double cost = 0, preco_medio = 0;
     int count = 0, key = 0;
@@ -43,5 +44,5 @@ char * query5(Date dateA, Date dateB, Global glob)
 
     if (count != 0) preco_medio = (double)cost/count;
 
-    return doublePrinter(preco_medio);
+    fprintf(fp, "%.3f\n", preco_medio);
 }

@@ -12,7 +12,7 @@ typedef struct _LIST_ *List;
 // Tratamentos
 List createList();
 void addList(void * element, List list);
-void sortList(List list, int (*)(void*, void*));
+void sortList(List list, int (*)(void*, void*, void*), void * second);
 void destroyList(List list, void (*)(void*), char mode);
 void debugPrintList(List list, void (*)(void*));
 int listMap(List list, void(*)(void*,void*), void * second);

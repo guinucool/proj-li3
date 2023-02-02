@@ -9,7 +9,7 @@ directory:
 #programa-testes: out/test.o out/parser.o out/interpreter.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/datemap.o out/linkedlist.o out/city.o out/utils.o out/query2.o out/query3.o
 #	$(CC) $(CFLAGS) $^ -o $@
 
-programa-principal: out/main.o out/utils.o out/date.o out/list.o out/user.o out/driver.o out/ride.o out/hashmap.o out/datemap.o out/city.o out/global.o out/query2.o out/query3.o out/query4.o out/query5.o out/query9.o out/parser.o out/interpreter.o
+programa-principal: out/main.o out/utils.o out/date.o out/list.o out/user.o out/driver.o out/ride.o out/hashmap.o out/datemap.o out/city.o out/global.o out/query1.o out/query2.o out/query3.o out/query4.o out/query5.o out/query7.o out/query9.o out/parser.o out/interpreter.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 out/test.o: src/test.c
@@ -24,6 +24,9 @@ out/parser.o: src/io/parser.c
 out/interpreter.o: src/io/interpreter.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
+out/query1.o: src/queries/query1.c
+	$(CC) $(CFLAGS) -c $^ -o $@
+
 out/query2.o: src/queries/query2.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
@@ -34,6 +37,9 @@ out/query4.o: src/queries/query4.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 out/query5.o: src/queries/query5.c
+	$(CC) $(CFLAGS) -c $^ -o $@
+
+out/query7.o: src/queries/query7.c
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 out/query9.o: src/queries/query9.c

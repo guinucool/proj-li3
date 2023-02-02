@@ -95,7 +95,6 @@ Driver createDriver(int id, char * name, short age, char gender, char car_class,
 int updateDriver(Driver driver, int score, double money_received, char * city, Date date)
 {
 	int res = 0;
-
 	int target = -1;
 
 	for (int i = 0; i < driver->counter; i++)
