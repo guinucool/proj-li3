@@ -189,7 +189,7 @@ int listMap(List list, void (*function)(void*, void*), void * second)
     return list->size;
 }
 
-/// @brief A função listOut cria um output de N elementos de uma lista.
+/// @brief[OUTDATED] A função listOut cria um output de N elementos de uma lista.
 /**
  * A função listOut cria um output de N elementos de uma lista,
  * colocando-o numa array de strings que serão criadas
@@ -202,18 +202,27 @@ int listMap(List list, void (*function)(void*, void*), void * second)
  * 
  * @return O apontador do array de strings criado.
  */
-char ** listOut(List list, char* (*printer)(void*,void*), int N, void * second)
+void listOut(List list, void (*printer)(void*,void*,int*,FILE*), int pos, int N, void * second, FILE * file)
 {
+    int pag = PAGES;
+
     if (list->size == 0) return NULL;
 
     if (N > list->size) N = list->size;
+    
+    if (pos == 0) pag = N;
+    pos--;
 
-    char ** res = malloc(sizeof(char*) * N);
+    if (pos * PAGES > N) pos -= ((pos * PAGES) - N) / PAGES;
+    if (pos * PAGES == N) pos--;
 
-    for (int i = 0; i < N && i < list->size; i++)
-        res[i] = printer(list->list[i],second);
+    int ignore = pos * PAGES;
 
-    return res;
+    for (int i = 0; i < N && i < list->size && pag > 0; i++)
+    {
+        if (ignore <= 0) pag--;
+        printer(list->list[i], second, &ignore, file);
+    }
 }
 
 /// @brief A função listEmpty verifica se uma lista é vazia. 

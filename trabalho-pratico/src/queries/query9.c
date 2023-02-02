@@ -23,35 +23,20 @@
  *  
  *  @return A string com a informação necessaria à querie 9.
 */
-char * printRide(void * ride)
+void printRide(void * ride, void * null, int * ignore, FILE * fp)
 {
-    char * string;
-    char city[MAX_STR_NAME];
+    if (*ignore <= 0)
+    {
+        char city[MAX_STR_NAME];
 
-    int strSize;
-    int distSize,dist;
-    int citySize;
-    int tipSize,tip;
+        Date date;
+        ride_date(date,ride);
 
-    Date date;
-    ride_date(date,ride);
+        ride_city(city,ride);
 
-    dist = ride_distance(ride);
-    distSize = intLen(dist);
-
-    ride_city(city,ride);
-    citySize = strlen(city);
-        
-    tip = (int)ride_tip(ride);
-    tipSize = intLen(tip)+3;
-
-    strSize = 29 + distSize + citySize + tipSize;
-
-    string = malloc(strSize * sizeof(char));
-
-    sprintf(string, "%012d;%02d/%02d/%04d;%d;%s;%.3f", ride_id(ride), date[0], date[1], date[2], dist, city, ride_tip(ride));
-
-    return string;
+        fprintf(fp, "%012d;%02d/%02d/%04d;%d;%s;%.3f\n", ride_id(ride), date[0], date[1], date[2], ride_distance(city), city, ride_tip(ride));
+    }
+    else *ignore -= 1;
 }
  
 void createListTip(void * ride, void * list)
@@ -81,11 +66,10 @@ void createListTip(void * ride, void * list)
  * 
  *  @return Lista de strings com os outputs.
  */  
-char ** query9(Date dateA, Date dateB, Global glob)
+void query9(Date dateA, Date dateB, Global glob, void * fp)
 { 
     List list = createList();
     int size = 0, key = 0;
-    char ** res;
 
     while (datecmp(dateA, dateB) <= 0)
     {
@@ -98,12 +82,6 @@ char ** query9(Date dateA, Date dateB, Global glob)
     }
 
     sortList(list, ridecmp2);
-
-    debugPrintList(list, null);
-
-    res = listOut(list, printRide, size, NULL);
-
+    listOut(list, printRide, 0, size, NULL, fp);
     destroyList(list, null, 0);
-
-    return res;
 }

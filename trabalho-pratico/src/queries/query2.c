@@ -9,15 +9,16 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-char * printerDrivers(void * driver)
+void printerDrivers(void * driver, void * null, int * ignore, FILE * fp)
 {
-    char name[NAME_STR_SIZE];
-    driver_name(name, driver);
+    if (*ignore <= 0)
+    {
+        char name[NAME_STR_SIZE];
+        driver_name(name, driver);
 
-    char * res = malloc(sizeof(char) * (19 + strlen(name)));
-    sprintf(res,"%012d;%s;%.3f", driver_id(driver), name, driver_score(driver, NULL));
-
-    return res;
+        fprintf(fp,"%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, NULL));
+    }
+    else *ignore -= 1;
 }
 
 int comparaDrivers(void * elem1, void * elem2)
@@ -25,9 +26,8 @@ int comparaDrivers(void * elem1, void * elem2)
     return drivercmp(elem1, elem2, NULL);
 }
 
-char ** query2(int N, Global glob)
+void query2(int N, Global glob, void * fp)
 {
     sortList(glob_driverList(glob), comparaDrivers);
-    
-    return listOut(glob_driverList(glob), printerDrivers, N, NULL);
+    listOut(glob_driverList(glob), printerDrivers, 0, N, NULL, fp);
 }

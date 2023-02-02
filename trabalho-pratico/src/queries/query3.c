@@ -9,23 +9,23 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-char * printerUsers(void * user)
+char * printerUsers(void * user, void * null, int * ignore, FILE * fp)
 {
-    char username[MAX_USER_STR];
-    user_username(username, user);
+    if (*ignore <= 0)
+    {
+        char username[MAX_USER_STR];
+        user_username(username, user);
 
-    char name[MAX_USER_STR];
-    user_name(name, user);
+        char name[MAX_USER_STR];
+        user_name(name, user);
 
-    char * res = malloc(sizeof(char) * (3 + strlen(username) + strlen(name) + intLen(user_distance(user))));
-    sprintf(res,"%s;%s;%d", username, name, user_distance(user));
-
-    return res;
+        fprintf(fp,"%s;%s;%d\n", username, name, user_distance(user));
+    }
+    else *ignore -= 1;
 }
 
-char ** query3(int N, Global glob)
+void query3(int N, Global glob, void * fp)
 {
     sortList(glob_userList(glob), usercmp);
-    
-    return listOut(glob_userList(glob), printerUsers, N, NULL);
+    listOut(glob_userList(glob), printerUsers, 0, N, NULL, fp);
 }

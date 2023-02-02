@@ -137,6 +137,7 @@ void interRide(char args[][MAX_LINE], Global glob)
         // Atualiza user e driver
         userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
         updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
+
         if (user_accountStatus(user) && driver_accountStatus(driver) && user_gender(user) == driver_gender(driver)) addList(ride, glob_rideList(glob));
     }
 }
@@ -165,7 +166,7 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
     sprintf(filename, "Resultados/command%d_output.txt", cmd);
     FILE * fp = fopen(filename, "w");
 
-    char ** mulRes, * uniRes;
+    char * uniRes;
 
     switch (atoi(args[0]))
     {
@@ -174,27 +175,11 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
             break;
 
         case 2:
-            mulRes = query2(atoi(args[1]),glob);
-
-            for (int i = 0; mulRes && i < atoi(args[1]) && mulRes[i]; i++)
-            {
-                fprintf(fp, "%s\n", mulRes[i]);
-                free(mulRes[i]);
-            }
-
-            if (mulRes) free(mulRes);
+            query2(atoi(args[1]),glob, fp);
             break;
 
         case 3:
-            mulRes = query3(atoi(args[1]),glob);
-
-            for (int i = 0; mulRes && i < atoi(args[1]) && mulRes[i]; i++)
-            {
-                fprintf(fp, "%s\n", mulRes[i]);
-                free(mulRes[i]);
-            }
-
-            if (mulRes) free(mulRes);
+            query3(atoi(args[1]),glob, fp);
             break;
 
         case 4:
@@ -243,17 +228,10 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
             parseDate(args[1],dateA);
             parseDate(args[2],dateB);
 
-            mulRes = query9(dateA, dateB, glob);
-
-            for (int i = 0; mulRes && i < atoi(args[1]) && mulRes[i]; i++)
-            {
-                fprintf(fp, "%s\n", mulRes[i]);
-                free(mulRes[i]);
-            }
-
-            if (mulRes) free(mulRes);
+            query9(dateA, dateB, glob, fp);
             break;
     }
+
     fclose(fp);
 }
 
