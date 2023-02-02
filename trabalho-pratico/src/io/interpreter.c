@@ -136,8 +136,9 @@ void interRide(char args[][MAX_LINE], Global glob)
 
         // Atualiza user e driver
         userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
-        updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
+        int add = updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
 
+        if (add) addList(driver, city_drivers(city));
         if (user_accountStatus(user) && driver_accountStatus(driver) && user_gender(user) == driver_gender(driver)) addList(ride, glob_rideList(glob));
     }
 }

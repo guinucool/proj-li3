@@ -24,7 +24,7 @@ typedef struct _DRIVER_ *Driver;
 
 // Tratamentos
 Driver createDriver(int id, char * name, short age, char gender, char car_class, char * license_plate, char * city, Date account_creation, char account_status);
-void updateDriver(Driver driver, int score, double money_received, char * city, Date date);
+int updateDriver(Driver driver, int score, double money_received, char * city, Date date);
 void destroyDriver(Driver driver);
 void debugPrintDriver(Driver driver);
 Driver parseDriver(char tokens[9][200]);

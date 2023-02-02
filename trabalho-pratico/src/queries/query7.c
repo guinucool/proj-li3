@@ -5,6 +5,7 @@
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/list.h"
 #include "../../includes/structs/city.h"
+#include "../../includes/structs/date.h"
 #include "../../includes/structs/driver.h"
 
 /// @brief Esta função transforma a informação de um driver em string.
