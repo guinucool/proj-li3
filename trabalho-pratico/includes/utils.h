@@ -22,4 +22,7 @@ int isPrime(int num);
 void strtop(char * str);
 int intLen(int value);
 
+// Impressões
+char * doublePrinter(double d);
+
 #endif

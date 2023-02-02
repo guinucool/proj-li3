@@ -149,7 +149,7 @@ int dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*, void
 {
     int count = 0;
 
-    while(dateA[2] != map->year+1)
+    while(datecmp(dateA, dateB) <= 0 && dateA[2] == map->year)
     {
         List lista_rides = dateMapGet(map,dateA[0],dateA[1]); 
         count += listMap(lista_rides, function, second);

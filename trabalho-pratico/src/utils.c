@@ -1,6 +1,8 @@
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "../includes/utils.h"
 
 /// @brief A função equal compara duas chaves de tipo Int.
@@ -195,4 +197,20 @@ int intLen(int value)
         count++;
     }
     return count;
+}
+
+/// @brief A função doublePrinter converte tipos double em string.
+/**
+ * A função doublePrinter converte tipos double em string,
+ * alocando o espaço necessário para estas strings.
+ * 
+ * @param d A variável do tipo double.
+ * 
+ * @return A string resultado.
+ */
+char * doublePrinter(double d)
+{
+    char * res = malloc(sizeof(char) * (intLen((int)d) + 4));
+    sprintf(res, "%.3f", d);
+    return res;
 }

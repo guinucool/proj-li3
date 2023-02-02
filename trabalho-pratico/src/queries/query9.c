@@ -1,12 +1,15 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "../../includes/utils.h"
-#include "../../includes/structs/global.h"
-#include "../../includes/structs/hashmap.h"
-#include "../../includes/structs/list.h"
-#include "../../includes/structs/ride.h"
 #include "../../includes/structs/date.h"
+#include "../../includes/structs/user.h"
+#include "../../includes/structs/driver.h"
+#include "../../includes/structs/ride.h"
+#include "../../includes/structs/list.h"
 #include "../../includes/structs/datemap.h"
-
+#include "../../includes/structs/hashmap.h"
+#include "../../includes/structs/global.h"
+#include "../../includes/queries.h"
 
 /// @brief Esta função transforma a informação de uma ride em string.
 /**
@@ -23,7 +26,7 @@
 char * printRide(void * ride)
 {
     char * string;
-    char * city;
+    char city[MAX_STR_NAME];
 
     int strSize;
     int distSize,dist;
@@ -31,6 +34,7 @@ char * printRide(void * ride)
     int tipSize,tip;
 
     Date date;
+    ride_date(date,ride);
 
     dist = ride_distance(ride);
     distSize = intLen(dist);
@@ -38,39 +42,21 @@ char * printRide(void * ride)
     ride_city(city,ride);
     citySize = strlen(city);
         
-    tip = ride_tip(ride);
+    tip = (int)ride_tip(ride);
     tipSize = intLen(tip)+3;
 
-    strSize = 26 + distSize + citySize + tipSize;
+    strSize = 29 + distSize + citySize + tipSize;
 
-    string = malloc(strSize);
+    string = malloc(strSize * sizeof(char));
 
-    ride_date(date,ride);
+    sprintf(string, "%012d;%02d/%02d/%04d;%d;%s;%.3f", ride_id(ride), date[0], date[1], date[2], dist, city, ride_tip(ride));
 
-    sprintf(string,"%012d;%02d/%02d/%04d;%d;%s;%.3f",
-            ride_id(ride),
-            date[0],
-            date[1],
-            date[2],
-            dist,
-            city,
-            tip
-            );
+    return string;
 }
-
-/// @brief Esta função chama a função a ser usada na dateFilter.
-/**
- *  Esta função chama a função a ser usada na dateFilter, ou seja, chama a função
- *  sortList com a lista a ser processada e a função ridecmp2.
- * 
- * @param ride Ride a ser processada.
- * 
- * @param res Lista a ser processada.
- */  
  
-void listRes(void * ride, List res)
+void createListTip(void * ride, void * list)
 {
-    sortList(res,ridecmp2);
+    if (ride_tip(ride) != 0) addList(ride, list);
 }
 
 /// @brief Esta função realiza o trabalho necessário à conclusão da querie 9.
@@ -95,19 +81,29 @@ void listRes(void * ride, List res)
  * 
  *  @return Lista de strings com os outputs.
  */  
-char ** query9(Date dateA, Date dateB, Global glob){
-    
-    Hashmap calendario = glob_ride(glob); 
-    Ride ride;
-    List res;
-    int size;
+char ** query9(Date dateA, Date dateB, Global glob)
+{ 
+    List list = createList();
+    int size = 0, key = 0;
+    char ** res;
 
-    while (dateA[2] != dateB[2]+1)
+    while (datecmp(dateA, dateB) <= 0)
     {
-        DateMap anoA = get(calendario,&dateA[2],equal,hashKey_Int);
-        
-        size += dateFilter(anoA,dateA,dateB,listRes,res);
+        key = dateA[2];
+
+        DateMap anoA = get(glob_ride(glob), &key, equal, hashKey_Int);
+        if (anoA) size += dateFilter(anoA, dateA, dateB, createListTip, list);
+
+        if (!anoA) dateA[2]++;
     }
 
-    return listOut(res,printRide,size,NULL);
+    sortList(list, ridecmp2);
+
+    debugPrintList(list, null);
+
+    res = listOut(list, printRide, size, NULL);
+
+    destroyList(list, null, 0);
+
+    return res;
 }
