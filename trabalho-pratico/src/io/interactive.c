@@ -17,9 +17,10 @@ void interactiveMode(Global glob)
     {     
         scanf("%s%*c",str);
         if(str[0] == '0')break;
-        if(str[0] == '9')page(str,strlen(str));
+        else if(str[0] > '0' && str[0] <= '9')
+        {
+        strtoken();
         cmd++;
-
-        interCmd(str,glob,cmd);
+        }
     }
 }
