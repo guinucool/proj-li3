@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "../includes/utils.h"
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/city.h"
@@ -15,7 +16,7 @@
  *  @param glob Estrutura de dados global a ser atualizada.
  *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
-char * query4(char * name, Global glob)
+void query4(char * name, Global glob, FILE * fp)
 {
     // Aquisição do Hashmap de cities
     Hashmap cities = glob_city(glob);
@@ -29,5 +30,5 @@ char * query4(char * name, Global glob)
     // Aquisição do preço médio da cidade a partir da struct city
     if (city) preco_medio = city_averageMoney(city);
 
-    return doublePrinter(preco_medio);
+    fprintf(fp, "%.3f\n", preco_medio);
 }

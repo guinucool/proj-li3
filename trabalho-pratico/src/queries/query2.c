@@ -21,13 +21,8 @@ void printerDrivers(void * driver, void * null, int * ignore, FILE * fp)
     else *ignore -= 1;
 }
 
-int comparaDrivers(void * elem1, void * elem2)
+void query2(int N, Global glob, FILE * fp)
 {
-    return drivercmp(elem1, elem2, NULL);
-}
-
-void query2(int N, Global glob, void * fp)
-{
-    sortList(glob_driverList(glob), comparaDrivers);
+    sortList(glob_driverList(glob), drivercmp, NULL);
     listOut(glob_driverList(glob), printerDrivers, 0, N, NULL, fp);
 }

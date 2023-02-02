@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "../../includes/utils.h"
-#include "../../includes/structs/global.h"
-#include "../../includes/structs/hashmap.h"
-#include "../../includes/structs/list.h"
-#include "../../includes/structs/city.h"
+#include "../../includes/structs/date.h"
 #include "../../includes/structs/driver.h"
+#include "../../includes/structs/city.h"
+#include "../../includes/structs/list.h"
+#include "../../includes/structs/hashmap.h"
+#include "../../includes/structs/global.h"
+#include "../../includes/queries.h"
 
 /// @brief Esta função transforma a informação de um driver em string.
 /**
@@ -21,39 +23,12 @@
  *  
  *  @return A string com a informação necessaria à querie 7.
 */
-char * printDriver(void * driver, void * city)
+void printerDriverCity(void * driver, void * city, int * ignore, FILE * fp)
 {
-    char * name, city = city;
-
-    int strSize,nameSize,avMedSize;
-
-    double avMed;
-    
+    char name[MAX_STR_NAME];
     driver_name(name, driver);
-    nameSize = strlen(name);
 
-    avMed = driver_score(driver, city);
-    avMedSize = intLen(avMed) + 3;
-
-    strSize = 12 + nameSize + avMedSize;
-
-    char * string = malloc(strSize);
-
-    sprintf(string,"%012d;%s;%.3f",
-            driver_id(driver),
-            name,
-            avMed
-            );
-
-    return string;
-}
-
-/// @brief Esta função verifica se o status é valido e se for adiciona a uma lista o driver.
-/// @param driver Driver a ser analisado
-/// @param res Lista onde o driver vai ser adicionado.
-void ListRes(void * driver, List res)
-{
-    if(driver_accountStatus(driver) == '1') addList(driver,res);
+    fprintf(fp,"%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
 }
 
 /// @brief Esta função realiza o trabalho necessário à conclusão da querie 7.
@@ -70,17 +45,11 @@ void ListRes(void * driver, List res)
  * 
  *  @return Lista de strings com os outputs.
  */  
-char ** query7(int N,char* city, Global * glob){
+void query7(int N, char * city, Global glob, FILE * fp)
+{
+    City obj = get(glob_city(glob), city, equal_str, hashKey_Str);
 
-    Hashmap drivers = glob_driver(glob);
-    Driver driver = city_drivers(drivers);
-    List res;
-    int size;
+    sortList(city_drivers(obj), drivercmp, city);
 
-    size = map(drivers,nullMap,ListRes,res);
-
-    sortList(res,drivercmp);
-
-    return listOut(res, printDriver, N, city);
-
+    listOut(city_drivers(obj), printerDriverCity, 0, N, city, fp);
 }

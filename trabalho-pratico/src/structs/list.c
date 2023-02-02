@@ -67,14 +67,14 @@ void swap(int a, int b, void ** array)
  * 
  * @return A posição que divide as partes da lista.
  */
-int partition(void ** array, int bottom, int top, int (*compare)(void*,void*))
+int partition(void ** array, int bottom, int top, int (*compare)(void*,void*,void*), void * second)
 {
     void * pivot = array[top];
     int j = (bottom - 1);
 
     for (int i = bottom; i < top; i++)
     {
-        if (compare(array[i], pivot) > 0)
+        if (compare(array[i], pivot, second) > 0)
         {
             j++;
             swap(i, j, array);
@@ -98,14 +98,14 @@ int partition(void ** array, int bottom, int top, int (*compare)(void*,void*))
  * @param top A posição do topo da parte da lista.
  * @param compare A função de comparação de elementos da lista.
  */
-void quickSort(void ** array, int bottom, int top, int (*compare)(void*,void*))
+void quickSort(void ** array, int bottom, int top, int (*compare)(void*,void*,void*), void * second)
 {
     if (bottom < top)
     {
-        int index = partition(array, bottom, top, compare);
+        int index = partition(array, bottom, top, compare, second);
 
-        quickSort(array, bottom, index - 1, compare);
-        quickSort(array, index + 1, top, compare);
+        quickSort(array, bottom, index - 1, compare, second);
+        quickSort(array, index + 1, top, compare, second);
     }
 }
 
@@ -117,11 +117,11 @@ void quickSort(void ** array, int bottom, int top, int (*compare)(void*,void*))
  * @param list A lista a ser ordenada.
  * @param compare A função de comparação de elementos da lista.
  */
-void sortList(List list, int (*compare)(void*,void*))
+void sortList(List list, int (*compare)(void*,void*,void*), void * second)
 {
     if (list->ord == UNORDERED)
     {
-        quickSort(list->list, 0, (list->size - 1), compare);
+        quickSort(list->list, 0, (list->size - 1), compare, second);
         list->ord = ORDERED;
     }
 }

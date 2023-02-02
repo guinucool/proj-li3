@@ -9,58 +9,34 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-char * isUser(void * user)
+void printUser(void * user, FILE * fp)
 {
     char name[MAX_USER_STR];
     user_name(name, user);
 
-    char user_gender; 
-
-    short user_age;  
-
-    char * res = malloc(sizeof(char) * (14 + intLen(user_age(user)) + intLen(user_rides(user)) + strlen(name) + intLen((int)user_moneySpent(user))));
-    sprintf(res,"%s;%c;%d;%0.3f;%d;%0.3f", user_name, user_gender, user_age, user_averageScore,user_moneySpent);
-
-    return res;
+    fprintf(fp, "%s;%c;%d;%0.3f;%d;%0.3f\n", name, user_gender(user), user_age(user), user_averageScore(user), user_rides(user), user_moneySpent(user));
 }
 
-char * isDriver(void * driver)
+void printDriver(void * driver, FILE * fp)
 {
     char name[NAME_STR_SIZE];
     driver_name(name, driver);
 
-    char gender; 
-
-    short age;  
-
-    char * res = malloc(sizeof(char) * (14 + intLen(drive_age(driver)) + intLen(driver_rides(driver)) + strlen(name) + intLen((int)driver_moneyReceived(driver))));
-    sprintf(res,"%s;%c;%d;%0.3f;%d;%0.3f", driver_name, driver_gender, age, driver_score(driver, NULL), driver_rides, driver_moneyReceived);
-
-
-    return res;
+    fprintf(fp, "%s;%c;%d;%0.3f;%d;%0.3f\n", name, driver_gender(driver), driver_age(driver), driver_score(driver, NULL), driver_rides(driver), driver_moneyReceived(driver));
 }
 
-
-
-void query1(char *id, Global glob) {
-
-    Hashmap map;
-    User user;
-    Driver driver;
-
-    int total = 0, count = 0;
-
-    if (isNumber(id, INT)) {
-
-        map = glob_driver(glob);
+void query1(char * id, Global glob, FILE * fp)
+{
+    if (isNumber(id, INT))
+    {
         int key = atoi(id);
-        driver = get(map, &key, equal, hashKey_Int);
-        isDriver(driver); 
 
-    } else {
-        
-        map = glob_user(glob);
-        user = get(map, id, equal_str, hashKey_Str);
-        isUser(user);
+        Driver driver = get(glob_driver(glob), &key, equal, hashKey_Int);
+        if (driver_accountStatus(driver)) printDriver(driver, fp);
+    }
+    else
+    {
+        User user = get(glob_user(glob), id, equal_str, hashKey_Str);
+        if (user_accountStatus(user)) printUser(user, fp);
     }
 }

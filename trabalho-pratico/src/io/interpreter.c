@@ -136,8 +136,9 @@ void interRide(char args[][MAX_LINE], Global glob)
 
         // Atualiza user e driver
         userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
-        updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
+        int add = updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
 
+        if (add) addList(driver, city_drivers(city));
         if (user_accountStatus(user) && driver_accountStatus(driver) && user_gender(user) == driver_gender(driver)) addList(ride, glob_rideList(glob));
     }
 }
@@ -171,34 +172,26 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
     switch (atoi(args[0]))
     {
         case 1:
-            //query1(args[1],glob);
+            query1(args[1], glob, fp);
             break;
 
         case 2:
-            query2(atoi(args[1]),glob, fp);
+            query2(atoi(args[1]), glob, fp);
             break;
 
         case 3:
-            query3(atoi(args[1]),glob, fp);
+            query3(atoi(args[1]), glob, fp);
             break;
 
         case 4:
-            uniRes = query4(args[1],glob);
-
-            if (uniRes) fprintf(fp, "%s\n", uniRes);
-
-            if (uniRes) free(uniRes);
+            query4(args[1], glob, fp);
             break;
 
         case 5:
             parseDate(args[1],dateA);
             parseDate(args[2],dateB);
 
-            uniRes = query5(dateA, dateB, glob);
-
-            if (uniRes) fprintf(fp, "%s\n", uniRes);
-
-            if (uniRes) free(uniRes);
+            query5(dateA, dateB, glob, fp);
             break;
 
         case 6:
@@ -209,15 +202,7 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
             break;
 
         case 7:
-            /*int N = atoi(args[1]);
-
-            char ** res = query7(N,args[2],glob);
-
-            for (int i = 0; i < N; i++)
-            {
-                fprintf(fp,"%s\n",res[i]);
-            }*/
-            
+            query7(atoi(args[1]), args[2], glob, fp);
             break;
 
         case 8:

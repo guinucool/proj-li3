@@ -198,19 +198,3 @@ int intLen(int value)
     }
     return count;
 }
-
-/// @brief A função doublePrinter converte tipos double em string.
-/**
- * A função doublePrinter converte tipos double em string,
- * alocando o espaço necessário para estas strings.
- * 
- * @param d A variável do tipo double.
- * 
- * @return A string resultado.
- */
-char * doublePrinter(double d)
-{
-    char * res = malloc(sizeof(char) * (intLen((int)d) + 4));
-    sprintf(res, "%.3f", d);
-    return res;
-}

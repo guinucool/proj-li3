@@ -89,9 +89,12 @@ Driver createDriver(int id, char * name, short age, char gender, char car_class,
  * @param money_received O dinheiro recebido a ser adicionado.
  * @param city A cidade onde a viagem ocorreu.
  * @param date A data da viagem.
+ * 
+ * @return A conclusão de que se a cidade é uma nova inserção.
  */
-void updateDriver(Driver driver, int score, double money_received, char * city, Date date)
+int updateDriver(Driver driver, int score, double money_received, char * city, Date date)
 {
+	int res = 0;
 	int target = -1;
 
 	for (int i = 0; i < driver->counter; i++)
@@ -99,6 +102,8 @@ void updateDriver(Driver driver, int score, double money_received, char * city, 
 
 	if (target == -1)
 	{
+		res = 1;
+
 		target = driver->counter;
 		driver->counter++;
 
@@ -130,6 +135,8 @@ void updateDriver(Driver driver, int score, double money_received, char * city, 
         driver->last_ride[1] = date[1];
         driver->last_ride[2] = date[2];
     }
+
+	return res;
 }
 
 /// @brief A função destroyDriver destroi uma variavel do tipo Driver.
