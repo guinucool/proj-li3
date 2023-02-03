@@ -127,10 +127,11 @@ void interRide(char args[][MAX_LINE], Global glob)
         if(city) updateCity(city, rideCost(ride, 0));
         else
         {
-            char * name = malloc(sizeof(char) * strlen(args[4]));
-            strncpy(name, args[4], strlen(args[4]));
+            char * name = malloc(sizeof(char) * (strlen(args[4]) + 1));
+            strcpy(name, args[4]);
 
             city = createCity(args[4], rideCost(ride, 0));
+
             put(glob_city(glob), name, city, hashKey_Str);
         }
 
