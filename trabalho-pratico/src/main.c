@@ -3,39 +3,42 @@
 #include <string.h>
 #include "../includes/structs/global.h"
 #include "../includes/io/parser.h"
+//#include "../includes/io/interactive.h"
 
 int main(int argc, char * args[])
 {	
-	if (argc > 2)
+	Global glob = createGlobal();
+	char str[200];
+
+	if (argc < 2)
 	{
-		Global glob = createGlobal();
-		char * truePath = (char*) malloc(sizeof(char) * (strlen(args[1]) + 13));
-
-		strcpy(truePath, args[1]);
-		strcat(truePath, "/users.csv");
-		readFile(truePath, 1, glob);
-
-		strcpy(truePath, args[1]);
-		strcat(truePath, "/drivers.csv");
-		readFile(truePath, 2, glob);
-
-		strcpy(truePath, args[1]);
-		strcat(truePath, "/rides.csv");
-		readFile(truePath, 3, glob);
-
-		//printGlobal(glob);
-
-		readFile(args[2], 0, glob);
-
-		//query1("MRibeiro33", glob);
-
-		//char gender = 'M';
-
-		//query8(&gender, 1, glob);
-
-		free(truePath);
-		destroyGlobal(glob);
+		printf("Caminho até ao dataset: ");
+		scanf("%s", str);
 	}
+	else
+		strncpy(str, args[1], 200);
 
-	return(0);
+	char * truePath = (char*) malloc(sizeof(char) * (strlen(str) + 13));
+
+	strcpy(truePath, str);
+	strcat(truePath, "/users.csv");
+	readFile(truePath, 1, glob);
+
+	strcpy(truePath, str);
+	strcat(truePath, "/drivers.csv");
+	readFile(truePath, 2, glob);
+
+	strcpy(truePath, str);
+	strcat(truePath, "/rides.csv");
+	readFile(truePath, 3, glob);
+
+	if (argc > 2)
+		readFile(args[2], 0, glob);
+	else
+		interactiveMode(glob);
+
+	free(truePath);
+	destroyGlobal(glob);
+
+	return 0;
 }

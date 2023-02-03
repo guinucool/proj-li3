@@ -17,7 +17,8 @@ void printUser(void * user, FILE * fp)
     char name[MAX_USER_STR];
     user_name(name, user);
 
-    fprintf(fp, "%s;%c;%d;%0.3f;%d;%0.3f\n", name, user_gender(user), user_age(user), user_averageScore(user), user_rides(user), user_moneySpent(user));
+    if (fp) fprintf(fp, "%s;%c;%d;%0.3f;%d;%0.3f\n", name, user_gender(user), user_age(user), user_averageScore(user), user_rides(user), user_moneySpent(user));
+    else printf("%s;%c;%d;%0.3f;%d;%0.3f\n", name, user_gender(user), user_age(user), user_averageScore(user), user_rides(user), user_moneySpent(user));
 }
 
 /// @brief Função que recebe a informação do driver e a imprime no ficheiro de output.
@@ -28,7 +29,8 @@ void printDriver(void * driver, FILE * fp)
     char name[NAME_STR_SIZE];
     driver_name(name, driver);
 
-    fprintf(fp, "%s;%c;%d;%0.3f;%d;%0.3f\n", name, driver_gender(driver), driver_age(driver), driver_score(driver, NULL), driver_rides(driver), driver_moneyReceived(driver));
+    if (fp) fprintf(fp, "%s;%c;%d;%0.3f;%d;%0.3f\n", name, driver_gender(driver), driver_age(driver), driver_score(driver, NULL), driver_rides(driver), driver_moneyReceived(driver));
+    else printf("%s;%c;%d;%0.3f;%d;%0.3f\n", name, driver_gender(driver), driver_age(driver), driver_score(driver, NULL), driver_rides(driver), driver_moneyReceived(driver));
 }
 
 /// @brief A função query1 lista o resumo do utilizador desejado seja user ou driver.

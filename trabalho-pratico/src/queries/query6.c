@@ -67,5 +67,9 @@ void query6(char * city, Date dateA, Date dateB, Global glob, FILE * fp)
 
     if (count != 0) dist_media = (double) dist / count;
 
-    if (count > 0) fprintf(fp, "%.3f\n", dist_media);
+    if (count > 0)
+    {
+        if (fp) fprintf(fp, "%.3f\n", dist_media);
+        else printf("%.3f\n", dist_media);
+    }
 }

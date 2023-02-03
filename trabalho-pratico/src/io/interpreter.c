@@ -163,10 +163,15 @@ void interRide(char args[][MAX_LINE], Global glob)
 void interCmd(char args[][MAX_LINE], Global glob, int cmd)
 {
     Date dateA, dateB;
-    char * filename = (char*) malloc(sizeof(char) * 100);
-
-    sprintf(filename, "Resultados/command%d_output.txt", cmd);
-    FILE * fp = fopen(filename, "w");
+    FILE * fp = NULL;
+    
+    if(cmd != 0)
+    {
+        char * filename = (char*) malloc(sizeof(char) * 100);
+        sprintf(filename, "Resultados/command%d_output.txt", cmd);
+        fp = fopen(filename, "w");
+        free(filename);
+    }
 
     switch (atoi(args[0]))
     {
@@ -205,7 +210,7 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
             break;
 
         case 8:
-            //query8(args[1],atoi(args[2]),glob);
+            query8(args[1][0], atoi(args[2]), glob, fp);
             break;
 
         case 9:
@@ -216,7 +221,7 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
             break;
     }
 
-    fclose(fp);
+    if (fp) fclose(fp);
 }
 
 

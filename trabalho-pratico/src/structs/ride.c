@@ -188,12 +188,12 @@ int ridecmp(Ride ride1, Ride ride2)
     Date date2;
     driver_accountCreation(date2, ride2->driver);
     
-    int res = datecmp(date1, date2);
+    int res = datecmp(date2, date1);
 
     user_accountCreation(date1, ride1->user);
     user_accountCreation(date2, ride2->user);
 
-    if(res == 0) res = datecmp(date1, date2);
+    if(res == 0) res = datecmp(date2, date1);
 
     if(res == 0)
     {

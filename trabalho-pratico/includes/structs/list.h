@@ -21,4 +21,7 @@ void listOut(List list, void (*)(void*,void*,int*,FILE*), int pos, int N, void *
 // Verificações
 int listEmpty(List list);
 
+// Devoluções
+int list_size(List list);
+
 #endif

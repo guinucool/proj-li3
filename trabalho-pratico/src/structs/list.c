@@ -230,3 +230,9 @@ int listEmpty(List list)
 {
     return list->size == 0;
 }
+
+/// @brief A função list_size devolve o tamanho de uma lista. 
+int list_size(List list)
+{
+    return list->size;
+}

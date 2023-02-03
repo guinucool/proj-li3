@@ -199,7 +199,7 @@ int intLen(int value)
     return count;
 }
 
-/// @brief A função tokenize separa uma string em tokens.
+/// @brief[OUT] A função tokenize separa uma string em tokens.
 /**
  * A função tokes separa uma string em tokens, usando um delimitador específico,
  * e retorna uma lista de strings com os tokens resultantes. A string original é 
@@ -211,22 +211,15 @@ int intLen(int value)
  * 
  * @return Uma lista de strings com os tokens resultantes.
  */
-char** tokens(char* str, char* delim)
+void tokens(char * str, char * delim, char tok[][200])
 {
-    char** tokens = NULL;
     int count = 0;
-    char* token = strtok(str, delim);
+    char * token = strtok(str, delim);
 
     while (token != NULL)
     {
-        tokens = realloc(tokens, (count + 1) * sizeof(char*));
-        tokens[count] = token;
-        count++;
+        strcpy(tok[count], token);
         token = strtok(NULL, delim);
+        count++;
     }
-
-    tokens = realloc(tokens, (count + 1) * sizeof(char*));
-    tokens[count] = NULL;
-
-    return tokens;
 }

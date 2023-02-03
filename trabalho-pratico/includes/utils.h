@@ -21,6 +21,6 @@ int isPrime(int num);
 // Tratamentos
 void strtop(char * str);
 int intLen(int value);
-char** tokens(char* str, char* delim);
+void tokens(char * str, char * delim, char tok[][200]);
 
 #endif
