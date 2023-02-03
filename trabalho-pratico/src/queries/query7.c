@@ -49,7 +49,7 @@ void query7(int N, char * city, Global glob, FILE * fp)
 {
     City obj = get(glob_city(glob), city, equal_str, hashKey_Str);
 
-    sortList(city_drivers(obj), drivercmp, city);
+    if (obj) sortList(city_drivers(obj), drivercmp, city);
 
-    listOut(city_drivers(obj), printerDriverCity, 0, N, city, fp);
+    if (obj) listOut(city_drivers(obj), printerDriverCity, 0, N, city, fp);
 }

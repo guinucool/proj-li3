@@ -50,11 +50,11 @@ void query1(char * id, Global glob, FILE * fp)
         int key = atoi(id);
 
         Driver driver = get(glob_driver(glob), &key, equal, hashKey_Int);
-        if (driver_accountStatus(driver)) printDriver(driver, fp);
+        if (driver && driver_accountStatus(driver)) printDriver(driver, fp);
     }
     else
     {
         User user = get(glob_user(glob), id, equal_str, hashKey_Str);
-        if (user_accountStatus(user)) printUser(user, fp);
+        if (user && user_accountStatus(user)) printUser(user, fp);
     }
 }
