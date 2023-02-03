@@ -33,6 +33,7 @@ int main(int argc, char * args[])
 
 		//query8(&gender, 1, glob);
 
+		free(truePath);
 		destroyGlobal(glob);
 	}
 

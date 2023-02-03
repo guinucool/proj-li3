@@ -32,5 +32,5 @@ void query4(char * name, Global glob, FILE * fp)
     // Aquisição do preço médio da cidade a partir da struct city
     if (city) preco_medio = city_averageMoney(city);
 
-    fprintf(fp, "%.3f\n", preco_medio);
+    if (city) fprintf(fp, "%.3f\n", preco_medio);
 }

@@ -194,10 +194,10 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
             break;
 
         case 6:
-            //stringToDate(args[2],dateA);
-            //stringToDate(args[3],dateB);
-            
-            //fprintf(fp, "%.3f\n", query6(args[1],dateA,dateB,glob));
+            parseDate(args[2],dateA);
+            parseDate(args[3],dateB);
+
+            query6(args[1], dateA, dateB, glob, fp);
             break;
 
         case 7:

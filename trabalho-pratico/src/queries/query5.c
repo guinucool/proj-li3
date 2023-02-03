@@ -49,5 +49,5 @@ void query5(Date dateA, Date dateB, Global glob, FILE * fp)
 
     if (count != 0) preco_medio = (double)cost/count;
 
-    fprintf(fp, "%.3f\n", preco_medio);
+    if (count > 0) fprintf(fp, "%.3f\n", preco_medio);
 }

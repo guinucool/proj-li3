@@ -2,6 +2,11 @@ trabalho-pratico/data-regular/*
 trabalho-pratico/data-regular-errors/*
 trabalho-pratico/data-regular-errors-valids/*
 trabalho-pratico/data-regular-errors-invalids/*
+trabalho-pratico/data-large/*
+trabalho-pratico/data-large-errors/*
+trabalho-pratico/data-large-errors-invalids/*
+trabalho-pratico/data-large-errors-valids/*
+trabalho-pratico/data-lite/*
 trabalho-pratico/out/*
 trabalho-pratico/cmd/*
 trabalho-pratico/Resultados/*.txt

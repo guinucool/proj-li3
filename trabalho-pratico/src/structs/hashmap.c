@@ -11,7 +11,7 @@ typedef struct _HASHMAP_NODE_ {
 } HashmapNode;
 
 /// \struct Estrutura que define o hashmap.
-typedef struct _HASHMAP_ {
+typedef struct _HASHMAP_ {              
 	HashmapNode * map;	                //!< Array de nodes que definem o hashmap
     int size;                           //!< Tamanho atual do hashmap
     int max;                            //!< Tamanho máximo do hashmap
@@ -122,6 +122,7 @@ void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
     while (!isPrime(hashmap->max)) hashmap->max++;
 
     hashmap->map = realloc(hashmap->map, sizeof(HashmapNode) * hashmap->max);
+
     hashmap->map[ini] = createNode(NULL, NULL, INACTIVE);
     hashmap->size = 0;
 
@@ -149,8 +150,12 @@ void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
 void destroyHashmap(Hashmap hashmap, void (*destroy)(void*))
 {
     if (hashmap)
+    {
         for (int i = 0; i < hashmap->max; i++)
             destroyNode(hashmap->map[i], destroy);
+        free(hashmap->map);
+        free(hashmap);
+    }
 }
 
 /// @brief A função debugPrintHashmap imprime um hashmap.
