@@ -199,17 +199,17 @@ int intLen(int value)
     return count;
 }
 
-/// @brief[OUT] A função tokenize separa uma string em tokens.
+/// @brief A função tokens separa uma string em tokens.
 /**
- * A função tokes separa uma string em tokens, usando um delimitador específico,
- * e retorna uma lista de strings com os tokens resultantes. A string original é 
+ * A função tokens separa uma string em tokens, usando um delimitador específico,
+ * e copia para um array de strings os tokens resultantes. A string original é 
  * modificada durante o processo.
  * 
  * @param str A string a ser processada.
  * 
  * @param delim O delimitador para separar a string em tokens.
  * 
- * @return Uma lista de strings com os tokens resultantes.
+ * @param tok Array de strings onde serão armazenados os tokens.
  */
 void tokens(char * str, char * delim, char tok[][200])
 {
