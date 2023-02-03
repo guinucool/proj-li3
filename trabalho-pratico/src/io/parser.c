@@ -52,12 +52,12 @@ void readFile(char * path, char mode, Global glob)
         {
             holder[i-j] = line[i];
 
-            if (line[i+1] == cut || line[i+1] == '\n')
+            if (line[i] == cut || line[i+1] == '\n')
             {
-                holder[i-j+1] = '\0';
+                if (line[i+1] == '\n' && line[i] != cut) holder[i-j+1] = '\0';
+                else holder[i-j] = '\0';
                 strcpy(args[f], holder);
                 f++;
-                if (line[i+1] != '\n') i++;
                 j = i+1;
             }
         }

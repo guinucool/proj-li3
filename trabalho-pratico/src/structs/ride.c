@@ -135,20 +135,22 @@ Ride parseRide(char tokens[10][200], Driver driver, User user)
     distance = (short)atoi(tokens[5]);
     if(distance < 1 || !isNumber(tokens[5], INT)) return NULL;
 
+    //printf("%d\n", distance);
+
     // Parse Score_user
     short score_user;
     score_user = (short)atoi(tokens[6]);
-    if(score_user < 0 || !isNumber(tokens[6],DOUBLE)) return NULL;
+    if(score_user < 1 || !isNumber(tokens[6],INT)) return NULL;
 
     // Parse Score_driver
     short score_driver;
     score_driver = (short)atoi(tokens[7]);
-    if(score_driver < 0 || !isNumber(tokens[7],DOUBLE)) return NULL;
+    if(score_driver < 1 || !isNumber(tokens[7],INT)) return NULL;
 
     // Parse Tip
     double tip;
     tip = atof(tokens[8]);
-    if(tip < 0.0f || !isNumber(tokens[8],DOUBLE)) return NULL;
+    if(tip < 0.0f || !isNumber(tokens[8],DOUBLE) || strlen(tokens[8]) == 0) return NULL;
 
     // Parse Comment
     char comment[MAX_STR_COMM];
