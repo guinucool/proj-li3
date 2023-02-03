@@ -7,106 +7,55 @@
 #include "../../includes/structs/date.h"
 #include "../../includes/structs/datemap.h"
 
-void ListRes(void * driver,LinkedList res)
-{
-    res = addOrdList(driver,res,ridecmp2);
+/// @brief  A função transforma a informação de 
+/**
+ *   @param ride Ride a ser processada
+ * 
+ *  @param filter 
+ * 
+ *  
+*/
+int RidePrinter(void * ride, void * filter[], int * ignore, FILE *fp) {
+
+    char * gender = filter[0];
+    int * age = filter[1];
+    User user = ride_user(ride);
+    Driver driver = ride_driver(ride);
+    Date dateuser;
+    Date datedriver;
+    user_accountCreation(dateuser, user);
+    driver_accountCreation(datedriver, driver);
+    int res = user_gender(user) == * gender && calculateAge(dateuser) >= * age && calculateAge(datedriver) >= * age;
+    if (res)  fprintf(fp,"%012d;%s;%012d;%s\n", driver_id(driver), driver_name(driver), user_name(user), user_username(user)); 
 
 }
 
-int RidePrinter(void * ride, void * filter){
+/// @brief 
+/**
+ * 
+ * 
+ * @param gender Genero do condutor
+ * 
+ * @param X Numero de anos do perfil
+ * 
+ * @param glob  A global a ser considerada para os cálculos estatísticos.
+ * 
+ * 
+ * 
+*/
+char ** query8(char gender,int X, Global glob, FILE * fp) {
 
-    char gender = filter[0];
-    int age = atoi(filter + 1);
-    Date date;
-    user_accountCreation;
-    int res = user_gender(ride_user(ride)) == gender && calculateAge;
+    void * filter[2];
+    filter[0] = &gender;
+    filter[1] = &X; 
+    List ride = glob_rideList(glob);
+    sortList(ride, ridecmp);
+    listOut(ride, RidePrinter, 0, list_size(ride), filter, fp);
+
+}
+
+
     
-
-}
-
-char ** query8(char gender,int X, Global * glob) {
-
-    sortList(glob_rideList(glob), ridecmp2);
-
-    Hashmap rides = global_Hashmap(glob);
-    Hashmap drivers = global_Hashmap(glob);
-    Hashmap users = global_Hashmap(glob);
-    List res;
-    int size;
-
-
-    while (rides) {
-
-        nrecords += datFilter(gender,ListRes,res);
-
-        // Inserir as informações da viagem, condutor e utilizador na lista de resultados.
-        if (driver_Char(driver) == gender && user_Char(user) == gender && 
-            dateDiffYears(driverProfileDate) >= X && dateDiffYears(userProfileDate) >= X) {
-            records[nrecords][0] = (void*) ride;
-            records[nrecords][1] = (void*) driver;
-            records[nrecords++][2] = (void*) user;
-
-    }
-
-    char ** resultados = malloc(sizeof(char*) * nrecords);
-
-    char * string, name;
-
-    int rideKey;
-    int driverKey;
-    char userKey[MAX_USER_STR];
-    ride_Str(userKey, r);
-
-    for (int i = 0; i < nrecords; i++) {
-        resultados[i] = (char*) malloc(sizeof(char) * 1024);
-    }
-
-    // Ordenar o array por (1) antiguidade to condutor, (2) antiguidade do utilizador e (3) id viagem por ordem crescente.
-    /* for (int i = 0; i < size-1; i++) {
-        for (int j = i; j < size; j++ ) { */
-
-        // Extrair e calcular a diferença entre as datas dos contudores 'i' e 'j'.
-        int diffDriverDate = dateDiffYears(driverProfileDate) - dateDiffYears(driverProfileDate);
-
-        // Extrair e calcular a diferença entre as datas dos utilizadores
-        int diffUserDate = dateDiffYears(userProfileDate) - dateDiffYears(userProfileDate);
-         
-        // Extrair os ids das viagens 'i' e 'j'.
-        int rideID_i, rideID_j;
-        rideID = ride_Int(records[i][0])
-
-        }
-    }
-
-    for (int i = 0; i < nrecords; i++) {
-            
-        ride = list_element(res);
-        
-        driver_id(id, driver);
-        nameSize = strlen(id);
-
-        driver_name(name, driver);
-        nameSize = strlen(name);
-
-        user_id(id, user);
-        nameSize = strlen(id);
-
-        user_name(name, user);
-        nameSize = strlen(name);
-
-        string = malloc(strSize);
-
-        sprintf(string,"%012d;%s;%012d;%s", driver_id(driver), driver_name(driver), user_name(user), user_username(user))
-
-        resultados[i] = string;
-
-        list_next(res);
-    }
-
-    return resultados;
-}
-
-
 
 
 
