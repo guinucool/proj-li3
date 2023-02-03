@@ -9,10 +9,8 @@
 void interactiveMode(Global glob)
 {   
     char str[MAX_LINE], tok[4][MAX_LINE];
-    printf("Insira o comando no sequinte formato: <query-id> [arg1...argN]\n");
-    printf("Exemplo: 6 Lisboa 01/01/2020 31/12/2020\n");
     while(1)
-    {     
+    {
         fgets(str, MAX_LINE, stdin);
 
         if(str[0] == '0') break;
@@ -22,5 +20,7 @@ void interactiveMode(Global glob)
             tokens(str, " \n", tok);
             interCmd(tok, glob, 0);
         }
+        printf("Insira o comando no sequinte formato: <query-id> [arg1...argN]:\n");
+        printf("Exemplo: 6 Lisboa 01/01/2020 31/12/2020\n");
     }
 }

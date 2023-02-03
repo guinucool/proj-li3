@@ -7,6 +7,7 @@
 #include "../../includes/structs/list.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
+#include "../../includes/io/page.h"
 #include "../../includes/queries.h"
 
 /// @brief Função que recebe a informação do driver e a imprime no ficheiro de output.
@@ -24,7 +25,8 @@ char * printerUsers(void * user, void * null, int * ignore, FILE * fp)
         char name[MAX_USER_STR];
         user_name(name, user);
 
-        fprintf(fp,"%s;%s;%d\n", username, name, user_distance(user));
+        if(fp) fprintf(fp,"%s;%s;%d\n", username, name, user_distance(user));
+        else printf("%s;%s;%d\n", username, name, user_distance(user));
     }
     else *ignore -= 1;
 }
@@ -46,5 +48,7 @@ char * printerUsers(void * user, void * null, int * ignore, FILE * fp)
 void query3(int N, Global glob, FILE * fp)
 {
     sortList(glob_userList(glob), usercmp, NULL);
-    listOut(glob_userList(glob), printerUsers, 0, N, NULL, fp);
+    
+    if (fp) listOut(glob_userList(glob), printerUsers, 0, N, NULL, fp);
+    else page(glob_userList(glob), printerUsers, N, NULL);
 }

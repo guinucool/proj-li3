@@ -9,6 +9,7 @@
 #include "../../includes/structs/datemap.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
+#include "../../includes/io/page.h"
 #include "../../includes/queries.h"
 
 /// @brief  A função transforma a informação necessária para um ficheiro de output.
@@ -47,7 +48,8 @@ int RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
             user_username(username, user);
             user_name(nameuser, user);
 
-            fprintf(fp,"%012d;%s;%012d;%s\n", driver_id(driver), namedriver, nameuser, username);
+            if (fp) fprintf(fp,"%012d;%s;%s;%s\n", driver_id(driver), namedriver, username, nameuser);
+            else printf("%012d;%s;%s;%s\n", driver_id(driver), namedriver, username, nameuser);
         }
         else
             *ignore -= 1;
@@ -79,7 +81,9 @@ void query8(char gender, int X, Global glob, FILE * fp)
     filter[1] = &X; 
 
     sortList(ride, ridecmp, NULL);
-    listOut(ride, RidePrinter, 0, list_size(ride), filter, fp);
+
+    if (fp) listOut(ride, RidePrinter, 0, list_size(ride), filter, fp);
+    else page(ride, RidePrinter, list_size(ride), filter);
 }
 
 

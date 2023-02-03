@@ -9,6 +9,7 @@
 #include "../../includes/structs/datemap.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
+#include "../../includes/io/page.h"
 #include "../../includes/queries.h"
 
 /// @brief Esta função imprime a informação necessária para um ficheiro de output.
@@ -35,7 +36,8 @@ void printRide(void * ride, void * null, int * ignore, FILE * fp)
 
         ride_city(city,ride);
 
-        fprintf(fp, "%012d;%02d/%02d/%04d;%d;%s;%.3f\n", ride_id(ride), date[0], date[1], date[2], ride_distance(ride), city, ride_tip(ride));
+        if (fp) fprintf(fp, "%012d;%02d/%02d/%04d;%d;%s;%.3f\n", ride_id(ride), date[0], date[1], date[2], ride_distance(ride), city, ride_tip(ride));
+        else printf("%012d;%02d/%02d/%04d;%d;%s;%.3f\n", ride_id(ride), date[0], date[1], date[2], ride_distance(ride), city, ride_tip(ride));
     }
     else *ignore -= 1;
 }
@@ -81,6 +83,9 @@ void query9(Date dateA, Date dateB, Global glob, FILE * fp)
     }
 
     sortList(list, ridecmp2, NULL);
-    listOut(list, printRide, 0, size, NULL, fp);
+
+    if (fp) listOut(list, printRide, 0, size, NULL, fp);
+    else page(list, printRide, size, NULL);
+
     destroyList(list, null, 0);
 }

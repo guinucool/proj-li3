@@ -7,6 +7,7 @@
 #include "../../includes/structs/list.h"
 #include "../../includes/structs/hashmap.h"
 #include "../../includes/structs/global.h"
+#include "../../includes/io/page.h"
 #include "../../includes/queries.h"
 
 /// @brief Esta função imprime a informação necessária para um ficheiro de output.
@@ -27,7 +28,8 @@ void printerDriverCity(void * driver, void * city, int * ignore, FILE * fp)
     char name[MAX_STR_NAME];
     driver_name(name, driver);
 
-    fprintf(fp,"%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
+    if (fp) fprintf(fp,"%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
+    else printf("%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
 }
 
 /// @brief Esta função descobre os top N condutores de numa determinada cidade
@@ -52,5 +54,9 @@ void query7(int N, char * city, Global glob, FILE * fp)
 
     if (obj) sortList(city_drivers(obj), drivercmp, city);
 
-    if (obj) listOut(city_drivers(obj), printerDriverCity, 0, N, city, fp);
+    if (obj)
+    {
+        if (fp) listOut(city_drivers(obj), printerDriverCity, 0, N, city, fp);
+        else page(city_drivers(obj), printerDriverCity, N, city);
+    }
 }
