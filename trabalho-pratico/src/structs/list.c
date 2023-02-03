@@ -206,7 +206,7 @@ void listOut(List list, void (*printer)(void*,void*,int*,FILE*), int pos, int N,
 {
     int pag = PAGES;
 
-    if (list->size == 0) return NULL;
+    if (list->size == 0) return;
 
     if (N > list->size) N = list->size;
     
