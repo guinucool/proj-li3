@@ -285,6 +285,7 @@ int ride_id(Ride ride)
     return ride->id;
 }
 
+/// @brief A função ride_date da transfere uma data para um pointer de Date.
 void ride_date(Date dest, Ride ride)
 {   
     dest[0] = ride->date[0];

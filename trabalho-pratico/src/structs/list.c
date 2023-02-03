@@ -189,18 +189,18 @@ int listMap(List list, void (*function)(void*, void*), void * second)
     return list->size;
 }
 
-/// @brief[OUTDATED] A função listOut cria um output de N elementos de uma lista.
+/// @brief A função listOut cria um output de 10 elementos de cada vez de uma lista.
 /**
- * A função listOut cria um output de N elementos de uma lista,
- * colocando-o numa array de strings que serão criadas
- * de acordo com uma função fornecida como argumento.
+ *  A função listOut começa por calcular que elementos serão impressos na pagina 
+ *  selecionada. De seguida, é feito um loop que imprime cada output selecionado
+ *  no ficheiro de output através da função passada como argumento printer.
  * 
- * @param list A lista a ser exportada.
- * @param function A função de conversão para string.
- * @param N O número de elementos a serem exportados.
- * @param second O segundo parâmetro da função de conversão.
- * 
- * @return O apontador do array de strings criado.
+ *  @param list A lista a ser exportada.
+ *  @param function A função de conversão para string.
+ *  @param pos A pagina que sera impressa.
+ *  @param N O número de elementos a serem exportados.
+ *  @param second O segundo parâmetro da função de conversão.
+ *  @param file Ficheiro de output.
  */
 void listOut(List list, void (*printer)(void*,void*,int*,FILE*), int pos, int N, void * second, FILE * file)
 {
