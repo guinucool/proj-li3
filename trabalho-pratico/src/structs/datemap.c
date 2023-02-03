@@ -7,7 +7,7 @@
 /// \struct Estrutura que define as variáveis do tipo Filtro de Data.
 typedef struct _DATE_MAP_ {
     short year;                         //!< O ano do DateMap
-    List map[MONTHS][DAYS];       //!< O mapa de datas do DateMap
+    List map[MONTHS][DAYS];             //!< O mapa de datas do DateMap
 }*DateMap, NPDateMap;
 
 /// @brief A função createDateMap cria um DateMap.
@@ -138,8 +138,8 @@ int dateMap(DateMap map, void (*function)(void*, void*), void * second)
  * intervalo de datas fornecido no input.
  * 
  * @param map O DateMap a ser mapeado.
- * @param up O limite superior.
- * @param down O limite inferior.
+ * @param dateB O limite superior.
+ * @param dateA O limite inferior.
  * @param function A função a ser aplicada.
  * @param second O segundo parâmetro da função a ser aplicada.
  * 
@@ -157,9 +157,4 @@ int dateFilter(DateMap map, Date dateA, Date dateB, void (*function)(void*, void
     }
 
     return count;
-}
-
-short datemap_year(DateMap map)
-{
-    return map->year;
 }

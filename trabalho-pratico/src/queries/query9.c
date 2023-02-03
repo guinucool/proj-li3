@@ -11,17 +11,18 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-/// @brief Esta função transforma a informação de uma ride em string.
+/// @brief Esta função imprime a informação necessária para um ficheiro de output.
 /**
- *  Esta função transforma a informação de uma ride em string obtendo primeiro toda
- *  a informação necassaria, ou seja, id da viagem, a data da viagem, a distancia, 
- *  a cidade e o valor da gorjeta. Após ter toda a informação é contabilizado o 
- *  espaço que a string com a informação ocuparia e é alocada essa memoria. É armazenada
- *  a string com a informação na memoria alocada através da função sprintf.
+ *  A função começa por verificar se o output será ignorado ou não. Caso seja a informação
+ *  necessária é recolhida e é, por fim, impressa num ficheiro de output.
  *  
  *  @param ride Ride a ser processada.
- *  
- *  @return A string com a informação necessaria à querie 9.
+ * 
+ *  @param null Placeholder para que listOut resulte.
+ * 
+ *  @param ignore Número de outputs que vai ter que ignorar.
+ * 
+ *  @param fp Ficheiro de output.
 */
 void printRide(void * ride, void * null, int * ignore, FILE * fp)
 {
@@ -39,6 +40,9 @@ void printRide(void * ride, void * null, int * ignore, FILE * fp)
     else *ignore -= 1;
 }
  
+/// @brief Esta função adiciona um novo node de ride a lista caso o passageiro tenha dado gorjeta.
+/// @param ride Viagem a ser processada.
+/// @param list Lista a que a ride é adicionada.
 void createListTip(void * ride, void * list)
 {
     if (ride_tip(ride) != 0) addList(ride, list);

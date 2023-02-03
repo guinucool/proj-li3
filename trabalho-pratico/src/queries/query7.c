@@ -9,7 +9,7 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-/// @brief Esta função transforma a informação de um driver em string.
+/// @brief Esta função imprime a informação necessária para um ficheiro de output.
 /**
  *  Esta função adquire a função necessária ao output de resultados através da estrutura
  *  de driver. De seguida, é impressa essa informação no ficheiro de outputs.

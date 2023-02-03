@@ -90,17 +90,20 @@ void debugPrintCity(City city, void (*elemPrinter)(void*))
     debugPrintList(city->drivers, elemPrinter);
     printf("}\n");
 }
- 
+
+/// @brief A função city_city devolve o nome da cidade.
 void city_city(char * dest, City city)
 {
     strcpy(dest, city->city);
 }
 
+/// @brief A função city_moneySpent devolve o preço total gasto na cidade.
 double city_moneySpent(City city)
 {
     return city->money_spent;
 }
 
+/// @brief A função city_rides devolve a quantidade de viagens realizadas na cidade.
 int city_rides(City city)
 {
     return city->rides;
