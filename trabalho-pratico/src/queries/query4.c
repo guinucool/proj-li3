@@ -6,14 +6,18 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-/// @brief [OUTDATED DOCUMENTACION]A funcao query4 calcula o preco medio das viagens realizadas numa determinada cidade.
+/// @brief A funcao query4 calcula o preco medio das viagens realizadas numa determinada cidade.
 /**
- *  A função vai usar a lista da cidade para calcular a média, após ter a lista ligada, vai passá-la 
- *  à função preco_medio, que vai percorrer a lista elemento por elemento. Após ter os valores, 
- *  a função vai calcular o preço, fazendo a média de todos os preços calculados. 
+ *  A função começa por adquirir a estrutura city a ser analisada através da hashmap de cities 
+ *  depois a função chama a função city_averageMoney do modulo city que retorna o preço medio 
+ *  das viagens realizadas nessa cidade. Por fim, é impresso em fp esse preço médio.
  *  
- *  @param city Cidade
+ *  @param city Cidade a ser processada.
+ * 
  *  @param glob Estrutura de dados global a ser atualizada.
+ * 
+ *  @param fp Ficheiro de output.
+ * 
  *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
 void query4(char * name, Global glob, FILE * fp)
