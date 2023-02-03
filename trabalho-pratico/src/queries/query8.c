@@ -11,15 +11,22 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-/// @brief  A função transforma a informação de 
+/// @brief  A função transforma a informação necessária para um ficheiro de output.
 /**
- *   @param ride Ride a ser processada
+ * A função a partir do filter vai receber os dados que quer filtrar, o gender e a age das contas. 
+ * De seguida vai bsucar o user e o driver de cada ride, pela qual ele vai passar, na lista ordenada 
+ * de rides e vai verificar se o user e o driver, se o genero e a idade respeitam as condições, se 
+ * respeitarem a ride é imprimida.
  * 
- *  @param filter 
+ * @param ride Ride a ser processada.
  * 
- *  
+ * @param filter 
+ * 
+ * @param ignore Número de outputs que vai ter de ignorar.
+ * 
+ * @param fp Ficheiros de output. 
 */
-int RidePrinter(void * ride, void * filter[], int * ignore, FILE *fp)
+int RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
 {
     char * gender = filter[0];
     int * age = filter[1];
@@ -50,15 +57,18 @@ int RidePrinter(void * ride, void * filter[], int * ignore, FILE *fp)
 
 /// @brief 
 /**
+ * A função vai começar por usar a função de ordem superior sortList para ordenar 
+ * a lista de rides com a função ridecmp que ordena as rides pela conta mais antiga. 
+ * Apos ter a lista ordenada, vai listar as viagens que são impressas pela listOut 
+ * no ficheiro de output.
  * 
+ * @param gender Genero do condutor.
  * 
- * @param gender Genero do condutor
+ * @param X Numero de anos do perfil.
  * 
- * @param X Numero de anos do perfil
+ * @param glob A global a ser considerada para os cálculos estatísticos.
  * 
- * @param glob  A global a ser considerada para os cálculos estatísticos.
- * 
- * 
+ * @param fp Ficheiro de output.
  * 
 */
 void query8(char gender, int X, Global glob, FILE * fp)
