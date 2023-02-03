@@ -44,27 +44,22 @@ void createListTip(void * ride, void * list)
     if (ride_tip(ride) != 0) addList(ride, list);
 }
 
-/// @brief Esta função realiza o trabalho necessário à conclusão da querie 9.
+/// @brief Esta função lista as viagens nas quais o passageiro deu gorjeta num intervalo de tempo.
 /** 
- *  Esta função realiza o trabalho necessário à conclusão da querie 9 começando por
- *  fazer um ciclo que passará, a cada iteração, por todas as viagens de cada cano entre
- *  a data A e a data B. 
+ *  Esta começa por fazer um ciclo que passará, a cada iteração, por todas as 
+ *  viagens de cada ano entre a data A e a data B. De seguida, a função cria uma lista 
+ *  de rides em que o passageiro deu gorjeta. Depois a função ordena a lista criada
+ *  com a função sortList que usa a função de comparação ridecmp2. Por fim, a função 
+ *  imprime a informação resultante no file de output através da função listOut que usa 
+ *  a função printRide. Por fim a lista criada é liberada com a função destroyList.
  * 
- *  Este feito é conseguido através da função dateFilter que recebe o DateMap do ano 
- *  a cada iteração do ciclo, as datas limite, a função listRes e o pointer onde a lista
- *  de resultados será armazenada.
- * 
- *  Uma vez adquirida a lista de resultados é retornada a lista de strings com o output
- *  através da função listOut que recebe a lista de resultados, a função printRide e o 
- *  tamanho da lista.
- *  
  *  @param dateA Data limite inferior.
  * 
  *  @param dateB Data limite superior.
  * 
  *  @param glob A global a ser considerada para os cálculos estatísticos.
  * 
- *  @return Lista de strings com os outputs.
+ *  @param fp Ficheiro de output.
  */  
 void query9(Date dateA, Date dateB, Global glob, FILE * fp)
 { 
