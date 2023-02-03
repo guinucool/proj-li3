@@ -10,7 +10,7 @@
 void interactiveMode(Global glob)
 {   
     char str[200];
-    int cmd = 0; 
+    char ** tokensImp;
     printf("Insira o comando no sequinte formato: < query id > [arg1...argN ] <page>\n");
     printf("Exemplo: 6 Lisboa 01/01/2020 31/12/2020\n");
     while(1)
@@ -19,8 +19,9 @@ void interactiveMode(Global glob)
         if(str[0] == '0')break;
         else if(str[0] > '0' && str[0] <= '9')
         {
-        strtoken();
-        cmd++;
+        tokensImp = tokens(str," ");
+        interCmd(tokensImp,glob,0);
+        free(tokensImp);
         }
     }
 }
