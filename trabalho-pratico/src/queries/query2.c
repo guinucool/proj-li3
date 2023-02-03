@@ -9,6 +9,11 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
+/// @brief Função que recebe a informação do driver e a imprime no ficheiro de output.
+/// @param driver Driver a ser impresso.
+/// @param null Placeholder para que listOut resulte.
+/// @param ignore Número de outputs que vai ter que ignorar.
+/// @param fp Ficheiro de output.
 void printerDrivers(void * driver, void * null, int * ignore, FILE * fp)
 {
     if (*ignore <= 0)
@@ -21,6 +26,20 @@ void printerDrivers(void * driver, void * null, int * ignore, FILE * fp)
     else *ignore -= 1;
 }
 
+/// @brief Esta função lista os N condutores com maior avaliação média.
+/**
+ *  A função começa por usar a função de ordem superior sortList que irá ordenar 
+ *  a lista de condutores pela avaliação media através da função drivercmp.
+ * 
+ *  Tendo a lista ordenada é chamada a função de ordem superior listOut que irá 
+ *  imprimir os N primeiros elementos da lista.
+ * 
+ *  @param N Número de condutores a ser impressos.
+ * 
+ *  @param glob Estrutura de dados global a ser atualizada.
+ * 
+ *  @param fp Ficheiro de output.
+*/
 void query2(int N, Global glob, FILE * fp)
 {
     sortList(glob_driverList(glob), drivercmp, NULL);
