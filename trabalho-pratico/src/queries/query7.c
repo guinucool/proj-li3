@@ -11,17 +11,16 @@
 
 /// @brief Esta função transforma a informação de um driver em string.
 /**
- *  Esta função transforma a informação de um driver em string obtendo primeiro toda
- *  a informação necassaria, ou seja, id do driver, nome do driver e avaliação média
- *  do driver. Após ter toda a informação é contabilizado o espaço que a string com 
- *  a informação ocuparia e é alocada essa memoria. É armazenada a string com a 
- *  informação na memoria alocada através da função sprintf.
+ *  Esta função adquire a função necessária ao output de resultados através da estrutura
+ *  de driver. De seguida, é impressa essa informação no ficheiro de outputs.
  *  
  *  @param driver driver a ser processado.
  * 
  *  @param city string contendo o nome da cidade.
- *  
- *  @return A string com a informação necessaria à querie 7.
+ * 
+ *  @param ignore Número de outputs que vai ter que ignorar.
+ * 
+ *  @param fp Ficheiro de output.
 */
 void printerDriverCity(void * driver, void * city, int * ignore, FILE * fp)
 {
@@ -31,19 +30,21 @@ void printerDriverCity(void * driver, void * city, int * ignore, FILE * fp)
     fprintf(fp,"%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
 }
 
-/// @brief Esta função realiza o trabalho necessário à conclusão da querie 7.
+/// @brief Esta função descobre os top N condutores de numa determinada cidade
+///        ordenados pela avaliação média do condutor.
 /** 
- *  Esta função realiza o trabalho necessário à conclusão da querie 7 obtendo a 
- *  estrutura da City a ser analisada e usando a função listMap para percorrer a lista
- *  de drivers dessa cidade de forma a ordena
+ *  A função começa por verificar se a cidade existe. Caso existaa lista de drivers
+ *  é ordenada pela função sortList com a função drivercmp que ordena os drivers por
+ *  média de condutor. Por fim, os N condutores resultantes são impressos pela listOut 
+ *  no ficheiro de output.
  *  
- *  @param N Data limite inferior.
+ *  @param N Número de condutores pretendido.
  * 
- *  @param city Data limite superior.
+ *  @param city Cidade a ser processada.
  * 
  *  @param glob A global a ser considerada para os cálculos estatísticos.
  * 
- *  @return Lista de strings com os outputs.
+ *  @param fp Ficheiro de output.
  */  
 void query7(int N, char * city, Global glob, FILE * fp)
 {

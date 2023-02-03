@@ -9,34 +9,29 @@
 #include "../../includes/structs/ride.h"
 #include "../../includes/utils.h"
 
+/// @brief Esta função adiciona ao resultado a distancia de cada viagem.
+/// @param ride Viagem a ser processada.
+/// @param res Total a que a distancia será adicionada.
 void rideDistFilter(void * ride, int * totalDist)
 {
     *totalDist += ride_distance(ride);
 }
 
-/// @brief [OUTDATED]A função query6 calcula a média da distância percorrida
-///        numa cidade dentro de um dado intervalo de tempo.
+/// @brief A função query6 calcula a distância média das viagens realizadas entre duas datas.
 /**
- * A função query6 calcula a média da distância percorrida
- * numa cidade dentro de um dado intervalo de tempo. 
+ *  A função começa por estabelecer um ciclo que passará por todos os anos entre as duas datas.
+ *  A cada iteração é chamada a função date filter que ira somar à distancia total a distancia total
+ *  das viagens nesse ano, contabilizando o número de viagens totais. No final, é dado como
+ *  output da distância média das viagens.
  * 
- * Para isso, irá encontrar a lista (filtro) referente à cidade
- * desejada, e irá percorrer as ocorrências desta uma a uma.
+ *  @param city Cidade a ser processada.
  * 
- * A cada ocorrência, irá verificar se a viagem referente à mesma
- * tem uma data compatível com o intervalo desejado, e usar o valor
- * da sua distância para o cálculo da média caso seja compatível.
+ *  @param dateA Data em que começa o intervalo de tempo.
  * 
- * @param cty A cidade a ser filtrada.
+ *  @param dateB Data em que termina o intervalo de tempo.
  * 
- * @param dateInf O limite inferior do intervalo.
- * 
- * @param dateUp O limite superior do intervalo.
- * 
- * @param glob A global a ser considerada para os cálculos estatísticos.
- * 
- * @return A média da distância total percorrida desejada.
- */
+ *  @param glob  Estrutura de dados global a ser atualizada.
+ */ 
 double query6(char * city, Date dateA, Date dateB, Global * glob)
 {
     int count = 0, key = 0, dist = 0;

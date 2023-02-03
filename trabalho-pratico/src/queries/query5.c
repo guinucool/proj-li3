@@ -9,23 +9,28 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-
+/// @brief Esta função adiciona ao resultado o custo de cada viagem.
+/// @param ride Viagem a ser processada.
+/// @param res Total a que o custo será adicionado.
 void rideCostFilterNoTip(void * ride, double * res)
 {
     *res += rideCost(ride,0);
 }
 
-/// @brief [DOCUMENTAÇÃO OUTDATED]A função query5 calcula o preço médio das viagens realizadas entre duas datas.
+/// @brief A função query5 calcula o preço médio das viagens realizadas entre duas datas.
 /**
- * A função chama a função betweenDates() para asquirir a lista ligada de HashmapNode 
- * de Date do intervalo de tempo entre as duas datas pretendidas e depois usa a função
- * preco_medio() para calcular o preço médio entre essas duas datas.
+ *  A função começa por estabelecer um ciclo que passará por todos os anos entre as duas datas.
+ *  A cada iteração é chamada a função date filter que ira somar ao cust total o custo total
+ *  das viagens nesse ano, contabilizando o número de viagens totais. No final, é dado como
+ *  output do preço médio das viagens.
  * 
  * @param dateA Data em que começa o intervalo de tempo.
+ * 
  * @param dateB Data em que termina o intervalo de tempo.
+ * 
  * @param glob  Estrutura de dados global a ser atualizada.
  * 
- * @return Retorna o preço médio das viagens realizadas entre essas duas datas.
+ * @param fp Ficheiro de output.
  */ 
 void query5(Date dateA, Date dateB, Global glob, FILE * fp)
 { 

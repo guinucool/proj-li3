@@ -17,8 +17,6 @@
  *  @param glob Estrutura de dados global a ser atualizada.
  * 
  *  @param fp Ficheiro de output.
- * 
- *  @return Retorna o preco medio das viagens realizadasnuma determinada cidade.
  */ 
 void query4(char * name, Global glob, FILE * fp)
 {
