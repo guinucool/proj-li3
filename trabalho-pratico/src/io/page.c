@@ -10,7 +10,7 @@
 void page(List list, void (*printer)(void*,void*,int*,FILE*), int N, void * second)
 {
     char cmd[MAX_LINE], * token;
-    int j;
+    int j = 1;
 
     while(1)
     {
@@ -19,18 +19,29 @@ void page(List list, void (*printer)(void*,void*,int*,FILE*), int N, void * seco
         fgets(cmd, MAX_LINE, stdin);
         system("clear");
 
-        token = strtok(cmd, "\n");
-        strncpy(cmd, token, MAX_LINE);
-        j = atoi(cmd);
+        if (cmd[0] != '\n')
+        {
+            token = strtok(cmd, "\n");
+            strncpy(cmd, token, MAX_LINE);
+        }
+
+        if (isNumber(cmd,INT))
+            j = atoi(cmd);
         
-        if(isNumber(cmd,INT) && j < 1)
+        if(j < 1)
             break;
         
         if(!isNumber(cmd, INT))
         {
             if(!(strcmp(cmd,"a")) && (j - 1) > 0) j--;
-            else if(!(strcmp(cmd,"s")) && (j + 1) * 10 < N ) j++;
+            else if(!strcmp(cmd,"s")) j++;
             else printf("ERRO: Input inválido!\n");
+        }
+
+        if(j * PAGES >= N)
+        {
+            if (N % PAGES == 0) j = (N / PAGES);
+            else j = (N / PAGES) + 1;
         }
 
         printf("Página %d:\n", j);

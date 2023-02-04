@@ -25,11 +25,16 @@
 */
 void printerDriverCity(void * driver, void * city, int * ignore, FILE * fp)
 {
-    char name[MAX_STR_NAME];
-    driver_name(name, driver);
+    if (*ignore <= 0)
+    {
+        char name[MAX_STR_NAME];
+        driver_name(name, driver);
 
-    if (fp) fprintf(fp,"%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
-    else printf("%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
+        if (fp) fprintf(fp,"%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
+        else printf("%012d;%s;%.3f\n", driver_id(driver), name, driver_score(driver, city));
+    }
+    else
+        *ignore -= 1;
 }
 
 /// @brief Esta função descobre os top N condutores de numa determinada cidade

@@ -15,7 +15,7 @@
 /// @param null Placeholder para que listOut resulte.
 /// @param ignore Número de outputs que vai ter que ignorar.
 /// @param fp Ficheiro de output.
-char * printerUsers(void * user, void * null, int * ignore, FILE * fp)
+void printerUsers(void * user, void * null, int * ignore, FILE * fp)
 {
     if (*ignore <= 0)
     {

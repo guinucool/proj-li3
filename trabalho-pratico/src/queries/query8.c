@@ -12,6 +12,21 @@
 #include "../../includes/io/page.h"
 #include "../../includes/queries.h"
 
+void rideFilter(void * ride, void * filter[])
+{
+    char * gender = filter[0];
+    int * age = filter[1];
+
+    User user = ride_user(ride);
+    Driver driver = ride_driver(ride);
+
+    Date dateuser, datedriver;
+    user_accountCreation(dateuser, user);
+    driver_accountCreation(datedriver, driver);
+
+    if (user_gender(user) == * gender && calculateAge(dateuser) >= * age && calculateAge(datedriver) >= * age) addList(ride, filter[2]);
+}
+
 /// @brief  A função transforma a informação necessária para um ficheiro de output.
 /**
  * A função a partir do filter vai receber os dados que quer filtrar, o gender e a age das contas. 
@@ -29,32 +44,21 @@
 */
 int RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
 {
-    char * gender = filter[0];
-    int * age = filter[1];
-
     User user = ride_user(ride);
     Driver driver = ride_driver(ride);
 
-    Date dateuser, datedriver;
-    user_accountCreation(dateuser, user);
-    driver_accountCreation(datedriver, driver);
-
-    if (user_gender(user) == * gender && calculateAge(dateuser) >= * age && calculateAge(datedriver) >= * age)
+    if (*ignore <= 0)
     {
-        if (*ignore <= 0)
-        {
-            char nameuser[MAX_USER_STR], namedriver[NAME_STR_SIZE], username[MAX_USER_STR];
-            driver_name(namedriver, driver);
-            user_username(username, user);
-            user_name(nameuser, user);
+        char nameuser[MAX_USER_STR], namedriver[NAME_STR_SIZE], username[MAX_USER_STR];
+        driver_name(namedriver, driver);
+        user_username(username, user);
+        user_name(nameuser, user);
 
-            if (fp) fprintf(fp,"%012d;%s;%s;%s\n", driver_id(driver), namedriver, username, nameuser);
-            else printf("%012d;%s;%s;%s\n", driver_id(driver), namedriver, username, nameuser);
-        }
-        else
-            *ignore -= 1;
+        if (fp) fprintf(fp,"%012d;%s;%s;%s\n", driver_id(driver), namedriver, username, nameuser);
+        else printf("%012d;%s;%s;%s\n", driver_id(driver), namedriver, username, nameuser);
     }
-
+    else
+        *ignore -= 1;
 }
 
 /// @brief 
@@ -76,14 +80,20 @@ int RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
 void query8(char gender, int X, Global glob, FILE * fp)
 {
     List ride = glob_rideList(glob);
-    void * filter[2];
+    List print = createList();
+    void * filter[3];
     filter[0] = &gender;
-    filter[1] = &X; 
+    filter[1] = &X;
+    filter[2] = print;
 
     sortList(ride, ridecmp, NULL);
 
-    if (fp) listOut(ride, RidePrinter, 0, list_size(ride), filter, fp);
-    else page(ride, RidePrinter, list_size(ride), filter);
+    listMap(ride, rideFilter, filter);
+
+    if (fp) listOut(print, RidePrinter, 0, list_size(print), filter, fp);
+    else page(print, RidePrinter, list_size(print), filter);
+
+    destroyList(print, null, 0);
 }
 
 

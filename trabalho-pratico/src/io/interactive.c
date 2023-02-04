@@ -18,6 +18,17 @@
 void interactiveMode(Global glob)
 {   
     char str[MAX_LINE], tok[4][MAX_LINE];
+    printf("Bem vindo ao modo interativo! Escolha uma query para executar:\n");
+    printf("1 <ID>\n");
+    printf("2 <N>\n");
+    printf("3 <N>\n");
+    printf("4 <city>\n");
+    printf("5 <data A> <data B>\n");
+    printf("6 <city> <data A> <data B>\n");
+    printf("7 <N> <city>\n");
+    printf("8 <gender> <X>\n");
+    printf("9 <data A> <data B>\n");
+    printf("Insira '0' para terminar o modo interativo\n");
     while(1)
     {
         fgets(str, MAX_LINE, stdin);
@@ -30,15 +41,5 @@ void interactiveMode(Global glob)
             interCmd(tok, glob, 0);
         }
         printf("Insira o comando no sequinte formato: <query-id> [arg1...argN]\n");
-        printf("Query 1 : 1 <ID>\n");
-        printf("Query 2 : 2 <N>\n");
-        printf("Query 3 : 3 <N>\n");
-        printf("Query 4 : 4 <city>\n");
-        printf("Query 5 : 5 <data A> <data B>\n");
-        printf("Query 6 : 6 <city> <data A> <data B>\n");
-        printf("Query 7 : 7 <N> <city>\n");
-        printf("Query 8 : 8 <gender> <X>\n");
-        printf("Query 9 : 9 <data A> <data B>\n");
-        printf("Insira '0' para terminar o modo interativo\n");
     }
 }
