@@ -148,7 +148,21 @@ int updateDriver(Driver driver, int score, double money_received, char * city, D
  */
 void destroyDriver(Driver driver)
 {
-	if (driver) free(driver);
+	if (driver)
+	{
+		if (driver->score) free(driver->score);
+		if (driver->rides) free(driver->rides);
+
+		if (driver->cities)
+		{
+			for (int i = 0; i < driver->counter; i++)
+				free(driver->cities[i]);
+			
+			free(driver->cities);
+		}
+		
+		free(driver);
+	}
 }
 
 /// @brief A função debugPrintDriver imprime um Driver.
