@@ -8,9 +8,12 @@ trabalho-pratico/data-large-errors-invalids/*
 trabalho-pratico/data-large-errors-valids/*
 trabalho-pratico/data-lite/*
 trabalho-pratico/data-mega-lite/*
+trabalho-pratico/test-regular/*
+trabalho-pratico/test-regular-errors/*
+trabalho-pratico/test-large/*
+trabalho-pratico/test-large-errors/*
 trabalho-pratico/out/*
 trabalho-pratico/cmd/*
-trabalho-pratico/test/*
 trabalho-pratico/Resultados/*.txt
 trabalho-pratico/programa-principal
 trabalho-pratico/programa-testes
