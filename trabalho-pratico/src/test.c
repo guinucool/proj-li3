@@ -168,9 +168,11 @@ int main(int argc, char * args[])
 
                                 score[cmd[count-1]][1]++;
                             }
-                            fclose(input);
+                            //fclose(input);
 
-                            Global glob = createGlob();
+                            printf("%p\n", input);
+
+                            Global glob = createGlobal();
                             if (glob)
                             {
                                 clock_t start, end;
@@ -192,7 +194,7 @@ int main(int argc, char * args[])
                                 end = clock();
                                 free(truePath);
 
-                                parse_time = (double) (end - start);
+                                /*parse_time = (double) (end - start);
                                 total_time = parse_time;
 
                                 readFile(inStr, 0, glob, time);
@@ -264,34 +266,18 @@ int main(int argc, char * args[])
                                         free(outPath);
                                     }
                                     free(path);
-                                }
+                                }*/
                                 destroyGlobal(glob);
 
                                 printf("[TOTAL]---------EXECUTION TIME - %f\n", total_time);
                                 printf("[PARSE]---------EXECUTION TIME - %f\n", parse_time);
                                 printf("[ALL QUERIES]---EXECUTION TIME - %f\n", query_time);
-                                printf("[QUERY 1]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 1]-------EXECUTION TIME - %f\n", times[0][0]/score[0][1]);
-                                printf("[QUERY 2]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 2]-FIRST EXECUTION TIME - %f\n", times[1][1]);
-                                printf("[QUERY 2]-------EXECUTION TIME - %f\n", times[1][0]);
-                                printf("[QUERY 3]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 3]-FIRST EXECUTION TIME - %f\n", times[1][1]);
-                                printf("[QUERY 3]-------EXECUTION TIME - %f\n", times[1][0]);
-                                printf("[QUERY 4]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 4]-------EXECUTION TIME - %f\n", times[1][0]);
-                                printf("[QUERY 5]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 5]-------EXECUTION TIME - %f\n", times[1][0]);
-                                printf("[QUERY 6]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 6]-------EXECUTION TIME - %f\n", times[1][0]);
-                                printf("[QUERY 7]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 7]-FIRST EXECUTION TIME - %f\n", times[1][1]);
-                                printf("[QUERY 7]-------EXECUTION TIME - %f\n", times[1][0]);
-                                printf("[QUERY 8]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 8]-FIRST EXECUTION TIME - %f\n", times[1][1]);
-                                printf("[QUERY 8]-------EXECUTION TIME - %f\n", times[1][0]);
-                                printf("[QUERY 9]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
-                                printf("[QUERY 9]-------EXECUTION TIME - %f\n", times[1][0]);
+                                for (int i = 0; i < 9; i++)
+                                {
+                                    printf("[QUERY %d]-------SCORE - %d/%d\n", i+1, score[i][0], score[i][1]);
+                                    if (i == 1 || i == 2 || i == 6 || i ==7) printf("[QUERY %d]-FIRST EXECUTION TIME - %f\n", i+1, times[i][1]);
+                                    printf("[QUERY %d]-------EXECUTION TIME - %f\n", i+1, times[i][0]/score[i][1]);
+                                }
                             }
                             free(cmd);
                         }

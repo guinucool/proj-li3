@@ -1,13 +1,13 @@
 CC=gcc
 CFLAGS=-Wall -Iincludes
 
-all: directory programa-principal #programa-testes
+all: directory programa-principal programa-testes
 
 directory:
 	mkdir out
 
-#programa-testes: out/test.o out/parser.o out/interpreter.o out/global.o out/hashmap.o out/user.o out/driver.o out/ride.o out/date.o out/datemap.o out/linkedlist.o out/city.o out/utils.o out/query2.o out/query3.o
-#	$(CC) $(CFLAGS) $^ -o $@
+programa-testes: out/test.o out/utils.o out/date.o out/list.o out/user.o out/driver.o out/ride.o out/hashmap.o out/datemap.o out/city.o out/global.o out/query1.o out/query2.o out/query3.o out/query4.o out/query5.o out/query6.o out/query7.o out/query8.o out/query9.o out/parser.o out/interactive.o out/interpreter.o out/page.o
+	$(CC) $(CFLAGS) $^ -o $@
 
 programa-principal: out/main.o out/utils.o out/date.o out/list.o out/user.o out/driver.o out/ride.o out/hashmap.o out/datemap.o out/city.o out/global.o out/query1.o out/query2.o out/query3.o out/query4.o out/query5.o out/query6.o out/query7.o out/query8.o out/query9.o out/parser.o out/interactive.o out/interpreter.o out/page.o
 	$(CC) $(CFLAGS) $^ -o $@
@@ -90,8 +90,7 @@ out/utils.o: src/utils.c
 clean: files dirs
 
 files:
-	rm programa-principal out/*
-	#programa-testes
+	rm programa-principal out/* programa-testes
 
 dirs:
 	rmdir out

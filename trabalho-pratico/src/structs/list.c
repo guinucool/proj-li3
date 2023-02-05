@@ -139,7 +139,7 @@ void destroyList(List list, void (*destroy)(void*), char mode)
     if (list)
     {
         for (int i = 0; i < list->size && mode; i++)
-        destroy(list->list[i]);
+            destroy(list->list[i]);
 
         free(list->list);
         free(list);

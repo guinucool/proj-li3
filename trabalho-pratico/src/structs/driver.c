@@ -69,6 +69,8 @@ Driver createDriver(int id, char * name, short age, char gender, char car_class,
 	driver->rides = malloc(sizeof(int));
 	driver->rides[0] = 0;
 	driver->money_received = 0.f;
+
+	driver->cities = NULL;
 	driver->counter = 0;
 
 	driver->last_ride[0] = account_creation[0];
