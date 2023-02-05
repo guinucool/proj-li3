@@ -72,7 +72,7 @@ void readFile(char * path, char mode, Global glob, double * time)
                 if (time)
                 {
                     end = clock();
-                    time[cmd] = (double) (end - start);
+                    time[cmd] = (double) (end - start) / CLOCKS_PER_SEC;
                 }
                 break;
 

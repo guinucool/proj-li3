@@ -38,7 +38,7 @@ int equal_str(void* s1,void* s2)
 int equal_file(FILE * fp1, FILE * fp2)
 {
     char ch1 = getc(fp1), ch2 = getc(fp2);
-    int res = 1;
+    int res = (ch1 == ch2);
 
     while (ch1 != EOF && ch2 != EOF && res)
     {
