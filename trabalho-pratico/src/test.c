@@ -102,7 +102,7 @@ int main(int argc, char * args[])
             else
                 times[commands[i]-1][0] = time[i];
 
-            char * pTemp = realloc(path,sizeof(char) * (strlen(args[2]) + 23 + intLen(i+1)));
+            char * pTemp = realloc(path,sizeof(char) * (strlen(args[2]) + 30 + intLen(i+1)));
             char * oTemp = realloc(outPath,sizeof(char) * (29 + intLen(i+1)));
 
             if (!pTemp || !oTemp)
