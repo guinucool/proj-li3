@@ -3,7 +3,6 @@
 #include <string.h>
 #include "../../includes/utils.h"
 #include "../../includes/structs/list.h"
-#include "../../includes/structs/global.h"
 #include "../../includes/io/page.h"
 
 /// @brief A função page imprime outputs grandes por páginas.
