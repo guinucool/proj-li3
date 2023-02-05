@@ -5,6 +5,29 @@
 #include "../includes/io/parser.h"
 #include "../includes/io/interactive.h"
 
+
+/// @brief A função main serve de arranque de todo o programa, seja no modo batch, seja no interativo.
+/**
+ * 	A função começa por criar a glob, estrutura de dados que ira conter todas as estrturas de dados necessárias
+ *  à funcionalidade do programa. De seguida, é aferido se o utilizador pretende iniciar ou modo batch
+ *  ou o interativo (caso o nº de argumentos inseridos for menor que 2 será o modo interativo).
+ * 
+ *  Depois é pedido o caminho até à base de dados e é feito o parsing de dados. Caso seja pretendido o modo batch,
+ *  no imput do caminho até a base de dados terá que ser também inserido o ficheiro de texto com os comandos
+ *  que se espera serem realizados e com essa informação a main inicia a execução dos mesmos. 
+ * 
+ *  Caso seja o modo interativo o desejado é apresentado ao utilizador um menu interatico com instruções de como 
+ *  navegar o programa.
+ * 
+ * 	No final, a main da free a toda a memória allocada pelo programa.
+ *  
+ * 
+ *  @param argc Número de argumentos
+ * 
+ *  @param args Argumentos de imput necessários ao funcionamento do programa.
+ * 
+ *  @return Int de indicação de sucesso de chegada ao final do programa.
+*/
 int main(int argc, char * args[])
 {	
 	Global glob = createGlobal();
@@ -40,5 +63,5 @@ int main(int argc, char * args[])
 	free(truePath);
 	destroyGlobal(glob);
 
-	return 0;
+	return 1;
 }
