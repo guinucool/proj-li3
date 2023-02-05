@@ -8,7 +8,7 @@ void query4(char * name, Global glob, FILE * fp);
 void query5(Date dateA, Date dateB, Global glob, FILE * fp);
 void query6(char * city, Date dateA, Date dateB, Global glob, FILE * fp);
 void query7(int N, char * city, Global glob, FILE * fp);
-void query8(char gender, int X, Global glob, FILE * fp);
-void query9(Date dateA, Date dateB, Global glob, FILE * fp);
+int query8(char gender, int X, Global glob, FILE * fp);
+int query9(Date dateA, Date dateB, Global glob, FILE * fp);
 
 #endif

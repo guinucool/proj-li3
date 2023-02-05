@@ -30,18 +30,20 @@
  * @param args Informação recebida da leitura de uma linha do ficheiro.
  * @param glob Estrutura de dados global a ser atualizada.
  */ 
-void interUser(char args[][MAX_LINE], Global glob)
+int interUser(char args[][MAX_LINE], Global glob)
 {
     User user = parseUser(args);
 
     if (user)
     {
         char * key = malloc(sizeof(char) * MAX_USER_STR);
+        if(key == NULL)return 0;
         user_username(key, user);
 
-        put(glob_user(glob), key, user, hashKey_Str);
-        if (user_accountStatus(user)) addList(user, glob_userList(glob));
+        if(!put(glob_user(glob), key, user, hashKey_Str))return 0;
+        if (user_accountStatus(user)) return addList(user, glob_userList(glob));
     }
+    return 1;
 }
 
 /// @brief A função interDriver interpreta e insere informacao relativa aos drivers
@@ -56,18 +58,20 @@ void interUser(char args[][MAX_LINE], Global glob)
  * @param args Informacao recebida da leitura de uma linha do ficheiro.
  * @param glob Estrutura de dados global a ser atualizada.
  */ 
-void interDriver(char args[][MAX_LINE], Global glob)
+int interDriver(char args[][MAX_LINE], Global glob)
 {   
     Driver driver = parseDriver(args);
 
     if (driver)
     {
         int * key = malloc(sizeof(int));
+        if(key == NULL)return 0;
         *key = driver_id(driver);
         
-        put(glob_driver(glob), key, driver, hashKey_Int);
-        if (driver_accountStatus(driver)) addList(driver, glob_driverList(glob));
+        if(!put(glob_driver(glob), key, driver, hashKey_Int))return 0;
+        if (driver_accountStatus(driver)) return addList(driver, glob_driverList(glob));
     }
+    return 1;
 }
 
 /// @brief A função interRide interpreta e insere informação relativa às rides
@@ -85,7 +89,7 @@ void interDriver(char args[][MAX_LINE], Global glob)
  * @param args Informação recebida da leitura de uma linha do ficheiro.
  * @param glob Estrutura de dados global a ser atualizada.
  */ 
-void interRide(char args[][MAX_LINE], Global glob)
+int interRide(char args[][MAX_LINE], Global glob)
 {
     // Criação da Ride
     int id = atoi(args[2]);
@@ -110,15 +114,17 @@ void interRide(char args[][MAX_LINE], Global glob)
         char mapExist = map != NULL;
 
         if (!mapExist) map = createDateMap(date[2]);
+        if(map == NULL)return 0;
 
-        updateDateMap(map, date[0], date[1], ride);
+        if(!updateDateMap(map, date[0], date[1], ride))return 0;
 
         if (!mapExist)
         {
             int * key = malloc(sizeof(int));
+            if(key == NULL)return 0;
             *key = (int)date[2];
 
-            put(glob_ride(glob), key, map, hashKey_Int);
+            if(!put(glob_ride(glob), key, map, hashKey_Int))return 0;
         }
 
         // Criação e inserção da city
@@ -128,20 +134,24 @@ void interRide(char args[][MAX_LINE], Global glob)
         else
         {
             char * name = malloc(sizeof(char) * (strlen(args[4]) + 1));
+            if(name == NULL)return 0;
             strcpy(name, args[4]);
 
             city = createCity(args[4], rideCost(ride, 0));
+            if(city == NULL)return 0;
 
-            put(glob_city(glob), name, city, hashKey_Str);
+            if(!put(glob_city(glob), name, city, hashKey_Str))return 0;
         }
 
         // Atualiza user e driver
         userUpdate(user, ride_scoreUser(ride), rideCost(ride, 1), ride_distance(ride), date);
         int add = updateDriver(driver, ride_scoreDriver(ride), rideCost(ride, 1), args[4], date);
 
+        if (add == -1)return 0;
         if (add && driver_accountStatus(driver)) addList(driver, city_drivers(city));
-        if (user_accountStatus(user) && driver_accountStatus(driver) && user_gender(user) == driver_gender(driver)) addList(ride, glob_rideList(glob));
+        if (user_accountStatus(user) && driver_accountStatus(driver) && user_gender(user) == driver_gender(driver)) return addList(ride, glob_rideList(glob));
     }
+    return 1;
 }
 
 /// @brief A função interCmd interpreta a informação relativa aos comandos acessa
@@ -160,17 +170,16 @@ void interRide(char args[][MAX_LINE], Global glob)
  * @param glob Estrutura de dados global a ser atualizada.
  * @param cmd Número do comando atual.
  */ 
-void interCmd(char args[][MAX_LINE], Global glob, int cmd)
+int interCmd(char args[][MAX_LINE], Global glob, int cmd)
 {
     Date dateA, dateB;
     FILE * fp = NULL;
     
     if(cmd != 0)
     {
-        char * filename = (char*) malloc(sizeof(char) * 100);
+        char filename[100];
         sprintf(filename, "Resultados/command%d_output.txt", cmd);
         fp = fopen(filename, "w");
-        free(filename);
     }
 
     switch (atoi(args[0]))
@@ -210,18 +219,19 @@ void interCmd(char args[][MAX_LINE], Global glob, int cmd)
             break;
 
         case 8:
-            query8(args[1][0], atoi(args[2]), glob, fp);
+            if(!query8(args[1][0], atoi(args[2]), glob, fp))return 0;
             break;
 
         case 9:
             parseDate(args[1],dateA);
             parseDate(args[2],dateB);
 
-            query9(dateA, dateB, glob, fp);
+            if(!query9(dateA, dateB, glob, fp))return 0;
             break;
     }
 
     if (fp) fclose(fp);
+    return 1;
 }
 
 

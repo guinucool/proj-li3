@@ -3,6 +3,6 @@
 
 #define MAX_LINE 200
 
-void readFile(char * path, char mode, Global glob);
+int readFile(char * path, char mode, Global glob);
 
 #endif

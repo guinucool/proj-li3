@@ -3,9 +3,9 @@
 
 #define MAX_LINE 200
 
-void interUser(char args[][MAX_LINE], Global glob);
-void interDriver(char args[][MAX_LINE], Global glob);
-void interRide(char args[][MAX_LINE], Global glob);
-void interCmd(char args[][MAX_LINE], Global glob, int cmd);
+int interUser(char args[][MAX_LINE], Global glob);
+int interDriver(char args[][MAX_LINE], Global glob);
+int interRide(char args[][MAX_LINE], Global glob);
+int interCmd(char args[][MAX_LINE], Global glob, int cmd);
 
 #endif

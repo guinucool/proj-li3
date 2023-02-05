@@ -14,8 +14,8 @@
 
 void rideFilter(void * ride, void * filter[])
 {
-    char * gender = filter[0];
-    int * age = filter[1];
+    char * gender = (char *)filter[0];
+    int * age = (int *)filter[1], *addL = (int *)filter[3];
 
     User user = ride_user(ride);
     Driver driver = ride_driver(ride);
@@ -24,7 +24,7 @@ void rideFilter(void * ride, void * filter[])
     user_accountCreation(dateuser, user);
     driver_accountCreation(datedriver, driver);
 
-    if (user_gender(user) == * gender && calculateAge(dateuser) >= * age && calculateAge(datedriver) >= * age) addList(ride, filter[2]);
+    if (user_gender(user) == * gender && calculateAge(dateuser) >= * age && calculateAge(datedriver) >= * age) *addL = addList(ride, filter[2]);
 }
 
 /// @brief  A função transforma a informação necessária para um ficheiro de output.
@@ -42,7 +42,7 @@ void rideFilter(void * ride, void * filter[])
  * 
  * @param fp Ficheiros de output. 
 */
-int RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
+void RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
 {
     User user = ride_user(ride);
     Driver driver = ride_driver(ride);
@@ -77,23 +77,29 @@ int RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
  * @param fp Ficheiro de output.
  * 
 */
-void query8(char gender, int X, Global glob, FILE * fp)
+int query8(char gender, int X, Global glob, FILE * fp)
 {
     List ride = glob_rideList(glob);
     List print = createList();
-    void * filter[3];
+    if(print == NULL)return 0;
+    int fill = 1;
+
+    void * filter[4];
     filter[0] = &gender;
     filter[1] = &X;
     filter[2] = print;
+    filter[3] = &fill;
 
     sortList(ride, ridecmp, NULL);
 
     listMap(ride, rideFilter, filter);
+    if(!fill)return 0;
 
     if (fp) listOut(print, RidePrinter, 0, list_size(print), filter, fp);
     else page(print, RidePrinter, list_size(print), filter);
 
     destroyList(print, null, 0);
+    return 1;
 }
 
 

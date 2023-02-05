@@ -45,6 +45,7 @@ typedef struct _USER_ {
 User userCreate(char * username, char * name, char gender, short age, Date account_creation, char pay_method, char account_status)
 {
     User user = (User) malloc(sizeof(NPUser));
+    if(user == NULL)return NULL;
 
     strncpy(user->username, username, MAX_USER_STR);
     strncpy(user->name, name, MAX_USER_STR);

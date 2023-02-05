@@ -20,7 +20,7 @@
  * @param mode O tipo de informação que irá ser lido no ficheiro escolhido.
  * @param glob A variável global que segura, ou vai segurar, a informação relevante à execução do programa.
  */
-void readFile(char * path, char mode, Global glob)
+int readFile(char * path, char mode, Global glob)
 {
     FILE * file = fopen(path, "r");
     char line[MAX_LINE];
@@ -65,19 +65,19 @@ void readFile(char * path, char mode, Global glob)
         switch (mode)
         {
             case 0:
-                interCmd(args, glob, cmd);
+                if(!interCmd(args, glob, cmd))return 0;
                 break;
 
             case 1:
-                interUser(args, glob);
+                if(!interUser(args, glob))return 0;
                 break;
 
             case 2:
-                interDriver(args, glob);
+                if(!interDriver(args, glob))return 0;
                 break;
 
             case 3:
-                interRide(args, glob);
+                if(!interRide(args, glob))return 0;
                 break;
         }
 
@@ -85,4 +85,6 @@ void readFile(char * path, char mode, Global glob)
     }
 
     fclose(file);
+
+    return 1;
 }

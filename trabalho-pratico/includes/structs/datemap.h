@@ -9,7 +9,7 @@ typedef struct _DATE_MAP_ *DateMap;
 
 // Tratamentos
 DateMap createDateMap(short year);
-void updateDateMap(DateMap map, short day, short month, void * element);
+int updateDateMap(DateMap map, short day, short month, void * element);
 void destroyDateMap(DateMap map, void (*)(void*));
 void debugPrintDateMap(DateMap map, void (*)(void*));
 void * dateMapGet(DateMap map, short day, short month);

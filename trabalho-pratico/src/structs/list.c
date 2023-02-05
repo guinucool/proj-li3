@@ -19,8 +19,14 @@ typedef struct _LIST_ {
 List createList()
 {
     List list = (List) malloc(sizeof(NPList));
+    if(list == NULL)return NULL;
 
     list->list = malloc(sizeof(void*));
+    if(list->list == NULL)
+    {
+        free(list);
+        return NULL;
+    }
     list->size = 0;
     list->ord = UNORDERED;
 
@@ -35,14 +41,19 @@ List createList()
  * @param element O elemento a ser adicionado.
  * @param list A lista à qual vai ser adicionado o elemento.
  */   
-void addList(void * element, List list)
+int addList(void * element, List list)
 {
+    void * memAux;
     list->ord = UNORDERED;
     list->size++;
 
-    if (list->size > 1) list->list = realloc(list->list, list->size * sizeof(void*));
+    if (list->size > 1) memAux = realloc(list->list, list->size * sizeof(void*));
+    if(memAux == NULL)return 0;
+    list->list = memAux;
 
     list->list[list->size-1] = element;
+
+    return 1;
 }
 
 /// @brief A função swap troca a posição de dois elementos de uma lista.

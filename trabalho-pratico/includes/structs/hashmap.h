@@ -13,7 +13,7 @@ typedef struct _HASHMAP_ *Hashmap;
 Hashmap createHashmap();
 void destroyHashmap(Hashmap hashmap, void (*)(void*));
 void debugPrintHashmap(Hashmap hashmap, void (*)(void*), void (*)(void*));
-void put(Hashmap hashmap, void * key, void * data, int (*)(void*,int));
+int put(Hashmap hashmap, void * key, void * data, int (*)(void*,int));
 void * get(Hashmap hashmap, void * key, int (*)(void*,void*), int (*)(void*,int));
 int map(Hashmap hashmap, int (*)(void*, void (*)(void*,void*), void*), void (*)(void*,void*), void * second);
 

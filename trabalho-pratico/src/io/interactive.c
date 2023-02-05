@@ -15,7 +15,7 @@
  * 
  * @param glob A global a ser considerada para os cálculos estatísticos.
 */
-void interactiveMode(Global glob)
+int interactiveMode(Global glob)
 {   
     char str[MAX_LINE], tok[4][MAX_LINE];
     printf("Bem vindo ao modo interativo! Escolha uma query para executar:\n");
@@ -38,8 +38,9 @@ void interactiveMode(Global glob)
         if(str[0] > '0' && str[0] <= '9')
         {
             tokens(str, " \n", tok);
-            interCmd(tok, glob, 0);
+            if(!interCmd(tok, glob, 0))return 0;
         }
         printf("Insira o comando no sequinte formato: <query-id> [arg1...argN]\n");
     }
+    return 1;
 }

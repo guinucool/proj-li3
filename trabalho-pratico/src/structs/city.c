@@ -31,12 +31,18 @@ typedef struct _CITY_ {
 City createCity(char * name, double money_spent)
 {
     City city = (City) malloc(sizeof(NPCity));
+    if(city == NULL)return NULL;
 
     strncpy(city->city, name, MAX_STR_NAME);
 
     city->money_spent = money_spent;
     city->rides = 1;
     city->drivers = createList();
+    if(city->drivers == NULL)
+    {
+        free(city);
+        return NULL;
+    }
 
     return city;
 }

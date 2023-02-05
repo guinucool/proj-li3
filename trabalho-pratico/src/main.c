@@ -8,6 +8,7 @@
 int main(int argc, char * args[])
 {	
 	Global glob = createGlobal();
+	if(glob == NULL)return 0;
 	char str[200];
 
 	if (argc < 2)
@@ -19,23 +20,51 @@ int main(int argc, char * args[])
 		strncpy(str, args[1], 200);
 
 	char * truePath = (char*) malloc(sizeof(char) * (strlen(str) + 13));
+	if(truePath == NULL)destroyGlobal(glob);
 
 	strcpy(truePath, str);
 	strcat(truePath, "/users.csv");
-	readFile(truePath, 1, glob);
+	if(!readFile(truePath, 1, glob))
+	{
+		free(truePath);
+		destroyGlobal(glob);
+		return 0;
+	}
 
 	strcpy(truePath, str);
 	strcat(truePath, "/drivers.csv");
-	readFile(truePath, 2, glob);
+	if(!readFile(truePath, 2, glob))
+	{
+		free(truePath);
+		destroyGlobal(glob);
+		return 0;
+	}
 
 	strcpy(truePath, str);
 	strcat(truePath, "/rides.csv");
-	readFile(truePath, 3, glob);
+	if(!readFile(truePath, 3, glob))
+	{
+		free(truePath);
+		destroyGlobal(glob);
+		return 0;
+	}
 
 	if (argc > 2)
-		readFile(args[2], 0, glob);
+	{
+		if(!readFile(args[2], 0, glob))
+		{
+			free(truePath);
+			destroyGlobal(glob);
+			return 0;
+		}
+	}
 	else
-		interactiveMode(glob);
+		if(!interactiveMode(glob))
+		{
+			free(truePath);
+			destroyGlobal(glob);
+			return 0;
+		}
 
 	free(truePath);
 	destroyGlobal(glob);

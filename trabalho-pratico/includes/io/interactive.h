@@ -3,6 +3,6 @@
 
 #define MAX_LINE 200
 
-void interactiveMode(Global glob);
+int interactiveMode(Global glob);
 
 #endif

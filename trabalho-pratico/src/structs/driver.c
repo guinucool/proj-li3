@@ -49,6 +49,7 @@ typedef struct _DRIVER_ {
 Driver createDriver(int id, char * name, short age, char gender, char car_class, char * license_plate, char * city, Date account_creation, char account_status)
 {	
 	Driver driver = (Driver) malloc(sizeof(NPDriver));
+	if(driver == NULL) return NULL;
 
 	driver->id = id;
 	strncpy(driver->name, name, NAME_STR_SIZE);
@@ -65,8 +66,19 @@ Driver createDriver(int id, char * name, short age, char gender, char car_class,
 	driver->account_status = account_status;
 
 	driver->score = malloc(sizeof(int));
+	if(driver->score == NULL)
+	{
+		free(driver);
+		return NULL;
+	}
 	driver->score[0] = 0;
 	driver->rides = malloc(sizeof(int));
+	if(driver->rides == NULL)
+	{
+		free(driver->score);
+		free(driver);
+		return NULL;
+	}
 	driver->rides[0] = 0;
 	driver->money_received = 0.f;
 	driver->counter = 0;
@@ -96,6 +108,7 @@ int updateDriver(Driver driver, int score, double money_received, char * city, D
 {
 	int res = 0;
 	int target = -1;
+	void * memAux;
 
 	for (int i = 0; i < driver->counter; i++)
 		if(strcmp(driver->cities[i], city) == 0) target = i;
@@ -107,15 +120,33 @@ int updateDriver(Driver driver, int score, double money_received, char * city, D
 		target = driver->counter;
 		driver->counter++;
 
-		if (driver->counter == 1) driver->cities = malloc(sizeof(char*));
-		else driver->cities = realloc(driver->cities, sizeof(char*) * driver->counter);
+		if (driver->counter == 1)
+		{ 
+			driver->cities = malloc(sizeof(char*));
+			if(driver->cities == NULL) return -1;
+		}
+		else 
+		{
+			memAux = realloc(driver->cities, sizeof(char*) * driver->counter);
+			if(memAux == NULL)return -1;
+			driver->cities = memAux;
+		}
 
 		driver->cities[target] = malloc(sizeof(char) * strlen(city));
+		if(driver->cities[target] == NULL)return -1;
+
 		strcpy(driver->cities[target], city);
 
-		driver->score = realloc(driver->score, sizeof(int) * (driver->counter + 1));
+		memAux = realloc(driver->score, sizeof(int) * (driver->counter + 1));
+		if(memAux == NULL)return -1;
+		driver->score = memAux;
+
 		driver->score[driver->counter] = 0;
-		driver->rides = realloc(driver->rides, sizeof(int) * (driver->counter + 1));
+
+		memAux = realloc(driver->rides, sizeof(int) * (driver->counter + 1));
+		if(memAux == NULL)return -1;
+		driver->rides = memAux;
+
 		driver->rides[driver->counter] = 0;
 	}
 

@@ -35,6 +35,7 @@ typedef struct _GLOBAL_ {
 Global createGlobal()
 {
     Global glob = (Global) malloc(sizeof(NPGlobal));
+    if(glob == NULL)return NULL;
 
     glob->users = createHashmap();
     glob->drivers = createHashmap();
@@ -44,6 +45,25 @@ Global createGlobal()
     glob->userList = createList();
     glob->driverList = createList();
     glob->rideList = createList();
+
+    if(glob->users == NULL ||
+       glob->drivers == NULL ||
+       glob->rides == NULL ||
+       glob->cities == NULL ||
+       glob->userList == NULL ||
+       glob->driverList == NULL ||
+       glob->rideList == NULL )
+    {
+        if(glob->users != NULL)free(glob->users);
+        if(glob->drivers != NULL)free(glob->drivers);
+        if(glob->rides != NULL)free(glob->rides);
+        if(glob->cities != NULL)free(glob->cities);
+        if(glob->userList != NULL)free(glob->userList);
+        if(glob->driverList != NULL)free(glob->driverList);
+        if(glob->rideList != NULL)free(glob->rideList);
+
+        return NULL;
+    }
 
     return(glob);
 }

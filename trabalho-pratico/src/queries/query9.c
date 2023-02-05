@@ -45,9 +45,10 @@ void printRide(void * ride, void * null, int * ignore, FILE * fp)
 /// @brief Esta função adiciona um novo node de ride a lista caso o passageiro tenha dado gorjeta.
 /// @param ride Viagem a ser processada.
 /// @param list Lista a que a ride é adicionada.
-void createListTip(void * ride, void * list)
+void createListTip(void * ride, void * filter[])
 {
-    if (ride_tip(ride) != 0) addList(ride, list);
+    int * addL = (int *)filter[1];
+    if (ride_tip(ride) != 0) *addL = addList(ride, filter[0]);
 }
 
 /// @brief Esta função lista as viagens nas quais o passageiro deu gorjeta num intervalo de tempo.
@@ -67,17 +68,23 @@ void createListTip(void * ride, void * list)
  * 
  *  @param fp Ficheiro de output.
  */  
-void query9(Date dateA, Date dateB, Global glob, FILE * fp)
+int query9(Date dateA, Date dateB, Global glob, FILE * fp)
 { 
     List list = createList();
-    int size = 0, key = 0;
+    if(list == NULL)return 0;
+    int size = 0, key = 0, res;
+
+    void * filter[2];
+    filter[0] = list;
+    filter[1] = &res;
 
     while (datecmp(dateA, dateB) <= 0)
     {
         key = dateA[2];
 
         DateMap anoA = get(glob_ride(glob), &key, equal, hashKey_Int);
-        if (anoA) size += dateFilter(anoA, dateA, dateB, createListTip, list);
+        if (anoA) size += dateFilter(anoA, dateA, dateB, createListTip, filter);
+        if(!res)return 0;
 
         if (!anoA) dateA[2]++;
     }
@@ -88,4 +95,5 @@ void query9(Date dateA, Date dateB, Global glob, FILE * fp)
     else page(list, printRide, size, NULL);
 
     destroyList(list, null, 0);
+    return 1;
 }

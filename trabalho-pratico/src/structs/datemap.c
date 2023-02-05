@@ -25,13 +25,23 @@ typedef struct _DATE_MAP_ {
 DateMap createDateMap(short year)
 {
     DateMap map = (DateMap) malloc(sizeof(NPDateMap));
+    if(map == NULL)return NULL;
 
     map->year = year;
 
     for (int i = 0; i < MONTHS; i++)
+    {
         for (int j = 0; j < DAYS; j++)
+        {
             map->map[i][j] = createList();
-    
+            if(map->map[i][j] == NULL)
+            {
+                free(map);
+                return NULL;
+            }
+        }
+    }
+        
     return map;
 }
 
@@ -45,9 +55,9 @@ DateMap createDateMap(short year)
  * @param month O mês em que será adicionado o elemento.
  * @param element O elemento a ser adicionado.
  */
-void updateDateMap(DateMap map, short day, short month, void * element)
+int updateDateMap(DateMap map, short day, short month, void * element)
 {
-    addList(element, map->map[month-1][day-1]);
+    return addList(element, map->map[month-1][day-1]);
 }
 
 /// @brief A função destroyDateMap destroí um DateMap.

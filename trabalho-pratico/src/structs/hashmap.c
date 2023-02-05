@@ -86,8 +86,14 @@ void debugPrintNode(HashmapNode node, void (*keyPrinter)(void*), void (*elemPrin
 Hashmap createHashmap()
 {
     Hashmap hashmap = (Hashmap) malloc(sizeof(NPHashmap));
+    if(hashmap == NULL)return NULL;
 
     hashmap->map = malloc(sizeof(HashmapNode) * HASHMAP_SIZE);
+    if(hashmap->map == NULL)
+    {
+        free(hashmap);
+        return NULL;
+    }
     hashmap->size = 0;
     hashmap->max = HASHMAP_SIZE;
 
@@ -110,9 +116,10 @@ Hashmap createHashmap()
  * @param hashmap O hashmap a ser redimensionado.
  * @param hashFunc A função de hash a ser usada para o reposionamento dos elementos.
  */
-void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
+int resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
 {
     int ini = hashmap->max;
+    void * memAux;
 
     for (int i = 0; i < hashmap->max; i++)
         if (hashmap->map[i].key) hashmap->map[i].status = INACTIVE;
@@ -121,7 +128,9 @@ void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
 
     while (!isPrime(hashmap->max)) hashmap->max++;
 
-    hashmap->map = realloc(hashmap->map, sizeof(HashmapNode) * hashmap->max);
+    memAux = realloc(hashmap->map, sizeof(HashmapNode) * hashmap->max);
+    if(memAux == NULL)return 0;
+    hashmap->map = memAux;
 
     hashmap->map[ini] = createNode(NULL, NULL, INACTIVE);
     hashmap->size = 0;
@@ -138,6 +147,7 @@ void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
             put(hashmap, reKey, reData, hashFunc);
         }
     }
+    return 1;
 }
 
 /// @brief A função destroyHashmap destroí um Hashmap.
@@ -199,13 +209,16 @@ void debugPrintHashmap(Hashmap hashmap, void (*keyPrinter)(void*), void (*elemPr
  * @param data O void pointer do elemento a ser inserido.
  * @param hashFunc A função que irá dar hash à chave.
  */
-void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
+int put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
 {
     if (hashmap)
     {
         double a = (double) hashmap->size / hashmap->max;
 
-        if (a >= 0.8f) resizeHashmap(hashmap, hashFunc);
+        if (a >= 0.8f) 
+        {
+            if(!resizeHashmap(hashmap, hashFunc))return 0;
+        }
 
         int pos = hashFunc(key, hashmap->max);
         int or = pos;
@@ -215,9 +228,9 @@ void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
 
         if (hashmap->map[pos].key && hashmap->map[pos].status)
         {
-            resizeHashmap(hashmap, hashFunc);
-            put(hashmap, key, data, hashFunc);
-            return;
+            if(!resizeHashmap(hashmap, hashFunc))return 0;
+            if(!put(hashmap, key, data, hashFunc))return 0;
+            return 1;
         }
         
         if (hashmap->map[pos].key && !hashmap->map[pos].status)
@@ -227,14 +240,15 @@ void put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
 
             hashmap->map[pos] = createNode(NULL, NULL, INACTIVE);
 
-            put(hashmap, reKey, reData, hashFunc);
-            put(hashmap, key, data, hashFunc);
-            return;
+            if(!put(hashmap, reKey, reData, hashFunc))return 0;
+            if(!put(hashmap, key, data, hashFunc))return 0;
+            return 1; 
         }
         
         hashmap->map[pos] = createNode(key, data, ACTIVE);
         hashmap->size++;
     }
+    return 0;
 }
 
 /// @brief A função get encontra e devolve o void pointer de um elemento no hashmap.

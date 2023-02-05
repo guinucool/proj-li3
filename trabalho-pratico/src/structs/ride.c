@@ -45,6 +45,7 @@ typedef struct _RIDE_ {
 Ride createRide(int id, Date date, Driver driver, User user, char * city, short distance, short score_user, short score_driver, double tip, char * comment)
 {
     Ride ride = (Ride) malloc(sizeof(NPRide));
+    if(ride == NULL) return NULL;
     
     ride->id = id;
     ride->date[0] = date[0];
