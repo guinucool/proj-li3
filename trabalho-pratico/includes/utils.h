@@ -15,6 +15,7 @@ void null(void * element);
 int nullMap(void * element, void (*)(void*,void*), void * second);
 
 // Verificações
+int equal_file(FILE * fp1, FILE * fp2);
 int isNumber(char s[200], char mode);
 int isPrime(int num);
 

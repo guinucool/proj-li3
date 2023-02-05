@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "../../includes/structs/global.h"
 #include "../../includes/io/interpreter.h"
 #include "../../includes/io/parser.h"
@@ -20,7 +21,7 @@
  * @param mode O tipo de informação que irá ser lido no ficheiro escolhido.
  * @param glob A variável global que segura, ou vai segurar, a informação relevante à execução do programa.
  */
-void readFile(char * path, char mode, Global glob)
+void readFile(char * path, char mode, Global glob, double * time)
 {
     FILE * file = fopen(path, "r");
     char line[MAX_LINE];
@@ -65,7 +66,14 @@ void readFile(char * path, char mode, Global glob)
         switch (mode)
         {
             case 0:
+                clock_t start, end;
+                if (time) start = clock();
                 interCmd(args, glob, cmd);
+                if (time)
+                {
+                    end = clock();
+                    time[cmd] = (double) (end - start);
+                }
                 break;
 
             case 1:

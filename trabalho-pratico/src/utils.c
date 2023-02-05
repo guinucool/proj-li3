@@ -35,6 +35,22 @@ int equal_str(void* s1,void* s2)
     return !(strcmp(s1,s2));
 }
 
+int equal_file(FILE * fp1, FILE * fp2)
+{
+    char ch1 = getc(fp1), ch2 = getc(fp2);
+    int res = 1;
+
+    while (ch1 != EOF && ch2 != EOF && res)
+    {
+        if (ch1 != ch2) res = 0;
+
+        ch1 = getc(fp1);
+        ch2 = getc(fp2);
+    }
+
+    return res;
+}
+
 /// @brief A função hashKey_Int cria uma hash de procura, cuja chave é um Int.
 /**
  * A função hashKey_Int cria uma hash de procura, cuja chave é um Int, usando

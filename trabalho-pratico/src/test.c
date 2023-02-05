@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "../includes/io/in.h"
-#include "../includes/structs/global.h"
-#include "../includes/queries.h"
 #include "../includes/utils.h"
+#include "../includes/structs/global.h"
+#include "../includes/io/parser.h"
 
 /// @brief A função test_query4 executa testes à query 4.
 /** 
@@ -13,7 +12,7 @@
  * 
  * @return O número de queries bem executadas.
  */
-int test_query4(Global * glob)
+/*int test_query4(Global * glob)
 {
     char res1[8];
     int res = 0;
@@ -39,7 +38,7 @@ int test_query4(Global * glob)
  * 
  * @return O número de queries bem executadas.
  */
-int test_query5(Global * glob)
+/*int test_query5(Global * glob)
 {
     char res1[8];
     int res = 0;
@@ -69,7 +68,7 @@ int test_query5(Global * glob)
  * 
  * @return O número de queries bem executadas.
  */
-int test_query6(Global * glob)
+/*int test_query6(Global * glob)
 {
     char res1[8];
     int res = 0;
@@ -113,9 +112,196 @@ int test_query6(Global * glob)
  */ 
 int main(int argc, char * args[])
 {	
-	if (argc > 1)
+	if (argc > 2)
 	{
-        clock_t start, parse, end;
+        char * truePath = malloc(sizeof(char) * (strlen(args[1]) + 13));
+        if (truePath)
+        {
+            char * inStr = malloc(sizeof(char) * (strlen(args[2]) + 11));
+            if (inStr)
+            {
+                strcpy(inStr, args[2]);
+                strcat(inStr, "/input.txt");
+
+                FILE * input = fopen(inStr, "r");
+                if (input)
+                {
+                    double * time = malloc(sizeof(double));
+                    if (time)
+                    {
+                        int * cmd = malloc(sizeof(int));
+                        if (cmd)
+                        {
+                            double total_time = 0.0f, parse_time = 0.0f, query_time = 0.0f;
+                            double times[9][2] = { {0.0f, 0.0f} };
+                            int score[9][2] = { {0,0} };
+
+                            int count = 0;
+                            char line[200];
+
+                            while (fgets(line, 200, input) != NULL)
+                            {
+                                count++;
+                                int * cTmp = realloc(cmd, sizeof(int) * count);
+                                double * tTmp = realloc(time, sizeof(double) * count);
+
+                                if (!cTmp || !tTmp)
+                                {
+                                    if (cTmp) free(cTmp);
+                                    if (tTmp) free(tTmp);
+
+                                    free(truePath);
+                                    free(inStr);
+                                    fclose(input);
+                                    free(time);
+                                    free(cmd);
+
+                                    return 0;
+                                }
+                                else
+                                {
+                                    time = tTmp;
+                                    cmd = cTmp;
+                                }
+
+                                cmd[count - 1] = line[0] - 48;
+
+                                score[cmd[count-1]][1]++;
+                            }
+                            fclose(input);
+
+                            Global glob = createGlob();
+                            if (glob)
+                            {
+                                clock_t start, end;
+
+                                start = clock();
+
+                                strcpy(truePath, args[1]);
+                                strcat(truePath, "/users.csv");
+                                readFile(truePath, 1, glob, NULL);
+
+                                strcpy(truePath, args[1]);
+                                strcat(truePath, "/drivers.csv");
+                                readFile(truePath, 2, glob, NULL);
+
+                                strcpy(truePath, args[1]);
+                                strcat(truePath, "/rides.csv");
+                                readFile(truePath, 3, glob, NULL);
+
+                                end = clock();
+                                free(truePath);
+
+                                parse_time = (double) (end - start);
+                                total_time = parse_time;
+
+                                readFile(inStr, 0, glob, time);
+                                free(inStr);
+
+                                char * path = malloc(sizeof(char));
+                                if (path)
+                                {
+                                    char * outPath = malloc(sizeof(char));
+                                    if (outPath)
+                                    {
+                                        for (int i = 0; i < count; i++)
+                                        {
+                                            total_time += time[i];
+                                            query_time += time[i];
+
+                                            if ((cmd[i] == 2 || cmd[i] == 3 || cmd[i] == 7 || cmd[i] == 8) && times[cmd[i]-1][1] == 0)
+                                                times[cmd[i]-1][1] = time[i];
+                                            else
+                                                times[cmd[i]-1][0] = time[i];
+
+                                            char * pTemp = realloc(path,sizeof(char) * (strlen(args[2]) + 19 + intLen(i)));
+                                            char * oTemp = realloc(outPath,sizeof(char) * (29 + intLen(i)));
+
+                                            if (!pTemp || !oTemp)
+                                            {
+                                                if (pTemp) free(pTemp);
+                                                if (oTemp) free(oTemp);
+
+                                                free(time);
+                                                free(cmd);
+                                                destroyGlobal(glob);
+                                                free(path);
+                                                free(outPath);
+
+                                                return 0;
+                                            }
+                                            else
+                                            {
+                                                path = pTemp;
+                                                outPath = oTemp;
+                                            }
+
+                                            strcpy(pTemp, args[2]);
+                                            sprintf(pTemp, "/output/command%d_output.txt", i);
+                                            
+                                            strcpy(oTemp, "\0");
+                                            sprintf(oTemp, "Resultados/command%d_output.txt", i);
+
+                                            FILE * res = fopen(oTemp, "r");
+                                            FILE * out = fopen(pTemp, "r");
+
+                                            if (!res || !out)
+                                            {
+                                                if (res) fclose(res);
+                                                if (out) fclose(out);
+
+                                                free(time);
+                                                free(cmd);
+                                                destroyGlobal(glob);
+                                                free(path);
+                                                free(outPath);
+
+                                                return 0;
+                                            }
+
+                                            score[cmd[i]-1][0] += equal_file(res, out);
+                                        }
+                                        free(outPath);
+                                    }
+                                    free(path);
+                                }
+                                destroyGlobal(glob);
+
+                                printf("[TOTAL]---------EXECUTION TIME - %f\n", total_time);
+                                printf("[PARSE]---------EXECUTION TIME - %f\n", parse_time);
+                                printf("[ALL QUERIES]---EXECUTION TIME - %f\n", query_time);
+                                printf("[QUERY 1]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 1]-------EXECUTION TIME - %f\n", times[0][0]/score[0][1]);
+                                printf("[QUERY 2]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 2]-FIRST EXECUTION TIME - %f\n", times[1][1]);
+                                printf("[QUERY 2]-------EXECUTION TIME - %f\n", times[1][0]);
+                                printf("[QUERY 3]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 3]-FIRST EXECUTION TIME - %f\n", times[1][1]);
+                                printf("[QUERY 3]-------EXECUTION TIME - %f\n", times[1][0]);
+                                printf("[QUERY 4]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 4]-------EXECUTION TIME - %f\n", times[1][0]);
+                                printf("[QUERY 5]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 5]-------EXECUTION TIME - %f\n", times[1][0]);
+                                printf("[QUERY 6]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 6]-------EXECUTION TIME - %f\n", times[1][0]);
+                                printf("[QUERY 7]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 7]-FIRST EXECUTION TIME - %f\n", times[1][1]);
+                                printf("[QUERY 7]-------EXECUTION TIME - %f\n", times[1][0]);
+                                printf("[QUERY 8]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 8]-FIRST EXECUTION TIME - %f\n", times[1][1]);
+                                printf("[QUERY 8]-------EXECUTION TIME - %f\n", times[1][0]);
+                                printf("[QUERY 9]-------SCORE - %d/%d\n", score[0][0], score[0][1]);
+                                printf("[QUERY 9]-------EXECUTION TIME - %f\n", times[1][0]);
+                            }
+                            free(cmd);
+                        }
+                        free(time);
+                    }
+                }
+            }
+        }
+        
+        /*clock_t start, parse, end;
         double time_parse, time_query, time_total;
         start = clock();
 
@@ -146,13 +332,13 @@ int main(int argc, char * args[])
 
         time_parse = ((double) (parse - start)) / CLOCKS_PER_SEC;
         time_query = ((double) (end - parse)) / CLOCKS_PER_SEC;
-        time_total = ((double) (end - start)) / CLOCKS_PER_SEC;
-        printf("[TOTAL] CPU TIME - %f\n", time_total);
+        time_total = ((double) (end - start)) / CLOCKS_PER_SEC;*/
+        /*printf("[TOTAL] CPU TIME - %f\n", time_total);
         printf("[PARSE] CPU TIME - %f\n", time_parse);
         printf("[ALL QUERY] CPU TIME - %f\n", time_query);
         printf("[ALL QUERY] SCORE - %d/10\n", q);
-        printf("[SINGLE QUERY] CPU TIME - %f\n", time_query/10);
+        printf("[SINGLE QUERY] CPU TIME - %f\n", time_query/10);*/
 	}
 
-	return(0);
+	return 0;
 }
