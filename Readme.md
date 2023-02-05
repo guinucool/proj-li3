@@ -3,9 +3,9 @@
     - Inserir info user estruturas auxiliares; --DONE--
     - Interpretação da leitura; --DONE--
     - Q5; --DONE--
-    - Q7;
-    - Q9;
-    - preço por car class uma função na utils 
+    - Q7; --DONE--
+    - Q9; --DONE--
+    - preço por car class uma função na utils --DONE--
     - between na utils (reutilização de codigo) --DONE--
 # Alexandra:
     - Inserir info drivers hashmap; - Done 
@@ -13,36 +13,36 @@
     - Q4; - Done 
     - Output das queries; - Done
     - Q1; - Done
-    - Q8;
+    - Q8; - Done 
 # Gui:
     - Leitura de ficheiros(por linha -> chama funções); (Done)
     - Inserir info rides hashmap; (Done)
     - Inserir info rides estruturas auxiliares; (Done)
     - Q6; (Done)
-    - Q2;
-    - Q3;
-    - preço medio por cidade feito no load de dataset 
-    - nome de funções e variaveis
-    - todas as funções de datas meter no modulo datas
-    em vez de usar  array de short fazer um tipo DATE com array de short (pending)
+    - Q2; (Done)
+    - Q3; (Done)
+    - preço medio por cidade feito no load de dataset (Done)
+    - nome de funções e variaveis (Done)
+    - todas as funções de datas meter no modulo datas (Done)
+    em vez de usar  array de short fazer um tipo DATE com array de short (Done)
 
 # Tarefas por concluir:
     -- Melhorar --
-    - mostrar raciocinio no relatorio (ir fazendo) 
-    - nos testes de desempenho referir o numero de execuções e as especificações da maquina (end)
+    - mostrar raciocinio no relatorio (Done) 
+    - nos testes de desempenho referir o numero de execuções e as especificações da maquina (Done)
 
     -- Fazer --
-    - Modo interativo
-    - Validações simples (secção 6 Guião)
-    - hashmap com tamanho dinamico
+    - Modo interativo (Done)
+    - Validações simples (Done)
+    - hashmap com tamanho dinamico (Done)
 
 # Queries:
     Q1: DONE 
-    Q2: working...
-    Q3: working...
+    Q2: DONE 
+    Q3: DONE 
     Q4: DONE
     Q5: DONE
     Q6: DONE
-    Q7: working...
-    Q8: working...
-    Q9: working...
+    Q7: DONE 
+    Q8: DONE 
+    Q9: DONE
