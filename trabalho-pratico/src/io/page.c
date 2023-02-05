@@ -6,11 +6,30 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/io/page.h"
 
-
+/// @brief A função page imprime outputs grandes por páginas.
+/**
+ *  A função page imprime outputs grandes por páginas, usando a listOut
+ *  para fazer as impressões.
+ * 
+ *  Assim sendo, a função page irá apenas decidir a página que deve
+ *  imprimir através do input do utilizador, não permitindo o utilizador
+ *  escolher páginas inexistentes ou inválidas.
+ * 
+ *  @param list A lista de resultados a ser impressa.
+ * 
+ *  @param printer A função que define a forma como deve ser impresso cada elemento da lista.
+ * 
+ *  @param N O top número de elementos a ser impresso da lista.
+ * 
+ *  @param second O segundo argumento da função print (caso exista).
+ */
 void page(List list, void (*printer)(void*,void*,int*,FILE*), int N, void * second)
 {
     char cmd[MAX_LINE], * token;
-    int j = 1;
+    int j = 1, max;
+
+    if (N % PAGES == 0) max = (N / PAGES);
+    else max = (N / PAGES) + 1;
 
     while(1)
     {
@@ -38,13 +57,9 @@ void page(List list, void (*printer)(void*,void*,int*,FILE*), int N, void * seco
             else printf("ERRO: Input inválido!\n");
         }
 
-        if(j * PAGES >= N)
-        {
-            if (N % PAGES == 0) j = (N / PAGES);
-            else j = (N / PAGES) + 1;
-        }
+        if(j > max) j = max;
 
-        printf("Página %d:\n", j);
+        printf("Página %d-%d:\n", j, max);
         listOut(list, printer, j, N, second, NULL);
     }
 }

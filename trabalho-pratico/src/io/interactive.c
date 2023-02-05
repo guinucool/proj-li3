@@ -9,11 +9,14 @@
 /// @brief A função interactiveMode fornece ao programa uma interface de utilizador interativa.
 /**
  *  A função apresenta as possibilidades de comandos a serem executados e começa um ciclo infinito.
- *  De seguida, é pedido um imput de um comando ao utilizador e após a seleção do comando pretendido,
- *  o comando é executado. Caso seja inserido em primeiro lugar o caractere '0' o cilco quebra 
+ * 
+ *  De seguida, é pedido um imput de um comando e dos respetivos argumentos ao utilizador e após a
+ *  seleção do comando pretendido, o comando é executado.
+ * 
+ *  Caso seja inserido em primeiro lugar o caractere '0' o cilco quebra 
  *  e a função termina.
  * 
- * @param glob A global a ser considerada para os cálculos estatísticos.
+ *  @param glob A global a ser considerada para os cálculos estatísticos.
 */
 void interactiveMode(Global glob)
 {   
