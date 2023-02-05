@@ -6,16 +6,19 @@
 
 /// @brief A função createDate cria uma variável do tipo Date.
 /**
- * A função createDate cria uma variável do tipo Date, associando
- * cada propriedade a cada posição respetiva do array do tipo
- * Date de 3 elementos.
+ *  A função createDate cria uma variável do tipo Date, associando
+ *  cada propriedade a cada posição respetiva do array do tipo
+ *  Date de 3 elementos.
  * 
- * O primeiro elemento será o dia, o segundo o mês e o terceiro o ano.
+ *  O primeiro elemento será o dia, o segundo o mês e o terceiro o ano.
  * 
- * @param day O dia da data a ser criada.
- * @param month O mês da data a ser criada.
- * @param year O ano da data a ser criada.
- * @param res O local onde a data criada vai ser armazenada.
+ *  @param day O dia da data a ser criada.
+ * 
+ *  @param month O mês da data a ser criada.
+ * 
+ *  @param year O ano da data a ser criada.
+ * 
+ *  @param res O local onde a data criada vai ser armazenada.
  */ 
 void createDate(short day, short month, short year, Date res)
 {   
@@ -26,11 +29,11 @@ void createDate(short day, short month, short year, Date res)
 
 /// @brief A função nextDay modifica uma data para o dia seguinte.
 /** 
- * A função nextDay modifica uma data para o dia seguinte,
- * incrementando 1 valor à data, tendo em conta 
- * as mudanças de mês e ano.
+ *  A função nextDay modifica uma data para o dia seguinte,
+ *  incrementando 1 dia à data, tendo em conta 
+ *  as mudanças de mês e ano.
  * 
- * @param date A data a ser mudada.
+ *  @param date A data a ser mudada.
  */ 
 void nextDay(Date date)
 {    
@@ -60,10 +63,10 @@ void nextDay(Date date)
 
 /// @brief A função debugPrintDate imprime uma Date.
 /**
- * A função debugPrintDate imprime uma variável
- * do tipo Date para fins de debugging.
+ *  A função debugPrintDate imprime uma variável
+ *  do tipo Date para fins de debugging.
  * 
- * @param date A data a imprimir.
+ *  @param date A data a imprimir.
  */ 
 void debugPrintDate(Date date)
 {
@@ -76,15 +79,16 @@ void debugPrintDate(Date date)
 
 /// @brief A função parseDate transforma uma string numa Date.
 /**
- * A função parseDate transforma uma string numa variável do tipo Date.
+ *  A função parseDate transforma uma string numa variável do tipo Date.
  * 
- * Caso a string não esteja devidamente formatada concluí a
- * operação como fracassada.
+ *  Caso a string não esteja devidamente formatada concluí a
+ *  operação como fracassada.
  * 
- * @param str A string a ser transformada.
- * @param date Local onde a data criada será armazenada.
+ *  @param str A string a ser transformada.
  * 
- * @return O resultado da operação (sucesso ou fracasso).
+ *  @param date Local onde a data criada será armazenada.
+ * 
+ *  @return O resultado da operação (sucesso ou fracasso).
  */ 
 int parseDate(char * str, Date date)
 {
@@ -111,16 +115,17 @@ int parseDate(char * str, Date date)
 
 /// @brief A função datecmp compara duas datas.
 /** 
- * A função datecmp compara duas datas, comparando cada elemento da primeira data  
- * ao respetivo elemento da segunda data pela ordem ano->mês->dia, verificando qual é mais
- * recente.
+ *  A função datecmp compara duas datas, comparando cada elemento da primeira data  
+ *  ao respetivo elemento da segunda data pela ordem ano->mês->dia, verificando qual é mais
+ *  recente.
  * 
- * Retorna -1 caso a dateA seja mais antiga que a dateB,
- * retorna 1 caso a dateA seja mais recente que a dateB
- * e retorna 0 caso as datas sejam iguais.
+ *  Retorna -1 caso a dateA seja mais antiga que a dateB,
+ *  retorna 1 caso a dateA seja mais recente que a dateB
+ *  e retorna 0 caso as datas sejam iguais.
  * 
- * @param dateA A data 1.
- * @param dateB A data 2.
+ *  @param dateA A data 1.
+ * 
+ *  @param dateB A data 2.
  * 
  * @return O resultado da comparação das datas.
  */ 
@@ -137,12 +142,12 @@ int datecmp(Date dateA, Date dateB)
 
 /// @brief A função calculateAge calcula a idade de uma Date.
 /**
- * A função calculateAge calcula a idade (em anos) de
- * uma Date, considerando para tal a Data de referência.
+ *  A função calculateAge calcula a idade (em anos) de
+ *  uma Date, considerando para tal a Data de referência.
  * 
- * @param date A data da qual se quer saber a idade.
+ *  @param date A data da qual se quer saber a idade.
  * 
- * @return A idade em anos.
+ *  @return A idade em anos.
  */ 
 short calculateAge(Date date)
 {

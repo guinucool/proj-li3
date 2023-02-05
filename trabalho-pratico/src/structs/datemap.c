@@ -12,15 +12,15 @@ typedef struct _DATE_MAP_ {
 
 /// @brief A função createDateMap cria um DateMap.
 /**
- * A função createDateMap cria um DateMap, alocando
- * o espaço necessário para o mesmo na memória.
+ *  A função createDateMap cria um DateMap, alocando
+ *  o espaço necessário para o mesmo na memória.
  * 
- * De seguida, irá associar ao mapa o respetivo
- * ano.
+ *  De seguida, irá associar ao mapa o respetivo
+ *  ano.
  * 
- * @param year O ano pretendido para o DateMap.
+ *  @param year O ano pretendido para o DateMap.
  * 
- * @return A variável DateMap criada e alocada.
+ *  @return A variável DateMap criada e alocada.
  */ 
 DateMap createDateMap(short year)
 {
@@ -37,13 +37,16 @@ DateMap createDateMap(short year)
 
 /// @brief A função updateDateMap irá adicionar um elemento a um DateMap.
 /**
- * A função updateDateMap irá associar um novo elemento a uma data
- * de um DateMap.
+ *  A função updateDateMap irá associar um novo elemento a uma data
+ *  de um DateMap.
  * 
- * @param map O mapa onde será adicionado o elemento.
- * @param day O dia em que será adicionado o elemento.
- * @param month O mês em que será adicionado o elemento.
- * @param element O elemento a ser adicionado.
+ *  @param map O mapa onde será adicionado o elemento.
+ * 
+ *  @param day O dia em que será adicionado o elemento.
+ * 
+ *  @param month O mês em que será adicionado o elemento.
+ * 
+ *  @param element O elemento a ser adicionado.
  */
 void updateDateMap(DateMap map, short day, short month, void * element)
 {
@@ -52,11 +55,12 @@ void updateDateMap(DateMap map, short day, short month, void * element)
 
 /// @brief A função destroyDateMap destroí um DateMap.
 /**
- * A função destroyDateMap destroí um DateMap e todos os seus elementos,
- * libertando espaço ocupado pelos mesmos na memória.
+ *  A função destroyDateMap destroí um DateMap e todos os seus elementos,
+ *  libertando espaço ocupado pelos mesmos na memória.
  * 
- * @param map O DateMap a ser destruído.
- * @param destroy A função que destroí os elementos do DateMap.
+ *  @param map O DateMap a ser destruído.
+ * 
+ *  @param destroy A função que destroí os elementos do DateMap.
  */
 void destroyDateMap(DateMap map, void (*destroy)(void*))
 {
@@ -72,11 +76,12 @@ void destroyDateMap(DateMap map, void (*destroy)(void*))
 
 /// @brief A função debugPrintDateMap imprime um DateMap.
 /**
- * A função debugPrintDateMap imprime um DateMap e
- * os seus elementos para propósitos de debugging.
+ *  A função debugPrintDateMap imprime um DateMap e
+ *  os seus elementos para propósitos de debugging.
  * 
- * @param map O DateMap a ser imprenso.
- * @param elemPrinter A função que imprime os elementos do Mapa.
+ *  @param map O DateMap a ser imprenso.
+ * 
+ *  @param elemPrinter A função que imprime os elementos do Mapa.
  */
 void debugPrintDateMap(DateMap map, void (*elemPrinter)(void*))
 {
@@ -94,12 +99,14 @@ void debugPrintDateMap(DateMap map, void (*elemPrinter)(void*))
 
 /// @brief A função dateMapGet devolve os elementos presentes numa data.
 /**
- * A função dateMapGet devolve a lista ligada de
- * elementos presentes numa data de um DateMap.
+ *  A função dateMapGet devolve a lista ligada de
+ *  elementos presentes numa data de um DateMap.
  * 
- * @param map O DateMap onde será feita a devolução.
- * @param day O dia a ser filtrado no DateMap.
- * @param month O mês a ser filtrado no DateMap.
+ *  @param map O DateMap onde será feita a devolução.
+ * 
+ *  @param day O dia a ser filtrado no DateMap.
+ * 
+ *  @param month O mês a ser filtrado no DateMap.
  * 
  * @return O apontador da lista ligada de elementos.
  */
@@ -110,15 +117,17 @@ void * dateMapGet(DateMap map, short day, short month)
 
 /// @brief A função dateMap aplica uma mudança a todos os elementos de um DateMap.
 /**
- * A função dateMap mapeia um DateMap, aplicando
- * a todos os seus elementos uma função fornecida
- * como input.
+ *  A função dateMap mapeia um DateMap, aplicando
+ *  a todos os seus elementos uma função fornecida
+ *  como input.
  * 
- * @param map O DateMap a ser mapeado.
- * @param function A função a ser aplicada a cada elemento.
- * @param second O segundo parâmetro da função a ser aplicada.
+ *  @param map O DateMap a ser mapeado.
  * 
- * @return O número de operações executadas.
+ *  @param function A função a ser aplicada a cada elemento.
+ * 
+ *  @param second O segundo parâmetro da função a ser aplicada.
+ * 
+ *  @return O número de operações executadas.
  */
 int dateMap(DateMap map, void (*function)(void*, void*), void * second)
 {
@@ -133,15 +142,19 @@ int dateMap(DateMap map, void (*function)(void*, void*), void * second)
 
 /// @brief A função dateFilter aplica uma mudança a certos elementos de um DateMap.
 /**
- * A função dateFilter mapeia uma DateMap aplicando
- * uma função a elementos pertencentes a um certo
- * intervalo de datas fornecido no input.
+ *  A função dateFilter mapeia uma DateMap aplicando
+ *  uma função a elementos pertencentes a um certo
+ *  intervalo de datas fornecido no input.
  * 
- * @param map O DateMap a ser mapeado.
- * @param dateB O limite superior.
- * @param dateA O limite inferior.
- * @param function A função a ser aplicada.
- * @param second O segundo parâmetro da função a ser aplicada.
+ *  @param map O DateMap a ser mapeado.
+ * 
+ *  @param dateB O limite superior.
+ * 
+ *  @param dateA O limite inferior.
+ * 
+ *  @param function A função a ser aplicada.
+ * 
+ *  @param second O segundo parâmetro da função a ser aplicada.
  * 
  * @return O número de operações executadas.
  */

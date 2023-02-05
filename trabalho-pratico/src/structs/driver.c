@@ -28,23 +28,31 @@ typedef struct _DRIVER_ {
 
 /// @brief A funcao createDriver cria uma variavel do tipo driver.
 /**
- * A funcao createDriver cria uma variavel do tipo drive, alocando 
- * o espaco necessário na memoria para a mesma.
+ *  A funcao createDriver cria uma variavel do tipo drive, alocando 
+ *  o espaco necessário na memoria para a mesma.
  *
- * Assim sendo, irá depois, também, associar os respetivos valores de input
- * da função às repetivas propriedades da variável.
+ *  Assim sendo, irá depois, também, associar os respetivos valores de input
+ *  da função às repetivas propriedades da variável.
  *
- * @param id O id do driver.
- * @param name O nome do driver
- * @param age A idade do driver.
- * @param gender O genero do driver.
- * @param car_class A classe do veiculo do driver.
- * @param license_plate A matricula do carro do driver.
- * @param city A cidade do driver.
- * @param account_creation A data de criacao da conta do driver.
- * @param account_status O estado da conta do driver.
+ *  @param id O id do driver.
+ * 
+ *  @param name O nome do driver
+ * 
+ *  @param age A idade do driver.
+ * 
+ *  @param gender O genero do driver.
+ * 
+ *  @param car_class A classe do veiculo do driver.
+ * 
+ *  @param license_plate A matricula do carro do driver.
+ * 
+ *  @param city A cidade do driver.
+ * 
+ *  @param account_creation A data de criacao da conta do driver.
+ * 
+ *  @param account_status O estado da conta do driver.
  *
- * @return O driver criado com as respetivas propriedades.
+ *  @return O driver criado com as respetivas propriedades.
  */
 Driver createDriver(int id, char * name, short age, char gender, char car_class, char * license_plate, char * city, Date account_creation, char account_status)
 {	
@@ -82,17 +90,21 @@ Driver createDriver(int id, char * name, short age, char gender, char car_class,
 
 /// @brief A função updateDriver atualiza a informação de um Driver.
 /**
- * A função updateDriver atualiza a informação de um Driver
- * após um viagem, adicionando as estatísticas dessa viagem
- * às já existentes no Driver.
+ *  A função updateDriver atualiza a informação de um Driver
+ *  após um viagem, atualizando as estatísticas 
+ *  já existentes dessa viagem no Driver.
  * 
- * @param driver O Driver a ser atualizado.
- * @param score A pontuação a ser adicionada.
- * @param money_received O dinheiro recebido a ser adicionado.
- * @param city A cidade onde a viagem ocorreu.
- * @param date A data da viagem.
+ *  @param driver O Driver a ser atualizado.
  * 
- * @return A conclusão de que se a cidade é uma nova inserção.
+ *  @param score A pontuação a ser adicionada.
+ * 
+ *  @param money_received O dinheiro recebido a ser adicionado.
+ * 
+ *  @param city A cidade onde a viagem ocorreu.
+ * 
+ *  @param date A data da viagem.
+ * 
+ *  @return A conclusão de que se a cidade é uma nova inserção.
  */
 int updateDriver(Driver driver, int score, double money_received, char * city, Date date)
 {
@@ -143,10 +155,10 @@ int updateDriver(Driver driver, int score, double money_received, char * city, D
 
 /// @brief A função destroyDriver destroi uma variavel do tipo Driver.
 /**
- * A função destroyDriver destroi uma variavel do tipo Driver, libertando
- * o espaco ocupado pela variável e pelas suas propriedades.
+ *  A função destroyDriver destroi uma variavel do tipo Driver, libertando
+ *  o espaco ocupado pela variável e pelas suas propriedades.
  * 
- * @param driver A variável do tipo Driver que vai ser destruida.
+ *  @param driver A variável do tipo Driver que vai ser destruida.
  */
 void destroyDriver(Driver driver)
 {
@@ -169,10 +181,10 @@ void destroyDriver(Driver driver)
 
 /// @brief A função debugPrintDriver imprime um Driver.
 /**
- * A função debugPrintDriver imprime um Driver e as suas informações
- * afim de dar informações úteis para debugging.
+ *  A função debugPrintDriver imprime um Driver e as suas informações
+ *  afim de dar informações úteis para debugging.
  * 
- * @param driver O Driver a ser imprenso.
+ *  @param driver O Driver a ser imprenso.
  */
 void debugPrintDriver(Driver driver)
 {
@@ -207,17 +219,17 @@ void debugPrintDriver(Driver driver)
 
 /// @brief A função parseDriver converte várias strings em propriedades adequadas ao tipo Driver.
 /**
- * A função parseDriver extrai os campos id, name, birth_day, gender, car_class, license_plate,
- * city, account_creation, account_status do array tokens passado
- * como parametro.
+ *  A função parseDriver extrai os campos id, name, birth_day, gender, car_class, license_plate,
+ *  city, account_creation, account_status do array tokens passado
+ *  como parametro.
  * 
- * Depois de os tratar, devolve um Driver com esses mesmos parametros.
- * Caso aconteca um erro na extracao de um parametro do array tokens,
- * a funcao devolve o valor NULL.
+ *  Depois de os tratar, devolve um Driver com esses mesmos parametros.
+ *  Caso aconteca um erro na extracao de um parametro do array tokens,
+ *  a funcao devolve o valor NULL.
  * 
- * @param tokens A informação em strings.
+ *  @param tokens A informação em strings.
  *
- * @return O Driver criado.
+ *  @return O Driver criado.
 */
 Driver parseDriver(char tokens[9][200])
 {
@@ -285,25 +297,27 @@ Driver parseDriver(char tokens[9][200])
 
 /// @brief A função drivercmp compara dois Drivers.
 /**
- * A função drivercmp tem como objetivo proceder à comparação
- * de dois drivers, dando um output que obedece às regras
- * da comparação (1 para maior, etc...).
+ *  A função drivercmp tem como objetivo proceder à comparação
+ *  de dois drivers, dando um output que obedece às regras
+ *  da comparação (1 para maior, etc...).
  * 
- * A primeira prioridade na comparação será a avaliação média
- * dos Drivers, por ordem crescente.
+ *  A primeira prioridade na comparação será a avaliação média
+ *  dos Drivers, por ordem crescente.
  * 
- * A segunda prioridade, no caso de empate e da comparação
- * ser global, será a data da viagem mais recente.
+ *  A segunda prioridade, no caso de empate e da comparação
+ *  ser global, será a data da viagem mais recente.
  * 
- * E a terceira prioridade será o id do driver, por ordem
- * crescente no caso global, e decrescente no caso de
- * cidade.
+ *  E a terceira prioridade será o id do driver, por ordem
+ *  crescente no caso global, e decrescente no caso de
+ *  cidade.
  * 
- * @param driver1 O Driver 1.
- * @param driver2 O Driver 2.
- * @param city A cidade de comparação (NULL no caso de Global).
+ *  @param driver1 O Driver 1.
  * 
- * @return O valor correspondente ao resultado da comparação.
+ *  @param driver2 O Driver 2.
+ * 
+ *  @param city A cidade de comparação (NULL no caso de Global).
+ * 
+ *  @return O valor correspondente ao resultado da comparação.
  */
 int drivercmp(Driver driver1, Driver driver2, char * city)
 {
