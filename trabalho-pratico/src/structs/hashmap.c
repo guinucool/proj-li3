@@ -247,6 +247,8 @@ int put(Hashmap hashmap, void * key, void * data, int (*hashFunc)(void*,int))
         
         hashmap->map[pos] = createNode(key, data, ACTIVE);
         hashmap->size++;
+
+        return 1;
     }
     return 0;
 }

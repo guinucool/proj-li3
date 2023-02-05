@@ -61,6 +61,7 @@ Global createGlobal()
         if(glob->userList != NULL)free(glob->userList);
         if(glob->driverList != NULL)free(glob->driverList);
         if(glob->rideList != NULL)free(glob->rideList);
+        free(glob);
 
         return NULL;
     }

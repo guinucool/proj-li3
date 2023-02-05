@@ -46,11 +46,14 @@ int addList(void * element, List list)
     void * memAux;
     list->ord = UNORDERED;
     list->size++;
-
-    if (list->size > 1) memAux = realloc(list->list, list->size * sizeof(void*));
-    if(memAux == NULL)return 0;
-    list->list = memAux;
-
+    
+    if (list->size > 1)
+    {
+        memAux = realloc(list->list, list->size * sizeof(void*));
+        if(memAux == NULL)return 0;
+        else list->list = memAux;
+    } 
+    
     list->list[list->size-1] = element;
 
     return 1;

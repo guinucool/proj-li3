@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "../../includes/structs/global.h"
 #include "../../includes/io/interpreter.h"
 #include "../../includes/io/parser.h"
@@ -21,12 +22,11 @@
  * @param glob A variável global que segura, ou vai segurar, a informação relevante à execução do programa.
  */
 int readFile(char * path, char mode, Global glob)
-{
+{  
     FILE * file = fopen(path, "r");
     char line[MAX_LINE];
     char cut = ' ';
     int size = 4;
-
     if (mode != 0)
     {
         fgets(line, MAX_LINE, file);
@@ -40,7 +40,7 @@ int readFile(char * path, char mode, Global glob)
     char holder[MAX_LINE];
     char args[size][MAX_LINE];
     int cmd = 1;
-
+   
     while (fgets(line, MAX_LINE, file) != NULL)
     {
         int f = 0, j = 0;
@@ -61,7 +61,6 @@ int readFile(char * path, char mode, Global glob)
                 j = i+1;
             }
         }
-
         switch (mode)
         {
             case 0:
