@@ -7,13 +7,14 @@
 
 /// @brief A função equal compara duas chaves de tipo Int.
 /** 
- * A função equal compara duas chaves de tipo Int, retornando
- * 1 caso sejam igual ou 0 caso sejam diferentes.
+ *  A função equal compara duas chaves de tipo Int, retornando
+ *  1 caso sejam igual ou 0 caso sejam diferentes.
  * 
- * @param key1 A chave 1.
- * @param key2 A chave 2.
+ *  @param key1 A chave 1.
  * 
- * @return O resultado da comparação das duas chaves.
+ *  @param key2 A chave 2.
+ * 
+ *  @return O resultado da comparação das duas chaves.
  */ 
 int equal(void* key1, void* key2)
 {
@@ -22,19 +23,31 @@ int equal(void* key1, void* key2)
 
 /// @brief A função equal_str compara duas chaves de tipo String.
 /** 
- * A função equal compara duas chaves de tipo String, retornando
- * 1 caso sejam igual ou 0 caso sejam diferentes.
+ *  A função equal compara duas chaves de tipo String, retornando
+ *  1 caso sejam igual ou 0 caso sejam diferentes.
  * 
- * @param s1 A chave 1.
- * @param s2 A chave 2.
+ *  @param s1 A chave 1.
  * 
- * @return O resultado da comparação das duas chaves.
+ *  @param s2 A chave 2.
+ * 
+ *  @return O resultado da comparação das duas chaves.
  */
 int equal_str(void* s1,void* s2)
 {
     return !(strcmp(s1,s2));
 }
 
+/// @brief A função equal_file compara dois files e acessa se são iguais ou não.
+/**
+ *  A função atravessa cada caractere de uma file e compara com o caractere da segunda file na mesma posição.
+ *  No final de todas as comparações, caso todas tenham sido iguais, então as files são também iguais. 
+ * 
+ *  @param fp1 File 1 a ser comparada.
+ * 
+ *  @param fp2 File 2 a ser comparada.
+ * 
+ *  @return O resultado da comparação das files (1 se iguais e 0 se diferentes).
+*/
 int equal_file(FILE * fp1, FILE * fp2)
 {
     char ch1 = getc(fp1), ch2 = getc(fp2);
@@ -53,12 +66,13 @@ int equal_file(FILE * fp1, FILE * fp2)
 
 /// @brief A função hashKey_Int cria uma hash de procura, cuja chave é um Int.
 /**
- * A função hashKey_Int cria uma hash de procura, cuja chave é um Int, usando
- * o módulo (chave mod tamanho do hashmap) para criar a hash que
- * corresponderá à posição do elemento na hashmap.
+ *  A função hashKey_Int cria uma hash de procura, cuja chave é um Int, usando
+ *  o módulo (chave mod tamanho do hashmap) para criar a hash que
+ *  corresponderá à posição do elemento na hashmap.
  * 
- * @param key O void pointer da chave do elemento pretendido.
- * @param size O tamanho do hashmap para o qual vai ser criada a chave.
+ *  @param key O void pointer da chave do elemento pretendido.
+ * 
+ *  @param size O tamanho do hashmap para o qual vai ser criada a chave.
  */
 int hashKey_Int(void * key, int size)
 {
@@ -69,12 +83,15 @@ int hashKey_Int(void * key, int size)
 
 /// @brief A função hashKey_Str cria uma hash de procura, cuja chave é uma String.
 /**
- * A função hashKey_Str cria uma hash de procura, cuja chave é uma String, usando 
- * o somatorio do modulo do resultado da multiplicação dos caracteres com as respetivas posições 
- * na string. O resultado deste somatorio será a posição do elemento na hashmap.
+ *  A função hashKey_Str cria uma hash de procura, cuja chave é uma String, usando 
+ *  o somatorio do modulo do resultado da multiplicação dos caracteres com as respetivas posições 
+ *  na string. O resultado deste somatório será a posição do elemento na hashmap.
  * 
- * @param str O void pointer da chave do elemento pretendido.
- * @param size O tamanho do hashmap para o qual vai ser criada a chave.
+ *  @param str O void pointer da chave do elemento pretendido.
+ * 
+ *  @param size O tamanho do hashmap para o qual vai ser criada a chave.
+ * 
+ *  @return A posição no hashmap resultante.
  */
 int hashKey_Str(void * str, int size)
 {
@@ -98,12 +115,12 @@ int hashKey_Str(void * str, int size)
 
 /// @brief A função null funciona como um NULL para funções.
 /**
- * A função null será usada como um NULL para
- * parâmetros em que é necessário fornecer uma
- * função, porém não sendo pretendido que essa
- * função faça alterações.
+ *  A função null será usada como um NULL para
+ *  parâmetros em que é necessário fornecer uma
+ *  função, porém não sendo pretendido que essa
+ *  função faça alterações.
  * 
- * @param element O suposto elemento que iria ser alterado.
+ *  @param element O suposto elemento que iria ser alterado.
  */
 void null(void * element)
 {
@@ -112,16 +129,18 @@ void null(void * element)
 
 /// @brief A função nullMap funciona como um NULL para funções de map.
 /**
- * A função nullMap será usada como um NULL para
- * parâmetros em que é necessário fornecer uma
- * função map, porém o elemento que deveria ser
- * mapeado não é mapeável.
+ *  A função nullMap será usada como um NULL para
+ *  parâmetros em que é necessário fornecer uma
+ *  função map, porém o elemento que deveria ser
+ *  mapeado não é mapeável.
  * 
- * @param element O suposto elemento que iria ser mapeado.
- * @param function A função que ia ser usada no mapeamento.
- * @param second O segundo argumento da função que ia ser usada.
+ *  @param element O suposto elemento que iria ser mapeado.
  * 
- * @return O suposto número de operações executadas.
+ *  @param function A função que ia ser usada no mapeamento.
+ * 
+ *  @param second O segundo argumento da função que ia ser usada.
+ * 
+ *  @return O suposto número de operações executadas.
  */ 
 int nullMap(void * element, void (*function)(void*,void*), void * second)
 {
@@ -131,16 +150,17 @@ int nullMap(void * element, void (*function)(void*,void*), void * second)
 
 /// @brief A função isNumber verifica se uma string é um número.
 /**
- * A função isNumber verifica se uma string é um números, sendo
- * possível decidir se se pretende verificar que se trata de
- * um número decimal ou inteiro.
+ *  A função isNumber verifica se uma string é um números, sendo
+ *  possível decidir se se pretende verificar que se trata de
+ *  um número decimal ou inteiro.
  * 
- * Retornará, então, 1 ou 0 dependo da conclusão a que chegar.
+ *  Retornará, então, 1 ou 0 dependo da conclusão a que chegar.
  * 
- * @param s A string a ser verificada.
- * @param mode Se verifica por decimal ou inteiro.
+ *  @param s A string a ser verificada.
  * 
- * @return A conclusão a que chegou.
+ *  @param mode Se verifica por decimal ou inteiro.
+ * 
+ *  @return A conclusão a que chegou.
  */
 int isNumber(char s[200], char mode){
 
@@ -161,13 +181,13 @@ int isNumber(char s[200], char mode){
 
 /// @brief A função isPrime verifica se um número é um primo.
 /**
- * A função isPrime verifica se um número é um primo,
- * retornando 1 ou 0 dependendo da conclusão
- * a que chegou.
+ *  A função isPrime verifica se um número é um primo,
+ *  retornando 1 ou 0 dependendo da conclusão
+ *  a que chegou.
  * 
- * @param num O número a ser verificado.
+ *  @param num O número a ser verificado.
  * 
- * @return A conclusão a que chegou.
+ *  @return A conclusão a que chegou.
  */
 int isPrime(int num)
 {
@@ -184,10 +204,10 @@ int isPrime(int num)
 
 /// @brief A função strtop transforma uma string em letras maiscúlas.
 /**
- * A função strtop converte todos caracteres de uma string
- * em maiscúlos.
+ *  A função strtop converte todos caracteres de uma string
+ *  em maiscúlos.
  * 
- * @param str A string a ser transformada.
+ *  @param str A string a ser transformada.
  */
 void strtop(char * str)
 {
@@ -197,12 +217,12 @@ void strtop(char * str)
 
 /// @brief A função intLen calcula o numero de digitos que um int tem.
 /**
- * A função intLen faz divisões inteiras por 10 do int a ser processado até que este
- * seja igual a 0, o número de divisoes realisadas é o número de digitos do int.
+ *  A função intLen faz divisões inteiras por 10 do int a ser processado até que este
+ *  seja igual a 0, o número de divisoes realisadas é o número de digitos do int.
  * 
- * @param value O int a ser processado.
+ *  @param value O int a ser processado.
  * 
- * @return O número de dígitos do int.
+ *  @return O número de dígitos do int.
  */
 int intLen(int value)
 {
@@ -217,15 +237,15 @@ int intLen(int value)
 
 /// @brief A função tokens separa uma string em tokens.
 /**
- * A função tokens separa uma string em tokens, usando um delimitador específico,
- * e copia para um array de strings os tokens resultantes. A string original é 
- * modificada durante o processo.
+ *  A função tokens separa uma string em tokens, usando um delimitador específico,
+ *  e copia para um array de strings os tokens resultantes. A string original é 
+ *  modificada durante o processo.
  * 
- * @param str A string a ser processada.
+ *  @param str A string a ser processada.
  * 
- * @param delim O delimitador para separar a string em tokens.
+ *  @param delim O delimitador para separar a string em tokens.
  * 
- * @param tok Array de strings onde serão armazenados os tokens.
+ *  @param tok Array de strings onde serão armazenados os tokens.
  */
 void tokens(char * str, char * delim, char tok[][200])
 {
