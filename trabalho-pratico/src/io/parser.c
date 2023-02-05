@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include "../../includes/structs/global.h"
 #include "../../includes/io/interpreter.h"
 #include "../../includes/io/parser.h"
