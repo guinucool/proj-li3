@@ -88,6 +88,9 @@ Hashmap createHashmap()
     Hashmap hashmap = (Hashmap) malloc(sizeof(NPHashmap));
 
     hashmap->map = malloc(sizeof(HashmapNode) * HASHMAP_SIZE);
+    for (int i = 0; i < HASHMAP_SIZE; i++)
+        hashmap->map[i] = createNode(NULL, NULL, INACTIVE);
+    
     hashmap->size = 0;
     hashmap->max = HASHMAP_SIZE;
 
@@ -123,7 +126,8 @@ void resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
 
     hashmap->map = realloc(hashmap->map, sizeof(HashmapNode) * hashmap->max);
 
-    hashmap->map[ini] = createNode(NULL, NULL, INACTIVE);
+    for (int i = ini; i < hashmap->max; i++)
+        hashmap->map[i] = createNode(NULL, NULL, INACTIVE);
     hashmap->size = 0;
 
     for (int i = 0; i < ini; i++)

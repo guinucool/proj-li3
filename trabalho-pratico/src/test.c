@@ -164,18 +164,19 @@ int main(int argc, char * args[])
                                     cmd = cTmp;
                                 }
 
+                                time = tTmp;
+                                cmd = cTmp;
+
                                 cmd[count - 1] = line[0] - 48;
 
                                 score[cmd[count-1]][1]++;
                             }
-                            //fclose(input);
-
-                            printf("%p\n", input);
+                            fclose(input);
 
                             Global glob = createGlobal();
                             if (glob)
                             {
-                                clock_t start, end;
+                                /*clock_t start, end;
 
                                 start = clock();
 
@@ -192,13 +193,13 @@ int main(int argc, char * args[])
                                 readFile(truePath, 3, glob, NULL);
 
                                 end = clock();
-                                free(truePath);
+                                //free(truePath);
 
-                                /*parse_time = (double) (end - start);
+                                /*parse_time = (double) (end - start) / CLOCKS_PER_SEC;
                                 total_time = parse_time;
 
                                 readFile(inStr, 0, glob, time);
-                                free(inStr);
+                                //free(inStr);
 
                                 char * path = malloc(sizeof(char));
                                 if (path)
@@ -238,18 +239,23 @@ int main(int argc, char * args[])
                                                 outPath = oTemp;
                                             }
 
-                                            strcpy(pTemp, args[2]);
-                                            sprintf(pTemp, "/output/command%d_output.txt", i);
-                                            
-                                            strcpy(oTemp, "\0");
-                                            sprintf(oTemp, "Resultados/command%d_output.txt", i);
+                                            path = pTemp;
+                                            outPath = oTemp;
 
-                                            FILE * res = fopen(oTemp, "r");
-                                            FILE * out = fopen(pTemp, "r");
+                                            strcpy(path, args[2]);
+                                            sprintf(path, "/output/command%d_output.txt", i);
+                                            
+                                            strcpy(outPath, "\0");
+                                            sprintf(outPath, "Resultados/command%d_output.txt", i);
+
+                                            FILE * res = fopen(outPath, "r");
+                                            FILE * out = fopen(path, "r");
 
                                             if (!res || !out)
                                             {
-                                                if (res) fclose(res);
+                                                printf("HELLO!");
+
+                                                /*if (res) fclose(res);
                                                 if (out) fclose(out);
 
                                                 free(time);
@@ -261,7 +267,7 @@ int main(int argc, char * args[])
                                                 return 0;
                                             }
 
-                                            score[cmd[i]-1][0] += equal_file(res, out);
+                                            //score[cmd[i]-1][0] += equal_file(res, out);
                                         }
                                         free(outPath);
                                     }
