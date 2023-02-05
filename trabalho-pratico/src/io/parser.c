@@ -8,18 +8,25 @@
 
 /// @brief A função readFile lê e importa a informação de um ficheiro.
 /**
- * A função readFile, através do path recebido, abre o ficheiro desejado e,
- * linha a linha, irá dando output da sua informação para um array de strings.
+ *  A função readFile, através do path recebido, abre o ficheiro desejado e,
+ *  linha a linha, irá dando output da sua informação para um array de strings.
  * 
- * Assim sendo, esta terá de saber qual o tipo de informação contida no ficheiro
- * para escolher o melhor separador de informação (; no caso de ficheiros csv,
- * ou espaço no caso de comandos).
+ *  Assim sendo, esta terá de saber qual o tipo de informação contida no ficheiro
+ *  para escolher o melhor separador de informação (; no caso de ficheiros csv,
+ *  ou espaço no caso de comandos).
  * 
- * Uma vez convertida a informação, esta é enviada para a respetiva função de interpretação.
+ *  Uma vez convertida a informação, esta é enviada para a respetiva função de interpretação.
  * 
- * @param path O caminho para a localização ficheiro a ser lido.
- * @param mode O tipo de informação que irá ser lido no ficheiro escolhido.
- * @param glob A variável global que segura, ou vai segurar, a informação relevante à execução do programa.
+ *  A função irá, também, armazenar o tempo de execução de cada query num array de doubles,
+ *  caso o apontador fornecido não seja nulo (modo normal), para fins de testagem.
+ * 
+ *  @param path O caminho para a localização ficheiro a ser lido.
+ * 
+ *  @param mode O tipo de informação que irá ser lido no ficheiro escolhido.
+ * 
+ *  @param glob A variável global que segura, ou vai segurar, a informação relevante à execução do programa.
+ * 
+ *  @param time O array de double que irá armazenar o tempo de execução cajo esteja a ser usado o módulo de testes.
  */
 void readFile(char * path, char mode, Global glob, double * time)
 {
