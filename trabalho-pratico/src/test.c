@@ -6,24 +6,27 @@
 #include "../includes/structs/global.h"
 #include "../includes/io/parser.h"
 
-/// @brief A função main irá servir para a execução de testes
+/// @brief A função main irá servir para a execução de testes.
 /**
- * Assumindo a base de dados fornecida na primeira fase do projeto, a
- * função main irá testar as várias queries implementadas.
+ *  A função main irá servir para a execução de testes.
  * 
- * Começando por medir o tempo que demora a fazer a leitura da base de
- * dados, a main irá depois, também, avaliar o número de queries executadas,
- * o tempo total de execução das mesmas e o tempo médio individual.
+ *  Irá receber como argumentos o caminho para o dataset no qual se quer executar
+ *  os testes e o caminho para uma pasta de testes, que irá conter um ficheiro (input.txt)
+ *  com os comandos pretendidos para o teste, e uma pasta (output) onde estarão os
+ *  resultados desses comandos.
  * 
- * Por fim, irá imprimir as estatísticas dos resultas obtidos nas medições
- * anteriores.
+ *  Durante a execução, irá registar os tempos de execução de cada comando
+ *  e do parsing de dados, avaliando, no final, se os resultados obtidos
+ *  correspodem aos pretendidos.
  * 
- * @param argc Número de argumentos fornecidos ao programa.
+ *  Por fim, imprimirá as pontuações e avaliações a que chegou.
  * 
- * @param args Argumentos fornecidos ao programa.
+ *  @param argc Número de argumentos fornecidos ao programa.
  * 
- * @return Devolve 0 em caso de sucesso.
- */ 
+ *  @param args Os argumentos fornecidos ao programa.
+ * 
+ *  @return O sucesso na conclusão do programa.
+ */
 int main(int argc, char * args[])
 {	
 	if (argc > 2)
