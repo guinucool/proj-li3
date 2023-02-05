@@ -63,5 +63,5 @@ int main(int argc, char * args[])
 	free(truePath);
 	destroyGlobal(glob);
 
-	return 1;
+	return 0;
 }
