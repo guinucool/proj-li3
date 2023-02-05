@@ -41,6 +41,7 @@ City createCity(char * name, double money_spent)
     if(city->drivers == NULL)
     {
         free(city);
+        city = NULL;
         return NULL;
     }
 

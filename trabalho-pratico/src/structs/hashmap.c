@@ -54,6 +54,7 @@ void destroyNode(HashmapNode node, void (*destroy)(void *))
     if (node.key)
     {
         free(node.key);         //!< Liberta a chave do elemento
+        node.key = NULL;
         destroy(node.data);     //!< Liberta a data do elemento
     }
 }
@@ -92,6 +93,7 @@ Hashmap createHashmap()
     if(hashmap->map == NULL)
     {
         free(hashmap);
+        hashmap = NULL;
         return NULL;
     }
     hashmap->size = 0;
@@ -164,7 +166,9 @@ void destroyHashmap(Hashmap hashmap, void (*destroy)(void*))
         for (int i = 0; i < hashmap->max; i++)
             destroyNode(hashmap->map[i], destroy);
         free(hashmap->map);
+        hashmap->map = NULL;
         free(hashmap);
+        hashmap = NULL;
     }
 }
 

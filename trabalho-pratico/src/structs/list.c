@@ -25,11 +25,14 @@ List createList()
     if(list->list == NULL)
     {
         free(list);
+        list = NULL;
         return NULL;
+    }else
+    {
+        list->size = 0;
+        list->ord = UNORDERED;
     }
-    list->size = 0;
-    list->ord = UNORDERED;
-
+    
     return list;
 }
 
@@ -53,7 +56,7 @@ int addList(void * element, List list)
         if(memAux == NULL)return 0;
         else list->list = memAux;
     } 
-    
+
     list->list[list->size-1] = element;
 
     return 1;
@@ -156,7 +159,9 @@ void destroyList(List list, void (*destroy)(void*), char mode)
         destroy(list->list[i]);
 
         free(list->list);
+        list->list = NULL;
         free(list);
+        list = NULL;
     }
 }
 

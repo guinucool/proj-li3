@@ -27,6 +27,7 @@ int main(int argc, char * args[])
 	if(!readFile(truePath, 1, glob))
 	{
 		free(truePath);
+		truePath = NULL;
 		destroyGlobal(glob);
 		return 0;
 	}
@@ -36,6 +37,7 @@ int main(int argc, char * args[])
 	if(!readFile(truePath, 2, glob))
 	{
 		free(truePath);
+		truePath = NULL;
 		destroyGlobal(glob);
 		return 0;
 	}
@@ -45,6 +47,7 @@ int main(int argc, char * args[])
 	if(!readFile(truePath, 3, glob))
 	{
 		free(truePath);
+		truePath = NULL;
 		destroyGlobal(glob);
 		return 0;
 	}
@@ -54,6 +57,7 @@ int main(int argc, char * args[])
 		if(!readFile(args[2], 0, glob))
 		{
 			free(truePath);
+			truePath = NULL;
 			destroyGlobal(glob);
 			return 0;
 		}
@@ -62,11 +66,13 @@ int main(int argc, char * args[])
 		if(!interactiveMode(glob))
 		{
 			free(truePath);
+			truePath = NULL;
 			destroyGlobal(glob);
 			return 0;
 		}
 
 	free(truePath);
+	truePath = NULL;
 	destroyGlobal(glob);
 
 	return 0;

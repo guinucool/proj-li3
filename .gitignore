@@ -13,5 +13,6 @@ trabalho-pratico/cmd/*
 trabalho-pratico/Resultados/*.txt
 trabalho-pratico/programa-principal
 trabalho-pratico/programa-testes
+trabalho-pratico/input.txt
 .bin/*
 .vscode/*

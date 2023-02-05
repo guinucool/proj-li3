@@ -87,15 +87,23 @@ void destroyGlobal(Global glob)
     if (glob)
     {
         destroyHashmap(glob->users, destroyUser);
+        glob->users = NULL;
         destroyHashmap(glob->drivers, destroyDriver);
+        glob->drivers = NULL;
         destroyHashmap(glob->rides, destroyMap);
+        glob->rides = NULL;
         destroyHashmap(glob->cities, destroyCity);
+        glob->cities = NULL;
 
         destroyList(glob->userList, null, 0);
+        glob->userList = NULL;
         destroyList(glob->driverList, null, 0);
+        glob->driverList = NULL;
         destroyList(glob->rideList, null, 0);
+        glob->rideList = NULL;
 
         free(glob);
+        glob = NULL;
     }
 }
 

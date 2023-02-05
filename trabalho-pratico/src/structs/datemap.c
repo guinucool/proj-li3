@@ -37,6 +37,7 @@ DateMap createDateMap(short year)
             if(map->map[i][j] == NULL)
             {
                 free(map);
+                map = NULL;
                 return NULL;
             }
         }

@@ -69,6 +69,7 @@ Driver createDriver(int id, char * name, short age, char gender, char car_class,
 	if(driver->score == NULL)
 	{
 		free(driver);
+		driver = NULL;
 		return NULL;
 	}
 	driver->score[0] = 0;
@@ -76,7 +77,9 @@ Driver createDriver(int id, char * name, short age, char gender, char car_class,
 	if(driver->rides == NULL)
 	{
 		free(driver->score);
+		driver->score = NULL;
 		free(driver);
+		driver = NULL;
 		return NULL;
 	}
 	driver->rides[0] = 0;
@@ -181,18 +184,27 @@ void destroyDriver(Driver driver)
 {
 	if (driver)
 	{
-		if (driver->score) free(driver->score);
-		if (driver->rides) free(driver->rides);
-
+		if (driver->score)
+		{ 
+			free(driver->score);
+		}
+		if (driver->rides)
+		{
+			 free(driver->rides);
+		}
 		if (driver->cities)
 		{
 			for (int i = 0; i < driver->counter; i++)
+			{
 				free(driver->cities[i]);
-			
+				driver->cities[i] = NULL;
+			}
 			free(driver->cities);
+			driver->cities = NULL;
 		}
 		
 		free(driver);
+		driver = NULL;
 	}
 }
 

@@ -75,7 +75,11 @@ Ride createRide(int id, Date date, Driver driver, User user, char * city, short 
  */
 void destroyRide(Ride ride)
 {
-    if (ride) free(ride);
+    if (ride) 
+    {
+        free(ride);
+        ride = NULL;
+    }
 }
 
 /// @brief A função debugPrintRide imprime uma Ride.
