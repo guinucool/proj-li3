@@ -23,24 +23,33 @@ typedef struct _RIDE_ {
 
 /// @brief A função createRide cria uma variável do tipo Ride.
 /**
- * A função createRide cria uma variável do tipo Ride, alocando
- * o espaço necessário na memória para a mesma.
+ *  A função createRide cria uma variável do tipo Ride, alocando
+ *  o espaço necessário na memória para a mesma.
  * 
- * Assim sendo, irá depois, também, associar os respetivos valores de input
- * da função às repetivas propriedades da variável.
+ *  Assim sendo, irá depois, também, associar os respetivos valores de input
+ *  da função às repetivas propriedades da variável.
  * 
- * @param id O id da Ride.
- * @param date A data da Ride.
- * @param driver O apontador do driver da Ride.
- * @param user O apontador do user da Ride.
- * @param city A cidade da Ride.
- * @param distance A distância da Ride.
- * @param score_user O score dado ao user da Ride.
- * @param score_driver O score dado ao driver da Ride.
- * @param tip A gorjeta dada na Ride.
- * @param comment O comentário da Ride.
+ *  @param id O id da Ride.
  * 
- * @return A Ride criada com as respetivas propriedades.
+ *  @param date A data da Ride.
+ * 
+ *  @param driver O apontador do driver da Ride.
+ * 
+ *  @param user O apontador do user da Ride.
+ * 
+ *  @param city A cidade da Ride.
+ * 
+ *  @param distance A distância da Ride.
+ * 
+ *  @param score_user O score dado ao user da Ride.
+ * 
+ *  @param score_driver O score dado ao driver da Ride.
+ * 
+ *  @param tip A gorjeta dada na Ride.
+ * 
+ *  @param comment O comentário da Ride.
+ * 
+ *  @return A Ride criada com as respetivas propriedades.
  */
 Ride createRide(int id, Date date, Driver driver, User user, char * city, short distance, short score_user, short score_driver, double tip, char * comment)
 {
@@ -67,10 +76,10 @@ Ride createRide(int id, Date date, Driver driver, User user, char * city, short 
 
 /// @brief A função destroyRide destroí uma variável do tipo Ride.
 /**
- * A função destroyRide destroí uma variável do tipo Ride, libertando
- * o espaço ocupado pela variável e pelas suas propriedades.
+ *  A função destroyRide destroí uma variável do tipo Ride, libertando
+ *  o espaço ocupado pela variável e pelas suas propriedades.
  * 
- * @param ride A variável do tipo Ride que vai ser destruída.
+ *  @param ride A variável do tipo Ride que vai ser destruída.
  */
 void destroyRide(Ride ride)
 {
@@ -79,10 +88,10 @@ void destroyRide(Ride ride)
 
 /// @brief A função debugPrintRide imprime uma Ride.
 /**
- * A função debugPrintRide imprime as informações acerca
- * de uma Ride com propósitos de debugging.
+ *  A função debugPrintRide imprime as informações acerca
+ *  de uma Ride com propósitos de debugging.
  * 
- * @param ride A Ride a ser impresa.
+ *  @param ride A Ride a ser impresa.
  */
 void debugPrintRide(Ride ride)
 {
@@ -103,14 +112,16 @@ void debugPrintRide(Ride ride)
 
 /// @brief A funçao parseRide converte informação numa Ride.
 /**
- * A função parseRide converte, fazendo as devidas verificações,
- * uma array de strings numa variável do tipo Ride.
+ *  A função parseRide converte, fazendo as devidas verificações,
+ *  uma array de strings numa variável do tipo Ride.
  * 
- * @param tokens O array de strings a converter.
- * @param driver O apontador para o driver da Ride.
- * @param user O apontador para o user da Ride.
+ *  @param tokens O array de strings a converter.
  * 
- * @return A Ride convertida e criada.
+ *  @param driver O apontador para o driver da Ride.
+ * 
+ *  @param user O apontador para o user da Ride.
+ * 
+ *  @return A Ride convertida e criada.
  */
 Ride parseRide(char tokens[10][200], Driver driver, User user)
 {
@@ -161,24 +172,25 @@ Ride parseRide(char tokens[10][200], Driver driver, User user)
 
 /// @brief A função ridecmp compara duas Rides.
 /**
- * A função ridecmp compara duas Rides, devolvendo
- * o output na lógica das comparações (1 para maior,
- * etc...).
+ *  A função ridecmp compara duas Rides, devolvendo
+ *  o output na lógica das comparações (1 para maior,
+ *  etc...).
  * 
- * Irá considerar em primeiro lugar a data de
- * criação de contas dos Drivers de cada Ride.
+ *  Irá considerar em primeiro lugar a data de
+ *  criação de contas dos Drivers de cada Ride.
  * 
- * Em segundo lugar, a data de criação de contas
- * dos Users de cada Ride.
+ *  Em segundo lugar, a data de criação de contas
+ *  dos Users de cada Ride.
  * 
- * E por último, caso ambos os anteriores
- * falhem, irá considerar o id de cada
- * Ride, por ordem crescente.
+ *  E por último, caso ambos os anteriores
+ *  falhem, irá considerar o id de cada
+ *  Ride, por ordem crescente.
  * 
- * @param ride1 A ride número 1.
- * @param ride2 A ride número 2.
+ *  @param ride1 A ride número 1.
  * 
- * @return O típico resultado de comparação.
+ *  @param ride2 A ride número 2.
+ * 
+ *  @return O típico resultado de comparação.
  */
 int ridecmp(Ride ride1, Ride ride2)
 {
@@ -206,24 +218,25 @@ int ridecmp(Ride ride1, Ride ride2)
 
 /// @brief A função ridecmp2 compara duas Rides.
 /**
- * A função ridecmp2 compara duas Rides, devolvendo
- * a conclusão a que chegar.
+ *  A função ridecmp2 compara duas Rides, devolvendo
+ *  a conclusão a que chegar.
  * 
- * Esta, porém, segue prioridades diferentes comparada
- * à anterior.
+ *  Esta, porém, segue prioridades diferentes comparada
+ *  à anterior.
  * 
- * Primeiro irá considerar a distância percorrida de
- * cada viagem.
+ *  Primeiro irá considerar a distância percorrida de
+ *  cada viagem.
  * 
- * Em segundo comparará as datas de ambas as viagens.
+ *  Em segundo comparará as datas de ambas as viagens.
  * 
- * Por último, se ambos os anteriores não chegarem
- * a nenhum conclusão, usará o id de viagem.
+ *  Por último, se ambos os anteriores não chegarem
+ *  a nenhum conclusão, usará o id de viagem.
  * 
- * @param ride1 A viagem 1.
- * @param ride2 A viagem 2.
+ *  @param ride1 A viagem 1.
  * 
- * @return A conclusão a que chegou.
+ *  @param ride2 A viagem 2.
+ * 
+ *  @return A conclusão a que chegou.
  */
 int ridecmp2(Ride ride1, Ride ride2)
 {
@@ -245,15 +258,16 @@ int ridecmp2(Ride ride1, Ride ride2)
 
 /// @brief A função rideCost calcula o custo de uma Ride.
 /**
- * A função rideCost calucla o custo de uma Ride,
- * considerando se deve ter em conta a gorjeta
- * e qual o tipo de veículo do Driver da
- * mesma.
+ *  A função rideCost calucla o custo de uma Ride,
+ *  considerando se deve ter em conta a gorjeta
+ *  e qual o tipo de veículo do Driver da
+ *  mesma.
  * 
- * @param ride A Ride da qual se quer calcular o custo.
- * @param tip Se se deve considerar ou não a gorjeta.
+ *  @param ride A Ride da qual se quer calcular o custo.
  * 
- * @return O custo da Ride.
+ *  @param tip Se se deve considerar ou não a gorjeta.
+ * 
+ *  @return O custo da Ride.
  */
 double rideCost(Ride ride, char tip)
 {

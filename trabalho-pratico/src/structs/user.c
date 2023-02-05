@@ -26,21 +26,27 @@ typedef struct _USER_ {
 
 /// @brief A função userCreate cria uma variável do tipo User.
 /**
- * A função userCreate cria uma variável do tipo User, alocando
- * o espaço necessário na memória para a mesma.
+ *  A função userCreate cria uma variável do tipo User, alocando
+ *  o espaço necessário na memória para a mesma.
  * 
- * Assim sendo, irá depois, também, associar os respetivos valores de input
- * da função às repetivas propriedades da variável.
+ *  Assim sendo, irá depois, também, associar os respetivos valores de input
+ *  da função às repetivas propriedades da variável.
  * 
- * @param username O username do user.
- * @param name O nome do user.
- * @param gender O género do user.
- * @param age A idade do user.
- * @param account_creation A data de criação de conta do user.
- * @param pay_method A forma de pagamento do user.
- * @param account_status O estado da conta do user.
+ *  @param username O username do user.
  * 
- * @return O User criada com as respetivas propriedades.
+ *  @param name O nome do user.
+ * 
+ *  @param gender O género do user.
+ * 
+ *  @param age A idade do user.
+ * 
+ *  @param account_creation A data de criação de conta do user.
+ * 
+ *  @param pay_method A forma de pagamento do user.
+ * 
+ *  @param account_status O estado da conta do user.
+ * 
+ *  @return O User criada com as respetivas propriedades.
  */
 User userCreate(char * username, char * name, char gender, short age, Date account_creation, char pay_method, char account_status)
 {
@@ -72,14 +78,18 @@ User userCreate(char * username, char * name, char gender, short age, Date accou
 
 /// @brief A função userUpdate atualiza os valores de um user após uma ride.
 /**
- * A função userUpdate atualiza uma variável do tipo User
- * após uma viagem.
+ *  A função userUpdate atualiza uma variável do tipo User
+ *  após uma viagem.
  * 
- * @param user A variável user a ser atualizada.
- * @param score A pontuação a ser adicionada ao user.
- * @param money_spent O dinheiro a ser adicionado ao user.
- * @param distance A distância a ser adicionado ao user.
- * @param date A data da viagem que provocou a atualização.
+ *  @param user A variável user a ser atualizada.
+ * 
+ *  @param score A pontuação a ser adicionada ao user.
+ * 
+ *  @param money_spent O dinheiro a ser adicionado ao user.
+ * 
+ *  @param distance A distância a ser adicionado ao user.
+ * 
+ *  @param date A data da viagem que provocou a atualização.
  */
 void userUpdate(User user, int score, double money_spent, int distance, Date date)
 {
@@ -98,10 +108,10 @@ void userUpdate(User user, int score, double money_spent, int distance, Date dat
 
 /// @brief A função destroyUser destroí uma variável do tipo User.
 /**
- * A função destroyUser destroí uma variável do tipo user, libertando
- * o espaço ocupado pela variável e pelas suas propriedades.
+ *  A função destroyUser destroí uma variável do tipo user, libertando
+ *  o espaço ocupado pela variável e pelas suas propriedades.
  * 
- * @param user A variável do tipo User que vai ser destruída.
+ *  @param user A variável do tipo User que vai ser destruída.
  */
 void destroyUser(User user)
 {
@@ -110,10 +120,10 @@ void destroyUser(User user)
 
 /// @brief A função debugPrintUser imprime um User.
 /**
- * A função debugPrintUser imprime toda a informação registada
- * numa variável do tipo User para propósitos de debugging.
+ *  A função debugPrintUser imprime toda a informação registada
+ *  numa variável do tipo User para propósitos de debugging.
  * 
- * @param user A variável User a ser imprensa.
+ *  @param user A variável User a ser imprensa.
  */
 void debugPrintUser(User user)
 {
@@ -138,16 +148,16 @@ void debugPrintUser(User user)
 
 /// @brief A função parseUser converte o input numa variável User.
 /**
- * A função parseUser tem como objetivo analisar, intrepetar
- * e converter o input do parser em propriedades adequadas
- * para a variável User.
+ *  A função parseUser tem como objetivo analisar, intrepetar
+ *  e converter o input do parser em propriedades adequadas
+ *  para a variável User.
  * 
- * Irá também fazer as devidas verificações de forma a não
- * converter informação inválida.
+ *  Irá também fazer as devidas verificações de forma a não
+ *  converter informação inválida.
  * 
- * @param data O input do parser.
+ *  @param data O input do parser.
  * 
- * @return O User criado.
+ *  @return O User criado.
  */
 User parseUser(char data[7][200])
 {
@@ -190,18 +200,19 @@ User parseUser(char data[7][200])
 
 /// @brief A função usercmp compara dois users.
 /**
- * A função usercmp compara dois users usando as propriedades
- * da distância total percorrida, do score de cada user,
- * da data da ultima viagem em caso de empate,
- * e do username em caso de outro empate.
+ *  A função usercmp compara dois users usando as propriedades
+ *  da distância total percorrida, do score de cada user,
+ *  da data da ultima viagem em caso de empate,
+ *  e do username em caso de outro empate.
  * 
- * Objetiva a ordenar os users por ordem decrescente, exceto
- * na propriedade de username, onde é usada a ordem crescente.
+ *  Objetiva a ordenar os users por ordem decrescente, exceto
+ *  na propriedade de username, onde é usada a ordem crescente.
  * 
- * @param user1 O user número 1.
- * @param user2 O user número 2.
+ *  @param user1 O user número 1.
  * 
- * @return Os valores do costume de acordo com as comparações.
+ *  @param user2 O user número 2.
+ * 
+ *  @return Os valores do costume de acordo com as comparações.
  */ 
 int usercmp(User user1, User user2)
 {
@@ -209,9 +220,6 @@ int usercmp(User user1, User user2)
 
     if (user1->distance > user2->distance) res = 1;
     if (user1->distance < user2->distance) res = -1;
-
-    /*if (res == 0 && (double)user1->score/user1->rides > (double)user2->score/user2->rides) res = 1;
-    if (res == 0 && (double)user1->score/user1->rides < (double)user2->score/user2->rides) res = -1;*/
     
     if (res == 0) res = datecmp(user1->last_ride, user2->last_ride);
 

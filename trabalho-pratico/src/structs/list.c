@@ -11,10 +11,10 @@ typedef struct _LIST_ {
 
 /// @brief A função createList cria uma lista.
 /** 
- * A função createList cria uma lista alocando o espaço
- * necessário para mesma e para as suas propriedades.
+ *  A função createList cria uma lista alocando o espaço
+ *  necessário para mesma e para as suas propriedades.
  * 
- * @return A nova lista criada.
+ *  @return A nova lista criada.
  */
 List createList()
 {
@@ -29,11 +29,11 @@ List createList()
 
 /// @brief A função addList adiciona um elemento a uma lista.
 /**
- * A função addList adiciona um elemento ao fim de uma lista,
- * alocando o espaço necessário ao mesmo.
+ *  A função addList adiciona um elemento ao fim de uma lista,
+ *  alocando o espaço necessário ao mesmo.
  * 
- * @param element O elemento a ser adicionado.
- * @param list A lista à qual vai ser adicionado o elemento.
+ *  @param element O elemento a ser adicionado.
+ *  @param list A lista à qual vai ser adicionado o elemento.
  */   
 void addList(void * element, List list)
 {
@@ -55,17 +55,22 @@ void swap(int a, int b, void ** array)
 
 /// @brief A função partition irá partir uma lista de forma ordenada.
 /**
- * A função partition irá partir uma lista em dois, colocando todos
- * os elementos maiores do que um pivot de um lado da lista (a primeira
- * metade) e todos os elementos menores do outro lado da lista
- * (a segunda metade).
+ *  A função partition irá partir uma lista em dois, colocando todos
+ *  os elementos maiores do que um pivot de um lado da lista (a primeira
+ *  metade) e todos os elementos menores do outro lado da lista
+ *  (a segunda metade).
  * 
- * @param array A lista a ser partida.
- * @param bottom A posição do primeiro elemento da lista a ser partida.
- * @param top A posição do último elemento da lista a ser partida.
- * @param compare A função de comparação de elementos.
+ *  @param array A lista a ser partida.
  * 
- * @return A posição que divide as partes da lista.
+ *  @param bottom A posição do primeiro elemento da lista a ser partida.
+ * 
+ *  @param top A posição do último elemento da lista a ser partida.
+ * 
+ *  @param compare A função de comparação de elementos.
+ * 
+ *  @param second O argumento extra da função compare.
+ * 
+ *  @return A posição que divide as partes da lista.
  */
 int partition(void ** array, int bottom, int top, int (*compare)(void*,void*,void*), void * second)
 {
@@ -89,14 +94,19 @@ int partition(void ** array, int bottom, int top, int (*compare)(void*,void*,voi
 
 /// @brief A função quickSort irá ordernar (por ordem decrescente) uma lista.
 /**
- * A função quickSort irá ordernar (por ordem decrescente) uma lista, dividindo
- * sucessivamente as lista em duas partes (usando a partition) até que a lista fique
- * ordenada.
+ *  A função quickSort irá ordernar (por ordem decrescente) uma lista, dividindo
+ *  sucessivamente as lista em duas partes (usando a partition) até que a lista fique
+ *  ordenada.
  * 
- * @param array A lista a ser ordenada.
- * @param bottom A posição de origem da parte da lista.
- * @param top A posição do topo da parte da lista.
- * @param compare A função de comparação de elementos da lista.
+ *  @param array A lista a ser ordenada.
+ * 
+ *  @param bottom A posição de origem da parte da lista.
+ * 
+ *  @param top A posição do topo da parte da lista.
+ * 
+ *  @param compare A função de comparação de elementos da lista.
+ * 
+ *  @param second O argumento extra da função compare.
  */
 void quickSort(void ** array, int bottom, int top, int (*compare)(void*,void*,void*), void * second)
 {
@@ -111,11 +121,14 @@ void quickSort(void ** array, int bottom, int top, int (*compare)(void*,void*,vo
 
 /// @brief A função sortList ordena uma lista.
 /**
- * A função sortList ordena uma lista por ordem decrescente
- * usando o algoritmo de quickSort.
+ *  A função sortList ordena uma lista por ordem decrescente
+ *  usando o algoritmo de quickSort.
  * 
- * @param list A lista a ser ordenada.
- * @param compare A função de comparação de elementos da lista.
+ *  @param list A lista a ser ordenada.
+ * 
+ *  @param compare A função de comparação de elementos da lista.
+ * 
+ *  @param second O argumento extra da função compare.
  */
 void sortList(List list, int (*compare)(void*,void*,void*), void * second)
 {
@@ -128,11 +141,14 @@ void sortList(List list, int (*compare)(void*,void*,void*), void * second)
 
 /// @brief A função destroyList destroí a lista.
 /**
- * A função destroyList destroí a estrutura da lista,
- * destruíndo ou não os seus elementos.
+ *  A função destroyList destroí a estrutura da lista,
+ *  destruíndo ou não os seus elementos.
  * 
- * @param list A lista a ser destruída.
- * @param destroy A função que destroí os elementos da lista.
+ *  @param list A lista a ser destruída.
+ * 
+ *  @param destroy A função que destroí os elementos da lista.
+ * 
+ *  @param mode O modo de destruição (com ou sem elementos).
  */
 void destroyList(List list, void (*destroy)(void*), char mode)
 {
@@ -148,11 +164,12 @@ void destroyList(List list, void (*destroy)(void*), char mode)
 
 /// @brief A função debugPrintList imprime uma lista.
 /**
- * A função debugPrintListNode imprime uma lista e todos
- * os seus elementos para propósitos de debugging.
+ *  A função debugPrintList imprime uma lista e todos
+ *  os seus elementos para propósitos de debugging.
  * 
- * @param list A lista a ser impressa.
- * @param elemPrinter A impresora do tipo de elementos da lista.
+ *  @param list A lista a ser impressa.
+ * 
+ *  @param elemPrinter A impresora do tipo de elementos da lista.
  */
 void debugPrintList(List list, void (*elemPrinter)(void*))
 {
@@ -172,14 +189,16 @@ void debugPrintList(List list, void (*elemPrinter)(void*))
 
 /// @brief A função listMap faz uma mudança em todos os elementos de uma Lista.
 /**
- * A função listMap mapeia uma lista, aplicando a todos os seus
- * elementos uma função fornecida como input.
+ *  A função listMap mapeia uma lista, aplicando a todos os seus
+ *  elementos uma função fornecida como input.
  * 
- * @param list A lista a ser mapeada.
- * @param function A função que será aplicada aos elementos da lista.
- * @param second O segundo parâmetro da função que será aplicada.
+ *  @param list A lista a ser mapeada.
  * 
- * @return O número de operações executadas.
+ *  @param function A função que será aplicada aos elementos da lista.
+ * 
+ *  @param second O segundo parâmetro da função que será aplicada.
+ * 
+ *  @return O número de operações executadas.
  */
 int listMap(List list, void (*function)(void*, void*), void * second)
 {
@@ -189,17 +208,25 @@ int listMap(List list, void (*function)(void*, void*), void * second)
     return list->size;
 }
 
-/// @brief A função listOut cria um output de 10 elementos de cada vez de uma lista.
+/// @brief A função listOut cria um output de uma lista.
 /**
- *  A função listOut começa por calcular que elementos serão impressos na pagina 
- *  selecionada. De seguida, é feito um loop que imprime cada output selecionado
- *  no ficheiro de output através da função passada como argumento printer.
+ *  A função listOut irá imprimir N elementos de uma lista, usando
+ *  a função printer para definir a forma da impressão.
+ * 
+ *  Caso seja fornecida uma página como argumento, a função fará
+ *  os cálculos necessários para apenas imprimir os 10 elementos
+ *  que corresponderiam a essa página.
  * 
  *  @param list A lista a ser exportada.
- *  @param function A função de conversão para string.
- *  @param pos A pagina que sera impressa.
+ * 
+ *  @param printer A função de impressão.
+ * 
+ *  @param pos A pagina que será impressa.
+ * 
  *  @param N O número de elementos a serem exportados.
+ * 
  *  @param second O segundo parâmetro da função de conversão.
+ * 
  *  @param file Ficheiro de output.
  */
 void listOut(List list, void (*printer)(void*,void*,int*,FILE*), int pos, int N, void * second, FILE * file)

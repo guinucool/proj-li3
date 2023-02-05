@@ -24,13 +24,13 @@ typedef struct _GLOBAL_ {
 
 /// @brief A função createGlobal cria uma variável do tipo global.
 /**
- * A função createGlobal cria uma variável do tipo global, alocando
- * o espaço necessário para esta ser guardada.
+ *  A função createGlobal cria uma variável do tipo global, alocando
+ *  o espaço necessário para esta ser guardada.
  * 
- * Assim sendo, irá também inicializar e alocar o espaço necessário
- * às suas propriedades.
+ *  Assim sendo, irá também inicializar e alocar o espaço necessário
+ *  às suas propriedades.
  * 
- * @return A variável global (Glob) inicializada e alocada.
+ *  @return A variável global (Glob) inicializada e alocada.
  */
 Global createGlobal()
 {
@@ -56,10 +56,10 @@ void destroyMap(void * map)
 
 /// @brief A função destroyGlobal destroí uma variável do tipo global.
 /**
- * A função destroyGlobal destroí uma variável do tipo global e a suas propriedades,
- * libertando o espaço que esta e a suas propriedades ocupam.
+ *  A função destroyGlobal destroí uma variável do tipo global e a suas propriedades,
+ *  libertando o espaço que esta e a suas propriedades ocupam.
  * 
- * @param glob A variável global a ser destruída.
+ *  @param glob A variável global a ser destruída.
  */
 void destroyGlobal(Global glob)
 {
