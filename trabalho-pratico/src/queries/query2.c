@@ -31,10 +31,10 @@ void printerDrivers(void * driver, void * null, int * ignore, FILE * fp)
 /// @brief Esta função lista os N condutores com maior avaliação média.
 /**
  *  A função começa por usar a função de ordem superior sortList que irá ordenar 
- *  a lista de condutores pela avaliação media através da função drivercmp.
+ *  a lista de condutores pela avaliação média através da função de comparação drivercmp.
  * 
  *  Tendo a lista ordenada é chamada a função de ordem superior listOut que irá 
- *  imprimir os N primeiros elementos da lista.
+ *  imprimir os N primeiros elementos da lista usando a função de impressão printerDrivers.
  * 
  *  @param N Número de condutores a ser impressos.
  * 

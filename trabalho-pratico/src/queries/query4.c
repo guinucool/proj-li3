@@ -6,11 +6,11 @@
 #include "../../includes/structs/global.h"
 #include "../../includes/queries.h"
 
-/// @brief A funcao query4 calcula o preco medio das viagens realizadas numa determinada cidade.
+/// @brief A funcao query4 calcula o preço médio das viagens realizadas numa determinada cidade.
 /**
- *  A função começa por adquirir a estrutura city a ser analisada através da hashmap de cities 
- *  depois a função chama a função city_averageMoney do modulo city que retorna o preço medio 
- *  das viagens realizadas nessa cidade. Por fim, é impresso em fp esse preço médio.
+ *  A função começa por adquirir a estrutura city a ser analisada através da hashmap de cities, 
+ *  depois a função chama a função city_averageMoney do modulo city que retorna o preço médio 
+ *  das viagens realizadas nessa cidade. Por fim, é impresso esse preço médio no local pretendido.
  *  
  *  @param city Cidade a ser processada.
  * 

@@ -37,13 +37,13 @@ void printDriver(void * driver, FILE * fp)
 /**
  *  A função começa por aferir se o id fornecido é de um user ou de um driver, 
  *  de seguida é adquirida a estrutura corresponde ao utilizador e são retiradas dela
- *  a informação desejada. Por fim, a informação é adicionada ap ficheiro de output. 
+ *  a informação desejada. Por fim, a informação é adicionada ao ficheiro de output. 
  * 
- * @param id Id fornecido.
+ *  @param id Id fornecido.
  * 
- * @param glob Estrutura de dados global a ser atualizada.
+ *  @param glob Estrutura de dados global a ser atualizada.
  * 
- * @param fp Ficheiro de output.
+ *  @param fp Ficheiro de output.
 */
 void query1(char * id, Global glob, FILE * fp)
 {

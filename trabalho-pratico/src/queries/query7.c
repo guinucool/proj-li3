@@ -10,10 +10,10 @@
 #include "../../includes/io/page.h"
 #include "../../includes/queries.h"
 
-/// @brief Esta função imprime a informação necessária para um ficheiro de output.
+/// @brief Esta função imprime a informação da forma pretendida.
 /**
  *  Esta função adquire a função necessária ao output de resultados através da estrutura
- *  de driver. De seguida, é impressa essa informação no ficheiro de outputs.
+ *  de driver. De seguida, é impressa essa informação no local pretendido no formato desejado.
  *  
  *  @param driver driver a ser processado.
  * 
@@ -40,10 +40,9 @@ void printerDriverCity(void * driver, void * city, int * ignore, FILE * fp)
 /// @brief Esta função descobre os top N condutores de numa determinada cidade
 ///        ordenados pela avaliação média do condutor.
 /** 
- *  A função começa por verificar se a cidade existe. Caso existaa lista de drivers
- *  é ordenada pela função sortList com a função drivercmp que ordena os drivers por
- *  média de condutor. Por fim, os N condutores resultantes são impressos pela listOut 
- *  no ficheiro de output.
+ *  A função começa por verificar se a cidade existe. Caso exista, a lista de drivers
+ *  é ordenada pela função sortList com a função de comaparação drivercmp. 
+ *  Por fim, os N condutores resultantes são impressos pela listOut no local pretendido.
  *  
  *  @param N Número de condutores pretendido.
  * 

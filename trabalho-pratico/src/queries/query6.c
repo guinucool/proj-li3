@@ -14,7 +14,7 @@
 
 /// @brief Esta função adiciona ao resultado a distancia de cada viagem.
 /// @param ride Viagem a ser processada.
-/// @param res Total a que a distancia será adicionada.
+/// @param filter Array com distancia total, numero de viagens e o nome da cidade.
 void rideDistFilter(void * ride, void * filter[])
 {
     int * x = (int*)filter[0];
@@ -33,9 +33,9 @@ void rideDistFilter(void * ride, void * filter[])
 /// @brief A função query6 calcula a distância média das viagens realizadas entre duas datas.
 /**
  *  A função começa por estabelecer um ciclo que passará por todos os anos entre as duas datas.
- *  A cada iteração é chamada a função date filter que ira somar à distancia total a distancia total
+ *  A cada iteração é chamada a função dateFilter que irá somar à distancia total a distancia total
  *  das viagens nesse ano, contabilizando o número de viagens totais. No final, é dado como
- *  output da distância média das viagens.
+ *  output da distância média das viagens, ou seja, a divisão entre a distancia total e o nº de viagens.
  * 
  *  @param city Cidade a ser processada.
  * 
@@ -44,6 +44,8 @@ void rideDistFilter(void * ride, void * filter[])
  *  @param dateB Data em que termina o intervalo de tempo.
  * 
  *  @param glob  Estrutura de dados global a ser atualizada.
+ * 
+ *  @param fp Ficheiro de output.
  */ 
 void query6(char * city, Date dateA, Date dateB, Global glob, FILE * fp)
 {
