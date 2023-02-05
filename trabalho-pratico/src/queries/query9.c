@@ -56,8 +56,8 @@ void createListTip(void * ride, void * list)
  *  viagens de cada ano entre a data A e a data B. De seguida, a função cria uma lista 
  *  de rides em que o passageiro deu gorjeta. Depois a função ordena a lista criada
  *  com a função sortList que usa a função de comparação ridecmp2. Por fim, a função 
- *  imprime a informação resultante no file de output através da função listOut que usa 
- *  a função printRide. Por fim a lista criada é liberada com a função destroyList.
+ *  imprime a informação resultante no local pretendido através da função listOut que usa 
+ *  a função printRide. Por fim, a lista criada é liberada com a função destroyList.
  * 
  *  @param dateA Data limite inferior.
  * 

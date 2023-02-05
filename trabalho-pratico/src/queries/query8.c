@@ -12,6 +12,10 @@
 #include "../../includes/io/page.h"
 #include "../../includes/queries.h"
 
+/// @brief Esta função verifica se o passageiro e o condutor são do mesmo género e se têm idade superior a X
+///        e caso se verifique adiciona a lista com essa informação à lista existente em filter[2].
+/// @param ride Ride a ser processada.
+/// @param filter  Array com o género, a idade e a lista.
 void rideFilter(void * ride, void * filter[])
 {
     char * gender = filter[0];
@@ -29,18 +33,18 @@ void rideFilter(void * ride, void * filter[])
 
 /// @brief  A função transforma a informação necessária para um ficheiro de output.
 /**
- * A função a partir do filter vai receber os dados que quer filtrar, o gender e a age das contas. 
- * De seguida vai bsucar o user e o driver de cada ride, pela qual ele vai passar, na lista ordenada 
- * de rides e vai verificar se o user e o driver, se o genero e a idade respeitam as condições, se 
- * respeitarem a ride é imprimida.
+ *  A função a partir do filter vai receber os dados que quer filtrar, o gender e a age das contas. 
+ *  De seguida vai bsucar o user e o driver de cada ride, pela qual ele vai passar, na lista ordenada 
+ *  de rides e vai verificar se o user e o driver, se o genero e a idade respeitam as condições, se 
+ *  respeitarem a ride é imprimida.
  * 
- * @param ride Ride a ser processada.
+ *  @param ride Ride a ser processada.
  * 
- * @param filter 
+ *  @param filter Array com o género, a idade e a nova lista.
  * 
- * @param ignore Número de outputs que vai ter de ignorar.
+ *  @param ignore Número de outputs que vai ter de ignorar.
  * 
- * @param fp Ficheiros de output. 
+ *  @param fp Ficheiros de output. 
 */
 int RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
 {
@@ -61,21 +65,20 @@ int RidePrinter(void * ride, void * filter[], int * ignore, FILE * fp)
         *ignore -= 1;
 }
 
-/// @brief 
+/// @brief Esta função listar todas as viagens nas quais o utilizador e o condutor são do género mesmo género e têm X ou mais anos.
 /**
- * A função vai começar por usar a função de ordem superior sortList para ordenar 
- * a lista de rides com a função ridecmp que ordena as rides pela conta mais antiga. 
- * Apos ter a lista ordenada, vai listar as viagens que são impressas pela listOut 
- * no ficheiro de output.
+ *  A função vai começa por usar a função de ordem superior sortList para ordenar 
+ *  a lista de rides com a função ridecmp que ordena as rides pela conta mais antiga. 
+ *  Após ter a lista ordenada, vai listar as viagens que são impressas pela listOut 
+ *  no local pretendido.
  * 
- * @param gender Genero do condutor.
+ *  @param gender Género do condutor.
  * 
- * @param X Numero de anos do perfil.
+ *  @param X Numero de anos do perfil.
  * 
- * @param glob A global a ser considerada para os cálculos estatísticos.
+ *  @param glob A global a ser considerada para os cálculos estatísticos.
  * 
- * @param fp Ficheiro de output.
- * 
+ *  @param fp Ficheiro de output.
 */
 void query8(char gender, int X, Global glob, FILE * fp)
 {

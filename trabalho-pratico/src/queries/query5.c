@@ -20,17 +20,17 @@ void rideCostFilterNoTip(void * ride, double * res)
 /// @brief A função query5 calcula o preço médio das viagens realizadas entre duas datas.
 /**
  *  A função começa por estabelecer um ciclo que passará por todos os anos entre as duas datas.
- *  A cada iteração é chamada a função date filter que ira somar ao cust total o custo total
+ *  A cada iteração é chamada a função dateFilter que irá somar ao custo total o custo total
  *  das viagens nesse ano, contabilizando o número de viagens totais. No final, é dado como
- *  output do preço médio das viagens.
+ *  output do preço médio das viagens, ou seja, a divisão entre o custo total e o nº total de viagens.
  * 
- * @param dateA Data em que começa o intervalo de tempo.
+ *  @param dateA Data em que começa o intervalo de tempo.
  * 
- * @param dateB Data em que termina o intervalo de tempo.
+ *  @param dateB Data em que termina o intervalo de tempo.
  * 
- * @param glob  Estrutura de dados global a ser atualizada.
+ *  @param glob  Estrutura de dados global a ser atualizada.
  * 
- * @param fp Ficheiro de output.
+ *  @param fp Ficheiro de output.
  */ 
 void query5(Date dateA, Date dateB, Global glob, FILE * fp)
 { 
