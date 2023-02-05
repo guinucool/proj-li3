@@ -49,8 +49,8 @@ int main(int argc, char * args[])
         while (fgets(line, 200, input) != NULL)
         {
             count++;
-            if (count > 1) commands = realloc(commands, sizeof(int) * (count+1));
-            if (count > 1) time = realloc(time, sizeof(double) * (count+1));
+            if (count > 1) commands = realloc(commands, sizeof(int) * (count));
+            if (count > 1) time = realloc(time, sizeof(double) * (count));
 
             commands[count - 1] = (int)(line[0] - 48);
             time[count - 1] = 0;
@@ -161,7 +161,7 @@ int main(int argc, char * args[])
         for (int i = 0; i < 9; i++)
         {
             printf("[QUERY %d]-------SCORE - %d/%d\n", i+1, score[i][0], score[i][1]);
-            if (i == 1 || i == 2 || i == 6 || i ==7) printf("[QUERY %d]-FIRST EXECUTION TIME - %f\n", i+1, times[i][1]);
+            if (i == 1 || i == 2 || i == 6 || i == 7) printf("[QUERY %d]-FIRST EXECUTION TIME - %f\n", i+1, times[i][1]);
             printf("[QUERY %d]-------EXECUTION TIME - %f\n", i+1, times[i][0]/score[i][1]);
         }
 
