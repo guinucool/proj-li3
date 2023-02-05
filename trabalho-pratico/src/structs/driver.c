@@ -129,7 +129,7 @@ int updateDriver(Driver driver, int score, double money_received, char * city, D
 		{
 			memAux = realloc(driver->cities, sizeof(char*) * driver->counter);
 			if(memAux == NULL)return -1;
-			driver->cities = memAux;
+			else driver->cities = memAux;
 		}
 
 		driver->cities[target] = malloc(sizeof(char) * strlen(city));
@@ -139,13 +139,13 @@ int updateDriver(Driver driver, int score, double money_received, char * city, D
 
 		memAux = realloc(driver->score, sizeof(int) * (driver->counter + 1));
 		if(memAux == NULL)return -1;
-		driver->score = memAux;
+		else driver->score = memAux;
 
 		driver->score[driver->counter] = 0;
 
 		memAux = realloc(driver->rides, sizeof(int) * (driver->counter + 1));
 		if(memAux == NULL)return -1;
-		driver->rides = memAux;
+		else driver->rides = memAux;
 
 		driver->rides[driver->counter] = 0;
 	}

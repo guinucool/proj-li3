@@ -130,7 +130,7 @@ int resizeHashmap(Hashmap hashmap, int (*hashFunc)(void*,int))
 
     memAux = realloc(hashmap->map, sizeof(HashmapNode) * hashmap->max);
     if(memAux == NULL)return 0;
-    hashmap->map = memAux;
+    else hashmap->map = memAux;
 
     hashmap->map[ini] = createNode(NULL, NULL, INACTIVE);
     hashmap->size = 0;
